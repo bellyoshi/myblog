@@ -12,7 +12,7 @@ Hugoを使用して作成した技術ブログです。プログラミング、�
 
 ## 技術スタック
 
-- Hugo 0.120.0+
+- Hugo 0.128.0+
 - Anankeテーマ
 - Markdown
 - Tachyons CSS

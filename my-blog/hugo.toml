@@ -3,12 +3,17 @@ languageCode = 'ja-jp'
 title = '私の技術ブログ'
 theme = 'ananke'
 enableGitInfo = true
+disableKinds = ["taxonomy", "term"]
+enableRobotsTXT = true
 
 [params]
   description = 'Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。'
   author = 'ブログ管理者'
   github = 'your-github-username'
   twitter = 'your-twitter-username'
+  showSummary = true
+  showReadingTime = true
+  mainSections = ["posts"]
 
 [menu]
   [[menu.main]]
@@ -33,14 +38,29 @@ enableGitInfo = true
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+    [markup.goldmark.parser]
+      wrapStandaloneLinksWithinParagraph = false
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "RSS"]
 
 [outputFormats]
   [outputFormats.RSS]
     mediaType = "application/rss"
     baseName = "index"
-  [outputFormats.JSON]
-    mediaType = "application/json"
-    baseName = "index"
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  series = "series"
+
+[security]
+  [security.exec]
+    allow = ['^dart-sass-embedded$', '^go$', '^npx$', '^postcss$', '^babel$']
+
+[server]
+  [server.headers]
+    [server.headers."/*"]
+      X-Frame-Options = "DENY"
+      X-Content-Type-Options = "nosniff"
+      X-XSS-Protection = "1; mode=block"
