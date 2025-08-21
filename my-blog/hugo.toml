@@ -1,0 +1,46 @@
+baseURL = 'https://your-site-name.netlify.app/'
+languageCode = 'ja-jp'
+title = '私の技術ブログ'
+theme = 'ananke'
+enableGitInfo = true
+
+[params]
+  description = 'Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。'
+  author = 'ブログ管理者'
+  github = 'your-github-username'
+  twitter = 'your-twitter-username'
+
+[menu]
+  [[menu.main]]
+    identifier = "posts"
+    name = "投稿"
+    url = "/posts/"
+    weight = 10
+  
+  [[menu.main]]
+    identifier = "categories"
+    name = "カテゴリ"
+    url = "/categories/"
+    weight = 20
+  
+  [[menu.main]]
+    identifier = "tags"
+    name = "タグ"
+    url = "/tags/"
+    weight = 30
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[outputFormats]
+  [outputFormats.RSS]
+    mediaType = "application/rss"
+    baseName = "index"
+  [outputFormats.JSON]
+    mediaType = "application/json"
+    baseName = "index"
