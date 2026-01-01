@@ -7,7 +7,7 @@
     <title>私の技術ブログ</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-    <meta name="generator" content="Hugo 0.141.0">
+    <meta name="generator" content="Hugo 0.153.4">
     
     
     
@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="私の技術ブログ">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2024-01-16T14:30:00+09:00">
-  <meta itemprop="dateModified" content="2024-01-16T14:30:00+09:00">
+  <meta itemprop="datePublished" content="2026-01-01T10:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-01T10:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="私の技術ブログ">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -137,60 +137,43 @@
   <div class="db pv4 ph3 ph0-l dark-gray no-underline">
     <div class="flex-column flex-row-ns flex">
       
-      <div class="blah w-100">
+          
+        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
+          <a href="/posts/lazarus-day001-midi-kaeru/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay001.png" class="img" alt="image from LazarusでMIDIファイルを作成するアプリ - カエルの歌">
+          </a>
+        </div>
+      
+      <div class="blah w-100 w-60-ns pl3-ns">
         <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/getting-started-with-hugo/" class="color-inherit dim link">
-            Hugoでブログを始めよう - 初心者ガイド
+          <a href="/posts/lazarus-day001-midi-kaeru/" class="color-inherit dim link">
+            LazarusでMIDIファイルを作成するアプリ - カエルの歌
             </a>
         </h1>
         <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="hugoでブログを始めよう---初心者ガイド">Hugoでブログを始めよう - 初心者ガイド</h1>
-<p>前回の投稿でHugoについて少し触れましたが、今回は実際にHugoを使ってブログを作成する方法を詳しく説明します。</p>
-<h2 id="hugoとは">Hugoとは？</h2>
-<p>Hugoは、Go言語で書かれた高速な静的サイトジェネレーターです。MarkdownファイルからHTMLサイトを生成し、以下のような特徴があります：</p>
+          <h1 id="lazarusでmidiファイルを作成するアプリ---カエルの歌">LazarusでMIDIファイルを作成するアプリ - カエルの歌</h1>
+<p>Lazarusチャレンジ1日目、最初のアプリが完成しました！</p>
+<h2 id="今回作成したアプリ">今回作成したアプリ</h2>
+<p><strong>MIDIファイルを作成するアプリ</strong>を開発しました。具体的には、<strong>カエルの歌</strong>をMIDIファイルとして出力する機能を実装しています。</p>
+<p><img src="/images/LazarusDay001.png" alt="Lazarusアプリのスクリーンショット"></p>
+<h2 id="開発の経緯">開発の経緯</h2>
+<p>LazarusでMIDIファイルを扱う方法を調べ、シンプルなMIDI作成アプリを作成することにしました。最初はCursorに「カエルの歌を作って」と依頼したのですが、Cursorがカエルの歌を完全に覚えていなかったため、メロディーを微調整する必要がありました。</p>
+<h2 id="技術的なポイント">技術的なポイント</h2>
 <ul>
-<li><strong>高速性</strong>: 数千ページでも数秒でビルド完了</li>
-<li><strong>シンプル</strong>: 設定ファイルが少なく、学習コストが低い</li>
-<li><strong>柔軟性</strong>: 豊富なテーマとカスタマイズオプション</li>
-<li><strong>多言語対応</strong>: 国際化に優れている</li>
+<li><strong>Lazarus/Pascal</strong>: 久しぶりのPascal開発で、構文を思い出しながらの作業</li>
+<li><strong>MIDIファイル形式</strong>: MIDIファイルの構造を理解し、バイナリ形式で出力</li>
+<li><strong>Cursorとの協働</strong>: AIの提案をベースに、実際のメロディーに合わせて調整</li>
 </ul>
-<h2 id="インストール方法">インストール方法</h2>
-<h3 id="windowsの場合">Windowsの場合</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Chocolateyを使用</span>
-</span></span><span style="display:flex;"><span>choco install hugo-extended
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># または、公式サイトからダウンロード</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># https://gohugo.io/installation/windows/</span>
-</span></span></code></pre></div><h3 id="macosの場合">macOSの場合</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Homebrewを使用</span>
-</span></span><span style="display:flex;"><span>brew install hugo
-</span></span></code></pre></div><h3 id="linuxの場合">Linuxの場合</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Snapを使用</span>
-</span></span><span style="display:flex;"><span>sudo snap install hugo
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># または、パッケージマネージャーで</span>
-</span></span><span style="display:flex;"><span>sudo apt install hugo
-</span></span></code></pre></div><h2 id="新しいサイトの作成">新しいサイトの作成</h2>
-<p>インストールが完了したら、新しいサイトを作成できます：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 新しいサイトを作成</span>
-</span></span><span style="display:flex;"><span>hugo new site my-blog
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># サイトディレクトリに移動</span>
-</span></span><span style="display:flex;"><span>cd my-blog
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># テーマを追加（例：Ananke）</span>
-</span></span><span style="display:flex;"><span>git init
-</span></span><span style="display:flex;"><span>git submodule add https://github.com/theNewDynamic/gohugo-theme-ananke.git themes/ananke
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定ファイルにテーマを指定</span>
-</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;theme = &#34;ananke&#34;&#39;</span> &gt;&gt; hugo.toml
-</span></span></code></pre></div><h2 id="最初の投稿を作成">最初の投稿を作成</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 新しい投稿を作成</span>
-</span></span><span style="display:flex;"><span>hugo new posts/my-first-post.md
-</span></span></code></pre></div><p>作成されたファイルを編集して、Markdownでコンテンツを書きます：</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p>作成したアプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day001_MMKaeru.zip">day001_MMKaeru.zip</a></p>
+<h2 id="今後の予定">今後の予定</h2>
+<p>1日目にして早くも「AIに完全に頼るのは難しい」という現実を突きつけられましたが、これも学習の一環です。明日も新しいアプリに挑戦します！</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 1/100</em></p>
         </div>
         
-          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/getting-started-with-hugo/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day001-midi-kaeru/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
       </div>
     </div>
   </div>
@@ -206,45 +189,79 @@
       
       <div class="blah w-100">
         <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/my-first-blog-post/" class="color-inherit dim link">
-            私の最初のブログ投稿
+          <a href="/posts/why-markdown-bold-not-working/" class="color-inherit dim link">
+            HugoでMarkdownの**が強調表示されない理由と解決方法
             </a>
         </h1>
         <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="私の最初のブログ投稿へようこそ">私の最初のブログ投稿へようこそ！</h1>
-<p>こんにちは！これは私の最初のブログ投稿です。Hugoという素晴らしい静的サイトジェネレーターを使用して、このブログサイトを作成しました。</p>
-<h2 id="hugoについて">Hugoについて</h2>
-<p>Hugoは、Go言語で書かれた高速な静的サイトジェネレーターです。以下の特徴があります：</p>
+          <h1 id="hugoでmarkdownのが強調表示されない理由と解決方法">HugoでMarkdownの**が強調表示されない理由と解決方法</h1>
+<p>Hugoでブログを書いていると、時々 <code>**</code> で囲んだテキストが強調表示されず、そのまま <code>**</code> が表示されてしまうことがあります。特に日本語のテキストでよく発生するこの問題について、原因と解決方法を説明します。</p>
+<h2 id="問題の例">問題の例</h2>
+<p>以下のようなMarkdownを書いたとします：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。**「Lazarusで100日間、毎日アプリを作る」**という、正気の沙汰とは思えないチャレンジを課すことにしました。
+</span></span></code></pre></div><p>期待される結果は、<code>「Lazarusで100日間、毎日アプリを作る」</code> の部分が<strong>太字</strong>で表示されることです。しかし、実際には <code>**</code> がそのまま表示されてしまうことがあります。</p>
+<h2 id="なぜ起こるのか">なぜ起こるのか？</h2>
+<h3 id="1-hugoのmarkdownパーサーgoldmarkの仕様">1. HugoのMarkdownパーサー「Goldmark」の仕様</h3>
+<p>Hugoはデフォルトで <strong>Goldmark</strong> というMarkdownパーサーを使用しています。Goldmarkは、Markdownの記法を解析してHTMLに変換する際、<strong>単語境界</strong>を基準に強調記法を認識します。</p>
+<h3 id="2-日本語テキスト特有の問題">2. 日本語テキスト特有の問題</h3>
+<p>日本語は<strong>全角文字</strong>を使用しますが、<code>**</code> は<strong>半角文字</strong>です。Goldmarkは、全角文字と半角文字が直接隣接している場合、単語境界として認識しないことがあります。</p>
+<p>具体的には：</p>
 <ul>
-<li><strong>高速性</strong>: 数千ページでも数秒でビルド</li>
-<li><strong>シンプル</strong>: 設定が簡単で学習コストが低い</li>
-<li><strong>柔軟性</strong>: 豊富なテーマとカスタマイズオプション</li>
-<li><strong>多言語対応</strong>: 国際化に優れている</li>
+<li><code>**</code> の前に全角文字（句読点、漢字、ひらがななど）がある</li>
+<li><code>**</code> の後に全角文字がある</li>
 </ul>
-<h2 id="このブログの目的">このブログの目的</h2>
-<p>このブログでは、以下のような内容を共有していく予定です：</p>
-<ol>
-<li><strong>技術的な発見</strong>: プログラミングや開発で学んだこと</li>
-<li><strong>学習の記録</strong>: 新しい技術の習得過程</li>
-<li><strong>アイデアの共有</strong>: 興味深いプロジェクトやアイデア</li>
-<li><strong>コミュニティ</strong>: 同じ興味を持つ人々との交流</li>
-</ol>
-<h2 id="今後の予定">今後の予定</h2>
-<p>今後は定期的に投稿を更新し、以下のような内容を書いていきたいと思います：</p>
-<ul>
-<li>週1回の技術記事</li>
-<li>月1回の学習振り返り</li>
-<li>プロジェクトの進捗報告</li>
-<li>読者の皆様からの質問への回答</li>
-</ul>
-<h2 id="まとめ">まとめ</h2>
-<p>ブログを始めるのは少し緊張しますが、とても楽しみです。読者の皆様と一緒に学び、成長していけるような場所にしていきたいと思います。</p>
-<p>コメントやフィードバックをいただければ、とても嬉しいです。よろしくお願いします！</p>
-<hr>
-<p><em>この投稿は2024年1月15日に公開されました。</em></p>
+<p>このような場合、Goldmarkは <code>**</code> を強調記号として認識せず、通常のテキストとして扱ってしまいます。</p>
+<h3 id="3-動作する場合と動作しない場合">3. 動作する場合と動作しない場合</h3>
+<h4 id="-動作する例">✅ 動作する例</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span><span style="color:#66d9ef">-</span> **高速性**: 数千ページでも数秒でビルド完了
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> **シンプル**: 設定ファイルが少なく、学習コストが低い
+</span></span></code></pre></div><p>リスト項目内では、<code>**</code> の前後にスペースがあるため、正しく認識されます。</p>
+<h4 id="-動作しない例">❌ 動作しない例</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。**「Lazarusで100日間、毎日アプリを作る」**という、正気の沙汰とは思えないチャレンジを課すことにしました。
+</span></span></code></pre></div><p>段落内で、<code>**</code> が全角文字と直接隣接しているため、認識されません。</p>
+<h2 id="解決方法">解決方法</h2>
+<h3 id="方法1--の前後にスペースを追加する推奨">方法1: <code>**</code> の前後にスペースを追加する（推奨）</h3>
+<p>最も簡単で確実な方法は、<code>**</code> の前後にスペースを追加することです。</p>
+<p><strong>修正前：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。**「Lazarusで100日間、毎日アプリを作る」**という、正気の沙汰とは思えないチャレンジを課すことにしました。
+</span></span></code></pre></div><p><strong>修正後：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。 <span style="font-style:italic">**</span>「Lazarusで100日間、毎日アプリを作る」** という、正気の沙汰とは思えないチャレンジを課すことにしました。
+</span></span></code></pre></div><p>これで、<code>**</code> が正しく強調記号として認識され、<code>&lt;strong&gt;</code> タグに変換されます。</p>
+<h3 id="方法2-htmlタグを直接使用する">方法2: HTMLタグを直接使用する</h3>
+<p>Hugoの設定で <code>unsafe = true</code> が有効になっている場合、HTMLタグを直接使用することもできます。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。&lt;strong&gt;「Lazarusで100日間、毎日アプリを作る」&lt;/strong&gt;という、正気の沙汰とは思えないチャレンジを課すことにしました。
+</span></span></code></pre></div><p>ただし、この方法はMarkdownの記法から外れるため、方法1を推奨します。</p>
         </div>
         
-          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/my-first-blog-post/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/why-markdown-bold-not-working/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="w-100 mb4 relative">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
+    <div class="flex-column flex-row-ns flex">
+      
+      <div class="blah w-100">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/survival-report-lazarus-challenge-2025/" class="color-inherit dim link">
+            生存報告。そして来年、私はLazarusの修羅に入る。
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          <p>「このブログ、生きてる？」と思われた皆さま、正解です。生きています。 作っただけで満足して放置するという、ブロガーあるあるの極致を体現しておりました。</p>
+<p>ですが、2026年の私は一味違います。 <strong>「Lazarusで100日間、毎日アプリを作る」</strong> という、正気の沙汰とは思えないチャレンジを課すことにしました。</p>
+<p>「今さらLazarus？」 「AI（Cursor）に頼って大丈夫？」</p>
+<p>そんな声が聞こえてきそうですが、私自身が一番不安です。 おそらく、コードが動かずに発狂している様子や、Cursorに泣きついている模様が連日投稿されることになるでしょう。</p>
+<p>来年は、私の悪戦苦闘をエンタメとして楽しんでいただければと思います。 2026年、爆速（予定）の更新をお楽しみに！</p>
+        </div>
+        
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/survival-report-lazarus-challenge-2025/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
       </div>
     </div>
   </div>
@@ -255,6 +272,24 @@
       </section>
 
       
+        <section class="w-100">
+          <h1 class="f3">More</h1>
+          
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/posts/getting-started-with-hugo/" class="link black dim">
+                Hugoでブログを始めよう - 初心者ガイド
+              </a>
+            </h2>
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/posts/my-first-blog-post/" class="link black dim">
+                私の最初のブログ投稿
+              </a>
+            </h2>
+          
+        </section>
+      
 
     </div>
   
@@ -263,7 +298,7 @@
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
   <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
-    &copy;  私の技術ブログ 2025 
+    &copy;  私の技術ブログ 2026 
   </a>
     <div><div class="ananke-socials"></div>
 </div>

@@ -2,7 +2,7 @@ baseURL = 'https://your-site-name.netlify.app/'
 languageCode = 'ja-jp'
 title = '私の技術ブログ'
 theme = 'ananke'
-enableGitInfo = true
+enableGitInfo = false
 disableKinds = ["taxonomy", "term"]
 enableRobotsTXT = true
 
@@ -38,8 +38,17 @@ enableRobotsTXT = true
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+      hardWraps = false
     [markup.goldmark.parser]
       wrapStandaloneLinksWithinParagraph = false
+      autoHeadingID = true
+      attribute = true
+    [markup.goldmark.extensions]
+      typographer = false
+      linkify = true
+      table = true
+      strikethrough = true
+      taskList = true
 
 [outputs]
   home = ["HTML", "RSS"]

@@ -24,6 +24,39 @@ Hugoを使用して作成した技術ブログです。プログラミング、�
 - Hugo Extended 0.120.0以上
 - Git
 
+### Hugoのインストール
+
+#### Windows
+
+**方法1: Chocolateyを使用（推奨）**
+
+```powershell
+# Chocolateyがインストールされている場合
+choco install hugo-extended
+```
+
+**方法2: Scoopを使用**
+
+```powershell
+# Scoopがインストールされている場合
+scoop install hugo-extended
+```
+
+**方法3: 手動インストール**
+
+1. [Hugo Releases](https://github.com/gohugoio/hugo/releases)から最新の`hugo_extended_X.X.X_windows-amd64.zip`をダウンロード
+2. ZIPファイルを解凍
+3. `hugo.exe`を任意のフォルダに配置（例: `C:\Hugo\bin`）
+4. システムの環境変数PATHにそのフォルダを追加
+
+**インストール確認**
+
+```bash
+hugo version
+```
+
+`hugo v0.120.0+` のようなバージョン情報が表示されれば成功です。
+
 ### セットアップ
 
 ```bash
