@@ -50,13 +50,15 @@
 
   <meta itemprop="name" content="私の技術ブログ">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-01-01T10:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-01-01T10:00:00+09:00">
+  <meta itemprop="datePublished" content="2026-01-03T10:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-03T10:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="私の技術ブログ">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
 
-	
+	<link rel="stylesheet" href="/css/custom.css">
+
+
   </head><body class="ma0 avenir bg-near-white development">
 
     
@@ -139,6 +141,228 @@
       
           
         <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
+          <a href="/posts/lazarus-day003-lazmanager/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay003.png" class="img" alt="image from LazManager - LazbuildをGUIで操作するアプリ - Day3">
+          </a>
+        </div>
+      
+      <div class="blah w-100 w-60-ns pl3-ns">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/lazarus-day003-lazmanager/" class="color-inherit dim link">
+            LazManager - LazbuildをGUIで操作するアプリ - Day3
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          <h1 id="lazmanager---lazbuildをguiで操作するアプリ---day3">LazManager - LazbuildをGUIで操作するアプリ - Day3</h1>
+<p>Lazarusチャレンジ3日目です。今回は、 <strong>LazbuildをGUIで操作するアプリ「LazManager」</strong> を作成することにしました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>Day2の開発を通じて、Lazarusプロジェクトをコマンドラインからビルドする際に、毎回<code>C:\Lazarus\lazbuild</code>とフルパスを指定する必要があることに気づきました。また、プロジェクトの作成や管理をGUIで行えるツールがあれば便利だと考えました。</p>
+<p>そこで今回は、以下の機能を持つLazManagerを開発することにしました：</p>
+<ul>
+<li><strong>設定画面</strong>: Lazbuildのパス、エディタの設定、プロジェクトルートフォルダの既定値を設定</li>
+<li><strong>作成画面</strong>: プロジェクトの新規作成（コンソール、単純なプログラム、アプリケーション）</li>
+<li><strong>起動画面</strong>: エディタやコンソール、Lazarus IDE、エクスプローラーでプロジェクトを起動</li>
+</ul>
+<h2 id="アプリの仕様">アプリの仕様</h2>
+<h3 id="設定画面">設定画面</h3>
+<p>以下の設定項目を用意します：</p>
+<ul>
+<li><strong>Lazbuildのパス</strong>: コマンドラインからビルドする際に使用するlazbuildのパス</li>
+<li><strong>エディタ1のパスと名前</strong>: Cursor用の設定</li>
+<li><strong>エディタ2のパスと名前</strong>: VSCode用の設定</li>
+<li><strong>エディタ3のパスと名前</strong>: Antigravity用の設定</li>
+<li><strong>プロジェクトルートフォルダの既定</strong>: 新規プロジェクトを作成する際のデフォルトフォルダ</li>
+</ul>
+<h3 id="作成画面">作成画面</h3>
+<p>プロジェクトを作成するための画面です：</p>
+<ul>
+<li><strong>プロジェクトルートフォルダ</strong>: 設定画面で指定した既定値を初期表示</li>
+<li><strong>アプリ名称</strong>: ローマ字で入力（プロジェクト名として使用）</li>
+<li><strong>アプリの種類</strong>: ラジオボックスで選択
+<ul>
+<li>コンソール</li>
+<li>単純なプログラム（lprのみ）</li>
+<li>アプリケーション（Winアプリ）</li>
+</ul>
+</li>
+<li><strong>作成ボタン</strong>: 押下すると、プロジェクトルートフォルダ＋アプリ名フォルダを作成し、そのフォルダにlazbuildで初期プロジェクトを作成</li>
+</ul>
+<h3 id="起動画面">起動画面</h3>
+<p>作成したプロジェクトを起動するための画面です：</p>
+<ul>
+<li><strong>エディタの起動</strong>: 設定したエディタの名前を表示し、そのフォルダで起動可能</li>
+<li><strong>コンソールの起動</strong>: そのフォルダでコマンドプロンプトを起動</li>
+<li><strong>LPIファイルの起動</strong>: Lazarus IDEでlpiファイルを開く（デフォルトアプリで起動）</li>
+<li><strong>エクスプローラーの起動</strong>: そのフォルダをエクスプローラーで開く</li>
+</ul>
+<h3 id="画面遷移">画面遷移</h3>
+<p>作成画面と起動画面は、同じフォーム上でコントロールの表示/非表示を切り替えることで実現します。プロジェクトを作成した後、自動的に起動画面に切り替わるようにします。</p>
+<h2 id="cursorに投げたプロンプト">Cursorに投げたプロンプト</h2>
+<p>プロジェクトを作成し、Cursorへ以下のプロンプトを投げました：</p>
+<pre tabindex="0"><code># 目的
+Lazarus (Object Pascal) を使用して、Lazarusプロジェクトの作成・管理を効率化するGUIツールを作成したい。
+
+# 動作環境・設定
+- 言語: Object Pascal (Lazarus/LCL)
+- Lazbuildのパス: C:\Lazarus\Lazbuild.exe (デフォルト値)
+- 設定保存: TXMLPropStorage または TJSONConfig を使用して、exeと同じ階層のconfigファイルに保存する。
+
+# UI構成 (TForm1)
+1. **設定セクション** (TPageControlまたは別フォーム)
+   - Lazbuildのフルパス入力 (TFileNameEdit)
+   - エディタ1〜3の「名前」と「実行ファイルパス」の入力欄
+   - 既定のプロジェクトルートフォルダ (TDirectoryEdit)
+
+2. **メインセクション (作成・起動 兼用)**
+   - **新規作成パネル**:
+     - プロジェクト名入力 (TEdit: ローマ字)
+     - プロジェクトルート選択 (TDirectoryEdit: 設定値を初期表示)
+     - 種類選択 (TRadioGroup): 「コンソール」「単純なプログラム(lpr)」「アプリケーション(GUI)」
+     - 「作成」ボタン
+   - **起動・操作パネル**:
+     - エディタ1〜3の名前が付いたボタン（設定から動的にキャプションを変更）
+     - 「コンソールをここで開く」ボタン
+     - 「Lazarus IDEで開く (.lpi)」ボタン
+     - 「エクスプローラーで開く」ボタン
+
+# 処理ロジックの指示
+1. **作成ボタン押下時**:
+   - `ForceDirectories` でフォルダを作成。
+   - `TProcess` を使用して、以下のコマンドを実行してプロジェクトを生成する。
+     - 例: `lazbuild --create-project=app [プロジェクト名].lpi` (種類に応じて引数を変える)
+   - 成功したら、起動パネルを表示（または活性化）させる。
+
+2. **エディタ起動**:
+   - `TProcess` を使用して、設定されたエディタパスを実行する。その際、カレントディレクトリをプロジェクトフォルダに設定すること。
+
+3. **LPI起動**:
+   - `OpenDocument` (LCLIntfユニット) を使用して、システム既定のアプリで .lpi を開く。
+
+# Cursorへの追加指示
+- まず、これらを実現するためのユニット（MainForm.pas）のコード全体を生成してください。
+- 各ボタンのOnClickイベントの実装を含めてください。
+- Windows環境を前提としたパス処理にしてください。
+</code></pre><p>この時点で考え違いをしていたのだが、実は<strong>Lazbuildにはプロジェクト作成機能はない</strong>のかもしれない。よくわからんが。そのため、プロジェクト作成機能もLazManagerに実装することになる。Cursor君がんばれ。</p>
+        </div>
+        
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day003-lazmanager/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="w-100 mb4 relative">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
+    <div class="flex-column flex-row-ns flex">
+      
+          
+        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
+          <a href="/posts/lazarus-day002-midi-player/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay002MenuFail.png" class="img" alt="image from LazarusでMIDIプレイヤーを作成 - Day2">
+          </a>
+        </div>
+      
+      <div class="blah w-100 w-60-ns pl3-ns">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/lazarus-day002-midi-player/" class="color-inherit dim link">
+            LazarusでMIDIプレイヤーを作成 - Day2
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          <h1 id="lazarusでmidiプレイヤーを作成---day2">LazarusでMIDIプレイヤーを作成 - Day2</h1>
+<p>Lazarusチャレンジ2日目です。今回は、前回作成したカエルの歌のMIDIファイルを実際に再生できるMIDIプレイヤーを作成することにしました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>Day1でMIDIファイルを作成するアプリを完成させましたが、作成したMIDIファイルを再生する手段がありませんでした。そこで今回は、以下の機能を持つMIDIプレイヤーを開発することにしました：</p>
+<ul>
+<li>MIDIファイルの再生機能</li>
+<li>Trackbarによる再生位置の調整</li>
+<li>再生、停止、一時停止の操作</li>
+<li>メニューからの操作</li>
+<li>ファイルを開く機能</li>
+</ul>
+<p>前回作成したカエルの歌を、自分で作ったプレイヤーで再生できるようになるのが目標です。</p>
+<h2 id="プロジェクトの作成">プロジェクトの作成</h2>
+<p>まずはLazarus IDEを開いて、新規プロジェクトを作成します。</p>
+<ol>
+<li>Lazarus IDEを起動</li>
+<li>「ファイル」→「新規プロジェクト」を選択</li>
+<li>「アプリケーション」を選択してOK</li>
+<li>プロジェクト用のフォルダを作成し、lprファイルとunitファイルを保存</li>
+</ol>
+<p>プロジェクトの準備ができたら、Cursorでフォルダを開いて開発を進めます。Cursorを使うことで、AIの力を借りながら効率的にコーディングできるはずです。</p>
+<h2 id="cursorとの協働開発">Cursorとの協働開発</h2>
+<p>Cursorに以下のプロンプトを送り、MIDIプレイヤーの実装を依頼しました：</p>
+<pre tabindex="0"><code>MIDIファイルの再生ができるソフト。
+Trackbarで再生位置調整可能。再生、停止、一時停止
+メニューで操作可能。ファイルを開く。
+</code></pre><p>Cursorは自動的に必要なコンポーネントを配置し、MIDI再生のためのコードを生成してくれました。LazarusのMIDI再生には、Windowsの場合は<code>mmsystem</code>ユニットを使用する必要がありますが、Cursorが適切に処理してくれたようです。</p>
+<h2 id="ビルドと実行">ビルドと実行</h2>
+<p>コードが完成したら、コマンドラインからビルドを実行します：
+こちらもCursorにプロンプトを投げます。</p>
+<pre tabindex="0"><code>c:\Lazarus\lazbuildでビルド
+</code></pre><p>ビルドは成功し、実行ファイルが生成されました。しかし、実行してみると...</p>
+<h2 id="発生した問題">発生した問題</h2>
+<p><img src="/images/LazarusDay002MenuFail.png" alt="Menuが表示されていない状態"></p>
+<p>アプリケーションを起動してみたところ、<strong>メニューが表示されていない</strong>という問題が発生しました。これではファイルを開く機能が使えず、MIDIファイルを再生することができません。</p>
+<p>おそらく、メニューコンポーネント（MainMenu）の設定に問題があるか、フォームの設計時にメニューが正しく配置されなかった可能性があります。</p>
+<h2 id="ideを開いて修正">IDEを開いて修正</h2>
+<p>Cursorを使っていると普段はIDEは開かないのですが、今回はメニューの設定が必要なのでLazarus IDEを開きました。</p>
+<p>「IDEはいらないのでは？Lazarusの意味はあるのか。fpcだけでよくね？」と思いながらも、フォームデザイナーでメニューを設定する必要があるのでIDEを使うことにしました。</p>
+<p><img src="/images/LazarusDay002MenuProperty.png" alt="MenuPropertyの設定画面"></p>
+<p>画像のように、Menuになにもプロパティが設定されていないので、メニューを設定します。「ファイル」メニューと「開く」メニュー項目を追加しました。</p>
+<p>設定が完了したらコンパイルします。</p>
+<p><img src="/images/LazarusDay002MenuOK.png" alt="Menuが正常に表示された状態"></p>
+<p>できたー！メニューが正常に表示されるようになりました。</p>
+<h2 id="カエルの歌を再生してみる">カエルの歌を再生してみる</h2>
+<p>早速、昨日作成したカエルの歌のMIDIファイルを開いて再生してみます。</p>
+<p>できたー！と思ったら、<strong>ドしか聞こえない</strong>。おかしい、停止してしまう。</p>
+<p>もう一回再生ボタンを押すと「レ」。もう一回押すと「ミ」。</p>
+<p>うーん、<strong>一音ごとに再生がストップしてしまうみたい</strong>。MIDIファイルの再生処理に問題があるようです。おそらく、MIDIイベントの処理方法や再生ループの実装に問題があるのでしょう。</p>
+<h2 id="cursorに再修正を依頼">Cursorに再修正を依頼</h2>
+<p>非常に安直ですが、たぶんやってくれるでしょう。Cursor君がんばれ。</p>
+<p>プロンプトを再び投げます：</p>
+<pre tabindex="0"><code>再生ボタンを押すと一音しか再生されずにとまってしまう。再生ボタンを押したら最後まで再生するようにして。
+</code></pre><p>修正が終わったら、再び「ビルド」とプロンプトを投げます。</p>
+<p>先ほど「C:\Lazarus\Lazbuildでビルドして」と言っているので、Cursorはそれを覚えています。「ビルド」だけで通じます。最初に教えていないとLazbuildがパスが通っていないので見つけられません。パスを通してもいいのですが、環境変数を汚したくないので。<code>C:\Lazarus\</code>は自分がインストールした場所です。普通のインストールすればここに入っています。</p>
+<h2 id="修正結果の確認">修正結果の確認</h2>
+<p>さて、これで修正されているのでしょうか。</p>
+<p>起動してみました。見た目は先ほどと変わっていません。</p>
+<p>再生してみると・・・。</p>
+<p><strong>だめやないかーい。</strong></p>
+<p>再生すると、今度はドを再生したらトラックバーが最後にいって再生終了。Cursor君、今回はうまくいかなかったようです。</p>
+<p>ちょっとコードを見てみるしかないか。次回は自分でコードを確認して修正する必要がありそうです。</p>
+<h2 id="コードを確認してみる">コードを確認してみる</h2>
+<p>コードを1分ほど、眺めてみて、うーん。</p>
+<p>わからん。</p>
+<p>ということでCursorにできなくてもGeminiはわかるのでは。</p>
+<p>Geminiにすべてを任せた。</p>
+<p>Geminiにプロンプト：</p>
+<pre tabindex="0"><code>以下のコードは不完全で、再生を押すと、一音しか再生されない。どこが悪いか解説。
+unit Unit1;
+・・・コードをここにコピーした。
+</code></pre><p>すると解説が返ってきました。</p>
+        </div>
+        
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day002-midi-player/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="w-100 mb4 relative">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
+    <div class="flex-column flex-row-ns flex">
+      
+          
+        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
           <a href="/posts/lazarus-day001-midi-kaeru/" class="db grow">
             <img src="http://localhost:1313/images/LazarusDay001.png" class="img" alt="image from LazarusでMIDIファイルを作成するアプリ - カエルの歌">
           </a>
@@ -181,100 +405,24 @@
 
           </div>
         
-          <div class="w-100 mb4 relative">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
-    <div class="flex-column flex-row-ns flex">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/why-markdown-bold-not-working/" class="color-inherit dim link">
-            HugoでMarkdownの**が強調表示されない理由と解決方法
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="hugoでmarkdownのが強調表示されない理由と解決方法">HugoでMarkdownの**が強調表示されない理由と解決方法</h1>
-<p>Hugoでブログを書いていると、時々 <code>**</code> で囲んだテキストが強調表示されず、そのまま <code>**</code> が表示されてしまうことがあります。特に日本語のテキストでよく発生するこの問題について、原因と解決方法を説明します。</p>
-<h2 id="問題の例">問題の例</h2>
-<p>以下のようなMarkdownを書いたとします：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。**「Lazarusで100日間、毎日アプリを作る」**という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p>期待される結果は、<code>「Lazarusで100日間、毎日アプリを作る」</code> の部分が<strong>太字</strong>で表示されることです。しかし、実際には <code>**</code> がそのまま表示されてしまうことがあります。</p>
-<h2 id="なぜ起こるのか">なぜ起こるのか？</h2>
-<h3 id="1-hugoのmarkdownパーサーgoldmarkの仕様">1. HugoのMarkdownパーサー「Goldmark」の仕様</h3>
-<p>Hugoはデフォルトで <strong>Goldmark</strong> というMarkdownパーサーを使用しています。Goldmarkは、Markdownの記法を解析してHTMLに変換する際、<strong>単語境界</strong>を基準に強調記法を認識します。</p>
-<h3 id="2-日本語テキスト特有の問題">2. 日本語テキスト特有の問題</h3>
-<p>日本語は<strong>全角文字</strong>を使用しますが、<code>**</code> は<strong>半角文字</strong>です。Goldmarkは、全角文字と半角文字が直接隣接している場合、単語境界として認識しないことがあります。</p>
-<p>具体的には：</p>
-<ul>
-<li><code>**</code> の前に全角文字（句読点、漢字、ひらがななど）がある</li>
-<li><code>**</code> の後に全角文字がある</li>
-</ul>
-<p>このような場合、Goldmarkは <code>**</code> を強調記号として認識せず、通常のテキストとして扱ってしまいます。</p>
-<h3 id="3-動作する場合と動作しない場合">3. 動作する場合と動作しない場合</h3>
-<h4 id="-動作する例">✅ 動作する例</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span><span style="color:#66d9ef">-</span> **高速性**: 数千ページでも数秒でビルド完了
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> **シンプル**: 設定ファイルが少なく、学習コストが低い
-</span></span></code></pre></div><p>リスト項目内では、<code>**</code> の前後にスペースがあるため、正しく認識されます。</p>
-<h4 id="-動作しない例">❌ 動作しない例</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。**「Lazarusで100日間、毎日アプリを作る」**という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p>段落内で、<code>**</code> が全角文字と直接隣接しているため、認識されません。</p>
-<h2 id="解決方法">解決方法</h2>
-<h3 id="方法1--の前後にスペースを追加する推奨">方法1: <code>**</code> の前後にスペースを追加する（推奨）</h3>
-<p>最も簡単で確実な方法は、<code>**</code> の前後にスペースを追加することです。</p>
-<p><strong>修正前：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。**「Lazarusで100日間、毎日アプリを作る」**という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p><strong>修正後：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。 <span style="font-style:italic">**</span>「Lazarusで100日間、毎日アプリを作る」** という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p>これで、<code>**</code> が正しく強調記号として認識され、<code>&lt;strong&gt;</code> タグに変換されます。</p>
-<h3 id="方法2-htmlタグを直接使用する">方法2: HTMLタグを直接使用する</h3>
-<p>Hugoの設定で <code>unsafe = true</code> が有効になっている場合、HTMLタグを直接使用することもできます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。&lt;strong&gt;「Lazarusで100日間、毎日アプリを作る」&lt;/strong&gt;という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p>ただし、この方法はMarkdownの記法から外れるため、方法1を推奨します。</p>
-        </div>
-        
-          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/why-markdown-bold-not-working/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
-          <div class="w-100 mb4 relative">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
-    <div class="flex-column flex-row-ns flex">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/survival-report-lazarus-challenge-2025/" class="color-inherit dim link">
-            生存報告。そして来年、私はLazarusの修羅に入る。
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <p>「このブログ、生きてる？」と思われた皆さま、正解です。生きています。 作っただけで満足して放置するという、ブロガーあるあるの極致を体現しておりました。</p>
-<p>ですが、2026年の私は一味違います。 <strong>「Lazarusで100日間、毎日アプリを作る」</strong> という、正気の沙汰とは思えないチャレンジを課すことにしました。</p>
-<p>「今さらLazarus？」 「AI（Cursor）に頼って大丈夫？」</p>
-<p>そんな声が聞こえてきそうですが、私自身が一番不安です。 おそらく、コードが動かずに発狂している様子や、Cursorに泣きついている模様が連日投稿されることになるでしょう。</p>
-<p>来年は、私の悪戦苦闘をエンタメとして楽しんでいただければと思います。 2026年、爆速（予定）の更新をお楽しみに！</p>
-        </div>
-        
-          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/survival-report-lazarus-challenge-2025/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
       </section>
 
       
         <section class="w-100">
           <h1 class="f3">More</h1>
           
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/posts/why-markdown-bold-not-working/" class="link black dim">
+                HugoでMarkdownの**が強調表示されない理由と解決方法
+              </a>
+            </h2>
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/posts/survival-report-lazarus-challenge-2025/" class="link black dim">
+                生存報告。そして来年、私はLazarusの修羅に入る。
+              </a>
+            </h2>
           
             <h2 class="f5 fw4 mb4 dib mr3">
               <a href="/posts/getting-started-with-hugo/" class="link black dim">

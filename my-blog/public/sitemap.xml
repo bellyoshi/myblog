@@ -2,13 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/posts/lazarus-day001-midi-kaeru/</loc>
-    <lastmod>2026-01-01T10:00:00+09:00</lastmod>
+    <loc>http://localhost:1313/posts/lazarus-day003-lazmanager/</loc>
+    <lastmod>2026-01-03T10:00:00+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2026-01-01T10:00:00+09:00</lastmod>
+    <lastmod>2026-01-03T10:00:00+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/</loc>
+    <lastmod>2026-01-03T10:00:00+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/lazarus-day002-midi-player/</loc>
+    <lastmod>2026-01-02T10:00:00+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/lazarus-day001-midi-kaeru/</loc>
     <lastmod>2026-01-01T10:00:00+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/why-markdown-bold-not-working/</loc>

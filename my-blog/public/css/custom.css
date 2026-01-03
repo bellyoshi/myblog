@@ -1,0 +1,46 @@
+/* カスタムスタイル: 段落間のマージンを追加 */
+.nested-copy-line-height p {
+  margin-bottom: 1.5em;
+}
+
+.nested-copy-line-height p:last-child {
+  margin-bottom: 0;
+}
+
+/* 見出しの下にもマージンを追加 */
+.nested-copy-line-height h1,
+.nested-copy-line-height h2,
+.nested-copy-line-height h3,
+.nested-copy-line-height h4,
+.nested-copy-line-height h5,
+.nested-copy-line-height h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.nested-copy-line-height h1:first-child,
+.nested-copy-line-height h2:first-child,
+.nested-copy-line-height h3:first-child,
+.nested-copy-line-height h4:first-child,
+.nested-copy-line-height h5:first-child,
+.nested-copy-line-height h6:first-child {
+  margin-top: 0;
+}
+
+/* リストのマージンも調整 */
+.nested-copy-line-height ul,
+.nested-copy-line-height ol {
+  margin-bottom: 1.5em;
+}
+
+/* コードブロックのマージン */
+.nested-copy-line-height pre {
+  margin-bottom: 1.5em;
+}
+
+/* 引用のマージン */
+.nested-copy-line-height blockquote {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
