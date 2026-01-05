@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-01-04T10:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-01-04T10:00:00+09:00">
+  <meta itemprop="datePublished" content="2026-01-05T21:21:21+09:00">
+  <meta itemprop="dateModified" content="2026-01-05T21:21:21+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Posts">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -119,6 +119,82 @@
   <article class="pa3 pa4-ns nested-copy-line-height">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links mid-gray"></section>
     <section class="flex-ns mt5 flex-wrap justify-around">
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day005-chess/" class="link black dim">
+        チェスゲームの作成 - Day5
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="チェスゲームの作成---day5">チェスゲームの作成 - Day5</h1>
+<p>Lazarusチャレンジ5日目です。今回は、前回同様<strong>LazManager</strong>を使って、<strong>チェスゲーム</strong>を作成することにしました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>前回のDay4で作成したReversiゲームと同様に、LazManagerを使って新しいプロジェクトを作成し、ゲームアプリを開発してみることにしました。選んだのは、<strong>チェス</strong>です。</p>
+<p>チェスは、8×8の盤面で白と黒の駒を交互に動かし、相手のキングをチェックメイトするゲームです。今回は、以下の機能を実装することにしました：</p>
+<ul>
+<li><strong>ゲーム盤面の表示</strong>: 8×8のグリッドで盤面を表示</li>
+<li><strong>駒の移動</strong>: クリックで駒を選択し、移動できる</li>
+<li><strong>合法手の判定</strong>: 各駒の動きに応じた合法手の判定</li>
+<li><strong>AI対戦機能</strong>: 簡単なAIを実装して対戦できる</li>
+<li><strong>ターン表示</strong>: 現在のプレイヤーを表示</li>
+<li><strong>リセット機能</strong>: ゲームをリセットできる</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動します。アプリを起動すると、プロジェクト作成画面が表示されます。</p>
+<p><img src="/images/LazarusDay005_CreatedProject.png" alt="LazManagerのプロジェクト作成画面"></p>
+<p>プロジェクト名に「<strong>day005_Chess</strong>」と入力し、「作成」ボタンを押します。プロジェクトが作成されると、自動的に起動画面が有効になります。</p>
+<p>「<strong>Cursor</strong>」ボタンを押すと、Cursorが起動し、プロジェクトフォルダが開きます。これで開発の準備が整いました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>チェスゲームの開発は、1つのプロンプトに4つの項目をまとめて投入しました。Cursorを起動し、以下のプロンプトを一度に投入しました。</p>
+<pre tabindex="0"><code>1.チェスのゲームユニットの作成
+2.チェスができる簡単なAI Unitの作成
+3.チェスのUI作成
+4.C:\Lazarus\Lazbuildでビルド
+</code></pre><p>この1つのプロンプトだけで、以下の機能がすべて実装されました：</p>
+<ul>
+<li><strong>ゲームロジック</strong>: 盤面の管理、各駒の動きの判定、合法手の判定など、チェスの基本的なルールが実装されました</li>
+<li><strong>AI対戦機能</strong>: 評価関数を使って、合法手の中から最適な手を選択する機能が追加されました</li>
+<li><strong>UI</strong>: 盤面を描画し、マウスクリックで駒を選択・移動できるようになりました</li>
+<li><strong>ビルド</strong>: ビルドが成功し、実行ファイル <code>day005_Chess.exe</code> が作成されました</li>
+</ul>
+<h2 id="ビルドと実行">ビルドと実行</h2>
+<p>ビルドが成功したので、早速実行してみます。LazManagerの「<strong>実行ファイルを起動</strong>」ボタンからも起動できます。</p>
+<p><img src="/images/LazarusDay005_Chess1.png" alt="チェスゲームの最初の実行画面"></p>
+<p>ゲームが正常に動作しています！盤面が表示され、駒も配置されています。ただし、見た目がいまいちでした。駒が文字で表示されているため、見た目が分かりにくい状態でした。</p>
+<h2 id="uiの改善">UIの改善</h2>
+<p>見た目を改善するため、Unicode文字を使った表示に変更することにしました。</p>
+<pre tabindex="0"><code>UIの修正。
+ユニコードのキャラクターを使ってください。
+</code></pre><p>このプロンプトで、駒の表示がUnicode文字（♔、♕、♖、♗、♘、♙など）に変更され、見た目が大幅に改善されました。</p>
+<h2 id="キャスリング機能の追加">キャスリング機能の追加</h2>
+<p>実行してみると、キャスリングができないことが判明しました。チェスの重要な機能であるキャスリングを実装する必要がありました。</p>
+<h3 id="キャスリングとは">キャスリングとは</h3>
+<p>キャスリングは、キングとルークを一度の手で同時に動かす特殊な手です。キングを2マス横に移動させ、その方向のルークをキングの隣に移動させます。</p>
+<p>キャスリングが可能な条件は以下の通りです：</p>
+<ul>
+<li><strong>キングとルークが一度も動いていない</strong>: 両方の駒が初期位置から動いていない必要があります</li>
+<li><strong>キングとルークの間に他の駒がない</strong>: キングとルークの間のマスが空いている必要があります</li>
+<li><strong>キングがチェックされていない</strong>: キングが現在チェックされている状態ではキャスリングできません</li>
+<li><strong>キングが通過するマスが攻撃されていない</strong>: キングが移動するマスと、その隣のマスが相手の駒に攻撃されていない必要があります</li>
+<li><strong>キングが移動先でチェックされない</strong>: キャスリング後のキングの位置がチェックされない必要があります</li>
+</ul>
+<p>キャスリングには2種類あります：</p>
+<ul>
+<li><strong>キングサイドキャスリング（ショートキャスリング）</strong>: キングを右に2マス、右側のルークをキングの左隣に移動</li>
+<li><strong>クイーンサイドキャスリング（ロングキャスリング）</strong>: キングを左に2マス、左側のルークをキングの右隣に移動</li>
+</ul>
+<pre tabindex="0"><code>キャスリングができるようにしてください。
+</code></pre><p>このプロンプトで、キャスリング機能が実装されました。キングとルークが適切な条件を満たしている場合、キャスリングが可能になりました。</p>
+    </div>
+    <a href="/posts/lazarus-day005-chess/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
       
         <div class="w-100 w-30-l mb4 relative bg-white">
           <div class="w-100 mb4 nested-copy-line-height relative bg-white">
