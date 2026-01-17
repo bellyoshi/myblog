@@ -1,6 +1,6 @@
 ---
 title: "暗号化テキストエディタの作成 - Day17"
-date: 2026-01-17T21:00:00+09:00
+date: 2026-01-17T15:00:00+09:00
 draft: false
 featured_image: "/images/LazarusDay017Editor.png"
 description: "Lazarusチャレンジ17日目。DCPcryptパッケージを使用した暗号化テキストエディタを作成しました。パッケージのインストールで2段階の手順が必要なことを学びました。"
