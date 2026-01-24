@@ -290,7 +290,7 @@ Lazarusの`TPanel`などの標準コンポーネントは`Tag`プロパティを
 
 作成したアプリは以下のリンクからダウンロードできます：
 
-[day024_lightout.zip](/downloads/day024_lightout.zip)
+[day024_lightout.zip](/downloads/day024_ligtout.zip)
 
 これでDay24は完了です！
 
