@@ -280,6 +280,7 @@ end;
 
 end.
 ```
+![ライトアウトのスクリーンショット](/images/LazarusDay024.png)
 
 ## 感想
 
