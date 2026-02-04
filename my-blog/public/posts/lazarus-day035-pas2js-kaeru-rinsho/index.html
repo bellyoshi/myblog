@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Pas2JSでかえるのうたを輪唱で再生する - Day35 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ35日目。かえるのうたをWebで再実現し、輪唱にも挑戦しました。Geminiでコードを作成しましたがコンパイルを通すためにCursorで仕上げ。Web Audio API と pas2js で正確なタイミングの輪唱を実現しています。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day035-pas2js-kaeru-rinsho/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day035-pas2js-kaeru-rinsho/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Pas2JSでかえるのうたを輪唱で再生する - Day35">
+  <meta property="og:description" content="Lazarusチャレンジ35日目。かえるのうたをWebで再実現し、輪唱にも挑戦しました。Geminiでコードを作成しましたがコンパイルを通すためにCursorで仕上げ。Web Audio API と pas2js で正確なタイミングの輪唱を実現しています。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-04T21:00:00+09:00">
+    <meta property="article:modified_time" content="2026-02-04T21:00:00+09:00">
+
+  <meta itemprop="name" content="Pas2JSでかえるのうたを輪唱で再生する - Day35">
+  <meta itemprop="description" content="Lazarusチャレンジ35日目。かえるのうたをWebで再実現し、輪唱にも挑戦しました。Geminiでコードを作成しましたがコンパイルを通すためにCursorで仕上げ。Web Audio API と pas2js で正確なタイミングの輪唱を実現しています。">
+  <meta itemprop="datePublished" content="2026-02-04T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-04T21:00:00+09:00">
+  <meta itemprop="wordCount" content="168">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pas2JSでかえるのうたを輪唱で再生する - Day35">
+  <meta name="twitter:description" content="Lazarusチャレンジ35日目。かえるのうたをWebで再実現し、輪唱にも挑戦しました。Geminiでコードを作成しましたがコンパイルを通すためにCursorで仕上げ。Web Audio API と pas2js で正確なタイミングの輪唱を実現しています。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay035.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSでかえるのうたを輪唱で再生する - Day35</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ35日目。かえるのうたをWebで再実現し、輪唱にも挑戦しました。Geminiでコードを作成しましたがコンパイルを通すためにCursorで仕上げ。Web Audio API と pas2js で正確なタイミングの輪唱を実現しています。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Pas2JSでかえるのうたを輪唱で再生する - Day35</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-02-04T21:00:00+09:00">February 4, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsでかえるのうたを輪唱で再生する---day35">Pas2JSでかえるのうたを輪唱で再生する - Day35</h1>
+<p>Lazarusチャレンジ35日目です。今回は <strong>かえるのうた</strong> を再度取り上げ、<strong>Web で再実現</strong> しました。さらに <strong>輪唱</strong> にもチャレンジしています。</p>
+<p>Day1 では Lazarus で MIDI ファイルを作成するアプリとして「かえるのうた」を実装しました。今回は <strong>Pas2JS</strong> と <strong>Web Audio API</strong> で、ブラウザ上で直接音を鳴らす形にしています。正確なタイミング制御のために <code>AudioContext.currentTime</code> を使い、8拍ずつずらした3パートの輪唱で、かえるのうたが重なって聞こえるようにしました。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>かえるのうたのメロディー</strong>を Web Audio API のオシレータ（三角波）で再生</li>
+<li><strong>輪唱</strong>: 1パート目から 8拍（約3.2秒）ずつずらして 2パート目・3パート目を再生。3つのメロディーが重なる輪唱になります</li>
+<li><strong>エンベロープ</strong>: <code>linearRampToValueAtTime</code> と <code>exponentialRampToValueAtTime</code> で、音の立ち上がりと減衰を制御し、「ぷつぷつ」したノイズを防ぎつつ自然に聞こえるようにしています</li>
+<li><strong>音量バランス</strong>: 輪唱で音が重なって大きくなりすぎないよう、各パートの音量を 0.3 / 0.2 / 0.1 と段階的に下げてあります</li>
+</ul>
+<h2 id="開発の経緯gemini--cursor-で仕上げ">開発の経緯（Gemini → Cursor で仕上げ）</h2>
+<p>コードは <strong>Gemini</strong> に作成してもらいました。そのままでは pas2js でコンパイルが通らなかったため、<strong>Cursor</strong> で次の2点を修正して仕上げました。</p>
+<h3 id="1-オシレータの型プロパティwebaudio-の予約名">1. オシレータの型プロパティ（webaudio の予約名）</h3>
+<p>webaudio ユニットでは、JavaScript の <code>type</code> が Pascal の予約語と衝突するため、プロパティ名が <strong><code>type_</code></strong> として定義されています。</p>
+<ul>
+<li><strong>修正前</strong>: <code>Osc._type := 'triangle';</code></li>
+<li><strong>修正後</strong>: <code>Osc.type_ := 'triangle';</code></li>
+</ul>
+<h3 id="2-program-では-initialization-が使えない--window-の参照">2. program では initialization が使えない / window の参照</h3>
+<p>HTML のボタンから <code>StartRinsho</code> を呼べるように、グローバルに手続きを登録する必要があります。Gemini のコードでは <code>initialization</code> と <code>TJSWindow.window</code> を使っていました。</p>
+<ul>
+<li>pas2js の <strong>program</strong> では <strong>initialization</strong> が使えないため、登録処理を <strong>begin .. end</strong> のメイン処理に移動しました。</li>
+<li>グローバルな <code>window</code> は <strong>web</strong> ユニットで定義されているので、<code>TJSWindow.window</code> ではなく <strong><code>window</code></strong> をそのまま使うように変更しました。</li>
+</ul>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">begin
+  window[&#39;StartRinsho&#39;] := @StartRinsho;
+end.
+</code></pre><p>HTML 側では <code>rtl.run()</code> で Pascal の program を起動し、その中で <code>window['StartRinsho']</code> が設定されます。ボタンの <code>onclick=&quot;StartRinsho()&quot;</code> で輪唱が開始されます。</p>
+<h2 id="コンパイル方法">コンパイル方法</h2>
+<p>pas2js が入っている環境で、ブラウザ向けにコンパイルします。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js kaeru.pas -Tbrowser <span style="color:#e6db74">&#34;-Jirtl.js&#34;</span>
+</span></span></code></pre></div><p><code>-Jirtl.js</code> は RTL 込みの JS を出力するオプションです。引数は <strong>ダブルクォートで囲む</strong> 必要があります（<code>-Jirtl.js</code> がファイル名として解釈されないように）。生成された <code>kaeru.js</code> と <code>index.html</code> を同じフォルダに置けば、ブラウザで「かえるのうた」の輪唱を再生できます。</p>
+<h2 id="実行結果">実行結果</h2>
+<p>「再生開始」ボタンを押すと、かえるのうたが 3 パートで輪唱のように重なって再生されます。ブラウザのオーディオポリシーに従い、ボタンクリックなどのユーザー操作後に再生が開始されます。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p><strong>アプリをブラウザで開く</strong>: <a href="/apps/day035/">かえるのうた（輪唱）を開く</a></p>
+<p>作成したアプリ（HTML / Pascal ソース・コンパイル済み JS）は以下のリンクからダウンロードできます。</p>
+<p><a href="/downloads/day035_kaeru.zip">day035_kaeru.zip</a></p>
+<p>かえるのうたを Web で鳴らしつつ、輪唱までできるようになりました。次は音色を変えたり、テンポやパート数を変えられるようにするのも面白そうです。</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 35/100</em></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day034-pas2js-simple-interpreter/">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day033-pas2js-whiteboard/">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day031-pas2js-markdown/">Pas2JSでMarkdownエディタを作成 - Day31</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day032-pas2js-userform/">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day030-pas2js-calculator/">Pas2JSで計算機アプリを作成 - Day30</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day029-pas2js-color/">Pas2JSでカラー表示アプリを作成 - Day29</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day028-pas2js-calendar/">Pas2JSでカレンダーアプリを作成 - Day28</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day027-pas2js-todo/">Pas2JSでTodoアプリを作成 - Day27</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day026-pas2js/">Pas2JSを試してみる - Day26</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day025-colorpop/">同色消しパズル（ColorPop）の作成 - Day25</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day024-lightsout/">Lights Outゲームの作成 - Day24</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day023-pdfviewer/">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day022-spreadsheet-viewer/">スプレッドシート作成の試みとビューワー実装 - Day22</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day021-15puzzle/">15パズルの作成に挑戦 - Day21</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day020-picross/">ピクロス（ノノグラム）の作成に挑戦 - Day20</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

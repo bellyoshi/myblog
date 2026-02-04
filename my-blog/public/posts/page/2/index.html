@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-02-03T21:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-02-03T21:00:00+09:00">
+  <meta itemprop="datePublished" content="2026-02-04T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-04T21:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Posts">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -119,6 +119,76 @@
   <article class="pa3 pa4-ns nested-copy-line-height">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links mid-gray"></section>
     <section class="flex-ns mt5 flex-wrap justify-around">
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day025-colorpop/" class="link black dim">
+        同色消しパズル（ColorPop）の作成 - Day25
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="同色消しパズルcolorpopの作成---day25">同色消しパズル（ColorPop）の作成 - Day25</h1>
+<p>Lazarusチャレンジ25日目です。今回は、クリックして同色のブロックを消していく「SameGame」風のパズルゲームを作成しました。</p>
+<h2 id="ゲームのルール">ゲームのルール</h2>
+<p>プロジェクト名は「ColorPop」としました。ルールはシンプルです。</p>
+<ul>
+<li><strong>盤面</strong>: 10×10 のマス目。</li>
+<li><strong>ブロック</strong>: 3色（赤、緑、青）のブロックがランダムに配置されます。</li>
+<li><strong>操作</strong>: 隣り合った同色のブロックが2つ以上ある場所をクリックすると、それらが消滅します。</li>
+<li><strong>重力</strong>: 消えたブロックの上にあったブロックは下に落ちてきます。</li>
+<li><strong>列詰め</strong>: 今回の実装では、列ごとの落下処理のみ行い、空になった列を詰める横移動は行っていません。</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<p>今回は <code>TPanel</code> などのコンポーネントを並べるのではなく、フォームの <code>Canvas</code> に直接描画する方式をとりました。また、連結判定には <strong>幅優先探索 (BFS)</strong> を採用しています。</p>
+<h3 id="1-幅優先探索-bfs-による連結検出">1. 幅優先探索 (BFS) による連結検出</h3>
+<p>再帰関数（深さ優先探索）を使っても実装できますが、今回はスタックオーバーフローの心配がないキューを用いた幅優先探索で実装しました。
+Lazarus (Free Pascal) の標準ライブラリには汎用的な <code>TQueue</code> がありますが、シンプルに <code>TList</code> をキュー代わりに使用しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">procedure TForm1.RemoveAndDrop(StartX, StartY: Integer);
+var
+  Q: TList; // キューとして使用
+  // ...
+begin
+  // ...
+  Q := TList.Create;
+  try
+    // 起点をキューに追加
+    New(P); P^.X := StartX; P^.Y := StartY;
+    Q.Add(P);
+    Visited[StartY, StartX] := True;
+    
+    while Q.Count &gt; 0 do
+    begin
+      // キューの先頭を取り出す (Dequeue)
+      P := PPoint(Q[0]);
+      Q.Delete(0);
+      // ...
+      
+      // 4方向をチェックしてキューに追加 (Enqueue)
+      for i := 0 to 3 do
+      begin
+        // ...
+            if (not Visited[ny, nx]) and (Board[ny, nx] = TargetColor) then
+            begin
+              Visited[ny, nx] := True;
+              New(NewP); NewP^.X := nx; NewP^.Y := ny;
+              Q.Add(NewP);
+            end;
+        // ...
+      end;
+    end;
+    // ...
+</code></pre><h3 id="2-重力処理ブロックの落下">2. 重力処理（ブロックの落下）</h3>
+<p>ブロックが消えた後、空いたスペースを埋めるために上のブロックを落とす処理です。
+各列ごとに下から上に向かって走査し、ブロックがあれば「書き込み位置（WritePos）」に移動させるというアルゴリズムで、O(N) で効率的に処理しています。</p>
+    </div>
+    <a href="/posts/lazarus-day025-colorpop/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
       
         <div class="w-100 w-30-l mb4 relative bg-white">
           <div class="w-100 mb4 nested-copy-line-height relative bg-white">
@@ -922,73 +992,6 @@ const Map: array[0..6] of string = (
 </code></pre><p><strong>AIが実装した内容：</strong></p>
     </div>
     <a href="/posts/lazarus-day016-sokoban/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day015-sudoku/" class="link black dim">
-        数独アプリの作成 - Day15
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="数独アプリの作成---day15">数独アプリの作成 - Day15</h1>
-<p>Lazarusチャレンジ15日目です。今回は、<strong>数独（ナンプレ）ソルバーアプリ</strong>を作成しました。Knuth's Algorithm X (Dancing Links)という強力なアルゴリズムを実装し、どんな難問でも一瞬で解けるソルバーを完成させました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>今回作成する数独アプリは、以下の機能を実装することを目指しました：</p>
-<ul>
-<li><strong>問題入力モード</strong>: 9×9のグリッドに数独の問題を入力できる機能</li>
-<li><strong>Knuth's Algorithm X (Dancing Links)</strong>: 最強の数独ソルバーアルゴリズムを実装</li>
-<li><strong>解の表示</strong>: 別ウィンドウで解を表示する機能</li>
-<li><strong>懸賞問題の解決</strong>: 新聞の懸賞問題なども一発で解決できる機能</li>
-</ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day015_Sudoku</strong>」と入力し、プロジェクトを作成しました。</p>
-<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>数独アプリの開発は、2つのプロンプトに分けて進めました。</p>
-<h3 id="プロンプト1-knuths-algorithm-x-dancing-linksの実装">プロンプト1: Knuth's Algorithm X (Dancing Links)の実装</h3>
-<p>最初のプロンプトでは、数独ソルバーの核心となるアルゴリズムを実装しました。</p>
-<pre tabindex="0"><code>数独ソルバーをつくる。
-Knuth&#39;s Algorithm X (Dancing Links)を実装したユニットの作成
-</code></pre><p><strong>AIが実装した内容：</strong></p>
-<ul>
-<li>
-<p><strong>TDancingLinksNode</strong>: 双方向リンクリストのノード構造</p>
-<ul>
-<li>上下左右のリンク</li>
-<li>列ヘッダーへのポインタ</li>
-<li>行ID（数独ではセル位置と値の組み合わせ）</li>
-</ul>
-</li>
-<li>
-<p><strong>TDancingLinksSolver</strong>: Dancing Linksソルバークラス</p>
-<ul>
-<li><code>Create</code>: 指定数の列で初期化</li>
-<li><code>AddRow</code>: 行を追加（行IDとカバーする列のインデックス）</li>
-<li><code>Solve</code>: Algorithm Xで解を探索</li>
-<li><code>GetSolution</code>: 解を取得</li>
-<li><code>CoverColumn</code>/<code>UncoverColumn</code>: 列のカバー/アンカバー</li>
-<li><code>SelectColumn</code>: 最小サイズの列を選択</li>
-</ul>
-</li>
-</ul>
-<p><strong>Algorithm Xとは：</strong></p>
-<p>Algorithm Xは、ドナルド・クヌースが提唱した「完全被覆問題（Exact Cover Problem）」を解くためのアルゴリズムです。数独は以下の4つの制約をすべて満たすように数字を配置するゲームですが、これを「行」と「列」の巨大な行列（マトリックス）として表現します：</p>
-<ul>
-<li><strong>マス制約</strong>: 全てのマス（81箇所）に何らかの数字が入る</li>
-<li><strong>行制約</strong>: 各行（9行）に1〜9が1つずつ入る</li>
-<li><strong>列制約</strong>: 各列（9列）に1〜9が1つずつ入る</li>
-<li><strong>ブロック制約</strong>: 各ブロック（9個）に1〜9が1つずつ入る</li>
-</ul>
-<p><strong>Dancing Links (DLX)とは：</strong></p>
-    </div>
-    <a href="/posts/lazarus-day015-sudoku/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 

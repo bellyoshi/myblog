@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="私の技術ブログ">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-02-03T21:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-02-03T21:00:00+09:00">
+  <meta itemprop="datePublished" content="2026-02-04T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-04T21:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="私の技術ブログ">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -132,6 +132,56 @@
 
       <section class="w-100 mw8">
         
+        
+          <div class="w-100 mb4 relative">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
+    <div class="flex-column flex-row-ns flex">
+      
+          
+        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
+          <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay035.png" class="img" alt="image from Pas2JSでかえるのうたを輪唱で再生する - Day35">
+          </a>
+        </div>
+      
+      <div class="blah w-100 w-60-ns pl3-ns">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/" class="color-inherit dim link">
+            Pas2JSでかえるのうたを輪唱で再生する - Day35
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          <h1 id="pas2jsでかえるのうたを輪唱で再生する---day35">Pas2JSでかえるのうたを輪唱で再生する - Day35</h1>
+<p>Lazarusチャレンジ35日目です。今回は <strong>かえるのうた</strong> を再度取り上げ、<strong>Web で再実現</strong> しました。さらに <strong>輪唱</strong> にもチャレンジしています。</p>
+<p>Day1 では Lazarus で MIDI ファイルを作成するアプリとして「かえるのうた」を実装しました。今回は <strong>Pas2JS</strong> と <strong>Web Audio API</strong> で、ブラウザ上で直接音を鳴らす形にしています。正確なタイミング制御のために <code>AudioContext.currentTime</code> を使い、8拍ずつずらした3パートの輪唱で、かえるのうたが重なって聞こえるようにしました。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>かえるのうたのメロディー</strong>を Web Audio API のオシレータ（三角波）で再生</li>
+<li><strong>輪唱</strong>: 1パート目から 8拍（約3.2秒）ずつずらして 2パート目・3パート目を再生。3つのメロディーが重なる輪唱になります</li>
+<li><strong>エンベロープ</strong>: <code>linearRampToValueAtTime</code> と <code>exponentialRampToValueAtTime</code> で、音の立ち上がりと減衰を制御し、「ぷつぷつ」したノイズを防ぎつつ自然に聞こえるようにしています</li>
+<li><strong>音量バランス</strong>: 輪唱で音が重なって大きくなりすぎないよう、各パートの音量を 0.3 / 0.2 / 0.1 と段階的に下げてあります</li>
+</ul>
+<h2 id="開発の経緯gemini--cursor-で仕上げ">開発の経緯（Gemini → Cursor で仕上げ）</h2>
+<p>コードは <strong>Gemini</strong> に作成してもらいました。そのままでは pas2js でコンパイルが通らなかったため、<strong>Cursor</strong> で次の2点を修正して仕上げました。</p>
+<h3 id="1-オシレータの型プロパティwebaudio-の予約名">1. オシレータの型プロパティ（webaudio の予約名）</h3>
+<p>webaudio ユニットでは、JavaScript の <code>type</code> が Pascal の予約語と衝突するため、プロパティ名が <strong><code>type_</code></strong> として定義されています。</p>
+<ul>
+<li><strong>修正前</strong>: <code>Osc._type := 'triangle';</code></li>
+<li><strong>修正後</strong>: <code>Osc.type_ := 'triangle';</code></li>
+</ul>
+<h3 id="2-program-では-initialization-が使えない--window-の参照">2. program では initialization が使えない / window の参照</h3>
+<p>HTML のボタンから <code>StartRinsho</code> を呼べるように、グローバルに手続きを登録する必要があります。Gemini のコードでは <code>initialization</code> と <code>TJSWindow.window</code> を使っていました。</p>
+        </div>
+        
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
         
           <div class="w-100 mb4 relative">
             
@@ -250,71 +300,18 @@
 
           </div>
         
-          <div class="w-100 mb4 relative">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
-    <div class="flex-column flex-row-ns flex">
-      
-          
-        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
-          <a href="/posts/lazarus-day031-pas2js-markdown/" class="db grow">
-            <img src="http://localhost:1313/images/LazarusDay031.png" class="img" alt="image from Pas2JSでMarkdownエディタを作成 - Day31">
-          </a>
-        </div>
-      
-      <div class="blah w-100 w-60-ns pl3-ns">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/lazarus-day031-pas2js-markdown/" class="color-inherit dim link">
-            Pas2JSでMarkdownエディタを作成 - Day31
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="pas2jsでmarkdownエディタを作成---day31">Pas2JSでMarkdownエディタを作成 - Day31</h1>
-<p>Lazarusチャレンジ31日目です。<strong>Pas2JS</strong> で、左にエディタ・右にプレビューを表示する <strong>簡易Markdownエディタ</strong> を作成しました。marked.js などの外部ライブラリは使わず、<strong>Pascal のロジックのみ</strong>で Markdown を HTML に変換する <code>ParseMarkdown</code> を実装しています。</p>
-<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
-<ul>
-<li><strong>左右分割レイアウト</strong>: 左側がテキストエリア（Markdown入力）、右側がプレビュー（HTML表示）</li>
-<li><strong>リアルタイムプレビュー</strong>: 入力するたびに <code>oninput</code> でプレビューを更新</li>
-<li><strong>対応記法</strong>: 見出し（<code>#</code>, <code>##</code>）、<strong>太字</strong>（<code>**</code>）、リスト（<code>*</code> / <code>-</code>）、リンク（<code>[text](url)</code>）、水平線（<code>---</code>）、段落</li>
-</ul>
-<h2 id="実装のポイント">実装のポイント</h2>
-<h3 id="1-dom-へのアクセスとイベント">1. DOM へのアクセスとイベント</h3>
-<p>HTML 側で <code>id=&quot;editor&quot;</code>（textarea）と <code>id=&quot;preview&quot;</code>（div）を定義し、Pascal 側で <code>document.getElementById</code> で取得します。入力のたびにプレビューを更新するため、<code>EditorElem.oninput := @DoUpdate</code> でイベントを紐付けています。</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">EditorElem := TJSHTMLTextAreaElement(document.getElementById(&#39;editor&#39;));
-PreviewElem := TJSHTMLElement(document.getElementById(&#39;preview&#39;));
-if Assigned(EditorElem) then
-  EditorElem.oninput := @DoUpdate;
-</code></pre><h3 id="2-簡易-markdown-パーサーparsemarkdown">2. 簡易 Markdown パーサー（ParseMarkdown）</h3>
-<p>改行で分割して1行ずつ処理し、行頭の記号でブロック要素を判定してから、インラインの強調・リンクを正規表現で置換しています。</p>
-<ul>
-<li><strong>水平線</strong>: <code>---</code> の行を <code>&lt;hr /&gt;</code> に</li>
-<li><strong>見出し</strong>: <code>#</code>  で始まる行を <code>&lt;h1&gt;</code>、<code>##</code>  を <code>&lt;h2&gt;</code> に</li>
-<li><strong>リスト</strong>: 行頭の <code>*</code>  または <code>-</code>  を <code>&lt;li&gt;</code> に</li>
-<li><strong>強調</strong>: <code>**...**</code> を <code>TJSRegExp</code> で <code>&lt;strong&gt;...&lt;/strong&gt;</code> に</li>
-<li><strong>リンク</strong>: <code>[text](url)</code> を <code>&lt;a href=&quot;url&quot; target=&quot;_blank&quot;&gt;text&lt;/a&gt;</code> に</li>
-<li><strong>段落</strong>: 上記のいずれでもない非空行を <code>&lt;p&gt;...&lt;/p&gt;</code> で囲む</li>
-</ul>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">Line := TJSString(Line).replace(TJSRegExp.New(&#39;\*\*(.*?)\*\*&#39;, &#39;g&#39;), &#39;&lt;strong&gt;$1&lt;/strong&gt;&#39;);
-Line := TJSString(Line).replace(TJSRegExp.New(&#39;\[(.*?)\]\((.*?)\)&#39;, &#39;g&#39;), &#39;&lt;a href=&#34;$2&#34; target=&#34;_blank&#34;&gt;$1&lt;/a&gt;&#39;);
-</code></pre><h3 id="3-tjsstring--tjsregexp-の利用">3. TJSString / TJSRegExp の利用</h3>
-<p>pas2js では、Pascal の <code>string</code> を <code>TJSString(...)</code> で JavaScript の String として扱い、<code>.split()</code> や <code>.replace()</code> が使えます。正規表現は <code>TJSRegExp.New('パターン', 'g')</code> で生成し、<code>$1</code>, <code>$2</code> でキャプチャを参照できます。外部の Markdown ライブラリに頼らずに、Pascal だけで簡易パーサーを書けるポイントです。</p>
-        </div>
-        
-          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day031-pas2js-markdown/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
       </section>
 
       
         <section class="w-100">
           <h1 class="f3">More</h1>
           
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/posts/lazarus-day031-pas2js-markdown/" class="link black dim">
+                Pas2JSでMarkdownエディタを作成 - Day31
+              </a>
+            </h2>
           
             <h2 class="f5 fw4 mb4 dib mr3">
               <a href="/posts/lazarus-day032-pas2js-userform/" class="link black dim">
@@ -331,12 +328,6 @@ Line := TJSString(Line).replace(TJSRegExp.New(&#39;\[(.*?)\]\((.*?)\)&#39;, &#39
             <h2 class="f5 fw4 mb4 dib mr3">
               <a href="/posts/lazarus-day029-pas2js-color/" class="link black dim">
                 Pas2JSでカラー表示アプリを作成 - Day29
-              </a>
-            </h2>
-          
-            <h2 class="f5 fw4 mb4 dib mr3">
-              <a href="/posts/lazarus-day028-pas2js-calendar/" class="link black dim">
-                Pas2JSでカレンダーアプリを作成 - Day28
               </a>
             </h2>
           

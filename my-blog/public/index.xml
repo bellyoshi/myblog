@@ -6,8 +6,15 @@
     <description>Recent content on 私の技術ブログ</description>
     <generator>Hugo</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Tue, 03 Feb 2026 21:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 04 Feb 2026 21:00:00 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pas2JSでかえるのうたを輪唱で再生する - Day35</title>
+      <link>http://localhost:1313/posts/lazarus-day035-pas2js-kaeru-rinsho/</link>
+      <pubDate>Wed, 04 Feb 2026 21:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/lazarus-day035-pas2js-kaeru-rinsho/</guid>
+      <description>&lt;h1 id=&#34;pas2jsでかえるのうたを輪唱で再生する---day35&#34;&gt;Pas2JSでかえるのうたを輪唱で再生する - Day35&lt;/h1&gt;&#xA;&lt;p&gt;Lazarusチャレンジ35日目です。今回は &lt;strong&gt;かえるのうた&lt;/strong&gt; を再度取り上げ、&lt;strong&gt;Web で再実現&lt;/strong&gt; しました。さらに &lt;strong&gt;輪唱&lt;/strong&gt; にもチャレンジしています。&lt;/p&gt;&#xA;&lt;p&gt;Day1 では Lazarus で MIDI ファイルを作成するアプリとして「かえるのうた」を実装しました。今回は &lt;strong&gt;Pas2JS&lt;/strong&gt; と &lt;strong&gt;Web Audio API&lt;/strong&gt; で、ブラウザ上で直接音を鳴らす形にしています。正確なタイミング制御のために &lt;code&gt;AudioContext.currentTime&lt;/code&gt; を使い、8拍ずつずらした3パートの輪唱で、かえるのうたが重なって聞こえるようにしました。&lt;/p&gt;&#xA;&lt;h2 id=&#34;作成したアプリの機能&#34;&gt;作成したアプリの機能&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;かえるのうたのメロディー&lt;/strong&gt;を Web Audio API のオシレータ（三角波）で再生&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;輪唱&lt;/strong&gt;: 1パート目から 8拍（約3.2秒）ずつずらして 2パート目・3パート目を再生。3つのメロディーが重なる輪唱になります&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;エンベロープ&lt;/strong&gt;: &lt;code&gt;linearRampToValueAtTime&lt;/code&gt; と &lt;code&gt;exponentialRampToValueAtTime&lt;/code&gt; で、音の立ち上がりと減衰を制御し、「ぷつぷつ」したノイズを防ぎつつ自然に聞こえるようにしています&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;音量バランス&lt;/strong&gt;: 輪唱で音が重なって大きくなりすぎないよう、各パートの音量を 0.3 / 0.2 / 0.1 と段階的に下げてあります&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;開発の経緯gemini--cursor-で仕上げ&#34;&gt;開発の経緯（Gemini → Cursor で仕上げ）&lt;/h2&gt;&#xA;&lt;p&gt;コードは &lt;strong&gt;Gemini&lt;/strong&gt; に作成してもらいました。そのままでは pas2js でコンパイルが通らなかったため、&lt;strong&gt;Cursor&lt;/strong&gt; で次の2点を修正して仕上げました。&lt;/p&gt;&#xA;&lt;h3 id=&#34;1-オシレータの型プロパティwebaudio-の予約名&#34;&gt;1. オシレータの型プロパティ（webaudio の予約名）&lt;/h3&gt;&#xA;&lt;p&gt;webaudio ユニットでは、JavaScript の &lt;code&gt;type&lt;/code&gt; が Pascal の予約語と衝突するため、プロパティ名が &lt;strong&gt;&lt;code&gt;type_&lt;/code&gt;&lt;/strong&gt; として定義されています。&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;修正前&lt;/strong&gt;: &lt;code&gt;Osc._type := &#39;triangle&#39;;&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;修正後&lt;/strong&gt;: &lt;code&gt;Osc.type_ := &#39;triangle&#39;;&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;2-program-では-initialization-が使えない--window-の参照&#34;&gt;2. program では initialization が使えない / window の参照&lt;/h3&gt;&#xA;&lt;p&gt;HTML のボタンから &lt;code&gt;StartRinsho&lt;/code&gt; を呼べるように、グローバルに手続きを登録する必要があります。Gemini のコードでは &lt;code&gt;initialization&lt;/code&gt; と &lt;code&gt;TJSWindow.window&lt;/code&gt; を使っていました。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Pas2JSで簡易インタープリタをブラウザで動かす - Day34</title>
       <link>http://localhost:1313/posts/lazarus-day034-pas2js-simple-interpreter/</link>

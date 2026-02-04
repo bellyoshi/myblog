@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-02-03T21:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-02-03T21:00:00+09:00">
+  <meta itemprop="datePublished" content="2026-02-04T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-04T21:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Posts">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -119,6 +119,43 @@
   <article class="pa3 pa4-ns nested-copy-line-height">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links mid-gray"></section>
     <section class="flex-ns mt5 flex-wrap justify-around">
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/" class="link black dim">
+        Pas2JSでかえるのうたを輪唱で再生する - Day35
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsでかえるのうたを輪唱で再生する---day35">Pas2JSでかえるのうたを輪唱で再生する - Day35</h1>
+<p>Lazarusチャレンジ35日目です。今回は <strong>かえるのうた</strong> を再度取り上げ、<strong>Web で再実現</strong> しました。さらに <strong>輪唱</strong> にもチャレンジしています。</p>
+<p>Day1 では Lazarus で MIDI ファイルを作成するアプリとして「かえるのうた」を実装しました。今回は <strong>Pas2JS</strong> と <strong>Web Audio API</strong> で、ブラウザ上で直接音を鳴らす形にしています。正確なタイミング制御のために <code>AudioContext.currentTime</code> を使い、8拍ずつずらした3パートの輪唱で、かえるのうたが重なって聞こえるようにしました。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>かえるのうたのメロディー</strong>を Web Audio API のオシレータ（三角波）で再生</li>
+<li><strong>輪唱</strong>: 1パート目から 8拍（約3.2秒）ずつずらして 2パート目・3パート目を再生。3つのメロディーが重なる輪唱になります</li>
+<li><strong>エンベロープ</strong>: <code>linearRampToValueAtTime</code> と <code>exponentialRampToValueAtTime</code> で、音の立ち上がりと減衰を制御し、「ぷつぷつ」したノイズを防ぎつつ自然に聞こえるようにしています</li>
+<li><strong>音量バランス</strong>: 輪唱で音が重なって大きくなりすぎないよう、各パートの音量を 0.3 / 0.2 / 0.1 と段階的に下げてあります</li>
+</ul>
+<h2 id="開発の経緯gemini--cursor-で仕上げ">開発の経緯（Gemini → Cursor で仕上げ）</h2>
+<p>コードは <strong>Gemini</strong> に作成してもらいました。そのままでは pas2js でコンパイルが通らなかったため、<strong>Cursor</strong> で次の2点を修正して仕上げました。</p>
+<h3 id="1-オシレータの型プロパティwebaudio-の予約名">1. オシレータの型プロパティ（webaudio の予約名）</h3>
+<p>webaudio ユニットでは、JavaScript の <code>type</code> が Pascal の予約語と衝突するため、プロパティ名が <strong><code>type_</code></strong> として定義されています。</p>
+<ul>
+<li><strong>修正前</strong>: <code>Osc._type := 'triangle';</code></li>
+<li><strong>修正後</strong>: <code>Osc.type_ := 'triangle';</code></li>
+</ul>
+<h3 id="2-program-では-initialization-が使えない--window-の参照">2. program では initialization が使えない / window の参照</h3>
+<p>HTML のボタンから <code>StartRinsho</code> を呼べるように、グローバルに手続きを登録する必要があります。Gemini のコードでは <code>initialization</code> と <code>TJSWindow.window</code> を使っていました。</p>
+    </div>
+    <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
       
         <div class="w-100 w-30-l mb4 relative bg-white">
           <div class="w-100 mb4 nested-copy-line-height relative bg-white">
@@ -535,76 +572,6 @@ DeleteBtn.innerText := &#39;削除&#39;;
 <p>簡単な <code>hello.pas</code> と <code>hello.html</code> を作成し、コマンドラインからコンパイルを試みました。</p>
     </div>
     <a href="/posts/lazarus-day026-pas2js/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day025-colorpop/" class="link black dim">
-        同色消しパズル（ColorPop）の作成 - Day25
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="同色消しパズルcolorpopの作成---day25">同色消しパズル（ColorPop）の作成 - Day25</h1>
-<p>Lazarusチャレンジ25日目です。今回は、クリックして同色のブロックを消していく「SameGame」風のパズルゲームを作成しました。</p>
-<h2 id="ゲームのルール">ゲームのルール</h2>
-<p>プロジェクト名は「ColorPop」としました。ルールはシンプルです。</p>
-<ul>
-<li><strong>盤面</strong>: 10×10 のマス目。</li>
-<li><strong>ブロック</strong>: 3色（赤、緑、青）のブロックがランダムに配置されます。</li>
-<li><strong>操作</strong>: 隣り合った同色のブロックが2つ以上ある場所をクリックすると、それらが消滅します。</li>
-<li><strong>重力</strong>: 消えたブロックの上にあったブロックは下に落ちてきます。</li>
-<li><strong>列詰め</strong>: 今回の実装では、列ごとの落下処理のみ行い、空になった列を詰める横移動は行っていません。</li>
-</ul>
-<h2 id="実装のポイント">実装のポイント</h2>
-<p>今回は <code>TPanel</code> などのコンポーネントを並べるのではなく、フォームの <code>Canvas</code> に直接描画する方式をとりました。また、連結判定には <strong>幅優先探索 (BFS)</strong> を採用しています。</p>
-<h3 id="1-幅優先探索-bfs-による連結検出">1. 幅優先探索 (BFS) による連結検出</h3>
-<p>再帰関数（深さ優先探索）を使っても実装できますが、今回はスタックオーバーフローの心配がないキューを用いた幅優先探索で実装しました。
-Lazarus (Free Pascal) の標準ライブラリには汎用的な <code>TQueue</code> がありますが、シンプルに <code>TList</code> をキュー代わりに使用しています。</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">procedure TForm1.RemoveAndDrop(StartX, StartY: Integer);
-var
-  Q: TList; // キューとして使用
-  // ...
-begin
-  // ...
-  Q := TList.Create;
-  try
-    // 起点をキューに追加
-    New(P); P^.X := StartX; P^.Y := StartY;
-    Q.Add(P);
-    Visited[StartY, StartX] := True;
-    
-    while Q.Count &gt; 0 do
-    begin
-      // キューの先頭を取り出す (Dequeue)
-      P := PPoint(Q[0]);
-      Q.Delete(0);
-      // ...
-      
-      // 4方向をチェックしてキューに追加 (Enqueue)
-      for i := 0 to 3 do
-      begin
-        // ...
-            if (not Visited[ny, nx]) and (Board[ny, nx] = TargetColor) then
-            begin
-              Visited[ny, nx] := True;
-              New(NewP); NewP^.X := nx; NewP^.Y := ny;
-              Q.Add(NewP);
-            end;
-        // ...
-      end;
-    end;
-    // ...
-</code></pre><h3 id="2-重力処理ブロックの落下">2. 重力処理（ブロックの落下）</h3>
-<p>ブロックが消えた後、空いたスペースを埋めるために上のブロックを落とす処理です。
-各列ごとに下から上に向かって走査し、ブロックがあれば「書き込み位置（WritePos）」に移動させるというアルゴリズムで、O(N) で効率的に処理しています。</p>
-    </div>
-    <a href="/posts/lazarus-day025-colorpop/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 
