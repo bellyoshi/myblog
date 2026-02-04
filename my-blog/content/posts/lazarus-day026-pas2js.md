@@ -129,6 +129,8 @@ end.
 
 ## ダウンロード
 
+**アプリをブラウザで開く**: [Pas2JS Hello を開く](/apps/day026/hello.html)
+
 作成したサンプルファイルは以下からダウンロードできます：
 
 [day026_pas2jshello.zip](/downloads/day026_pas2jshello.zip)

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Lights Outゲームの作成 - Day24 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ24日目。5x5の盤面すべてのライトを消すパズルゲーム「Lights Out」を作成しました。可解性を保証する初期化アルゴリズムや、動的なコンポーネント生成について解説します。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day024-lightsout/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day024-lightsout/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Lights Outゲームの作成 - Day24">
+  <meta property="og:description" content="Lazarusチャレンジ24日目。5x5の盤面すべてのライトを消すパズルゲーム「Lights Out」を作成しました。可解性を保証する初期化アルゴリズムや、動的なコンポーネント生成について解説します。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-24T19:30:00+09:00">
+    <meta property="article:modified_time" content="2026-01-24T19:30:00+09:00">
+
+  <meta itemprop="name" content="Lights Outゲームの作成 - Day24">
+  <meta itemprop="description" content="Lazarusチャレンジ24日目。5x5の盤面すべてのライトを消すパズルゲーム「Lights Out」を作成しました。可解性を保証する初期化アルゴリズムや、動的なコンポーネント生成について解説します。">
+  <meta itemprop="datePublished" content="2026-01-24T19:30:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-24T19:30:00+09:00">
+  <meta itemprop="wordCount" content="669">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Lights Outゲームの作成 - Day24">
+  <meta name="twitter:description" content="Lazarusチャレンジ24日目。5x5の盤面すべてのライトを消すパズルゲーム「Lights Out」を作成しました。可解性を保証する初期化アルゴリズムや、動的なコンポーネント生成について解説します。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay024.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Lights Outゲームの作成 - Day24</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ24日目。5x5の盤面すべてのライトを消すパズルゲーム「Lights Out」を作成しました。可解性を保証する初期化アルゴリズムや、動的なコンポーネント生成について解説します。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Lights Outゲームの作成 - Day24</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-24T19:30:00+09:00">January 24, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="lights-outゲームの作成---day24">Lights Outゲームの作成 - Day24</h1>
+<p>Lazarusチャレンジ24日目です。今回は、古典的な電子パズルゲーム「<strong>Lights Out</strong>（ライツアウト）」を作成しました。</p>
+<h2 id="ゲームのルール">ゲームのルール</h2>
+<p>Lights Outは、5x5のグリッド状に並んだライト（マス）をすべて消灯（OFF）させることを目指すパズルです。</p>
+<ul>
+<li><strong>操作</strong>: マスをクリックすると、そのマスと上下左右に隣接するマスの状態が反転します（ONならOFF、OFFならON）。</li>
+<li><strong>目的</strong>: すべてのマスをOFFにすればクリアです。</li>
+</ul>
+<p>単純に見えますが、むやみに押すと堂々巡りになり、論理的な思考が求められる奥深いゲームです。</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<p>今回はLazarus (Free Pascal) で1フォームのシンプルなアプリケーションとして実装しました。</p>
+<h3 id="1-盤面データの管理">1. 盤面データの管理</h3>
+<p>盤面の状態は2次元配列で管理します。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">private
+  FLights: array[0..4, 0..4] of Boolean;
+</code></pre><p>視覚的な表示には <code>TPanel</code> コンポーネントを使用し、これを<code>FormCreate</code>イベントで動的に生成しています。これにより、フォームデザイナーで25個のパネルを手作業で配置する手間を省いています。</p>
+<h3 id="2-必ず解ける初期配置">2. 必ず解ける初期配置</h3>
+<p>Lights Outの重要な性質として、「<strong>ランダムにON/OFF配置を決めると、数学的に解けない配置が存在する</strong>」という点があります。
+プレイヤーに不条理な苦痛を与えないよう、初期化処理に一工夫加えました。</p>
+<ol>
+<li>まず盤面をすべてOFF（クリア状態）にする。</li>
+<li>ランダムな場所をクリック（合法手）する操作を複数回（今回は20回）繰り返す。</li>
+</ol>
+<p>この手順で生成された盤面は、逆の手順（押した場所をもう一度押す）を辿れば必ず元に戻せるため、<strong>必ず解けることが保証されます</strong>。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">procedure TForm1.InitializeGame;
+var
+  i, rx, ry: Integer;
+begin
+  Randomize;
+  // 全てOFFにする
+  for i := 0 to GridSize - 1 do
+    for rx := 0 to GridSize - 1 do
+      FLights[i, rx] := False;
+
+  // 適当にクリック操作をシミュレートして「必ず解ける」初期盤面を作る
+  for i := 1 to 20 do
+  begin
+    rx := Random(GridSize);
+    ry := Random(GridSize);
+    ToggleCell(rx, ry);
+  end;
+  
+  UpdateVisuals;
+end;
+</code></pre><h3 id="3-ロジックの実装">3. ロジックの実装</h3>
+<p>マスの反転処理は、範囲チェックを行った上で状態を反転させるシンプルなものです。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">procedure TForm1.ToggleState(x, y: Integer);
+begin
+  if (x &gt;= 0) and (x &lt; GridSize) and (y &gt;= 0) and (y &lt; GridSize) then
+    FLights[x, y] := not FLights[x, y];
+end;
+
+procedure TForm1.ToggleCell(x, y: Integer);
+begin
+  ToggleState(x, y);     // 自分
+  ToggleState(x - 1, y); // 左
+  ToggleState(x + 1, y); // 右
+  ToggleState(x, y - 1); // 上
+  ToggleState(x, y + 1); // 下
+end;
+</code></pre><h2 id="完成したコード-unit1pas">完成したコード (Unit1.pas)</h2>
+<p>以下がメインユニットの全コードです。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">unit Unit1;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls;
+
+const
+  GridSize = 5;
+  CellSize = 60;
+  Gap = 5;
+
+type
+  { TForm1 }
+  TForm1 = class(TForm)
+    procedure FormCreate(Sender: TObject);
+    procedure ResetButtonClick(Sender: TObject);
+  private
+    FLights: array[0..GridSize-1, 0..GridSize-1] of Boolean;
+    FPanels: array[0..GridSize-1, 0..GridSize-1] of TPanel;
+    FStartBtn: TButton;
+    
+    procedure PanelClick(Sender: TObject);
+    procedure InitializeGame;
+    procedure ToggleCell(x, y: Integer);
+    procedure ToggleState(x, y: Integer);
+    procedure UpdateVisuals;
+    function CheckWin: Boolean;
+  public
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.lfm}
+
+{ TForm1 }
+
+procedure TForm1.FormCreate(Sender: TObject);
+var
+  x, y: Integer;
+  P: TPanel;
+begin
+  // フォーム設定
+  Caption := &#39;Lights Out Game&#39;;
+  ClientWidth := (CellSize + Gap) * GridSize + Gap;
+  ClientHeight := (CellSize + Gap) * GridSize + Gap + 50;
+  Position := poScreenCenter;
+  Color := clWhite;
+
+  // グリッド生成
+  for x := 0 to GridSize - 1 do
+  begin
+    for y := 0 to GridSize - 1 do
+    begin
+      P := TPanel.Create(Self);
+      P.Parent := Self;
+      P.Width := CellSize;
+      P.Height := CellSize;
+      P.Left := Gap + x * (CellSize + Gap);
+      P.Top := Gap + y * (CellSize + Gap);
+      P.Tag := x * GridSize + y; // 座標をTagに埋め込む
+      P.OnClick := @PanelClick;
+      P.BevelOuter := bvNone;
+      P.Caption := &#39;&#39;;
+      P.Color := clSilver;
+      
+      FPanels[x, y] := P;
+    end;
+  end;
+
+  // リセットボタン生成
+  FStartBtn := TButton.Create(Self);
+  FStartBtn.Parent := Self;
+  FStartBtn.Caption := &#39;ゲームリセット&#39;;
+  FStartBtn.Left := Gap;
+  FStartBtn.Top := (CellSize + Gap) * GridSize + 10;
+  FStartBtn.Width := ClientWidth - (Gap * 2);
+  FStartBtn.Height := 30;
+  FStartBtn.OnClick := @ResetButtonClick;
+
+  InitializeGame;
+end;
+
+procedure TForm1.InitializeGame;
+var
+  i, rx, ry: Integer;
+begin
+  Randomize;
+  // 全てOFFにする
+  for i := 0 to GridSize - 1 do
+    for rx := 0 to GridSize - 1 do
+      FLights[i, rx] := False;
+
+  // 適当にクリック操作をシミュレートして「必ず解ける」初期盤面を作る
+  for i := 1 to 20 do
+  begin
+    rx := Random(GridSize);
+    ry := Random(GridSize);
+    ToggleCell(rx, ry);
+  end;
+  
+  UpdateVisuals;
+end;
+
+procedure TForm1.ResetButtonClick(Sender: TObject);
+begin
+  InitializeGame;
+end;
+
+procedure TForm1.PanelClick(Sender: TObject);
+var
+  idx, x, y: Integer;
+begin
+  if Sender is TPanel then
+  begin
+    idx := TPanel(Sender).Tag;
+    x := idx div GridSize;
+    y := idx mod GridSize;
+    
+    ToggleCell(x, y);
+    UpdateVisuals;
+    
+    if CheckWin then
+    begin
+      ShowMessage(&#39;クリアおめでとうございます！&#39;);
+      InitializeGame;
+    end;
+  end;
+end;
+
+procedure TForm1.ToggleState(x, y: Integer);
+begin
+  if (x &gt;= 0) and (x &lt; GridSize) and (y &gt;= 0) and (y &lt; GridSize) then
+    FLights[x, y] := not FLights[x, y];
+end;
+
+procedure TForm1.ToggleCell(x, y: Integer);
+begin
+  ToggleState(x, y);     // 自分
+  ToggleState(x - 1, y); // 左
+  ToggleState(x + 1, y); // 右
+  ToggleState(x, y - 1); // 上
+  ToggleState(x, y + 1); // 下
+end;
+
+procedure TForm1.UpdateVisuals;
+var
+  x, y: Integer;
+begin
+  for x := 0 to GridSize - 1 do
+  begin
+    for y := 0 to GridSize - 1 do
+    begin
+      if FLights[x, y] then
+      begin
+        FPanels[x, y].Color := $0080FFFF; // 明るい色（ON）
+        FPanels[x, y].Caption := &#39;ON&#39;;
+      end
+      else
+      begin
+        FPanels[x, y].Color := clGray;    // 暗い色（OFF）
+        FPanels[x, y].Caption := &#39;&#39;;
+      end;
+    end;
+  end;
+end;
+
+function TForm1.CheckWin: Boolean;
+var
+  x, y: Integer;
+begin
+  Result := True;
+  for x := 0 to GridSize - 1 do
+    for y := 0 to GridSize - 1 do
+      if FLights[x, y] then Exit(False);
+end;
+
+end.
+</code></pre><p><img src="/images/LazarusDay024.png" alt="ライトアウトのスクリーンショット"></p>
+<h2 id="感想">感想</h2>
+<p>Lazarusの<code>TPanel</code>などの標準コンポーネントは<code>Tag</code>プロパティを持っているので、そこに座標データ（またはインデックス）を持たせることで、イベントハンドラを共通化しやすくなります。
+シンプルなロジックですが、パズルとしても面白く、プログラミングの練習にも最適な題材でした。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p>作成したアプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day024_ligtout.zip">day024_lightout.zip</a></p>
+<p>これでDay24は完了です！</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 24/100</em></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day018-2048/">2048ゲームの作成 - Day18</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day007-minesweeper/">マインスイーパーゲームの作成 - Day7</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day021-15puzzle/">15パズルの作成に挑戦 - Day21</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day020-picross/">ピクロス（ノノグラム）の作成に挑戦 - Day20</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day014-3moku-complete/">3目並べの完成 - Day14</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day013-3moku/">3目並べの作成 - Day13</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day005-chess/">チェスゲームの作成 - Day5</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day004-reversi/">Reversi（リバーシ）ゲームの作成 - Day4</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day023-pdfviewer/">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day022-spreadsheet-viewer/">スプレッドシート作成の試みとビューワー実装 - Day22</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day019-menu100/">Lazarusアプリ用ランチャーの作成 - Day19</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day017-crypt-editor/">暗号化テキストエディタの作成 - Day17</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day016-sokoban/">倉庫番ゲームの作成 - Day16</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day015-sudoku/">数独アプリの作成 - Day15</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day012-bmp-viewer/">BMPビューアーの作成 - Day12</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

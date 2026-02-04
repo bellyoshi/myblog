@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Pas2JSを試してみる - Day26 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ26日目。PascalをJavaScriptに変換する「Pas2JS」を試してみました。Lazarus IDEからの利用で躓いた点や、コマンドラインでのコンパイル方法、-Jirtl.jsパラメータの罠について解説します。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day026-pas2js/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day026-pas2js/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Pas2JSを試してみる - Day26">
+  <meta property="og:description" content="Lazarusチャレンジ26日目。PascalをJavaScriptに変換する「Pas2JS」を試してみました。Lazarus IDEからの利用で躓いた点や、コマンドラインでのコンパイル方法、-Jirtl.jsパラメータの罠について解説します。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-26T21:00:00+09:00">
+    <meta property="article:modified_time" content="2026-01-26T21:00:00+09:00">
+
+  <meta itemprop="name" content="Pas2JSを試してみる - Day26">
+  <meta itemprop="description" content="Lazarusチャレンジ26日目。PascalをJavaScriptに変換する「Pas2JS」を試してみました。Lazarus IDEからの利用で躓いた点や、コマンドラインでのコンパイル方法、-Jirtl.jsパラメータの罠について解説します。">
+  <meta itemprop="datePublished" content="2026-01-26T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-26T21:00:00+09:00">
+  <meta itemprop="wordCount" content="174">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pas2JSを試してみる - Day26">
+  <meta name="twitter:description" content="Lazarusチャレンジ26日目。PascalをJavaScriptに変換する「Pas2JS」を試してみました。Lazarus IDEからの利用で躓いた点や、コマンドラインでのコンパイル方法、-Jirtl.jsパラメータの罠について解説します。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay026.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSを試してみる - Day26</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ26日目。PascalをJavaScriptに変換する「Pas2JS」を試してみました。Lazarus IDEからの利用で躓いた点や、コマンドラインでのコンパイル方法、-Jirtl.jsパラメータの罠について解説します。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Pas2JSを試してみる - Day26</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-26T21:00:00+09:00">January 26, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsを試してみる---day26">Pas2JSを試してみる - Day26</h1>
+<p>Lazarusチャレンジ26日目です。今回は、PascalのコードをJavaScriptに変換してブラウザで動作させる <strong>Pas2JS</strong> を試してみました。</p>
+<p>Webアプリケーションを作る上で、使い慣れたPascal言語が使えるのは大きな魅力です。しかし、導入にはいくつかのハードルがありました。</p>
+<h2 id="2つのはまりポイント">2つのはまりポイント</h2>
+<p>今回遭遇した主な問題は以下の2点です。</p>
+<ol>
+<li><strong>Lazarus IDEからではコンパイルできなかった</strong></li>
+<li><strong>pas2jsのパラメータ <code>-Jirtl.js</code> がファイル名として解釈されてしまう</strong></li>
+</ol>
+<p>これらをどのように解決したか、順を追って説明します。</p>
+<h2 id="1-lazarus-ideでの試行錯誤">1. Lazarus IDEでの試行錯誤</h2>
+<p>最初はLazarus IDEの機能を使って開発しようとしました。</p>
+<p><code>プロジェクト</code> -&gt; <code>新規プロジェクト</code> -&gt; <code>Web browser Application</code> (A pas2js program running in the browser) を選択しました。</p>
+<p><img src="/images/LazarusDay026_Project.png" alt="Project Template">
+<img src="/images/LazarusDay026_Project2.png" alt="Project Template"></p>
+<p>しかし、プロジェクトをコンパイルしようとすると以下のエラーが発生しました。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>プロジェクトをコンパイル, OS: browser, CPU: ecmascript5対象：
+</span></span><span style="display:flex;"><span>コード6を終了、エラー: 2
+</span></span><span style="display:flex;"><span>project1.lpr(5,5) Error: can&#39;t find unit &#34;System&#34;
+</span></span><span style="display:flex;"><span>Fatal: Compilation aborted
+</span></span></code></pre></div><p>Lazarusのバージョンは4.4です。Windows環境とLinux環境で試しましたが、どちらも同じエラーが発生しました。IDE環境ではうまくいっていないようでしたので、手動でセットアップすることにしました。</p>
+<h2 id="2-pas2jsの手動セットアップ">2. Pas2JSの手動セットアップ</h2>
+<p>以下のサイトからコンパイラをダウンロードしました。</p>
+<p><a href="https://getpas2js.freepascal.org/">https://getpas2js.freepascal.org/</a></p>
+<p>今回は <code>Windows(intel)</code> 版を選択しました。</p>
+<h3 id="インストール手順">インストール手順</h3>
+<ol>
+<li>ダウンロードしたファイルを展開します。</li>
+<li><code>C:\Lazarus\pas2js</code> フォルダを作成し、その中に展開したファイルをコピーしました。</li>
+<li><code>C:\Lazarus\pas2js\bin</code> の中に <code>pas2js.exe</code> があることを確認します。</li>
+<li>環境変数を修正して <code>C:\Lazarus\pas2js\bin</code> へのパスを通しました。</li>
+</ol>
+<h2 id="3-コマンドラインからのコンパイルと引数の罠">3. コマンドラインからのコンパイルと引数の罠</h2>
+<p>簡単な <code>hello.pas</code> と <code>hello.html</code> を作成し、コマンドラインからコンパイルを試みました。</p>
+<p>最初は、サイトのチュートリアル通り以下のコマンドを実行しました：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js -Jc -Jirtl.js -Tbrowser .<span style="color:#ae81ff">\h</span>ello.pas
+</span></span></code></pre></div><p>すると、以下のエラーが発生しました。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Fatal: parameter .\hello.pas: Only one Pascal file is supported, but got &#34;C:\Users\bellm\source\repos\bellyoshi\Daily-Lazarus-Apps\day026_pas2js\.js&#34; and &#34;.\hello.pas&#34;.
+</span></span></code></pre></div><p>どうやら <code>-Jirtl.js</code> というオプションが正しく認識されず、ファイル名の一部として誤解釈されているようです。</p>
+<h3 id="解決策">解決策</h3>
+<p>オプションの引数をダブルクォーテーションで囲むことで解決しました。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js .<span style="color:#ae81ff">\h</span>ello.pas -Tbrowser <span style="color:#e6db74">&#34;-Jirtl.js&#34;</span>
+</span></span></code></pre></div><p>これにより、無事にコンパイルが通りました。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Pas2JS Compiler version 3.2.0 [2025/08/01] for Win32 i386
+</span></span><span style="display:flex;"><span>Copyright (c) 2025 Free Pascal team.
+</span></span><span style="display:flex;"><span>Info: 12172 lines in 6 files compiled, 0.1 secs
+</span></span></code></pre></div><h2 id="作成したコード">作成したコード</h2>
+<p>動作確認に使用したコードは以下の通りです。</p>
+<h3 id="hellopas">hello.pas</h3>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">program hello;
+uses
+  Web;
+
+begin
+  document.Writeln(&#39;Hello, world!&#39;);
+end.
+</code></pre><h3 id="hellohtml">hello.html</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>/&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;application/javascript&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hello.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;application/javascript&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">rtl</span>.<span style="color:#a6e22e">run</span>();
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><p>ブラウザで <code>hello.html</code> を開くと、「Hello, world!」と表示され、Pascalで書かれたコードがJavaScriptとして実行されていることが確認できました。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p><strong>アプリをブラウザで開く</strong>: <a href="/apps/day026/hello.html">Pas2JS Hello を開く</a></p>
+<p>作成したサンプルファイルは以下からダウンロードできます：</p>
+<p><a href="/downloads/day026_pas2jshello.zip">day026_pas2jshello.zip</a></p>
+<p>Pas2JSを使えば、フロントエンドのロジックもPascalで記述できるため、Lazarusユーザーにとっては非常に強力なツールになるのでしょうか。WebAssemblyを試してみたいのですがpas2jsが基礎知識になるようです。まずは今回、比較的簡単なpas2jsを試してみたところ、思ったより複雑な部分が多く、なかなかのいばらの道です。</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 26/100</em></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day025-colorpop/">同色消しパズル（ColorPop）の作成 - Day25</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day024-lightsout/">Lights Outゲームの作成 - Day24</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day023-pdfviewer/">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day022-spreadsheet-viewer/">スプレッドシート作成の試みとビューワー実装 - Day22</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day021-15puzzle/">15パズルの作成に挑戦 - Day21</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day020-picross/">ピクロス（ノノグラム）の作成に挑戦 - Day20</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day019-menu100/">Lazarusアプリ用ランチャーの作成 - Day19</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day018-2048/">2048ゲームの作成 - Day18</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day017-crypt-editor/">暗号化テキストエディタの作成 - Day17</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day016-sokoban/">倉庫番ゲームの作成 - Day16</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day015-sudoku/">数独アプリの作成 - Day15</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day014-3moku-complete/">3目並べの完成 - Day14</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day013-3moku/">3目並べの作成 - Day13</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day012-bmp-viewer/">BMPビューアーの作成 - Day12</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day011-calc/">シンプルな電卓の作成 - Day11</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

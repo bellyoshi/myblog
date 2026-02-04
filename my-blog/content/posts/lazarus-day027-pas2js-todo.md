@@ -202,6 +202,8 @@ pas2js .\todo.pas -Tbrowser "-Jirtl.js"
 
 ## ダウンロード
 
+**アプリをブラウザで開く**: [Todo アプリを開く](/apps/day027/todo.html)
+
 作成したTodoアプリは以下のリンクからダウンロードできます：
 
 [day027_todo.zip](/downloads/day027_todo.zip)

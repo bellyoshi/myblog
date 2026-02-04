@@ -146,6 +146,8 @@ pas2js .\color.pas -Tbrowser "-Jirtl.js"
 
 ## ダウンロード
 
+**アプリをブラウザで開く**: [カラー表示アプリを開く](/apps/day029/color.html)
+
 作成したカラー表示アプリは以下のリンクからダウンロードできます：
 
 [day029_color.zip](/downloads/day029_color.zip)

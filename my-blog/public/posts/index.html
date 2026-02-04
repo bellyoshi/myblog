@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-01-05T21:21:21+09:00">
-  <meta itemprop="dateModified" content="2026-01-05T21:21:21+09:00">
+  <meta itemprop="datePublished" content="2026-02-03T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-03T21:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Posts">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -125,72 +125,26 @@
   <div class="mb3 pa4 gray overflow-hidden bg-white">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day005-chess/" class="link black dim">
-        チェスゲームの作成 - Day5
+      <a href="/posts/lazarus-day034-pas2js-simple-interpreter/" class="link black dim">
+        Pas2JSで簡易インタープリタをブラウザで動かす - Day34
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="チェスゲームの作成---day5">チェスゲームの作成 - Day5</h1>
-<p>Lazarusチャレンジ5日目です。今回は、前回同様<strong>LazManager</strong>を使って、<strong>チェスゲーム</strong>を作成することにしました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>前回のDay4で作成したReversiゲームと同様に、LazManagerを使って新しいプロジェクトを作成し、ゲームアプリを開発してみることにしました。選んだのは、<strong>チェス</strong>です。</p>
-<p>チェスは、8×8の盤面で白と黒の駒を交互に動かし、相手のキングをチェックメイトするゲームです。今回は、以下の機能を実装することにしました：</p>
+      <h1 id="pas2jsで簡易インタープリタをブラウザで動かす---day34">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</h1>
+<p>Lazarusチャレンジ34日目です。<strong>Pas2JS</strong> で、ブラウザ上で動く <strong>簡易インタープリタ</strong> を作成しました。PRINT・変数代入・IF/ELSE・WHILE/WEND をサポートし、式は <strong>再帰下降構文解析</strong> で四則演算の優先順位（<code>*</code>/<code>/</code> が <code>+</code>/<code>-</code> より優先、括弧対応）を正しく評価します。Pascal でトークナイザとパーサを実装し、DOM のテキストエリアとボタンから「Run」で実行できる構成にしています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
 <ul>
-<li><strong>ゲーム盤面の表示</strong>: 8×8のグリッドで盤面を表示</li>
-<li><strong>駒の移動</strong>: クリックで駒を選択し、移動できる</li>
-<li><strong>合法手の判定</strong>: 各駒の動きに応じた合法手の判定</li>
-<li><strong>AI対戦機能</strong>: 簡単なAIを実装して対戦できる</li>
-<li><strong>ターン表示</strong>: 現在のプレイヤーを表示</li>
-<li><strong>リセット機能</strong>: ゲームをリセットできる</li>
+<li><strong>PRINT 文</strong>: 式の値を数値として出力（変数・四則演算・括弧付き式を引数に可能）</li>
+<li><strong>変数</strong>: 代入（<code>x = 5</code>）と式内での参照。未定義変数は 0 として扱う</li>
+<li><strong>IF 文</strong>: 式が 0 でなければ直後の 1 文を実行、0 ならスキップ。<strong>ELSE</strong> 対応（ELSE を消費し、THEN/ELSE のどちらか一方だけ実行）</li>
+<li><strong>WHILE / WEND</strong>: 式が 0 でない間、本体（複数文）を繰り返し実行。ネストした WHILE や IF にも対応</li>
+<li><strong>式</strong>: 再帰下降で <code>+</code> <code>-</code> <code>*</code> <code>/</code>、括弧、単項 <code>+</code>/<code>-</code>、数値・変数を評価</li>
 </ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動します。アプリを起動すると、プロジェクト作成画面が表示されます。</p>
-<p><img src="/images/LazarusDay005_CreatedProject.png" alt="LazManagerのプロジェクト作成画面"></p>
-<p>プロジェクト名に「<strong>day005_Chess</strong>」と入力し、「作成」ボタンを押します。プロジェクトが作成されると、自動的に起動画面が有効になります。</p>
-<p>「<strong>Cursor</strong>」ボタンを押すと、Cursorが起動し、プロジェクトフォルダが開きます。これで開発の準備が整いました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>チェスゲームの開発は、1つのプロンプトに4つの項目をまとめて投入しました。Cursorを起動し、以下のプロンプトを一度に投入しました。</p>
-<pre tabindex="0"><code>1.チェスのゲームユニットの作成
-2.チェスができる簡単なAI Unitの作成
-3.チェスのUI作成
-4.C:\Lazarus\Lazbuildでビルド
-</code></pre><p>この1つのプロンプトだけで、以下の機能がすべて実装されました：</p>
-<ul>
-<li><strong>ゲームロジック</strong>: 盤面の管理、各駒の動きの判定、合法手の判定など、チェスの基本的なルールが実装されました</li>
-<li><strong>AI対戦機能</strong>: 評価関数を使って、合法手の中から最適な手を選択する機能が追加されました</li>
-<li><strong>UI</strong>: 盤面を描画し、マウスクリックで駒を選択・移動できるようになりました</li>
-<li><strong>ビルド</strong>: ビルドが成功し、実行ファイル <code>day005_Chess.exe</code> が作成されました</li>
-</ul>
-<h2 id="ビルドと実行">ビルドと実行</h2>
-<p>ビルドが成功したので、早速実行してみます。LazManagerの「<strong>実行ファイルを起動</strong>」ボタンからも起動できます。</p>
-<p><img src="/images/LazarusDay005_Chess1.png" alt="チェスゲームの最初の実行画面"></p>
-<p>ゲームが正常に動作しています！盤面が表示され、駒も配置されています。ただし、見た目がいまいちでした。駒が文字で表示されているため、見た目が分かりにくい状態でした。</p>
-<h2 id="uiの改善">UIの改善</h2>
-<p>見た目を改善するため、Unicode文字を使った表示に変更することにしました。</p>
-<pre tabindex="0"><code>UIの修正。
-ユニコードのキャラクターを使ってください。
-</code></pre><p>このプロンプトで、駒の表示がUnicode文字（♔、♕、♖、♗、♘、♙など）に変更され、見た目が大幅に改善されました。</p>
-<h2 id="キャスリング機能の追加">キャスリング機能の追加</h2>
-<p>実行してみると、キャスリングができないことが判明しました。チェスの重要な機能であるキャスリングを実装する必要がありました。</p>
-<h3 id="キャスリングとは">キャスリングとは</h3>
-<p>キャスリングは、キングとルークを一度の手で同時に動かす特殊な手です。キングを2マス横に移動させ、その方向のルークをキングの隣に移動させます。</p>
-<p>キャスリングが可能な条件は以下の通りです：</p>
-<ul>
-<li><strong>キングとルークが一度も動いていない</strong>: 両方の駒が初期位置から動いていない必要があります</li>
-<li><strong>キングとルークの間に他の駒がない</strong>: キングとルークの間のマスが空いている必要があります</li>
-<li><strong>キングがチェックされていない</strong>: キングが現在チェックされている状態ではキャスリングできません</li>
-<li><strong>キングが通過するマスが攻撃されていない</strong>: キングが移動するマスと、その隣のマスが相手の駒に攻撃されていない必要があります</li>
-<li><strong>キングが移動先でチェックされない</strong>: キャスリング後のキングの位置がチェックされない必要があります</li>
-</ul>
-<p>キャスリングには2種類あります：</p>
-<ul>
-<li><strong>キングサイドキャスリング（ショートキャスリング）</strong>: キングを右に2マス、右側のルークをキングの左隣に移動</li>
-<li><strong>クイーンサイドキャスリング（ロングキャスリング）</strong>: キングを左に2マス、左側のルークをキングの右隣に移動</li>
-</ul>
-<pre tabindex="0"><code>キャスリングができるようにしてください。
-</code></pre><p>このプロンプトで、キャスリング機能が実装されました。キングとルークが適切な条件を満たしている場合、キャスリングが可能になりました。</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-ブラウザ向けコンパイルと-onclick-の型">1. ブラウザ向けコンパイルと onclick の型</h3>
+<p>pas2js でブラウザ向けにコンパイルする際、DOM の <code>onclick</code> には <strong>手続き型ではなく関数型</strong>（戻り値あり）が必要です。<code>OnRunClick</code> を <code>procedure</code> から <code>function OnRunClick(Event: TJSMouseEvent): Boolean</code> に変更し、先頭で <code>Result := True</code> を代入することでコンパイルエラーを解消しています。</p>
     </div>
-    <a href="/posts/lazarus-day005-chess/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+    <a href="/posts/lazarus-day034-pas2js-simple-interpreter/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 
@@ -201,70 +155,57 @@
   <div class="mb3 pa4 gray overflow-hidden bg-white">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day004-reversi/" class="link black dim">
-        Reversi（リバーシ）ゲームの作成 - Day4
+      <a href="/posts/lazarus-day033-pas2js-whiteboard/" class="link black dim">
+        Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="reversiリバーシゲームの作成---day4">Reversi（リバーシ）ゲームの作成 - Day4</h1>
-<p>Lazarusチャレンジ4日目です。今回は、前回作成した<strong>LazManager</strong>を使って、<strong>Reversi（リバーシ）ゲーム</strong>を作成することにしました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>Day3で作成したLazManagerを実際に使って、新しいプロジェクトを作成し、ゲームアプリを開発してみることにしました。選んだのは、  <strong>Reversi（リバーシ、オセロ）</strong> です。</p>
-<p>Reversiは、8×8の盤面で黒と白の石を交互に置き、相手の石を挟んでひっくり返すゲームです。今回は、以下の機能を実装することにしました：</p>
+      <h1 id="pas2jsでオートシェイプ風ホワイトボードを作成---day33">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</h1>
+<p>Lazarusチャレンジ33日目です。<strong>Pas2JS</strong> で、Canvas 上で図形（矩形・円・線）を「オブジェクト」として管理し、ドラッグで描画・移動できる <strong>オートシェイプ風ホワイトボード</strong> を作成しました。Pascal の <strong>継承とポリモーフィズム</strong> を活かした設計で、図形を基底クラス <code>TShape</code> から派生させ、リストで一括描画・ヒット判定しています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
 <ul>
-<li><strong>ゲーム盤面の表示</strong>: 8×8のグリッドで盤面を表示</li>
-<li><strong>石の配置</strong>: クリックで石を配置できる</li>
-<li><strong>合法手の判定</strong>: 置ける場所を判定し、黄色の点で表示</li>
-<li><strong>石の反転</strong>: 挟んだ石を自動的に反転</li>
-<li><strong>AI対戦機能</strong>: 簡単なAIを実装して対戦できる</li>
-<li><strong>スコア表示</strong>: 黒と白の石の数を表示</li>
-<li><strong>ゲーム状態管理</strong>: ターン管理、ゲーム終了判定</li>
+<li><strong>ツールパレット</strong>: 選択・四角・丸・線を切り替え。選択ツールで既存図形をドラッグして移動。</li>
+<li><strong>図形の追加</strong>: 四角・丸・線を選んでキャンバス上でドラッグすると、プレビュー表示のあとマウスを離すと図形が確定。</li>
+<li><strong>色パレット</strong>: 10色のスウォッチで色を選択。選択した色が以降に追加する図形に適用され、現在色はプレビュー欄に表示。</li>
+<li><strong>ヒット判定</strong>: 各図形が <code>Contains(PX, PY)</code> で「自分がクリックされたか」を判定。重なりは上（配列の後ろ）から判定。</li>
 </ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動します。アプリを起動すると、プロジェクト作成画面が表示されます。</p>
-<p><img src="/images/LazarusDay004_createproject.png" alt="LazManagerのプロジェクト作成画面"></p>
-<p>プロジェクト名に「<strong>day004_Reversi</strong>」と入力し、「作成」ボタンを押します。プロジェクトが作成されると、自動的に起動画面が有効になります。</p>
-<p><img src="/images/LazarusDay004_createdproject.png" alt="LazManagerの起動画面"></p>
-<p>「<strong>Cursor</strong>」ボタンを押すと、Cursorが起動し、プロジェクトフォルダが開きます。これで開発の準備が整いました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>Reversiゲームの開発は、4つのプロンプトに分けて進めました。それぞれのプロンプトで段階的に機能を実装していきます。</p>
-<h3 id="プロンプト1-reversiゲームユニットの作成">プロンプト1: Reversiゲームユニットの作成</h3>
-<p>最初のプロンプトでは、ゲームのロジック部分を実装するユニットを作成しました。</p>
-<pre tabindex="0"><code>Reversiゲームユニットの作成
-</code></pre><p>このプロンプトだけで、ゲームの核心となるロジック部分が実装されました。盤面の管理、合法手の判定、石の反転など、Reversiの基本的なルールがすべて実装されています。</p>
-<h3 id="プロンプト2-reversiができる簡単なai-unitの作成">プロンプト2: Reversiができる簡単なAI Unitの作成</h3>
-<p>次に、AI対戦機能を実装するユニットを作成しました。</p>
-<pre tabindex="0"><code>Reversiができる簡単なAI Unitの作成
-</code></pre><p>このプロンプトだけで、AI対戦機能が実装されました。評価関数を使って、合法手の中から最適な手を選択する機能が追加されています。角や端の価値を考慮した評価関数により、ある程度の強さを持つAIが実装できました。</p>
-<h3 id="プロンプト3-reversiのui作成">プロンプト3: ReversiのUI作成</h3>
-<p>3つ目のプロンプトでは、ユーザーインターフェースを作成しました。</p>
-<pre tabindex="0"><code>ReversiのUI作成
-</code></pre><p>このプロンプトで、ゲームのUIが完成しました。盤面を描画し、マウスクリックで石を配置できるようになりました。合法手を黄色の点で表示する機能も実装されています。</p>
-<h3 id="プロンプト4-ビルド">プロンプト4: ビルド</h3>
-<p>最後に、ビルドの指示を出しました。</p>
-<pre tabindex="0"><code>C:\Lazarus\lazbuildでビルドしてください。
-</code></pre><p>ビルドが成功し、実行ファイル <code>day004_Reversi.exe</code> が作成されました。</p>
-<h2 id="ビルドと実行">ビルドと実行</h2>
-<p>ビルドが成功したので、早速実行してみます。LazManagerの「<strong>実行ファイルを起動</strong>」ボタンからも起動できます。</p>
-<p><img src="/images/LazarusDay004_Reversi.png" alt="Reversiゲームの実行画面"></p>
-<p>ゲームが正常に動作しています！盤面が表示され、合法手が黄色の点で表示されています。現在のプレイヤーは「黒」で、スコアも正しく表示されています。</p>
-<h2 id="ゲームの機能">ゲームの機能</h2>
-<p>完成したReversiゲームには、以下の機能が実装されています：</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-クラス設計継承の活用">1. クラス設計（継承の活用）</h3>
+<p>すべての図形の基本となる抽象クラス <code>TShape</code> を定義し、矩形・円・線を派生させています。</p>
 <ul>
-<li>✅ <strong>盤面の表示</strong>: 8×8のグリッドで盤面を表示</li>
-<li>✅ <strong>石の配置</strong>: クリックで石を配置できる</li>
-<li>✅ <strong>合法手の表示</strong>: 置ける場所を黄色の点で表示</li>
-<li>✅ <strong>石の反転</strong>: 挟んだ石を自動的に反転</li>
-<li>✅ <strong>AI対戦機能</strong>: 「AIの手」ボタンでAIに手を打たせる</li>
-<li>✅ <strong>AI自動プレイ</strong>: チェックボックスをONにすると、AIが自動的に手を打つ</li>
-<li>✅ <strong>スコア表示</strong>: 黒と白の石の数をリアルタイムで表示</li>
-<li>✅ <strong>ゲーム状態管理</strong>: ターン管理、ゲーム終了判定</li>
-<li>✅ <strong>新しいゲーム</strong>: ボタンでゲームをリセット</li>
+<li><strong>TShape</strong>: 座標 <code>(X, Y)</code>、サイズ <code>(W, H)</code>、色 <code>Color</code>、および <code>Draw</code>（描画）と <code>Contains(PX, PY)</code>（クリック判定）を持つ。<code>Draw</code> は <code>virtual; abstract;</code> で派生クラスが実装。</li>
+<li><strong>TRectangle</strong>: 矩形の <code>fillRect</code> / <code>strokeRect</code> で描画。<code>Contains</code> は基底の「矩形内か」でそのまま利用。</li>
+<li><strong>TCircle</strong>: 中心と半径から <code>arc</code> で描画。<code>Contains</code> は中心からの距離で円内か判定（<code>dx*dx + dy*dy &lt;= r*r</code>）。</li>
+<li><strong>TLine</strong>: 始点から終点まで <code>moveTo</code> / <code>lineTo</code> で描画。<code>Contains</code> は線の両端で作る矩形＋余白（HitPad）で近傍クリックを許容。</li>
 </ul>
-<h2 id="aiとの対戦結果">AIとの対戦結果</h2>
-<p>作者はリバーシが家族には負けない自信がありました。しかし、油断してこちらのAIには<strong>23対41</strong>で負けてしまいました。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">type
+  TShape = class
+    X, Y, W, H: Integer;
+    Color: String;
+    constructor Create(AX, AY, AW, AH: Integer; AColor: String);
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); virtual; abstract;
+    function Contains(PX, PY: Integer): Boolean; virtual;
+  end;
+
+  TRectangle = class(TShape)
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
+  end;
+
+  TCircle = class(TShape)
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
+    function Contains(PX, PY: Integer): Boolean; override;
+  end;
+
+  TLine = class(TShape)
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
+    function Contains(PX, PY: Integer): Boolean; override;
+  end;
+
+  TToolMode = (tmSelect, tmRect, tmCircle, tmLine);
+</code></pre><h3 id="2-ポリモーフィズムで一括描画">2. ポリモーフィズムで一括描画</h3>
+<p><code>Render</code> では <code>Shapes</code> 配列を走査し、<code>s.Draw(Ctx)</code> を呼ぶだけです。矩形・円・線の違いを意識せず、各オブジェクトが自分の描画を行います。</p>
     </div>
-    <a href="/posts/lazarus-day004-reversi/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+    <a href="/posts/lazarus-day033-pas2js-whiteboard/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 
@@ -275,103 +216,42 @@
   <div class="mb3 pa4 gray overflow-hidden bg-white">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day003-lazmanager/" class="link black dim">
-        LazManager - LazbuildをGUIで操作するアプリ - Day3
+      <a href="/posts/lazarus-day031-pas2js-markdown/" class="link black dim">
+        Pas2JSでMarkdownエディタを作成 - Day31
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="lazmanager---lazbuildをguiで操作するアプリ---day3">LazManager - LazbuildをGUIで操作するアプリ - Day3</h1>
-<p>Lazarusチャレンジ3日目です。今回は、 <strong>LazbuildをGUIで操作するアプリ「LazManager」</strong> を作成することにしました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>Day2の開発を通じて、Lazarusプロジェクトをコマンドラインからビルドする際に、毎回<code>C:\Lazarus\lazbuild</code>とフルパスを指定する必要があることに気づきました。また、プロジェクトの作成や管理をGUIで行えるツールがあれば便利だと考えました。</p>
-<p>そこで今回は、以下の機能を持つLazManagerを開発することにしました：</p>
+      <h1 id="pas2jsでmarkdownエディタを作成---day31">Pas2JSでMarkdownエディタを作成 - Day31</h1>
+<p>Lazarusチャレンジ31日目です。<strong>Pas2JS</strong> で、左にエディタ・右にプレビューを表示する <strong>簡易Markdownエディタ</strong> を作成しました。marked.js などの外部ライブラリは使わず、<strong>Pascal のロジックのみ</strong>で Markdown を HTML に変換する <code>ParseMarkdown</code> を実装しています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
 <ul>
-<li><strong>設定画面</strong>: Lazbuildのパス、エディタの設定、プロジェクトルートフォルダの既定値を設定</li>
-<li><strong>作成画面</strong>: プロジェクトの新規作成（コンソール、単純なプログラム、アプリケーション）</li>
-<li><strong>起動画面</strong>: エディタやコンソール、Lazarus IDE、エクスプローラーでプロジェクトを起動</li>
+<li><strong>左右分割レイアウト</strong>: 左側がテキストエリア（Markdown入力）、右側がプレビュー（HTML表示）</li>
+<li><strong>リアルタイムプレビュー</strong>: 入力するたびに <code>oninput</code> でプレビューを更新</li>
+<li><strong>対応記法</strong>: 見出し（<code>#</code>, <code>##</code>）、<strong>太字</strong>（<code>**</code>）、リスト（<code>*</code> / <code>-</code>）、リンク（<code>[text](url)</code>）、水平線（<code>---</code>）、段落</li>
 </ul>
-<h2 id="アプリの仕様">アプリの仕様</h2>
-<h3 id="設定画面">設定画面</h3>
-<p>以下の設定項目を用意します：</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-dom-へのアクセスとイベント">1. DOM へのアクセスとイベント</h3>
+<p>HTML 側で <code>id=&quot;editor&quot;</code>（textarea）と <code>id=&quot;preview&quot;</code>（div）を定義し、Pascal 側で <code>document.getElementById</code> で取得します。入力のたびにプレビューを更新するため、<code>EditorElem.oninput := @DoUpdate</code> でイベントを紐付けています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">EditorElem := TJSHTMLTextAreaElement(document.getElementById(&#39;editor&#39;));
+PreviewElem := TJSHTMLElement(document.getElementById(&#39;preview&#39;));
+if Assigned(EditorElem) then
+  EditorElem.oninput := @DoUpdate;
+</code></pre><h3 id="2-簡易-markdown-パーサーparsemarkdown">2. 簡易 Markdown パーサー（ParseMarkdown）</h3>
+<p>改行で分割して1行ずつ処理し、行頭の記号でブロック要素を判定してから、インラインの強調・リンクを正規表現で置換しています。</p>
 <ul>
-<li><strong>Lazbuildのパス</strong>: コマンドラインからビルドする際に使用するlazbuildのパス</li>
-<li><strong>エディタ1のパスと名前</strong>: Cursor用の設定</li>
-<li><strong>エディタ2のパスと名前</strong>: VSCode用の設定</li>
-<li><strong>エディタ3のパスと名前</strong>: Antigravity用の設定</li>
-<li><strong>プロジェクトルートフォルダの既定</strong>: 新規プロジェクトを作成する際のデフォルトフォルダ</li>
+<li><strong>水平線</strong>: <code>---</code> の行を <code>&lt;hr /&gt;</code> に</li>
+<li><strong>見出し</strong>: <code>#</code>  で始まる行を <code>&lt;h1&gt;</code>、<code>##</code>  を <code>&lt;h2&gt;</code> に</li>
+<li><strong>リスト</strong>: 行頭の <code>*</code>  または <code>-</code>  を <code>&lt;li&gt;</code> に</li>
+<li><strong>強調</strong>: <code>**...**</code> を <code>TJSRegExp</code> で <code>&lt;strong&gt;...&lt;/strong&gt;</code> に</li>
+<li><strong>リンク</strong>: <code>[text](url)</code> を <code>&lt;a href=&quot;url&quot; target=&quot;_blank&quot;&gt;text&lt;/a&gt;</code> に</li>
+<li><strong>段落</strong>: 上記のいずれでもない非空行を <code>&lt;p&gt;...&lt;/p&gt;</code> で囲む</li>
 </ul>
-<h3 id="作成画面">作成画面</h3>
-<p>プロジェクトを作成するための画面です：</p>
-<ul>
-<li><strong>プロジェクトルートフォルダ</strong>: 設定画面で指定した既定値を初期表示</li>
-<li><strong>アプリ名称</strong>: ローマ字で入力（プロジェクト名として使用）</li>
-<li><strong>アプリの種類</strong>: ラジオボックスで選択
-<ul>
-<li>コンソール</li>
-<li>単純なプログラム（lprのみ）</li>
-<li>アプリケーション（Winアプリ）</li>
-</ul>
-</li>
-<li><strong>作成ボタン</strong>: 押下すると、プロジェクトルートフォルダ＋アプリ名フォルダを作成し、そのフォルダにlazbuildで初期プロジェクトを作成</li>
-</ul>
-<h3 id="起動画面">起動画面</h3>
-<p>作成したプロジェクトを起動するための画面です：</p>
-<ul>
-<li><strong>エディタの起動</strong>: 設定したエディタの名前を表示し、そのフォルダで起動可能</li>
-<li><strong>コンソールの起動</strong>: そのフォルダでコマンドプロンプトを起動</li>
-<li><strong>LPIファイルの起動</strong>: Lazarus IDEでlpiファイルを開く（デフォルトアプリで起動）</li>
-<li><strong>エクスプローラーの起動</strong>: そのフォルダをエクスプローラーで開く</li>
-</ul>
-<h3 id="画面遷移">画面遷移</h3>
-<p>作成画面と起動画面は、同じフォーム上でコントロールの表示/非表示を切り替えることで実現します。プロジェクトを作成した後、自動的に起動画面に切り替わるようにします。</p>
-<h2 id="cursorに投げたプロンプト">Cursorに投げたプロンプト</h2>
-<p>プロジェクトを作成し、Cursorへ以下のプロンプトを投げました：</p>
-<pre tabindex="0"><code># 目的
-Lazarus (Object Pascal) を使用して、Lazarusプロジェクトの作成・管理を効率化するGUIツールを作成したい。
-
-# 動作環境・設定
-- 言語: Object Pascal (Lazarus/LCL)
-- Lazbuildのパス: C:\Lazarus\Lazbuild.exe (デフォルト値)
-- 設定保存: TXMLPropStorage または TJSONConfig を使用して、exeと同じ階層のconfigファイルに保存する。
-
-# UI構成 (TForm1)
-1. **設定セクション** (TPageControlまたは別フォーム)
-   - Lazbuildのフルパス入力 (TFileNameEdit)
-   - エディタ1〜3の「名前」と「実行ファイルパス」の入力欄
-   - 既定のプロジェクトルートフォルダ (TDirectoryEdit)
-
-2. **メインセクション (作成・起動 兼用)**
-   - **新規作成パネル**:
-     - プロジェクト名入力 (TEdit: ローマ字)
-     - プロジェクトルート選択 (TDirectoryEdit: 設定値を初期表示)
-     - 種類選択 (TRadioGroup): 「コンソール」「単純なプログラム(lpr)」「アプリケーション(GUI)」
-     - 「作成」ボタン
-   - **起動・操作パネル**:
-     - エディタ1〜3の名前が付いたボタン（設定から動的にキャプションを変更）
-     - 「コンソールをここで開く」ボタン
-     - 「Lazarus IDEで開く (.lpi)」ボタン
-     - 「エクスプローラーで開く」ボタン
-
-# 処理ロジックの指示
-1. **作成ボタン押下時**:
-   - `ForceDirectories` でフォルダを作成。
-   - `TProcess` を使用して、以下のコマンドを実行してプロジェクトを生成する。
-     - 例: `lazbuild --create-project=app [プロジェクト名].lpi` (種類に応じて引数を変える)
-   - 成功したら、起動パネルを表示（または活性化）させる。
-
-2. **エディタ起動**:
-   - `TProcess` を使用して、設定されたエディタパスを実行する。その際、カレントディレクトリをプロジェクトフォルダに設定すること。
-
-3. **LPI起動**:
-   - `OpenDocument` (LCLIntfユニット) を使用して、システム既定のアプリで .lpi を開く。
-
-# Cursorへの追加指示
-- まず、これらを実現するためのユニット（MainForm.pas）のコード全体を生成してください。
-- 各ボタンのOnClickイベントの実装を含めてください。
-- Windows環境を前提としたパス処理にしてください。
-</code></pre><p>この時点で考え違いをしていたのだが、実は<strong>Lazbuildにはプロジェクト作成機能はない</strong>のかもしれない。よくわからんが。そのため、プロジェクト作成機能もLazManagerに実装することになる。Cursor君がんばれ。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">Line := TJSString(Line).replace(TJSRegExp.New(&#39;\*\*(.*?)\*\*&#39;, &#39;g&#39;), &#39;&lt;strong&gt;$1&lt;/strong&gt;&#39;);
+Line := TJSString(Line).replace(TJSRegExp.New(&#39;\[(.*?)\]\((.*?)\)&#39;, &#39;g&#39;), &#39;&lt;a href=&#34;$2&#34; target=&#34;_blank&#34;&gt;$1&lt;/a&gt;&#39;);
+</code></pre><h3 id="3-tjsstring--tjsregexp-の利用">3. TJSString / TJSRegExp の利用</h3>
+<p>pas2js では、Pascal の <code>string</code> を <code>TJSString(...)</code> で JavaScript の String として扱い、<code>.split()</code> や <code>.replace()</code> が使えます。正規表現は <code>TJSRegExp.New('パターン', 'g')</code> で生成し、<code>$1</code>, <code>$2</code> でキャプチャを参照できます。外部の Markdown ライブラリに頼らずに、Pascal だけで簡易パーサーを書けるポイントです。</p>
     </div>
-    <a href="/posts/lazarus-day003-lazmanager/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+    <a href="/posts/lazarus-day031-pas2js-markdown/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 
@@ -382,313 +262,381 @@ Lazarus (Object Pascal) を使用して、Lazarusプロジェクトの作成・�
   <div class="mb3 pa4 gray overflow-hidden bg-white">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day002-midi-player/" class="link black dim">
-        LazarusでMIDIプレイヤーを作成 - Day2
+      <a href="/posts/lazarus-day032-pas2js-userform/" class="link black dim">
+        Pas2JSで型安全なユーザー登録フォームを作成 - Day32
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="lazarusでmidiプレイヤーを作成---day2">LazarusでMIDIプレイヤーを作成 - Day2</h1>
-<p>Lazarusチャレンジ2日目です。今回は、前回作成したカエルの歌のMIDIファイルを実際に再生できるMIDIプレイヤーを作成することにしました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>Day1でMIDIファイルを作成するアプリを完成させましたが、作成したMIDIファイルを再生する手段がありませんでした。そこで今回は、以下の機能を持つMIDIプレイヤーを開発することにしました：</p>
+      <h1 id="pas2jsで型安全なユーザー登録フォームを作成---day32">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</h1>
+<p>Lazarusチャレンジ32日目です。<strong>Pas2JS</strong> で、Pascal の <strong>範囲型・列挙型・集合型</strong> を活かした <strong>型安全なユーザー登録フォーム</strong> を作成しました。ユーザーが入力したデータを Pascal の <code>record</code> にバインドし、型定義に基づいた厳密なバリデーション（<code>ValidateUser</code>）を行い、エラー時は HTML 上にメッセージを表示します。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
 <ul>
-<li>MIDIファイルの再生機能</li>
-<li>Trackbarによる再生位置の調整</li>
-<li>再生、停止、一時停止の操作</li>
-<li>メニューからの操作</li>
-<li>ファイルを開く機能</li>
+<li><strong>ユーザー名</strong>: 3文字以上で入力（バリデーションでチェック）</li>
+<li><strong>年齢</strong>: 18〜120歳の範囲型（<code>TAgeRange = 18..120</code>）で検証</li>
+<li><strong>興味のある分野</strong>: テクノロジー・アート・スポーツ・音楽から複数選択（集合型 <code>TInterests</code>）</li>
+<li><strong>送信ボタン</strong>: クリックで Pascal 側のバリデーションを実行し、成功時はアラート、失敗時はエラーメッセージを表示</li>
 </ul>
-<p>前回作成したカエルの歌を、自分で作ったプレイヤーで再生できるようになるのが目標です。</p>
-<h2 id="プロジェクトの作成">プロジェクトの作成</h2>
-<p>まずはLazarus IDEを開いて、新規プロジェクトを作成します。</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-pascal-の型定義userform-ユニット">1. Pascal の型定義（UserForm ユニット）</h3>
+<p>フォームの「器」となる型を定義します。</p>
+<ul>
+<li><strong>範囲型</strong> <code>TAgeRange = 18..120</code> … 年齢の有効範囲を型で表現</li>
+<li><strong>列挙型</strong> <code>TInterest = (itTech, itArt, itSports, itMusic)</code> … 興味の種類を型安全に</li>
+<li><strong>集合型</strong> <code>TInterests = set of TInterest</code> … 複数選択を Pascal の Set で管理</li>
+<li><strong>レコード</strong> <code>TUserRegistration</code> … ユーザー名・年齢・興味をまとめて保持</li>
+<li><strong>バリデーション結果</strong> <code>TValidationResult</code> … <code>IsValid</code> と <code>ErrorMessage</code> を返す</li>
+</ul>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">type
+  TAgeRange = 18..120;
+  TInterest = (itTech, itArt, itSports, itMusic);
+  TInterests = set of TInterest;
+
+  TUserRegistration = record
+    UserName: string;
+    Age: Integer;
+    Interests: TInterests;
+  end;
+
+  TValidationResult = record
+    IsValid: Boolean;
+    ErrorMessage: string;
+  end;
+</code></pre><h3 id="2-バリデーション関数-validateuser">2. バリデーション関数 ValidateUser</h3>
+<p><code>TUserRegistration</code> を受け取り、ユーザー名の長さ・年齢の範囲・興味が1つ以上選択されているかをチェックし、<code>TValidationResult</code> を返します。Pascal の <code>in</code> 演算子で <code>Data.Age in [Low(TAgeRange)..High(TAgeRange)]</code> のように範囲チェックができます。</p>
+    </div>
+    <a href="/posts/lazarus-day032-pas2js-userform/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day030-pas2js-calculator/" class="link black dim">
+        Pas2JSで計算機アプリを作成 - Day30
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsで計算機アプリを作成---day30">Pas2JSで計算機アプリを作成 - Day30</h1>
+<p>Lazarusチャレンジ30日目です。<strong>Pas2JS</strong> で、数式を入力して計算する <strong>ブラウザ用計算機</strong> を作成しました。JavaScript の <code>eval</code> は使わず、<strong>再帰下降構文解析</strong> により四則演算（<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>）とカッコ <code>()</code> を Pascal だけで実装しています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>数式入力</strong>: テキストボックスに <code>(10 + 5) * 2</code> のような数式を入力</li>
+<li><strong>計算ボタン</strong>: ボタンを押すと計算を実行</li>
+<li><strong>結果表示</strong>: 計算結果を青文字で表示</li>
+<li><strong>演算子</strong>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> とカッコ <code>()</code> に対応（演算子の優先順位も正しく処理）</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-dom-へのアクセスとイベント">1. DOM へのアクセスとイベント</h3>
+<p>HTML 側で <code>id=&quot;formula&quot;</code>, <code>id=&quot;btnCalc&quot;</code>, <code>id=&quot;result&quot;</code> を定義し、Pascal 側で <code>document.getElementById</code> で取得して型キャストしています。計算ボタンのクリックには <code>onclick</code> に <code>TJSMouseEvent</code> 型のハンドラを渡します。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">InputBox := TJSHTMLInputElement(document.getElementById(&#39;formula&#39;));
+CalcButton := TJSHTMLButtonElement(document.getElementById(&#39;btnCalc&#39;));
+ResultDiv := TJSElement(document.getElementById(&#39;result&#39;));
+// ...
+CalcButton.onclick := @DoCalculate;
+</code></pre><h3 id="2-再帰下降構文解析の構成">2. 再帰下降構文解析の構成</h3>
+<p>計算の優先順位を「式 → 項 → 因数」の3段階で扱います。</p>
+    </div>
+    <a href="/posts/lazarus-day030-pas2js-calculator/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day029-pas2js-color/" class="link black dim">
+        Pas2JSでカラー表示アプリを作成 - Day29
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsでカラー表示アプリを作成---day29">Pas2JSでカラー表示アプリを作成 - Day29</h1>
+<p>Lazarusチャレンジ29日目です。<strong>Pas2JS</strong> で、入力欄に色（<code>#RRGGBB</code> や色名）を入力すると、下の四角の背景色がリアルタイムで変わる <strong>カラー表示アプリ</strong> を作成しました。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>テキスト入力</strong>: <code>#RRGGBB</code>（例: <code>#ff0000</code>）や <code>red</code> などの色名を入力</li>
+<li><strong>リアルタイム反映</strong>: 入力に合わせて下の四角の背景色が即座に変わる（<code>input</code> イベント使用）</li>
+<li><strong>見た目</strong>: 中央寄せレイアウト、200×200px のプレビュー領域、枠線付き</li>
+<li><strong>おまけ</strong>: <code>transition</code> で色の変化をスムーズにアニメーション</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-ページ読み込み後にdomを構築">1. ページ読み込み後にDOMを構築</h3>
+<p>ブラウザでDOMが準備できてから要素を作るため、<code>window.addEventListener('load', ...)</code> で <code>DocumentLoaded</code> を呼び出しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">begin
+  window.addEventListener(&#39;load&#39;, @DocumentLoaded);
+end.
+</code></pre><h3 id="2-input-要素の-type-と-placeholder">2. input 要素の type と placeholder</h3>
+<p>Pas2JS では <code>TJSHTMLInputElement</code> の <code>type</code> を直接代入するとエラーになることがあるため、<code>setAttribute</code> で指定しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">InputBox := TJSHTMLInputElement(document.createElement(&#39;input&#39;));
+InputBox.setAttribute(&#39;type&#39;, &#39;text&#39;);
+InputBox.setAttribute(&#39;placeholder&#39;, &#39;#RRGGBB or color name&#39;);
+</code></pre><h3 id="3-入力のリアルタイム反映">3. 入力のリアルタイム反映</h3>
+<p><code>addEventListener('input', @HandleInput)</code> で、入力のたびに <code>HandleInput</code> が呼ばれ、<code>ColorDisplay</code> の背景色を <code>InputBox.value</code> に更新しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">procedure HandleInput(Event: TJSEvent);
+begin
+  ColorDisplay.style.setProperty(&#39;background-color&#39;, InputBox.value);
+end;
+// ...
+InputBox.addEventListener(&#39;input&#39;, @HandleInput);
+</code></pre><h3 id="4-スムーズな色変化css-transition">4. スムーズな色変化（CSS transition）</h3>
+<p><code>style.setProperty('transition', 'background-color 0.3s')</code> で、背景色の変更が 0.3 秒でアニメーションするようにしています。</p>
+    </div>
+    <a href="/posts/lazarus-day029-pas2js-color/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day028-pas2js-calendar/" class="link black dim">
+        Pas2JSでカレンダーアプリを作成 - Day28
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsでカレンダーアプリを作成---day28">Pas2JSでカレンダーアプリを作成 - Day28</h1>
+<p>Lazarusチャレンジ28日目です。昨日に引き続き <strong>Pas2JS</strong> を使って、今度は <strong>カレンダーアプリ</strong> を作成しました。</p>
+<p>月の表示と「前の月」「次の月」での切り替え、曜日ヘッダー付きのテーブル表示を、Pascalの <code>sysutils</code> と <code>dateutils</code> で実装しています。</p>
+<h2 id="作成したカレンダーアプリの機能">作成したカレンダーアプリの機能</h2>
+<ul>
+<li><strong>年月表示</strong>: 現在表示している年・月をヘッダーに表示</li>
+<li><strong>前の月 / 次の月</strong>: ボタンで月を切り替え</li>
+<li><strong>カレンダーグリッド</strong>: その月の日付を曜日付きの表で表示（1日の曜日位置に合わせて配置）</li>
+</ul>
+<p>シンプルな月間カレンダーとして、ブラウザ上でそのまま使える形にしました。</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-日付の取得と月の計算">1. 日付の取得と月の計算</h3>
+<p><code>DecodeDate</code> で年・月・日を取得し、<code>EncodeDate</code> でその月の1日を求めています。<code>DaysInAMonth</code> でその月の日数、<code>DayOfWeek</code> で1日が何曜日かを取得しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">DecodeDate(CurrentDate, Year, Month, Day);
+FirstDayOfMonth := EncodeDate(Year, Month, 1);
+DaysInMonth := DaysInAMonth(Year, Month);
+StartDay := DayOfWeek(FirstDayOfMonth); // 1:日, 2:月...
+</code></pre><h3 id="2-月の切り替え">2. 月の切り替え</h3>
+<p><code>dateutils</code> の <code>IncMonth</code> で前月・翌月に移動し、その後 <code>RenderCalendar</code> で再描画しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">CurrentDate := IncMonth(CurrentDate, -1);  // 前の月
+CurrentDate := IncMonth(CurrentDate, 1);   // 次の月
+RenderCalendar;
+</code></pre><h3 id="3-曜日名の表示">3. 曜日名の表示</h3>
+<p><code>FormatSettings.ShortDayNames[i]</code> で短い曜日名（日・月・火…）を取得し、ヘッダー行に使っています。</p>
+    </div>
+    <a href="/posts/lazarus-day028-pas2js-calendar/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day027-pas2js-todo/" class="link black dim">
+        Pas2JSでTodoアプリを作成 - Day27
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsでtodoアプリを作成---day27">Pas2JSでTodoアプリを作成 - Day27</h1>
+<p>Lazarusチャレンジ27日目です。昨日に引き続き <strong>Pas2JS</strong> を使って、今度は実用的なTodoアプリを作成しました。</p>
+<p>Pas2JSを使えば、Pascalで書いたコードがJavaScriptに変換され、ブラウザで動作します。今回は、DOM操作やイベントハンドリングなど、Webアプリケーションの基本的な機能を実装してみました。</p>
+<h2 id="作成したtodoアプリの機能">作成したTodoアプリの機能</h2>
+<ul>
+<li><strong>タスクの追加</strong>: 入力フィールドにタスクを入力してEnterキーまたは「追加」ボタンで追加</li>
+<li><strong>タスクの完了</strong>: チェックボックスをクリックすると、タスクに取り消し線が表示される</li>
+<li><strong>タスクの削除</strong>: 「削除」ボタンでタスクを削除</li>
+</ul>
+<p>シンプルながら、Webアプリケーションの基本的な機能を網羅しています。</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-dom要素の作成と操作">1. DOM要素の作成と操作</h3>
+<p>Pas2JSでは、<code>TJSHTMLElement</code> や <code>TJSHTMLInputElement</code> などの型を使ってDOM要素を操作します。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">InputText := TJSHTMLInputElement(document.createElement(&#39;input&#39;));
+InputText.placeholder := &#39;タスクを入力してEnter...&#39;;
+</code></pre><h3 id="2-イベントハンドリング">2. イベントハンドリング</h3>
+<p>イベントハンドラの登録は <code>TJSObject</code> 経由で行います。特に注意が必要なのは、キーイベントの処理です。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">function HandleKeyPress(Event: TJSEvent): boolean;
+begin
+  Result := True;
+  // EventをTJSObjectとして扱い、&#39;keyCode&#39; または &#39;key&#39; にアクセス
+  if (TJSObject(Event)[&#39;keyCode&#39;] = 13) or (TJSObject(Event)[&#39;key&#39;] = &#39;Enter&#39;) then
+    AddTodo(Event);
+end;
+</code></pre><p><code>keyCode</code> や <code>key</code> プロパティにアクセスするには、<code>TJSObject</code> にキャストする必要があります。</p>
+<h3 id="3-動的な要素の追加">3. 動的な要素の追加</h3>
+<p>タスクを追加する際、チェックボックス、テキスト、削除ボタンを動的に作成してリストに追加します。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">ListItem := TJSHTMLElement(document.createElement(&#39;li&#39;));
+CheckBox := TJSHTMLInputElement(document.createElement(&#39;input&#39;));
+TJSObject(CheckBox)[&#39;type&#39;] := &#39;checkbox&#39;;
+
+SpanText := TJSHTMLElement(document.createElement(&#39;span&#39;));
+SpanText.innerText := &#39; &#39; + TaskText + &#39; &#39;;
+
+DeleteBtn := TJSHTMLElement(document.createElement(&#39;button&#39;));
+DeleteBtn.innerText := &#39;削除&#39;;
+</code></pre><h3 id="4-クロージャを使ったイベントハンドリング">4. クロージャを使ったイベントハンドリング</h3>
+<p>チェックボックスや削除ボタンのイベントハンドラでは、クロージャを使って各要素の状態を管理します。</p>
+    </div>
+    <a href="/posts/lazarus-day027-pas2js-todo/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day026-pas2js/" class="link black dim">
+        Pas2JSを試してみる - Day26
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsを試してみる---day26">Pas2JSを試してみる - Day26</h1>
+<p>Lazarusチャレンジ26日目です。今回は、PascalのコードをJavaScriptに変換してブラウザで動作させる <strong>Pas2JS</strong> を試してみました。</p>
+<p>Webアプリケーションを作る上で、使い慣れたPascal言語が使えるのは大きな魅力です。しかし、導入にはいくつかのハードルがありました。</p>
+<h2 id="2つのはまりポイント">2つのはまりポイント</h2>
+<p>今回遭遇した主な問題は以下の2点です。</p>
 <ol>
-<li>Lazarus IDEを起動</li>
-<li>「ファイル」→「新規プロジェクト」を選択</li>
-<li>「アプリケーション」を選択してOK</li>
-<li>プロジェクト用のフォルダを作成し、lprファイルとunitファイルを保存</li>
+<li><strong>Lazarus IDEからではコンパイルできなかった</strong></li>
+<li><strong>pas2jsのパラメータ <code>-Jirtl.js</code> がファイル名として解釈されてしまう</strong></li>
 </ol>
-<p>プロジェクトの準備ができたら、Cursorでフォルダを開いて開発を進めます。Cursorを使うことで、AIの力を借りながら効率的にコーディングできるはずです。</p>
-<h2 id="cursorとの協働開発">Cursorとの協働開発</h2>
-<p>Cursorに以下のプロンプトを送り、MIDIプレイヤーの実装を依頼しました：</p>
-<pre tabindex="0"><code>MIDIファイルの再生ができるソフト。
-Trackbarで再生位置調整可能。再生、停止、一時停止
-メニューで操作可能。ファイルを開く。
-</code></pre><p>Cursorは自動的に必要なコンポーネントを配置し、MIDI再生のためのコードを生成してくれました。LazarusのMIDI再生には、Windowsの場合は<code>mmsystem</code>ユニットを使用する必要がありますが、Cursorが適切に処理してくれたようです。</p>
-<h2 id="ビルドと実行">ビルドと実行</h2>
-<p>コードが完成したら、コマンドラインからビルドを実行します：
-こちらもCursorにプロンプトを投げます。</p>
-<pre tabindex="0"><code>c:\Lazarus\lazbuildでビルド
-</code></pre><p>ビルドは成功し、実行ファイルが生成されました。しかし、実行してみると...</p>
-<h2 id="発生した問題">発生した問題</h2>
-<p><img src="/images/LazarusDay002MenuFail.png" alt="Menuが表示されていない状態"></p>
-<p>アプリケーションを起動してみたところ、<strong>メニューが表示されていない</strong>という問題が発生しました。これではファイルを開く機能が使えず、MIDIファイルを再生することができません。</p>
-<p>おそらく、メニューコンポーネント（MainMenu）の設定に問題があるか、フォームの設計時にメニューが正しく配置されなかった可能性があります。</p>
-<h2 id="ideを開いて修正">IDEを開いて修正</h2>
-<p>Cursorを使っていると普段はIDEは開かないのですが、今回はメニューの設定が必要なのでLazarus IDEを開きました。</p>
-<p>「IDEはいらないのでは？Lazarusの意味はあるのか。fpcだけでよくね？」と思いながらも、フォームデザイナーでメニューを設定する必要があるのでIDEを使うことにしました。</p>
-<p><img src="/images/LazarusDay002MenuProperty.png" alt="MenuPropertyの設定画面"></p>
-<p>画像のように、Menuになにもプロパティが設定されていないので、メニューを設定します。「ファイル」メニューと「開く」メニュー項目を追加しました。</p>
-<p>設定が完了したらコンパイルします。</p>
-<p><img src="/images/LazarusDay002MenuOK.png" alt="Menuが正常に表示された状態"></p>
-<p>できたー！メニューが正常に表示されるようになりました。</p>
-<h2 id="カエルの歌を再生してみる">カエルの歌を再生してみる</h2>
-<p>早速、昨日作成したカエルの歌のMIDIファイルを開いて再生してみます。</p>
-<p>できたー！と思ったら、<strong>ドしか聞こえない</strong>。おかしい、停止してしまう。</p>
-<p>もう一回再生ボタンを押すと「レ」。もう一回押すと「ミ」。</p>
-<p>うーん、<strong>一音ごとに再生がストップしてしまうみたい</strong>。MIDIファイルの再生処理に問題があるようです。おそらく、MIDIイベントの処理方法や再生ループの実装に問題があるのでしょう。</p>
-<h2 id="cursorに再修正を依頼">Cursorに再修正を依頼</h2>
-<p>非常に安直ですが、たぶんやってくれるでしょう。Cursor君がんばれ。</p>
-<p>プロンプトを再び投げます：</p>
-<pre tabindex="0"><code>再生ボタンを押すと一音しか再生されずにとまってしまう。再生ボタンを押したら最後まで再生するようにして。
-</code></pre><p>修正が終わったら、再び「ビルド」とプロンプトを投げます。</p>
-<p>先ほど「C:\Lazarus\Lazbuildでビルドして」と言っているので、Cursorはそれを覚えています。「ビルド」だけで通じます。最初に教えていないとLazbuildがパスが通っていないので見つけられません。パスを通してもいいのですが、環境変数を汚したくないので。<code>C:\Lazarus\</code>は自分がインストールした場所です。普通のインストールすればここに入っています。</p>
-<h2 id="修正結果の確認">修正結果の確認</h2>
-<p>さて、これで修正されているのでしょうか。</p>
-<p>起動してみました。見た目は先ほどと変わっていません。</p>
-<p>再生してみると・・・。</p>
-<p><strong>だめやないかーい。</strong></p>
-<p>再生すると、今度はドを再生したらトラックバーが最後にいって再生終了。Cursor君、今回はうまくいかなかったようです。</p>
-<p>ちょっとコードを見てみるしかないか。次回は自分でコードを確認して修正する必要がありそうです。</p>
-<h2 id="コードを確認してみる">コードを確認してみる</h2>
-<p>コードを1分ほど、眺めてみて、うーん。</p>
-<p>わからん。</p>
-<p>ということでCursorにできなくてもGeminiはわかるのでは。</p>
-<p>Geminiにすべてを任せた。</p>
-<p>Geminiにプロンプト：</p>
-<pre tabindex="0"><code>以下のコードは不完全で、再生を押すと、一音しか再生されない。どこが悪いか解説。
-unit Unit1;
-・・・コードをここにコピーした。
-</code></pre><p>すると解説が返ってきました。</p>
-    </div>
-    <a href="/posts/lazarus-day002-midi-player/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day001-midi-kaeru/" class="link black dim">
-        LazarusでMIDIファイルを作成するアプリ - カエルの歌
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="lazarusでmidiファイルを作成するアプリ---カエルの歌">LazarusでMIDIファイルを作成するアプリ - カエルの歌</h1>
-<p>Lazarusチャレンジ1日目、最初のアプリが完成しました！</p>
-<h2 id="今回作成したアプリ">今回作成したアプリ</h2>
-<p><strong>MIDIファイルを作成するアプリ</strong>を開発しました。具体的には、<strong>カエルの歌</strong>をMIDIファイルとして出力する機能を実装しています。</p>
-<p><img src="/images/LazarusDay001.png" alt="Lazarusアプリのスクリーンショット"></p>
-<h2 id="開発の経緯">開発の経緯</h2>
-<p>LazarusでMIDIファイルを扱う方法を調べ、シンプルなMIDI作成アプリを作成することにしました。最初はCursorに「カエルの歌を作って」と依頼したのですが、Cursorがカエルの歌を完全に覚えていなかったため、メロディーを微調整する必要がありました。</p>
-<h2 id="技術的なポイント">技術的なポイント</h2>
-<ul>
-<li><strong>Lazarus/Pascal</strong>: 久しぶりのPascal開発で、構文を思い出しながらの作業</li>
-<li><strong>MIDIファイル形式</strong>: MIDIファイルの構造を理解し、バイナリ形式で出力</li>
-<li><strong>Cursorとの協働</strong>: AIの提案をベースに、実際のメロディーに合わせて調整</li>
-</ul>
-<h2 id="ダウンロード">ダウンロード</h2>
-<p>作成したアプリは以下のリンクからダウンロードできます：</p>
-<p><a href="/downloads/day001_MMKaeru.zip">day001_MMKaeru.zip</a></p>
-<h2 id="今後の予定">今後の予定</h2>
-<p>1日目にして早くも「AIに完全に頼るのは難しい」という現実を突きつけられましたが、これも学習の一環です。明日も新しいアプリに挑戦します！</p>
-<hr>
-<p><em>Lazarusチャレンジ Day 1/100</em></p>
-    </div>
-    <a href="/posts/lazarus-day001-midi-kaeru/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/why-markdown-bold-not-working/" class="link black dim">
-        HugoでMarkdownの**が強調表示されない理由と解決方法
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="hugoでmarkdownのが強調表示されない理由と解決方法">HugoでMarkdownの**が強調表示されない理由と解決方法</h1>
-<p>Hugoでブログを書いていると、時々 <code>**</code> で囲んだテキストが強調表示されず、そのまま <code>**</code> が表示されてしまうことがあります。特に日本語のテキストでよく発生するこの問題について、原因と解決方法を説明します。</p>
-<h2 id="問題の例">問題の例</h2>
-<p>以下のようなMarkdownを書いたとします：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。**「Lazarusで100日間、毎日アプリを作る」**という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p>期待される結果は、<code>「Lazarusで100日間、毎日アプリを作る」</code> の部分が<strong>太字</strong>で表示されることです。しかし、実際には <code>**</code> がそのまま表示されてしまうことがあります。</p>
-<h2 id="なぜ起こるのか">なぜ起こるのか？</h2>
-<h3 id="1-hugoのmarkdownパーサーgoldmarkの仕様">1. HugoのMarkdownパーサー「Goldmark」の仕様</h3>
-<p>Hugoはデフォルトで <strong>Goldmark</strong> というMarkdownパーサーを使用しています。Goldmarkは、Markdownの記法を解析してHTMLに変換する際、<strong>単語境界</strong>を基準に強調記法を認識します。</p>
-<h3 id="2-日本語テキスト特有の問題">2. 日本語テキスト特有の問題</h3>
-<p>日本語は<strong>全角文字</strong>を使用しますが、<code>**</code> は<strong>半角文字</strong>です。Goldmarkは、全角文字と半角文字が直接隣接している場合、単語境界として認識しないことがあります。</p>
-<p>具体的には：</p>
-<ul>
-<li><code>**</code> の前に全角文字（句読点、漢字、ひらがななど）がある</li>
-<li><code>**</code> の後に全角文字がある</li>
-</ul>
-<p>このような場合、Goldmarkは <code>**</code> を強調記号として認識せず、通常のテキストとして扱ってしまいます。</p>
-<h3 id="3-動作する場合と動作しない場合">3. 動作する場合と動作しない場合</h3>
-<h4 id="-動作する例">✅ 動作する例</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span><span style="color:#66d9ef">-</span> **高速性**: 数千ページでも数秒でビルド完了
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> **シンプル**: 設定ファイルが少なく、学習コストが低い
-</span></span></code></pre></div><p>リスト項目内では、<code>**</code> の前後にスペースがあるため、正しく認識されます。</p>
-<h4 id="-動作しない例">❌ 動作しない例</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。**「Lazarusで100日間、毎日アプリを作る」**という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p>段落内で、<code>**</code> が全角文字と直接隣接しているため、認識されません。</p>
-<h2 id="解決方法">解決方法</h2>
-<h3 id="方法1--の前後にスペースを追加する推奨">方法1: <code>**</code> の前後にスペースを追加する（推奨）</h3>
-<p>最も簡単で確実な方法は、<code>**</code> の前後にスペースを追加することです。</p>
-<p><strong>修正前：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。**「Lazarusで100日間、毎日アプリを作る」**という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p><strong>修正後：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。 <span style="font-style:italic">**</span>「Lazarusで100日間、毎日アプリを作る」** という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p>これで、<code>**</code> が正しく強調記号として認識され、<code>&lt;strong&gt;</code> タグに変換されます。</p>
-<h3 id="方法2-htmlタグを直接使用する">方法2: HTMLタグを直接使用する</h3>
-<p>Hugoの設定で <code>unsafe = true</code> が有効になっている場合、HTMLタグを直接使用することもできます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。&lt;strong&gt;「Lazarusで100日間、毎日アプリを作る」&lt;/strong&gt;という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p>ただし、この方法はMarkdownの記法から外れるため、方法1を推奨します。</p>
-    </div>
-    <a href="/posts/why-markdown-bold-not-working/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/survival-report-lazarus-challenge-2025/" class="link black dim">
-        生存報告。そして来年、私はLazarusの修羅に入る。
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <p>「このブログ、生きてる？」と思われた皆さま、正解です。生きています。 作っただけで満足して放置するという、ブロガーあるあるの極致を体現しておりました。</p>
-<p>ですが、2026年の私は一味違います。 <strong>「Lazarusで100日間、毎日アプリを作る」</strong> という、正気の沙汰とは思えないチャレンジを課すことにしました。</p>
-<p>「今さらLazarus？」 「AI（Cursor）に頼って大丈夫？」</p>
-<p>そんな声が聞こえてきそうですが、私自身が一番不安です。 おそらく、コードが動かずに発狂している様子や、Cursorに泣きついている模様が連日投稿されることになるでしょう。</p>
-<p>来年は、私の悪戦苦闘をエンタメとして楽しんでいただければと思います。 2026年、爆速（予定）の更新をお楽しみに！</p>
-    </div>
-    <a href="/posts/survival-report-lazarus-challenge-2025/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/getting-started-with-hugo/" class="link black dim">
-        Hugoでブログを始めよう - 初心者ガイド
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="hugoでブログを始めよう---初心者ガイド">Hugoでブログを始めよう - 初心者ガイド</h1>
-<p>前回の投稿でHugoについて少し触れましたが、今回は実際にHugoを使ってブログを作成する方法を詳しく説明します。</p>
-<h2 id="hugoとは">Hugoとは？</h2>
-<p>Hugoは、Go言語で書かれた高速な静的サイトジェネレーターです。MarkdownファイルからHTMLサイトを生成し、以下のような特徴があります：</p>
-<ul>
-<li><strong>高速性</strong>: 数千ページでも数秒でビルド完了</li>
-<li><strong>シンプル</strong>: 設定ファイルが少なく、学習コストが低い</li>
-<li><strong>柔軟性</strong>: 豊富なテーマとカスタマイズオプション</li>
-<li><strong>多言語対応</strong>: 国際化に優れている</li>
-</ul>
-<h2 id="インストール方法">インストール方法</h2>
-<h3 id="windowsの場合">Windowsの場合</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Chocolateyを使用</span>
-</span></span><span style="display:flex;"><span>choco install hugo-extended
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># または、公式サイトからダウンロード</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># https://gohugo.io/installation/windows/</span>
-</span></span></code></pre></div><h3 id="macosの場合">macOSの場合</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Homebrewを使用</span>
-</span></span><span style="display:flex;"><span>brew install hugo
-</span></span></code></pre></div><h3 id="linuxの場合">Linuxの場合</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Snapを使用</span>
-</span></span><span style="display:flex;"><span>sudo snap install hugo
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># または、パッケージマネージャーで</span>
-</span></span><span style="display:flex;"><span>sudo apt install hugo
-</span></span></code></pre></div><h2 id="新しいサイトの作成">新しいサイトの作成</h2>
-<p>インストールが完了したら、新しいサイトを作成できます：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 新しいサイトを作成</span>
-</span></span><span style="display:flex;"><span>hugo new site my-blog
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># サイトディレクトリに移動</span>
-</span></span><span style="display:flex;"><span>cd my-blog
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># テーマを追加（例：Ananke）</span>
-</span></span><span style="display:flex;"><span>git init
-</span></span><span style="display:flex;"><span>git submodule add https://github.com/theNewDynamic/gohugo-theme-ananke.git themes/ananke
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定ファイルにテーマを指定</span>
-</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;theme = &#34;ananke&#34;&#39;</span> &gt;&gt; hugo.toml
-</span></span></code></pre></div><h2 id="最初の投稿を作成">最初の投稿を作成</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 新しい投稿を作成</span>
-</span></span><span style="display:flex;"><span>hugo new posts/my-first-post.md
-</span></span></code></pre></div><p>作成されたファイルを編集して、Markdownでコンテンツを書きます：</p>
-    </div>
-    <a href="/posts/getting-started-with-hugo/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/my-first-blog-post/" class="link black dim">
-        私の最初のブログ投稿
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="私の最初のブログ投稿へようこそ">私の最初のブログ投稿へようこそ！</h1>
-<p>こんにちは！これは私の最初のブログ投稿です。Hugoという素晴らしい静的サイトジェネレーターを使用して、このブログサイトを作成しました。</p>
-<h2 id="hugoについて">Hugoについて</h2>
-<p>Hugoは、Go言語で書かれた高速な静的サイトジェネレーターです。以下の特徴があります：</p>
-<ul>
-<li><strong>高速性</strong>: 数千ページでも数秒でビルド</li>
-<li><strong>シンプル</strong>: 設定が簡単で学習コストが低い</li>
-<li><strong>柔軟性</strong>: 豊富なテーマとカスタマイズオプション</li>
-<li><strong>多言語対応</strong>: 国際化に優れている</li>
-</ul>
-<h2 id="このブログの目的">このブログの目的</h2>
-<p>このブログでは、以下のような内容を共有していく予定です：</p>
+<p>これらをどのように解決したか、順を追って説明します。</p>
+<h2 id="1-lazarus-ideでの試行錯誤">1. Lazarus IDEでの試行錯誤</h2>
+<p>最初はLazarus IDEの機能を使って開発しようとしました。</p>
+<p><code>プロジェクト</code> -&gt; <code>新規プロジェクト</code> -&gt; <code>Web browser Application</code> (A pas2js program running in the browser) を選択しました。</p>
+<p><img src="/images/LazarusDay026_Project.png" alt="Project Template">
+<img src="/images/LazarusDay026_Project2.png" alt="Project Template"></p>
+<p>しかし、プロジェクトをコンパイルしようとすると以下のエラーが発生しました。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>プロジェクトをコンパイル, OS: browser, CPU: ecmascript5対象：
+</span></span><span style="display:flex;"><span>コード6を終了、エラー: 2
+</span></span><span style="display:flex;"><span>project1.lpr(5,5) Error: can&#39;t find unit &#34;System&#34;
+</span></span><span style="display:flex;"><span>Fatal: Compilation aborted
+</span></span></code></pre></div><p>Lazarusのバージョンは4.4です。Windows環境とLinux環境で試しましたが、どちらも同じエラーが発生しました。IDE環境ではうまくいっていないようでしたので、手動でセットアップすることにしました。</p>
+<h2 id="2-pas2jsの手動セットアップ">2. Pas2JSの手動セットアップ</h2>
+<p>以下のサイトからコンパイラをダウンロードしました。</p>
+<p><a href="https://getpas2js.freepascal.org/">https://getpas2js.freepascal.org/</a></p>
+<p>今回は <code>Windows(intel)</code> 版を選択しました。</p>
+<h3 id="インストール手順">インストール手順</h3>
 <ol>
-<li><strong>技術的な発見</strong>: プログラミングや開発で学んだこと</li>
-<li><strong>学習の記録</strong>: 新しい技術の習得過程</li>
-<li><strong>アイデアの共有</strong>: 興味深いプロジェクトやアイデア</li>
-<li><strong>コミュニティ</strong>: 同じ興味を持つ人々との交流</li>
+<li>ダウンロードしたファイルを展開します。</li>
+<li><code>C:\Lazarus\pas2js</code> フォルダを作成し、その中に展開したファイルをコピーしました。</li>
+<li><code>C:\Lazarus\pas2js\bin</code> の中に <code>pas2js.exe</code> があることを確認します。</li>
+<li>環境変数を修正して <code>C:\Lazarus\pas2js\bin</code> へのパスを通しました。</li>
 </ol>
-<h2 id="今後の予定">今後の予定</h2>
-<p>今後は定期的に投稿を更新し、以下のような内容を書いていきたいと思います：</p>
-<ul>
-<li>週1回の技術記事</li>
-<li>月1回の学習振り返り</li>
-<li>プロジェクトの進捗報告</li>
-<li>読者の皆様からの質問への回答</li>
-</ul>
-<h2 id="まとめ">まとめ</h2>
-<p>ブログを始めるのは少し緊張しますが、とても楽しみです。読者の皆様と一緒に学び、成長していけるような場所にしていきたいと思います。</p>
-<p>コメントやフィードバックをいただければ、とても嬉しいです。よろしくお願いします！</p>
-<hr>
-<p><em>この投稿は2024年1月15日に公開されました。</em></p>
+<h2 id="3-コマンドラインからのコンパイルと引数の罠">3. コマンドラインからのコンパイルと引数の罠</h2>
+<p>簡単な <code>hello.pas</code> と <code>hello.html</code> を作成し、コマンドラインからコンパイルを試みました。</p>
     </div>
-    <a href="/posts/my-first-blog-post/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+    <a href="/posts/lazarus-day026-pas2js/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 
         </div>
       
-    </section></article>
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day025-colorpop/" class="link black dim">
+        同色消しパズル（ColorPop）の作成 - Day25
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="同色消しパズルcolorpopの作成---day25">同色消しパズル（ColorPop）の作成 - Day25</h1>
+<p>Lazarusチャレンジ25日目です。今回は、クリックして同色のブロックを消していく「SameGame」風のパズルゲームを作成しました。</p>
+<h2 id="ゲームのルール">ゲームのルール</h2>
+<p>プロジェクト名は「ColorPop」としました。ルールはシンプルです。</p>
+<ul>
+<li><strong>盤面</strong>: 10×10 のマス目。</li>
+<li><strong>ブロック</strong>: 3色（赤、緑、青）のブロックがランダムに配置されます。</li>
+<li><strong>操作</strong>: 隣り合った同色のブロックが2つ以上ある場所をクリックすると、それらが消滅します。</li>
+<li><strong>重力</strong>: 消えたブロックの上にあったブロックは下に落ちてきます。</li>
+<li><strong>列詰め</strong>: 今回の実装では、列ごとの落下処理のみ行い、空になった列を詰める横移動は行っていません。</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<p>今回は <code>TPanel</code> などのコンポーネントを並べるのではなく、フォームの <code>Canvas</code> に直接描画する方式をとりました。また、連結判定には <strong>幅優先探索 (BFS)</strong> を採用しています。</p>
+<h3 id="1-幅優先探索-bfs-による連結検出">1. 幅優先探索 (BFS) による連結検出</h3>
+<p>再帰関数（深さ優先探索）を使っても実装できますが、今回はスタックオーバーフローの心配がないキューを用いた幅優先探索で実装しました。
+Lazarus (Free Pascal) の標準ライブラリには汎用的な <code>TQueue</code> がありますが、シンプルに <code>TList</code> をキュー代わりに使用しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">procedure TForm1.RemoveAndDrop(StartX, StartY: Integer);
+var
+  Q: TList; // キューとして使用
+  // ...
+begin
+  // ...
+  Q := TList.Create;
+  try
+    // 起点をキューに追加
+    New(P); P^.X := StartX; P^.Y := StartY;
+    Q.Add(P);
+    Visited[StartY, StartX] := True;
+    
+    while Q.Count &gt; 0 do
+    begin
+      // キューの先頭を取り出す (Dequeue)
+      P := PPoint(Q[0]);
+      Q.Delete(0);
+      // ...
+      
+      // 4方向をチェックしてキューに追加 (Enqueue)
+      for i := 0 to 3 do
+      begin
+        // ...
+            if (not Visited[ny, nx]) and (Board[ny, nx] = TargetColor) then
+            begin
+              Visited[ny, nx] := True;
+              New(NewP); NewP^.X := nx; NewP^.Y := ny;
+              Q.Add(NewP);
+            end;
+        // ...
+      end;
+    end;
+    // ...
+</code></pre><h3 id="2-重力処理ブロックの落下">2. 重力処理（ブロックの落下）</h3>
+<p>ブロックが消えた後、空いたスペースを埋めるために上のブロックを落とす処理です。
+各列ごとに下から上に向かって走査し、ブロックがあれば「書き込み位置（WritePos）」に移動させるというアルゴリズムで、O(N) で効率的に処理しています。</p>
+    </div>
+    <a href="/posts/lazarus-day025-colorpop/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+    </section>
+    <ul class="pagination pagination-default">
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="First" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      </li>
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="Previous" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      <li class="page-item active">
+        <a aria-current="page" aria-label="Page 1" class="page-link" role="button">1</a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/2/" aria-label="Page 2" class="page-link" role="button">2</a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/3/" aria-label="Page 3" class="page-link" role="button">3</a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/4/" aria-label="Page 4" class="page-link" role="button">4</a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/2/" aria-label="Next" class="page-link" role="button"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/4/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      </li>
+    </ul></article>
 
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">

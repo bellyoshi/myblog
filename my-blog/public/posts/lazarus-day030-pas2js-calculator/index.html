@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Pas2JSで計算機アプリを作成 - Day30 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ30日目。Pas2JSで数式を入力して計算するブラウザ用計算機を作成しました。evalを使わず、再帰下降構文解析で四則演算とカッコをPascalだけで実装しています。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day030-pas2js-calculator/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day030-pas2js-calculator/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Pas2JSで計算機アプリを作成 - Day30">
+  <meta property="og:description" content="Lazarusチャレンジ30日目。Pas2JSで数式を入力して計算するブラウザ用計算機を作成しました。evalを使わず、再帰下降構文解析で四則演算とカッコをPascalだけで実装しています。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-30T21:00:00+09:00">
+    <meta property="article:modified_time" content="2026-01-30T21:00:00+09:00">
+
+  <meta itemprop="name" content="Pas2JSで計算機アプリを作成 - Day30">
+  <meta itemprop="description" content="Lazarusチャレンジ30日目。Pas2JSで数式を入力して計算するブラウザ用計算機を作成しました。evalを使わず、再帰下降構文解析で四則演算とカッコをPascalだけで実装しています。">
+  <meta itemprop="datePublished" content="2026-01-30T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-30T21:00:00+09:00">
+  <meta itemprop="wordCount" content="531">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pas2JSで計算機アプリを作成 - Day30">
+  <meta name="twitter:description" content="Lazarusチャレンジ30日目。Pas2JSで数式を入力して計算するブラウザ用計算機を作成しました。evalを使わず、再帰下降構文解析で四則演算とカッコをPascalだけで実装しています。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay030.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSで計算機アプリを作成 - Day30</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ30日目。Pas2JSで数式を入力して計算するブラウザ用計算機を作成しました。evalを使わず、再帰下降構文解析で四則演算とカッコをPascalだけで実装しています。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Pas2JSで計算機アプリを作成 - Day30</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-30T21:00:00+09:00">January 30, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsで計算機アプリを作成---day30">Pas2JSで計算機アプリを作成 - Day30</h1>
+<p>Lazarusチャレンジ30日目です。<strong>Pas2JS</strong> で、数式を入力して計算する <strong>ブラウザ用計算機</strong> を作成しました。JavaScript の <code>eval</code> は使わず、<strong>再帰下降構文解析</strong> により四則演算（<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>）とカッコ <code>()</code> を Pascal だけで実装しています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>数式入力</strong>: テキストボックスに <code>(10 + 5) * 2</code> のような数式を入力</li>
+<li><strong>計算ボタン</strong>: ボタンを押すと計算を実行</li>
+<li><strong>結果表示</strong>: 計算結果を青文字で表示</li>
+<li><strong>演算子</strong>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> とカッコ <code>()</code> に対応（演算子の優先順位も正しく処理）</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-dom-へのアクセスとイベント">1. DOM へのアクセスとイベント</h3>
+<p>HTML 側で <code>id=&quot;formula&quot;</code>, <code>id=&quot;btnCalc&quot;</code>, <code>id=&quot;result&quot;</code> を定義し、Pascal 側で <code>document.getElementById</code> で取得して型キャストしています。計算ボタンのクリックには <code>onclick</code> に <code>TJSMouseEvent</code> 型のハンドラを渡します。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">InputBox := TJSHTMLInputElement(document.getElementById(&#39;formula&#39;));
+CalcButton := TJSHTMLButtonElement(document.getElementById(&#39;btnCalc&#39;));
+ResultDiv := TJSElement(document.getElementById(&#39;result&#39;));
+// ...
+CalcButton.onclick := @DoCalculate;
+</code></pre><h3 id="2-再帰下降構文解析の構成">2. 再帰下降構文解析の構成</h3>
+<p>計算の優先順位を「式 → 項 → 因数」の3段階で扱います。</p>
+<ul>
+<li><strong>ParseExpression</strong>（式）: <code>+</code>, <code>-</code> を処理。その前に <strong>ParseTerm</strong> を呼ぶ。</li>
+<li><strong>ParseTerm</strong>（項）: <code>*</code>, <code>/</code> を処理。その前に <strong>ParseFactor</strong> を呼ぶ。</li>
+<li><strong>ParseFactor</strong>（因数）: 数値または <code>( 式 )</code> を処理。カッコの中は再び <strong>ParseExpression</strong> に任せる。</li>
+</ul>
+<p>このようにすると、掛け算・割り算が足し算・引き算より先に計算され、カッコも正しく解釈されます。</p>
+<h3 id="3-字句の読み進め">3. 字句の読み進め</h3>
+<p><code>PeekChar</code>（次の1文字を読むだけ）、<code>GetChar</code>（1文字消費して進める）、<code>SkipWhite</code>（空白を飛ばす）で入力を先頭から順に解析しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">function PeekChar: Char;
+begin
+  if Pos &lt;= Length(Expr) then Result := Expr[Pos] else Result := #0;
+end;
+
+procedure SkipWhite;
+begin
+  while (PeekChar = &#39; &#39;) do GetChar;
+end;
+</code></pre><h3 id="4-eval-を使わない理由">4. eval を使わない理由</h3>
+<p><code>eval</code> を使うと実装は短くなりますが、任意の JavaScript が実行されるためセキュリティ上のリスクがあります。今回は学習も兼ねて、Pascal だけで数式をパース・計算する方式にしました。</p>
+<h2 id="完成したコード">完成したコード</h2>
+<h3 id="calculatorpas">calculator.pas</h3>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">program calculator;
+
+uses
+  web, sysutils, js;
+
+var
+  InputBox: TJSHTMLInputElement;
+  CalcButton: TJSHTMLButtonElement;
+  ResultDiv: TJSElement;
+  Pos: Integer;
+  Expr: string;
+
+// 次の文字を取得
+function PeekChar: Char;
+begin
+  if Pos &lt;= Length(Expr) then Result := Expr[Pos] else Result := #0;
+end;
+
+// 1文字進む
+function GetChar: Char;
+begin
+  Result := PeekChar;
+  if Result &lt;&gt; #0 then Inc(Pos);
+end;
+
+// 空白を飛ばす
+procedure SkipWhite;
+begin
+  while (PeekChar = &#39; &#39;) do GetChar;
+end;
+
+// プロトタイプ宣言（相互参照のため）
+function ParseExpression: Double; forward;
+
+// 数値およびカッコの解析
+function ParseFactor: Double;
+var
+  S: string;
+begin
+  SkipWhite;
+  if PeekChar = &#39;(&#39; then
+  begin
+    GetChar; // &#39;(&#39; を消費
+    Result := ParseExpression;
+    SkipWhite;
+    if PeekChar = &#39;)&#39; then GetChar; // &#39;)&#39; を消費
+  end
+  else
+  begin
+    S := &#39;&#39;;
+    // 数値（小数点含む）を切り出す
+    while (PeekChar in [&#39;0&#39;..&#39;9&#39;, &#39;.&#39;]) do
+      S := S + GetChar;
+    
+    if S = &#39;&#39; then Result := 0 else Result := StrToFloat(S);
+  end;
+end;
+
+// 掛け算・割り算の解析
+function ParseTerm: Double;
+var
+  Op: Char;
+  NextVal: Double;
+begin
+  Result := ParseFactor;
+  SkipWhite;
+  while PeekChar in [&#39;*&#39;, &#39;/&#39;] do
+  begin
+    Op := GetChar;
+    NextVal := ParseFactor;
+    if Op = &#39;*&#39; then Result := Result * NextVal
+    else if NextVal &lt;&gt; 0 then Result := Result / NextVal;
+    SkipWhite;
+  end;
+end;
+
+// 足し算・引き算の解析
+function ParseExpression: Double;
+var
+  Op: Char;
+  NextVal: Double;
+begin
+  Result := ParseTerm;
+  SkipWhite;
+  while PeekChar in [&#39;+&#39;, &#39;-&#39;] do
+  begin
+    Op := GetChar;
+    NextVal := ParseTerm;
+    if Op = &#39;+&#39; then Result := Result + NextVal
+    else Result := Result - NextVal;
+    SkipWhite;
+  end;
+end;
+
+// 計算実行メイン
+function DoCalculate(Event: TJSMouseEvent): boolean;
+var
+  FinalResult: Double;
+begin
+  Result := False;
+  Expr := InputBox.value;
+  Pos := 1;
+  
+  try
+    FinalResult := ParseExpression;
+    ResultDiv.innerHTML := &#39;結果: &#39; + FloatToStr(FinalResult);
+  except
+    ResultDiv.innerHTML := &#39;エラー: 計算できません&#39;;
+  end;
+end;
+
+begin
+  InputBox := TJSHTMLInputElement(document.getElementById(&#39;formula&#39;));
+  CalcButton := TJSHTMLButtonElement(document.getElementById(&#39;btnCalc&#39;));
+  ResultDiv := TJSElement(document.getElementById(&#39;result&#39;));
+
+  if Assigned(CalcButton) then
+    CalcButton.onclick := @DoCalculate;
+end.
+</code></pre><h3 id="calculatorhtml">calculator.html</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ja&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>/&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">title</span>&gt;Pas2JS Calculator&lt;/<span style="color:#f92672">title</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">style</span>&gt;
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">body</span> { <span style="color:#66d9ef">font-family</span>: <span style="color:#66d9ef">sans-serif</span>; <span style="color:#66d9ef">padding</span>: <span style="color:#ae81ff">20</span><span style="color:#66d9ef">px</span>; }
+</span></span><span style="display:flex;"><span>        #result { <span style="color:#66d9ef">margin-top</span>: <span style="color:#ae81ff">10</span><span style="color:#66d9ef">px</span>; <span style="color:#66d9ef">font-weight</span>: <span style="color:#66d9ef">bold</span>; <span style="color:#66d9ef">color</span>: <span style="color:#66d9ef">blue</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">input</span> { <span style="color:#66d9ef">width</span>: <span style="color:#ae81ff">300</span><span style="color:#66d9ef">px</span>; <span style="color:#66d9ef">padding</span>: <span style="color:#ae81ff">5</span><span style="color:#66d9ef">px</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">button</span> { <span style="color:#66d9ef">padding</span>: <span style="color:#ae81ff">5</span><span style="color:#66d9ef">px</span> <span style="color:#ae81ff">15</span><span style="color:#66d9ef">px</span>; }
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">style</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">h2</span>&gt;Pas2JS 計算機&lt;/<span style="color:#f92672">h2</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;formula&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;例: (10 + 5) * 2&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btnCalc&#34;</span>&gt;計算&lt;/<span style="color:#f92672">button</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;result&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;calculator.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>        window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;load&#39;</span>, <span style="color:#66d9ef">function</span>() {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">rtl</span>.<span style="color:#a6e22e">run</span>();
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><h2 id="コンパイル方法">コンパイル方法</h2>
+<p>Day26〜29 と同様、pas2js でブラウザ向けにコンパイルします。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js -Tbrowser calculator.pas
+</span></span></code></pre></div><p><code>calculator.js</code> が生成されるので、同じフォルダに <code>calculator.html</code> を置き、ブラウザで開いて動作確認します。</p>
+<h2 id="実行結果">実行結果</h2>
+<p><img src="/images/LazarusDay030.png" alt="Calculator Screenshot"></p>
+<p>ブラウザで <code>calculator.html</code> を開き、入力欄に <code>(10 + 5) * 2</code> などを入力して「計算」ボタンを押すと、結果が表示されます。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p><strong>アプリをブラウザで開く</strong>: <a href="/apps/day030/calculator.html">計算機アプリを開く</a></p>
+<p>作成した計算機アプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day030_calculator.zip">day030_calculator.zip</a></p>
+<p>Pas2JS と再帰下降構文解析を組み合わせることで、eval に頼らない安全で拡張しやすい計算機が作れることが分かりました。次は Enter キーで計算や、べき乗・三角関数などの拡張に挑戦するのも良さそうです。</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 30/100</em></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day029-pas2js-color/">Pas2JSでカラー表示アプリを作成 - Day29</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day028-pas2js-calendar/">Pas2JSでカレンダーアプリを作成 - Day28</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day027-pas2js-todo/">Pas2JSでTodoアプリを作成 - Day27</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day026-pas2js/">Pas2JSを試してみる - Day26</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day011-calc/">シンプルな電卓の作成 - Day11</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day025-colorpop/">同色消しパズル（ColorPop）の作成 - Day25</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day024-lightsout/">Lights Outゲームの作成 - Day24</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day023-pdfviewer/">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day022-spreadsheet-viewer/">スプレッドシート作成の試みとビューワー実装 - Day22</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day021-15puzzle/">15パズルの作成に挑戦 - Day21</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day020-picross/">ピクロス（ノノグラム）の作成に挑戦 - Day20</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day019-menu100/">Lazarusアプリ用ランチャーの作成 - Day19</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day018-2048/">2048ゲームの作成 - Day18</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day017-crypt-editor/">暗号化テキストエディタの作成 - Day17</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day016-sokoban/">倉庫番ゲームの作成 - Day16</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

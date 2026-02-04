@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Pas2JSでカレンダーアプリを作成 - Day28 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ28日目。Pas2JSを使ってカレンダーアプリを作成しました。年月の切り替え、日付のグリッド表示、sysutils/dateutils を使った日付計算をPascalで実装しました。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day028-pas2js-calendar/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day028-pas2js-calendar/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Pas2JSでカレンダーアプリを作成 - Day28">
+  <meta property="og:description" content="Lazarusチャレンジ28日目。Pas2JSを使ってカレンダーアプリを作成しました。年月の切り替え、日付のグリッド表示、sysutils/dateutils を使った日付計算をPascalで実装しました。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-28T21:00:00+09:00">
+    <meta property="article:modified_time" content="2026-01-28T21:00:00+09:00">
+
+  <meta itemprop="name" content="Pas2JSでカレンダーアプリを作成 - Day28">
+  <meta itemprop="description" content="Lazarusチャレンジ28日目。Pas2JSを使ってカレンダーアプリを作成しました。年月の切り替え、日付のグリッド表示、sysutils/dateutils を使った日付計算をPascalで実装しました。">
+  <meta itemprop="datePublished" content="2026-01-28T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-28T21:00:00+09:00">
+  <meta itemprop="wordCount" content="405">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pas2JSでカレンダーアプリを作成 - Day28">
+  <meta name="twitter:description" content="Lazarusチャレンジ28日目。Pas2JSを使ってカレンダーアプリを作成しました。年月の切り替え、日付のグリッド表示、sysutils/dateutils を使った日付計算をPascalで実装しました。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay028.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSでカレンダーアプリを作成 - Day28</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ28日目。Pas2JSを使ってカレンダーアプリを作成しました。年月の切り替え、日付のグリッド表示、sysutils/dateutils を使った日付計算をPascalで実装しました。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Pas2JSでカレンダーアプリを作成 - Day28</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-28T21:00:00+09:00">January 28, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsでカレンダーアプリを作成---day28">Pas2JSでカレンダーアプリを作成 - Day28</h1>
+<p>Lazarusチャレンジ28日目です。昨日に引き続き <strong>Pas2JS</strong> を使って、今度は <strong>カレンダーアプリ</strong> を作成しました。</p>
+<p>月の表示と「前の月」「次の月」での切り替え、曜日ヘッダー付きのテーブル表示を、Pascalの <code>sysutils</code> と <code>dateutils</code> で実装しています。</p>
+<h2 id="作成したカレンダーアプリの機能">作成したカレンダーアプリの機能</h2>
+<ul>
+<li><strong>年月表示</strong>: 現在表示している年・月をヘッダーに表示</li>
+<li><strong>前の月 / 次の月</strong>: ボタンで月を切り替え</li>
+<li><strong>カレンダーグリッド</strong>: その月の日付を曜日付きの表で表示（1日の曜日位置に合わせて配置）</li>
+</ul>
+<p>シンプルな月間カレンダーとして、ブラウザ上でそのまま使える形にしました。</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-日付の取得と月の計算">1. 日付の取得と月の計算</h3>
+<p><code>DecodeDate</code> で年・月・日を取得し、<code>EncodeDate</code> でその月の1日を求めています。<code>DaysInAMonth</code> でその月の日数、<code>DayOfWeek</code> で1日が何曜日かを取得しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">DecodeDate(CurrentDate, Year, Month, Day);
+FirstDayOfMonth := EncodeDate(Year, Month, 1);
+DaysInMonth := DaysInAMonth(Year, Month);
+StartDay := DayOfWeek(FirstDayOfMonth); // 1:日, 2:月...
+</code></pre><h3 id="2-月の切り替え">2. 月の切り替え</h3>
+<p><code>dateutils</code> の <code>IncMonth</code> で前月・翌月に移動し、その後 <code>RenderCalendar</code> で再描画しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">CurrentDate := IncMonth(CurrentDate, -1);  // 前の月
+CurrentDate := IncMonth(CurrentDate, 1);   // 次の月
+RenderCalendar;
+</code></pre><h3 id="3-曜日名の表示">3. 曜日名の表示</h3>
+<p><code>FormatSettings.ShortDayNames[i]</code> で短い曜日名（日・月・火…）を取得し、ヘッダー行に使っています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">for i := 1 to 7 do
+begin
+  Cell := TJSHTMLElement(document.createElement(&#39;th&#39;));
+  Cell.innerText := FormatSettings.ShortDayNames[i];
+  // ...
+end;
+</code></pre><h3 id="4-描画のクリアと再構築">4. 描画のクリアと再構築</h3>
+<p>毎回 <code>Container.innerHTML := ''</code> で中身を空にしてから、ヘッダー（ボタン・タイトル）とテーブルを一から作成しています。状態は <code>CurrentDate</code> のみで持つ形にしています。</p>
+<h2 id="完成したコード">完成したコード</h2>
+<h3 id="calendarpas">calendar.pas</h3>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">program calendar;
+
+uses
+  browserconsole, web, sysutils, dateutils;
+
+var
+  CurrentDate: TDateTime;
+
+procedure RenderCalendar;
+var
+  Container, Header, BtnPrev, BtnNext, Title, Table, Row, Cell: TJSHTMLElement;
+  Year, Month, Day: Word;
+  FirstDayOfMonth: TDateTime;
+  DaysInMonth, StartDay, d, i: Integer;
+begin
+  DecodeDate(CurrentDate, Year, Month, Day);
+  
+  // 描画エリアの初期化
+  Container := TJSHTMLElement(document.getElementById(&#39;calendar-app&#39;));
+  if Container = nil then
+  begin
+    Container := TJSHTMLElement(document.createElement(&#39;div&#39;));
+    Container.id := &#39;calendar-app&#39;;
+    document.body.appendChild(Container);
+  end;
+  Container.innerHTML := &#39;&#39;; // 以前の描画をクリア
+
+  // --- ヘッダー（年月表示とボタン） ---
+  Header := TJSHTMLElement(document.createElement(&#39;div&#39;));
+  
+  BtnPrev := TJSHTMLElement(document.createElement(&#39;button&#39;));
+  BtnPrev.innerText := &#39;&lt; 前の月&#39;;
+  BtnPrev.onclick := function(Event: TJSMouseEvent): boolean
+  begin
+    CurrentDate := IncMonth(CurrentDate, -1);
+    RenderCalendar;
+    Result := False;
+  end;
+
+  Title := TJSHTMLElement(document.createElement(&#39;span&#39;));
+  Title.innerText := Format(&#39; %d年 %d月 &#39;, [Year, Month]);
+  Title.style.setProperty(&#39;font-weight&#39;, &#39;bold&#39;);
+
+  BtnNext := TJSHTMLElement(document.createElement(&#39;button&#39;));
+  BtnNext.innerText := &#39;次の月 &gt;&#39;;
+  BtnNext.onclick := function(Event: TJSMouseEvent): boolean
+  begin
+    CurrentDate := IncMonth(CurrentDate, 1);
+    RenderCalendar;
+    Result := False;
+  end;
+
+  Header.appendChild(BtnPrev);
+  Header.appendChild(Title);
+  Header.appendChild(BtnNext);
+  Container.appendChild(Header);
+
+  // --- カレンダー本体 ---
+  Table := TJSHTMLElement(document.createElement(&#39;table&#39;));
+  Table.style.setProperty(&#39;border-collapse&#39;, &#39;collapse&#39;);
+  Table.style.setProperty(&#39;margin-top&#39;, &#39;10px&#39;);
+  
+  FirstDayOfMonth := EncodeDate(Year, Month, 1);
+  DaysInMonth := DaysInAMonth(Year, Month);
+  StartDay := DayOfWeek(FirstDayOfMonth);
+
+  // 曜日の行
+  Row := TJSHTMLElement(document.createElement(&#39;tr&#39;));
+  for i := 1 to 7 do
+  begin
+    Cell := TJSHTMLElement(document.createElement(&#39;th&#39;));
+    Cell.innerText := FormatSettings.ShortDayNames[i];
+    Cell.style.setProperty(&#39;border&#39;, &#39;1px solid #ccc&#39;);
+    Cell.style.setProperty(&#39;padding&#39;, &#39;5px&#39;);
+    Row.appendChild(Cell);
+  end;
+  Table.appendChild(Row);
+
+  // 日付の行（空白セル + 日付）
+  Row := TJSHTMLElement(document.createElement(&#39;tr&#39;));
+  for i := 1 to StartDay - 1 do
+  begin
+    Cell := TJSHTMLElement(document.createElement(&#39;td&#39;));
+    Cell.style.setProperty(&#39;border&#39;, &#39;1px solid #ccc&#39;);
+    Row.appendChild(Cell);
+  end;
+
+  for d := 1 to DaysInMonth do
+  begin
+    Cell := TJSHTMLElement(document.createElement(&#39;td&#39;));
+    Cell.innerText := IntToStr(d);
+    Cell.style.setProperty(&#39;border&#39;, &#39;1px solid #ccc&#39;);
+    Cell.style.setProperty(&#39;padding&#39;, &#39;10px&#39;);
+    Cell.style.setProperty(&#39;text-align&#39;, &#39;center&#39;);
+    
+    Row.appendChild(Cell);
+
+    if ((d + StartDay - 1) mod 7 = 0) and (d &lt; DaysInMonth) then
+    begin
+      Table.appendChild(Row);
+      Row := TJSHTMLElement(document.createElement(&#39;tr&#39;));
+    end;
+  end;
+  
+  Table.appendChild(Row);
+  Container.appendChild(Table);
+end;
+
+begin
+  CurrentDate := Now;
+  RenderCalendar;
+end.
+</code></pre><h3 id="calendarhtml">calendar.html</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>/&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;application/javascript&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;calendar.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;application/javascript&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">rtl</span>.<span style="color:#a6e22e">run</span>();
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><h2 id="コンパイル方法">コンパイル方法</h2>
+<p>Day26・Day27と同様、pas2js でブラウザ向けにコンパイルします。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js .<span style="color:#ae81ff">\c</span>alendar.pas -Tbrowser <span style="color:#e6db74">&#34;-Jirtl.js&#34;</span>
+</span></span></code></pre></div><h2 id="実行結果">実行結果</h2>
+<p><img src="/images/LazarusDay028.png" alt="Calendar App Screenshot"></p>
+<p>ブラウザで <code>calendar.html</code> を開くと、現在の月のカレンダーが表示されます。「前の月」「次の月」で月を切り替えられます。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p><strong>アプリをブラウザで開く</strong>: <a href="/apps/day028/calendar.html">カレンダーアプリを開く</a></p>
+<p>作成したカレンダーアプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day028_calendar.zip">day028_calendar.zip</a></p>
+<p>Pas2JS と <code>sysutils</code> / <code>dateutils</code> を組み合わせることで、日付処理も含めたWebアプリをPascalだけで書けることが分かりました。次は日付クリックでメモを付けたり、祝日表示などを足してみるのも良さそうです。</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 28/100</em></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day027-pas2js-todo/">Pas2JSでTodoアプリを作成 - Day27</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day026-pas2js/">Pas2JSを試してみる - Day26</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day008-moon-calendar/">月間カレンダーアプリの作成 - Day8</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day025-colorpop/">同色消しパズル（ColorPop）の作成 - Day25</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day024-lightsout/">Lights Outゲームの作成 - Day24</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day023-pdfviewer/">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day022-spreadsheet-viewer/">スプレッドシート作成の試みとビューワー実装 - Day22</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day021-15puzzle/">15パズルの作成に挑戦 - Day21</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day020-picross/">ピクロス（ノノグラム）の作成に挑戦 - Day20</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day019-menu100/">Lazarusアプリ用ランチャーの作成 - Day19</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day018-2048/">2048ゲームの作成 - Day18</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day017-crypt-editor/">暗号化テキストエディタの作成 - Day17</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day016-sokoban/">倉庫番ゲームの作成 - Day16</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day015-sudoku/">数独アプリの作成 - Day15</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day014-3moku-complete/">3目並べの完成 - Day14</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

@@ -256,6 +256,8 @@ pas2js -Jc -vw UserFormProject.pas
 
 ## ダウンロード
 
+**アプリをブラウザで開く**: [ユーザー登録フォームを開く](/apps/day032/UserForm1.html)
+
 作成した型安全ユーザー登録フォーム（HTML / CSS / Pascal ソース）は以下のリンクからダウンロードできます：
 
 [day032_UserForm1.zip](/downloads/day032_UserForm1.zip)

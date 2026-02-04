@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Pas2JSでTodoアプリを作成 - Day27 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ27日目。Pas2JSを使ってTodoアプリを作成しました。DOM操作、イベントハンドリング、チェックボックスの状態管理など、Webアプリケーションの基本的な機能をPascalで実装しました。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day027-pas2js-todo/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day027-pas2js-todo/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Pas2JSでTodoアプリを作成 - Day27">
+  <meta property="og:description" content="Lazarusチャレンジ27日目。Pas2JSを使ってTodoアプリを作成しました。DOM操作、イベントハンドリング、チェックボックスの状態管理など、Webアプリケーションの基本的な機能をPascalで実装しました。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-27T21:00:00+09:00">
+    <meta property="article:modified_time" content="2026-01-27T21:00:00+09:00">
+
+  <meta itemprop="name" content="Pas2JSでTodoアプリを作成 - Day27">
+  <meta itemprop="description" content="Lazarusチャレンジ27日目。Pas2JSを使ってTodoアプリを作成しました。DOM操作、イベントハンドリング、チェックボックスの状態管理など、Webアプリケーションの基本的な機能をPascalで実装しました。">
+  <meta itemprop="datePublished" content="2026-01-27T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-27T21:00:00+09:00">
+  <meta itemprop="wordCount" content="314">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pas2JSでTodoアプリを作成 - Day27">
+  <meta name="twitter:description" content="Lazarusチャレンジ27日目。Pas2JSを使ってTodoアプリを作成しました。DOM操作、イベントハンドリング、チェックボックスの状態管理など、Webアプリケーションの基本的な機能をPascalで実装しました。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay027pas2jsTodo.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSでTodoアプリを作成 - Day27</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ27日目。Pas2JSを使ってTodoアプリを作成しました。DOM操作、イベントハンドリング、チェックボックスの状態管理など、Webアプリケーションの基本的な機能をPascalで実装しました。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Pas2JSでTodoアプリを作成 - Day27</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-27T21:00:00+09:00">January 27, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsでtodoアプリを作成---day27">Pas2JSでTodoアプリを作成 - Day27</h1>
+<p>Lazarusチャレンジ27日目です。昨日に引き続き <strong>Pas2JS</strong> を使って、今度は実用的なTodoアプリを作成しました。</p>
+<p>Pas2JSを使えば、Pascalで書いたコードがJavaScriptに変換され、ブラウザで動作します。今回は、DOM操作やイベントハンドリングなど、Webアプリケーションの基本的な機能を実装してみました。</p>
+<h2 id="作成したtodoアプリの機能">作成したTodoアプリの機能</h2>
+<ul>
+<li><strong>タスクの追加</strong>: 入力フィールドにタスクを入力してEnterキーまたは「追加」ボタンで追加</li>
+<li><strong>タスクの完了</strong>: チェックボックスをクリックすると、タスクに取り消し線が表示される</li>
+<li><strong>タスクの削除</strong>: 「削除」ボタンでタスクを削除</li>
+</ul>
+<p>シンプルながら、Webアプリケーションの基本的な機能を網羅しています。</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-dom要素の作成と操作">1. DOM要素の作成と操作</h3>
+<p>Pas2JSでは、<code>TJSHTMLElement</code> や <code>TJSHTMLInputElement</code> などの型を使ってDOM要素を操作します。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">InputText := TJSHTMLInputElement(document.createElement(&#39;input&#39;));
+InputText.placeholder := &#39;タスクを入力してEnter...&#39;;
+</code></pre><h3 id="2-イベントハンドリング">2. イベントハンドリング</h3>
+<p>イベントハンドラの登録は <code>TJSObject</code> 経由で行います。特に注意が必要なのは、キーイベントの処理です。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">function HandleKeyPress(Event: TJSEvent): boolean;
+begin
+  Result := True;
+  // EventをTJSObjectとして扱い、&#39;keyCode&#39; または &#39;key&#39; にアクセス
+  if (TJSObject(Event)[&#39;keyCode&#39;] = 13) or (TJSObject(Event)[&#39;key&#39;] = &#39;Enter&#39;) then
+    AddTodo(Event);
+end;
+</code></pre><p><code>keyCode</code> や <code>key</code> プロパティにアクセスするには、<code>TJSObject</code> にキャストする必要があります。</p>
+<h3 id="3-動的な要素の追加">3. 動的な要素の追加</h3>
+<p>タスクを追加する際、チェックボックス、テキスト、削除ボタンを動的に作成してリストに追加します。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">ListItem := TJSHTMLElement(document.createElement(&#39;li&#39;));
+CheckBox := TJSHTMLInputElement(document.createElement(&#39;input&#39;));
+TJSObject(CheckBox)[&#39;type&#39;] := &#39;checkbox&#39;;
+
+SpanText := TJSHTMLElement(document.createElement(&#39;span&#39;));
+SpanText.innerText := &#39; &#39; + TaskText + &#39; &#39;;
+
+DeleteBtn := TJSHTMLElement(document.createElement(&#39;button&#39;));
+DeleteBtn.innerText := &#39;削除&#39;;
+</code></pre><h3 id="4-クロージャを使ったイベントハンドリング">4. クロージャを使ったイベントハンドリング</h3>
+<p>チェックボックスや削除ボタンのイベントハンドラでは、クロージャを使って各要素の状態を管理します。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">TJSObject(CheckBox)[&#39;onchange&#39;] := function(E: TJSEvent): boolean
+  begin
+    if CheckBox.checked then
+      SpanText.style.setProperty(&#39;text-decoration&#39;, &#39;line-through&#39;)
+    else
+      SpanText.style.setProperty(&#39;text-decoration&#39;, &#39;none&#39;);
+    Result := True;
+  end;
+</code></pre><h2 id="完成したコード">完成したコード</h2>
+<h3 id="todopas">todo.pas</h3>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">program todo;
+
+uses
+  Web, sysutils, JS;
+
+var
+  InputText: TJSHTMLInputElement;
+  AddButton: TJSHTMLElement;
+  TodoList: TJSHTMLElement;
+
+function AddTodo(Event: TJSEvent): boolean;
+var
+  ListItem, SpanText, DeleteBtn: TJSHTMLElement;
+  CheckBox: TJSHTMLInputElement;
+  TaskText: string;
+begin
+  Result := True;
+  TaskText := InputText.Value;
+  if TaskText = &#39;&#39; then Exit;
+
+  ListItem := TJSHTMLElement(document.createElement(&#39;li&#39;));
+
+  CheckBox := TJSHTMLInputElement(document.createElement(&#39;input&#39;));
+  TJSObject(CheckBox)[&#39;type&#39;] := &#39;checkbox&#39;;
+  
+  SpanText := TJSHTMLElement(document.createElement(&#39;span&#39;));
+  SpanText.innerText := &#39; &#39; + TaskText + &#39; &#39;;
+
+  DeleteBtn := TJSHTMLElement(document.createElement(&#39;button&#39;));
+  DeleteBtn.innerText := &#39;削除&#39;;
+
+  TJSObject(CheckBox)[&#39;onchange&#39;] := function(E: TJSEvent): boolean
+    begin
+      if CheckBox.checked then
+        SpanText.style.setProperty(&#39;text-decoration&#39;, &#39;line-through&#39;)
+      else
+        SpanText.style.setProperty(&#39;text-decoration&#39;, &#39;none&#39;);
+      Result := True;
+    end;
+
+  TJSObject(DeleteBtn)[&#39;onclick&#39;] := function(E: TJSEvent): boolean
+    begin
+      ListItem.remove;
+      Result := True;
+    end;
+
+  ListItem.appendChild(CheckBox);
+  ListItem.appendChild(SpanText);
+  ListItem.appendChild(DeleteBtn);
+  TodoList.appendChild(ListItem);
+
+  InputText.Value := &#39;&#39;;
+  InputText.focus;
+end;
+
+// キー入力を判定する関数（TJSObjectでkeyCodeを取得）
+function HandleKeyPress(Event: TJSEvent): boolean;
+begin
+  Result := True;
+  // EventをTJSObjectとして扱い、&#39;keyCode&#39; または &#39;key&#39; にアクセス
+  if (TJSObject(Event)[&#39;keyCode&#39;] = 13) or (TJSObject(Event)[&#39;key&#39;] = &#39;Enter&#39;) then
+    AddTodo(Event);
+end;
+
+begin
+  document.body.insertAdjacentHTML(&#39;afterbegin&#39;, &#39;&lt;h1&gt;Pascal Todo App&lt;/h1&gt;&#39;);
+
+  InputText := TJSHTMLInputElement(document.createElement(&#39;input&#39;));
+  InputText.placeholder := &#39;タスクを入力してEnter...&#39;;
+  
+  // イベント登録もTJSObject経由で確実に
+  TJSObject(InputText)[&#39;onkeypress&#39;] := @HandleKeyPress;
+  document.body.appendChild(InputText);
+
+  AddButton := TJSHTMLElement(document.createElement(&#39;button&#39;));
+  AddButton.innerText := &#39;追加&#39;;
+  TJSObject(AddButton)[&#39;onclick&#39;] := @AddTodo;
+  document.body.appendChild(AddButton);
+
+  TodoList := TJSHTMLElement(document.createElement(&#39;ul&#39;));
+  document.body.appendChild(TodoList);
+end.
+</code></pre><h3 id="todohtml">todo.html</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;application/javascript&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;todo.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;application/javascript&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">rtl</span>.<span style="color:#a6e22e">run</span>();
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><h2 id="コンパイル方法">コンパイル方法</h2>
+<p>day026で学んだ通り、以下のコマンドでコンパイルします。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js .<span style="color:#ae81ff">\t</span>odo.pas -Tbrowser <span style="color:#e6db74">&#34;-Jirtl.js&#34;</span>
+</span></span></code></pre></div><h2 id="実行結果">実行結果</h2>
+<p><img src="/images/LazarusDay027pas2jsTodo.png" alt="Todo App Screenshot"></p>
+<p>ブラウザで <code>todo.html</code> を開くと、Pascalで書かれたTodoアプリが動作します。タスクの追加、完了、削除がすべて正常に機能します。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p><strong>アプリをブラウザで開く</strong>: <a href="/apps/day027/todo.html">Todo アプリを開く</a></p>
+<p>作成したTodoアプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day027_todo.zip">day027_todo.zip</a></p>
+<p>Pas2JSを使うことで、Pascalの知識をそのままWebアプリケーション開発に活かせることが分かりました。DOM操作やイベントハンドリングなど、JavaScriptで書くべき部分もPascalで記述できるのは大きな魅力ですかね？</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 27/100</em></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day026-pas2js/">Pas2JSを試してみる - Day26</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day025-colorpop/">同色消しパズル（ColorPop）の作成 - Day25</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day024-lightsout/">Lights Outゲームの作成 - Day24</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day023-pdfviewer/">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day022-spreadsheet-viewer/">スプレッドシート作成の試みとビューワー実装 - Day22</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day021-15puzzle/">15パズルの作成に挑戦 - Day21</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day020-picross/">ピクロス（ノノグラム）の作成に挑戦 - Day20</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day019-menu100/">Lazarusアプリ用ランチャーの作成 - Day19</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day018-2048/">2048ゲームの作成 - Day18</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day017-crypt-editor/">暗号化テキストエディタの作成 - Day17</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day016-sokoban/">倉庫番ゲームの作成 - Day16</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day015-sudoku/">数独アプリの作成 - Day15</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day014-3moku-complete/">3目並べの完成 - Day14</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day013-3moku/">3目並べの作成 - Day13</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day012-bmp-viewer/">BMPビューアーの作成 - Day12</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

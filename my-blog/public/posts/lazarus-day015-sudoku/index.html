@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>数独アプリの作成 - Day15 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ15日目。Knuth&#39;s Algorithm X (Dancing Links)を使った数独ソルバーアプリを作成しました。懸賞の問題も一発で解決できる強力なソルバーを実装しました。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day015-sudoku/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day015-sudoku/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="数独アプリの作成 - Day15">
+  <meta property="og:description" content="Lazarusチャレンジ15日目。Knuth&#39;s Algorithm X (Dancing Links)を使った数独ソルバーアプリを作成しました。懸賞の問題も一発で解決できる強力なソルバーを実装しました。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-15T21:00:00+09:00">
+    <meta property="article:modified_time" content="2026-01-15T21:00:00+09:00">
+
+  <meta itemprop="name" content="数独アプリの作成 - Day15">
+  <meta itemprop="description" content="Lazarusチャレンジ15日目。Knuth&#39;s Algorithm X (Dancing Links)を使った数独ソルバーアプリを作成しました。懸賞の問題も一発で解決できる強力なソルバーを実装しました。">
+  <meta itemprop="datePublished" content="2026-01-15T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-15T21:00:00+09:00">
+  <meta itemprop="wordCount" content="222">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="数独アプリの作成 - Day15">
+  <meta name="twitter:description" content="Lazarusチャレンジ15日目。Knuth&#39;s Algorithm X (Dancing Links)を使った数独ソルバーアプリを作成しました。懸賞の問題も一発で解決できる強力なソルバーを実装しました。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay015.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">数独アプリの作成 - Day15</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ15日目。Knuth&#39;s Algorithm X (Dancing Links)を使った数独ソルバーアプリを作成しました。懸賞の問題も一発で解決できる強力なソルバーを実装しました。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">数独アプリの作成 - Day15</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-15T21:00:00+09:00">January 15, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="数独アプリの作成---day15">数独アプリの作成 - Day15</h1>
+<p>Lazarusチャレンジ15日目です。今回は、<strong>数独（ナンプレ）ソルバーアプリ</strong>を作成しました。Knuth's Algorithm X (Dancing Links)という強力なアルゴリズムを実装し、どんな難問でも一瞬で解けるソルバーを完成させました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成する数独アプリは、以下の機能を実装することを目指しました：</p>
+<ul>
+<li><strong>問題入力モード</strong>: 9×9のグリッドに数独の問題を入力できる機能</li>
+<li><strong>Knuth's Algorithm X (Dancing Links)</strong>: 最強の数独ソルバーアルゴリズムを実装</li>
+<li><strong>解の表示</strong>: 別ウィンドウで解を表示する機能</li>
+<li><strong>懸賞問題の解決</strong>: 新聞の懸賞問題なども一発で解決できる機能</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day015_Sudoku</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>数独アプリの開発は、2つのプロンプトに分けて進めました。</p>
+<h3 id="プロンプト1-knuths-algorithm-x-dancing-linksの実装">プロンプト1: Knuth's Algorithm X (Dancing Links)の実装</h3>
+<p>最初のプロンプトでは、数独ソルバーの核心となるアルゴリズムを実装しました。</p>
+<pre tabindex="0"><code>数独ソルバーをつくる。
+Knuth&#39;s Algorithm X (Dancing Links)を実装したユニットの作成
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+<ul>
+<li>
+<p><strong>TDancingLinksNode</strong>: 双方向リンクリストのノード構造</p>
+<ul>
+<li>上下左右のリンク</li>
+<li>列ヘッダーへのポインタ</li>
+<li>行ID（数独ではセル位置と値の組み合わせ）</li>
+</ul>
+</li>
+<li>
+<p><strong>TDancingLinksSolver</strong>: Dancing Linksソルバークラス</p>
+<ul>
+<li><code>Create</code>: 指定数の列で初期化</li>
+<li><code>AddRow</code>: 行を追加（行IDとカバーする列のインデックス）</li>
+<li><code>Solve</code>: Algorithm Xで解を探索</li>
+<li><code>GetSolution</code>: 解を取得</li>
+<li><code>CoverColumn</code>/<code>UncoverColumn</code>: 列のカバー/アンカバー</li>
+<li><code>SelectColumn</code>: 最小サイズの列を選択</li>
+</ul>
+</li>
+</ul>
+<p><strong>Algorithm Xとは：</strong></p>
+<p>Algorithm Xは、ドナルド・クヌースが提唱した「完全被覆問題（Exact Cover Problem）」を解くためのアルゴリズムです。数独は以下の4つの制約をすべて満たすように数字を配置するゲームですが、これを「行」と「列」の巨大な行列（マトリックス）として表現します：</p>
+<ul>
+<li><strong>マス制約</strong>: 全てのマス（81箇所）に何らかの数字が入る</li>
+<li><strong>行制約</strong>: 各行（9行）に1〜9が1つずつ入る</li>
+<li><strong>列制約</strong>: 各列（9列）に1〜9が1つずつ入る</li>
+<li><strong>ブロック制約</strong>: 各ブロック（9個）に1〜9が1つずつ入る</li>
+</ul>
+<p><strong>Dancing Links (DLX)とは：</strong></p>
+<p>Algorithm Xを実際にコンピュータで動かす際のデータ構造のことです。双方向連結リストで行列の「1」がある場所だけを上下左右のポインタでつなぎます。探索中、不要になった行や列をリンクから外し、戻るときに再びリンクを繋ぎ直します。このポインタを外したり繋いだりする様子が「踊っている（Dancing）」ように見えることから名付けられました。</p>
+<p>このアルゴリズムにより、数独のようなパズルを瞬時に解くことができます。</p>
+<h3 id="プロンプト2-数独uiの作成">プロンプト2: 数独UIの作成</h3>
+<p>次に、問題を入力し、解を表示するUIを作成しました。</p>
+<pre tabindex="0"><code>数独 UIの作成。
+問題入力モード。
+テキストボックス：数字の１～9を一文字のみ未入力可能。
+9x9個
+3x3で線を入れる。
+
+ソルバーボタン
+ソルバーを呼び出し、
+別のウインドウで解を表示
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+<ol>
+<li>
+<p><strong>問題入力フォーム（Form1）</strong></p>
+<ul>
+<li>9×9のテキストボックス（TEdit）</li>
+<li>数字1-9のみ入力可能（1文字のみ）</li>
+<li>3×3の区切り線を黒い太線で表示</li>
+<li>ソルバーボタン</li>
+</ul>
+</li>
+<li>
+<p><strong>解表示フォーム（Form2）</strong></p>
+<ul>
+<li>別ウィンドウで解を表示</li>
+<li>9×9のパネルで解を表示（読み取り専用）</li>
+<li>3×3の区切り線を表示</li>
+<li>閉じるボタン</li>
+</ul>
+</li>
+<li>
+<p><strong>数独ソルバー（SudokuSolver.pas）</strong></p>
+<ul>
+<li>Dancing Linksアルゴリズムを使用</li>
+<li>数独の問題を正確被覆問題に変換</li>
+<li>324列の制約（セル、行、列、ボックス）</li>
+</ul>
+</li>
+<li>
+<p><strong>機能</strong></p>
+<ul>
+<li>入力検証：数字1-9のみ、1文字のみ</li>
+<li>ソルバー実行：ボタンクリックで解を探索</li>
+<li>解の表示：別ウィンドウで解を表示</li>
+</ul>
+</li>
+</ol>
+<h2 id="ビルドと実行">ビルドと実行</h2>
+<p>ビルドを実行して動作を確認しました。</p>
+<pre tabindex="0"><code>C:\lazarus\lazbuildでビルド
+</code></pre><p>ビルドが成功し、実行ファイル <code>day015_Sudoku.exe</code> が作成されました。</p>
+<p><img src="/images/LazarusDay015.png" alt="数独アプリの画面"></p>
+<p>アプリが正常に動作しています！9×9のグリッドに数独の問題を入力し、ソルバーボタンを押すと、別ウィンドウで解が表示されます。</p>
+<h2 id="geminiに相談して学んだこと">Geminiに相談して学んだこと</h2>
+<p>数独アプリを作成する過程で、Geminiに数独の問題生成アルゴリズムについて相談しました。その結果、重要な発見がありました。</p>
+<h3 id="問題を作るよりも解く方が簡単">問題を作るよりも解く方が簡単</h3>
+<p>Geminiとの会話を通じて、<strong>数独の問題を作るよりも、問題を解く（特報）方がはるかに簡単</strong>だということが分かりました。</p>
+<p><strong>問題を作るプロセス：</strong></p>
+<ol>
+<li><strong>完成した盤面（解）の生成</strong>: バックトラッキング法でルールを満たした正解盤面を作る</li>
+<li><strong>数字を削って問題を作成</strong>: 完成した盤面から、少しずつ数字を消していく</li>
+<li><strong>唯一解の確認</strong>: 数字を消すたびに、ソルバーを呼び出して「唯一解（答えが1つだけ）」が維持されているかチェックする</li>
+<li><strong>繰り返し</strong>: 答えが複数できてしまったら、そのマスを元に戻す。これを目標の難易度（ヒント数）に達するまで繰り返す</li>
+</ol>
+<p>つまり、<strong>問題を作るにはソルバーを何回も呼び出して有効な問題かを確認する必要がある</strong>のです。1つの問題を生成するために、何百回、何千回とソルバーを呼び出す必要があります。</p>
+<p><strong>問題を解くプロセス：</strong></p>
+<p>一方、問題を解く場合は、ソルバーを1回呼び出すだけで済みます。Algorithm X (Dancing Links)を使えば、どんな難問でも瞬時に解くことができます。</p>
+<h3 id="懸賞の問題も一発で解決">懸賞の問題も一発で解決</h3>
+<p>このソルバーの強力さを実感したのが、<strong>新聞の懸賞問題も一発で解決できる</strong>ことです。人間が何時間も悩むような超難問でも、コンピュータにとっては0.01秒もかからずに終了する作業です。</p>
+<p>Algorithm X (Dancing Links)は、数独ソルバーにおいて「最強・最速」の一つとされるアルゴリズムです。圧倒的な速度で、確実に解を求めることができます。</p>
+<h3 id="ソルバーの使い分け">ソルバーの使い分け</h3>
+<p>Geminiとの会話で、ソルバーには2つのアプローチがあることを学びました：</p>
+<ol>
+<li>
+<p><strong>バックトラッキング法（探索アルゴリズム）</strong>: Algorithm X (Dancing Links)のような、コンピュータが最も得意とする方法。総当たりで全ての可能性を調べる「深さ優先探索（DFS）」の一種。</p>
+</li>
+<li>
+<p><strong>論理的解法アルゴリズム（ロジカル・ソルバー）</strong>: 人間が数独を解く時に使う「テクニック」をプログラム化したもの。問題の難易度を測るために使われる。</p>
+</li>
+</ol>
+<p>今回実装したAlgorithm X (Dancing Links)は、<strong>「解の存在」や「唯一解」を確認する</strong>用途には最適です。圧倒的な速度で、問題生成時に何万回と「唯一解チェック」を行う用途に最適です。</p>
+<p>一方、<strong>「面白い問題（難易度設定）」を作りたい</strong>場合は、ロジカルソルバーが必要になります。DLXは単なる超高速な総当たりなので、その問題が「初級」なのか「プロ級」なのかを判別できません。</p>
+<h2 id="学んだこと">学んだこと</h2>
+<p>Day15の開発を通じて、以下のことを学びました：</p>
+<h3 id="algorithm-x-dancing-linksの強力さ">Algorithm X (Dancing Links)の強力さ</h3>
+<ul>
+<li><strong>圧倒的な速度</strong>: どんな難問でも瞬時に解くことができる</li>
+<li><strong>確実性</strong>: 人間には到底不可能な超難問でも、論理的な詰まりに関係なく瞬時に答えを出せる</li>
+<li><strong>実装の複雑さ</strong>: 双方向リンクリストを使った高度なデータ構造が必要</li>
+</ul>
+<h3 id="問題生成の難しさ">問題生成の難しさ</h3>
+<ul>
+<li><strong>唯一解の確認</strong>: 問題を作るには、ソルバーを何回も呼び出して有効な問題かを確認する必要がある</li>
+<li><strong>計算コスト</strong>: 1つの問題を生成するために、何百回、何千回とソルバーを呼び出す必要がある</li>
+<li><strong>難易度の判定</strong>: 問題の難易度を判定するには、ロジカルソルバーが必要</li>
+</ul>
+<h3 id="実用的なアプリの構成">実用的なアプリの構成</h3>
+<ul>
+<li><strong>2つのソルバーの使い分け</strong>:
+<ul>
+<li>DLXソルバー: 問題を高速に自動生成したり、ユーザーが入力した問題に答えがあるか一瞬で判定したりするために使う</li>
+<li>ロジカルソルバー: 生成した問題が「どのテクニックを使えば解けるか」を解析し、難易度をラベル付けするために使う</li>
+</ul>
+</li>
+</ul>
+<h3 id="geminiとの対話の価値">Geminiとの対話の価値</h3>
+<ul>
+<li><strong>アルゴリズムの理解</strong>: Geminiに相談することで、数独の問題生成アルゴリズムについて深く理解できた</li>
+<li><strong>実装方針の決定</strong>: 問題を作るよりも解く方が簡単だと分かったことで、実装方針を明確にできた</li>
+<li><strong>技術的な洞察</strong>: ソルバーの使い分けなど、実用的なアプリを作る上で重要な知識を得られた</li>
+</ul>
+<h2 id="まとめ">まとめ</h2>
+<p>Day15では、Knuth's Algorithm X (Dancing Links)を使った数独ソルバーアプリを作成しました。</p>
+<ol>
+<li>
+<p><strong>強力なソルバーの実装</strong>: Algorithm X (Dancing Links)を実装し、どんな難問でも瞬時に解けるソルバーを完成させた</p>
+</li>
+<li>
+<p><strong>問題入力と解の表示</strong>: 9×9のグリッドに問題を入力し、別ウィンドウで解を表示する機能を実装した</p>
+</li>
+<li>
+<p><strong>懸賞問題の解決</strong>: 新聞の懸賞問題なども一発で解決できる強力なソルバーが完成した</p>
+</li>
+<li>
+<p><strong>問題生成の難しさ</strong>: Geminiに相談することで、問題を作るよりも解く方がはるかに簡単だと分かった。問題を作るにはソルバーを何回も呼び出して有効な問題かを確認する必要がある</p>
+</li>
+</ol>
+<h3 id="完成した数独ソルバーについて">完成した数独ソルバーについて</h3>
+<p>完成した数独ソルバーは、Algorithm X (Dancing Links)という最強のアルゴリズムを実装しており、どんな難問でも瞬時に解くことができます。懸賞問題も一発で解決できる強力なツールとして完成しました。</p>
+<p>問題を作る機能は実装していませんが、それは問題を作る方がはるかに複雑で、ソルバーを何回も呼び出す必要があるためです。今回は「解く」ことに特化したアプリとして完成させました。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p>作成したアプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day015_Sudoku.zip">day015_Sudoku.zip</a></p>
+<p>次回のDay16では、また新しいアプリに挑戦します！</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 15/100</em></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day014-3moku-complete/">3目並べの完成 - Day14</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day013-3moku/">3目並べの作成 - Day13</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day012-bmp-viewer/">BMPビューアーの作成 - Day12</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day011-calc/">シンプルな電卓の作成 - Day11</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day010-simple-editor/">シンプルなテキストエディターの作成 - Day10</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day009-create-zip/">Zip圧縮ツールの作成 - Day9</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day008-moon-calendar/">月間カレンダーアプリの作成 - Day8</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day007-minesweeper/">マインスイーパーゲームの作成 - Day7</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day006-worldclock/">世界時計アプリの作成 - Day6</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day005-chess/">チェスゲームの作成 - Day5</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day004-reversi/">Reversi（リバーシ）ゲームの作成 - Day4</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day003-lazmanager/">LazManager - LazbuildをGUIで操作するアプリ - Day3</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day002-midi-player/">LazarusでMIDIプレイヤーを作成 - Day2</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day001-midi-kaeru/">LazarusでMIDIファイルを作成するアプリ - カエルの歌</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/survival-report-lazarus-challenge-2025/">生存報告。そして来年、私はLazarusの修羅に入る。</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

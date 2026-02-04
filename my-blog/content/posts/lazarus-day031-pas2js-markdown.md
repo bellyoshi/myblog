@@ -37,8 +37,8 @@ if Assigned(EditorElem) then
 改行で分割して1行ずつ処理し、行頭の記号でブロック要素を判定してから、インラインの強調・リンクを正規表現で置換しています。
 
 - **水平線**: `---` の行を `<hr />` に
-- **見出し**: `# ` で始まる行を `<h1>`、`## ` を `<h2>` に
-- **リスト**: 行頭の `* ` または `- ` を `<li>` に
+- **見出し**: `#`  で始まる行を `<h1>`、`##`  を `<h2>` に
+- **リスト**: 行頭の `*`  または `-`  を `<li>` に
 - **強調**: `**...**` を `TJSRegExp` で `<strong>...</strong>` に
 - **リンク**: `[text](url)` を `<a href="url" target="_blank">text</a>` に
 - **段落**: 上記のいずれでもない非空行を `<p>...</p>` で囲む
@@ -184,12 +184,28 @@ pas2js -Tbrowser editor.pas
 
 ## 実行結果
 
-![Markdown Editor Screenshot](/images/LazarusDay031.png)
+Markdown Editor Screenshot
 
 左側に Markdown を入力すると、右側にリアルタイムでプレビューが表示されます。見出し・太字・リスト・リンク・水平線が正しく反映されることを確認できます。
 
 ## ダウンロード
 
+**アプリをブラウザで開く**: [Markdown エディタを開く](/apps/day031/editor.html)
+
+```
+**Pas2JS** で動く簡易 Markdown エディタです。
+
+## 対応している記法
+
+- 見出し（`#`, `##`）
+- **太字**（`**`）
+- リスト（`*` または `-`）
+- [リンク](https://example.com)
+- 水平線（下）
+---
+```
+
+例えば上記をコピーして貼り付ければ動作がわかるかと思います。  
 作成した Markdown エディタ（HTML / CSS / ソース）は以下のリンクからダウンロードできます：
 
 [day031_markdown_editor.zip](/downloads/day031_markdown_editor.zip)

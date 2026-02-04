@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>シンプルなテキストエディターの作成 - Day10 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ10日目。シンプルなテキストエディターを作成しました。素早く起動して、シンプルな機能に特化したメモ帳アプリを実装しました。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day010-simple-editor/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day010-simple-editor/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="シンプルなテキストエディターの作成 - Day10">
+  <meta property="og:description" content="Lazarusチャレンジ10日目。シンプルなテキストエディターを作成しました。素早く起動して、シンプルな機能に特化したメモ帳アプリを実装しました。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-10T21:00:00+09:00">
+    <meta property="article:modified_time" content="2026-01-10T21:00:00+09:00">
+
+  <meta itemprop="name" content="シンプルなテキストエディターの作成 - Day10">
+  <meta itemprop="description" content="Lazarusチャレンジ10日目。シンプルなテキストエディターを作成しました。素早く起動して、シンプルな機能に特化したメモ帳アプリを実装しました。">
+  <meta itemprop="datePublished" content="2026-01-10T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-10T21:00:00+09:00">
+  <meta itemprop="wordCount" content="125">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="シンプルなテキストエディターの作成 - Day10">
+  <meta name="twitter:description" content="Lazarusチャレンジ10日目。シンプルなテキストエディターを作成しました。素早く起動して、シンプルな機能に特化したメモ帳アプリを実装しました。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay010.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">シンプルなテキストエディターの作成 - Day10</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ10日目。シンプルなテキストエディターを作成しました。素早く起動して、シンプルな機能に特化したメモ帳アプリを実装しました。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">シンプルなテキストエディターの作成 - Day10</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-10T21:00:00+09:00">January 10, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="シンプルなテキストエディターの作成---day10">シンプルなテキストエディターの作成 - Day10</h1>
+<p>Lazarusチャレンジ10日目です。今回は、<strong>とっても簡単なテキストエディター</strong>を作成することにしました。素早く起動して、シンプルな機能に特化したメモ帳アプリを実装しました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>メモ帳は昔はとてもシンプルでした。しかし、今のメモ帳は前回開いたものを表示してくれたり、タブになっていたり、AI機能がついていたりします。もちろんそれはそれで便利ですが、私の求めるメモ帳の機能は：</p>
+<ul>
+<li><strong>素早く起動</strong>: すぐに使えるシンプルな起動</li>
+<li><strong>シンプルな機能</strong>: 必要最小限の機能に特化</li>
+<li><strong>軽量</strong>: 重たい機能は不要</li>
+</ul>
+<p>とくに、前回の情報が表示されると、そこに気を取られて、今からやる仕事を忘れてしまったります。そういった機能は全く不要だと思います。</p>
+<p>そこで超シンプルなテキストエディターを作ります。
+以下の機能を実装することにしました：</p>
+<ul>
+<li><strong>テキスト編集エリア</strong>: シンプルなテキスト編集機能</li>
+<li><strong>新規作成</strong>: 新しいファイルを作成</li>
+<li><strong>開く</strong>: 既存のファイルを開く</li>
+<li><strong>保存</strong>: 編集中のファイルを保存</li>
+<li><strong>名前を付けて保存</strong>: 別名で保存</li>
+<li><strong>最小限のUI</strong>: 必要最小限のメニューとボタン</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day010_SimpleEditor</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>シンプルなテキストエディターの開発は、以下のようなプロンプトを投入しました：</p>
+<pre tabindex="0"><code>とってもシンプルなテキストエディター
+</code></pre><p>そしてビルドもお願いします</p>
+<pre tabindex="0"><code>C:\Lazarus\Lazbuildでビルド
+</code></pre><p>このプロンプトで、基本的なテキストエディターが実装されました。
+実行してみましたが、メニューが表示されません。
+手作業になりますが、IDEを開き、
+フォームのプロパティからMenuをさがし、
+MainMenu1を設定します。</p>
+<h2 id="完成したアプリの機能">完成したアプリの機能</h2>
+<p>完成したシンプルなテキストエディターには、以下の機能が実装されています：</p>
+<p><img src="/images/LazarusDay010.png" alt="シンプルなテキストエディターのスクリーンショット"></p>
+<ul>
+<li>✅ <strong>テキスト編集エリア</strong>: シンプルなテキスト編集機能</li>
+<li>✅ <strong>新規作成</strong>: 新しいファイルを作成する機能</li>
+<li>✅ <strong>開く</strong>: 既存のファイルを開く機能</li>
+<li>✅ <strong>保存</strong>: 編集中のファイルを保存する機能</li>
+<li>✅ <strong>名前を付けて保存</strong>: 別名で保存する機能</li>
+<li>✅ <strong>最小限のUI</strong>: 必要最小限のメニューとボタン</li>
+<li>✅ <strong>素早い起動</strong>: 軽量で素早く起動</li>
+</ul>
+<h2 id="技術的なポイント">技術的なポイント</h2>
+<p>シンプルなテキストエディターの実装では、以下の技術的なポイントがありました：</p>
+<ul>
+<li><strong>TMemoコンポーネント</strong>: LazarusのTMemoコンポーネントを使用してテキスト編集機能を実装</li>
+<li><strong>ファイルダイアログ</strong>: ファイルを開く・保存するためのダイアログを使用</li>
+<li><strong>ファイル操作</strong>: ファイルの読み込み・書き込み機能を実装</li>
+<li><strong>シンプルなUI</strong>: 必要最小限のUIコンポーネントのみを使用</li>
+<li><strong>軽量設計</strong>: 余計な機能を排除して、軽量なアプリを実現</li>
+</ul>
+<h2 id="学んだこと">学んだこと</h2>
+<p>Day10の開発を通じて、以下のことを学びました：</p>
+<h3 id="シンプルさの価値">シンプルさの価値</h3>
+<p>シンプルなアプリを作ることで、以下のことを学びました：</p>
+<ul>
+<li><strong>必要最小限の機能</strong>: 必要最小限の機能に特化することで、アプリが軽量になる</li>
+<li><strong>素早い起動</strong>: 余計な機能がないことで、起動が速くなる</li>
+<li><strong>使いやすさ</strong>: シンプルなUIは、使いやすさにつながる</li>
+</ul>
+<h3 id="テキストエディターの基本機能">テキストエディターの基本機能</h3>
+<p>テキストエディターの基本機能を実装することで、以下のことを学びました：</p>
+<ul>
+<li><strong>ファイル操作</strong>: ファイルの読み込み・書き込みの基本</li>
+<li><strong>UI設計</strong>: 必要最小限のUIを設計する重要性</li>
+<li><strong>ユーザビリティ</strong>: シンプルな機能でも、使いやすさを追求する重要性</li>
+</ul>
+<h2 id="まとめ">まとめ</h2>
+<p>Day10では、シンプルなテキストエディターを作成しました。</p>
+<ol>
+<li>
+<p><strong>シンプルなテキストエディターの実装</strong>: 必要最小限の機能に特化したテキストエディターを実装</p>
+</li>
+<li>
+<p><strong>素早い起動</strong>: 軽量設計により、素早く起動できるアプリを実現</p>
+</li>
+<li>
+<p><strong>基本機能の実装</strong>: 新規作成、開く、保存、名前を付けて保存の基本機能を実装</p>
+</li>
+<li>
+<p><strong>シンプルさの追求</strong>: 余計な機能を排除して、シンプルさを追求</p>
+</li>
+</ol>
+<h3 id="完成したシンプルなテキストエディターについて">完成したシンプルなテキストエディターについて</h3>
+<p>完成したシンプルなテキストエディターは、基本的な機能が実装されており、素早く起動してシンプルに使えるメモ帳アプリとして動作しています。前回開いたファイルを表示したり、タブ機能やAI機能はありませんが、その分シンプルで軽量です。</p>
+<h2 id="今後の改善案">今後の改善案</h2>
+<p>次回以降、以下のような改善を行うことで、より実用的なアプリになるでしょう：</p>
+<ul>
+<li><strong>最近開いたファイル</strong>: 最近開いたファイルの一覧を表示（オプション）</li>
+<li><strong>フォント設定</strong>: フォントサイズやフォントファミリーの設定</li>
+<li><strong>検索・置換</strong>: 基本的な検索・置換機能</li>
+<li><strong>行番号表示</strong>: 行番号の表示機能</li>
+<li><strong>構文ハイライト</strong>: 基本的な構文ハイライト機能（オプション）</li>
+</ul>
+<p>ただし、これらの機能を追加する際は、シンプルさを保つことを忘れないようにしたいと思います。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p>作成したアプリは以下のリンクからダウンロードできます：
+<a href="/downloads/day010_texteditor.zip">day010_SimpleEditor.zip</a></p>
+<p>次回のDay11では、また新しいアプリに挑戦します！</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 10/100</em></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day009-create-zip/">Zip圧縮ツールの作成 - Day9</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day008-moon-calendar/">月間カレンダーアプリの作成 - Day8</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day007-minesweeper/">マインスイーパーゲームの作成 - Day7</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day006-worldclock/">世界時計アプリの作成 - Day6</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day005-chess/">チェスゲームの作成 - Day5</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day004-reversi/">Reversi（リバーシ）ゲームの作成 - Day4</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day003-lazmanager/">LazManager - LazbuildをGUIで操作するアプリ - Day3</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day002-midi-player/">LazarusでMIDIプレイヤーを作成 - Day2</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day001-midi-kaeru/">LazarusでMIDIファイルを作成するアプリ - カエルの歌</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/survival-report-lazarus-challenge-2025/">生存報告。そして来年、私はLazarusの修羅に入る。</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

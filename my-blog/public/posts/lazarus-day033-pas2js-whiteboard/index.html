@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ33日目。Pas2JSでCanvas上の図形をオブジェクトとして管理するホワイトボードを作成しました。TShape継承で矩形・円・線を扱い、ツールパレットと色パレットでドラッグ描画・ドラッグ移動ができます。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day033-pas2js-whiteboard/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day033-pas2js-whiteboard/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33">
+  <meta property="og:description" content="Lazarusチャレンジ33日目。Pas2JSでCanvas上の図形をオブジェクトとして管理するホワイトボードを作成しました。TShape継承で矩形・円・線を扱い、ツールパレットと色パレットでドラッグ描画・ドラッグ移動ができます。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-02T21:00:00+09:00">
+    <meta property="article:modified_time" content="2026-02-02T21:00:00+09:00">
+
+  <meta itemprop="name" content="Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33">
+  <meta itemprop="description" content="Lazarusチャレンジ33日目。Pas2JSでCanvas上の図形をオブジェクトとして管理するホワイトボードを作成しました。TShape継承で矩形・円・線を扱い、ツールパレットと色パレットでドラッグ描画・ドラッグ移動ができます。">
+  <meta itemprop="datePublished" content="2026-02-02T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-02T21:00:00+09:00">
+  <meta itemprop="wordCount" content="394">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33">
+  <meta name="twitter:description" content="Lazarusチャレンジ33日目。Pas2JSでCanvas上の図形をオブジェクトとして管理するホワイトボードを作成しました。TShape継承で矩形・円・線を扱い、ツールパレットと色パレットでドラッグ描画・ドラッグ移動ができます。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay033.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ33日目。Pas2JSでCanvas上の図形をオブジェクトとして管理するホワイトボードを作成しました。TShape継承で矩形・円・線を扱い、ツールパレットと色パレットでドラッグ描画・ドラッグ移動ができます。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-02-02T21:00:00+09:00">February 2, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsでオートシェイプ風ホワイトボードを作成---day33">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</h1>
+<p>Lazarusチャレンジ33日目です。<strong>Pas2JS</strong> で、Canvas 上で図形（矩形・円・線）を「オブジェクト」として管理し、ドラッグで描画・移動できる <strong>オートシェイプ風ホワイトボード</strong> を作成しました。Pascal の <strong>継承とポリモーフィズム</strong> を活かした設計で、図形を基底クラス <code>TShape</code> から派生させ、リストで一括描画・ヒット判定しています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>ツールパレット</strong>: 選択・四角・丸・線を切り替え。選択ツールで既存図形をドラッグして移動。</li>
+<li><strong>図形の追加</strong>: 四角・丸・線を選んでキャンバス上でドラッグすると、プレビュー表示のあとマウスを離すと図形が確定。</li>
+<li><strong>色パレット</strong>: 10色のスウォッチで色を選択。選択した色が以降に追加する図形に適用され、現在色はプレビュー欄に表示。</li>
+<li><strong>ヒット判定</strong>: 各図形が <code>Contains(PX, PY)</code> で「自分がクリックされたか」を判定。重なりは上（配列の後ろ）から判定。</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-クラス設計継承の活用">1. クラス設計（継承の活用）</h3>
+<p>すべての図形の基本となる抽象クラス <code>TShape</code> を定義し、矩形・円・線を派生させています。</p>
+<ul>
+<li><strong>TShape</strong>: 座標 <code>(X, Y)</code>、サイズ <code>(W, H)</code>、色 <code>Color</code>、および <code>Draw</code>（描画）と <code>Contains(PX, PY)</code>（クリック判定）を持つ。<code>Draw</code> は <code>virtual; abstract;</code> で派生クラスが実装。</li>
+<li><strong>TRectangle</strong>: 矩形の <code>fillRect</code> / <code>strokeRect</code> で描画。<code>Contains</code> は基底の「矩形内か」でそのまま利用。</li>
+<li><strong>TCircle</strong>: 中心と半径から <code>arc</code> で描画。<code>Contains</code> は中心からの距離で円内か判定（<code>dx*dx + dy*dy &lt;= r*r</code>）。</li>
+<li><strong>TLine</strong>: 始点から終点まで <code>moveTo</code> / <code>lineTo</code> で描画。<code>Contains</code> は線の両端で作る矩形＋余白（HitPad）で近傍クリックを許容。</li>
+</ul>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">type
+  TShape = class
+    X, Y, W, H: Integer;
+    Color: String;
+    constructor Create(AX, AY, AW, AH: Integer; AColor: String);
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); virtual; abstract;
+    function Contains(PX, PY: Integer): Boolean; virtual;
+  end;
+
+  TRectangle = class(TShape)
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
+  end;
+
+  TCircle = class(TShape)
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
+    function Contains(PX, PY: Integer): Boolean; override;
+  end;
+
+  TLine = class(TShape)
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
+    function Contains(PX, PY: Integer): Boolean; override;
+  end;
+
+  TToolMode = (tmSelect, tmRect, tmCircle, tmLine);
+</code></pre><h3 id="2-ポリモーフィズムで一括描画">2. ポリモーフィズムで一括描画</h3>
+<p><code>Render</code> では <code>Shapes</code> 配列を走査し、<code>s.Draw(Ctx)</code> を呼ぶだけです。矩形・円・線の違いを意識せず、各オブジェクトが自分の描画を行います。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">procedure Render;
+var
+  s: TShape;
+begin
+  Ctx.clearRect(0, 0, Canvas.width, Canvas.height);
+  for s in Shapes do s.Draw(Ctx);
+  if IsDrawing then DrawPreview;
+end;
+</code></pre><h3 id="3-ドラッグドロップの仕組み">3. ドラッグ＆ドロップの仕組み</h3>
+<ul>
+<li><strong>MouseDown（選択モード）</strong>: <code>Shapes</code> を逆順（重なりが上のものから）に走査し、<code>Contains(MX, MY)</code> が True になる最初の図形を <code>SelectedShape</code> に保持。オフセット <code>OffsetX := MX - X</code>, <code>OffsetY := MY - Y</code> を記録し、掴んだ位置を維持したまま移動できるようにします。</li>
+<li><strong>MouseDown（描画モード）</strong>: ドラッグ開始として <code>IsDrawing := True</code>、<code>DragStartX/Y</code> を記録。</li>
+<li><strong>MouseMove</strong>: 描画中は <code>PreviewW/H</code> を更新して <code>DrawPreview</code> で仮の形を表示。選択中は <code>SelectedShape</code> の <code>X, Y</code> を更新して <code>Render</code>。</li>
+<li><strong>MouseUp</strong>: 描画中なら最小サイズチェックのうえ、<code>TRectangle</code> / <code>TCircle</code> / <code>TLine</code> を <code>Shapes</code> に追加。選択中なら <code>SelectedShape := nil</code>。</li>
+</ul>
+<h3 id="4-pas2js-の型名コンパイル時の注意">4. pas2js の型名（コンパイル時の注意）</h3>
+<p>ブラウザ向けにコンパイルする際、次の型名が RTL と一致している必要があります。</p>
+<ul>
+<li><strong>Canvas 2D コンテキスト</strong>: <code>TCanvasRenderingContext2D</code> ではなく <strong><code>TJSCanvasRenderingContext2D</code></strong></li>
+<li><strong>getBoundingClientRect の戻り値</strong>: <code>TJSClientRect</code> ではなく <strong><code>TJSDOMRect</code></strong></li>
+</ul>
+<p>これらに合わせることで <code>pas2js whiteboard.pas -Tbrowser &quot;-Jirtl.js&quot;</code> でコンパイルでき、<code>whiteboard.js</code> が生成されます。</p>
+<h3 id="5-ツール色パレットと-dom">5. ツール・色パレットと DOM</h3>
+<ul>
+<li>ツールボタン（選択・四角・丸・線）に <code>addEventListener('click', ...)</code> でハンドラを付け、<code>CurrentTool</code> を切り替え。選択中ツールは <code>classList.add('active')</code> でハイライト。</li>
+<li>色パレットは親要素 <code>colorPalette</code> に 1 つの <code>click</code> リスナーを付け、<code>event.target</code> が <code>color-swatch</code> かつ <code>data-color</code> を持っていれば <code>DefaultColor</code> を更新し、<code>UpdateColorPreview</code> でプレビューを更新。イベント委譲でスウォッチの増減に強い構成にしています。</li>
+</ul>
+<h3 id="6-起動タイミング">6. 起動タイミング</h3>
+<p>pas2js でコンパイルしたスクリプトは、DOM が準備できてから実行します。HTML で <code>DOMContentLoaded</code> の後に <code>rtl.run()</code> を呼びます。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;whiteboard.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>  window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;DOMContentLoaded&#39;</span>, <span style="color:#66d9ef">function</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">rtl</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;undefined&#39;</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">rtl</span>.<span style="color:#a6e22e">run</span>();
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;Error: pas2js runtime (rtl.js) not found.&#39;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><h2 id="完成したコード抜粋">完成したコード（抜粋）</h2>
+<h3 id="whiteboardpas図形クラスとツール色">whiteboard.pas（図形クラスとツール・色）</h3>
+<ul>
+<li><code>TShape</code> / <code>TRectangle</code> / <code>TCircle</code> / <code>TLine</code> の定義と <code>Draw</code>・<code>Contains</code> の実装</li>
+<li><code>TToolMode</code> と <code>CurrentTool</code>、<code>IsDrawing</code>、<code>DragStartX/Y</code>、<code>PreviewW/H</code>、<code>DefaultColor</code></li>
+<li><code>Render</code>、<code>DrawPreview</code>、<code>MouseDown</code> / <code>MouseMove</code> / <code>MouseUp</code></li>
+<li><code>SetToolSelect</code> などツール切り替え、<code>UpdatePaletteUI</code>、<code>UpdateColorPreview</code>、<code>ColorSwatchClick</code></li>
+<li><code>begin</code> で Canvas 取得、パレット・色パレットのイベント登録、<code>Canvas.onmousedown</code> / <code>window.onmousemove</code> / <code>window.onmouseup</code> の登録</li>
+</ul>
+<h3 id="indexhtml構成">index.html（構成）</h3>
+<ul>
+<li>タイトル「pas2js オートシェイプ」</li>
+<li>ツールパレット: <code>#btnSelect</code>, <code>#btnRect</code>, <code>#btnCircle</code>, <code>#btnLine</code>（<code>.active</code> で選択中を表示）</li>
+<li>色パレット: <code>.color-swatch</code> に <code>data-color</code> と <code>style=&quot;background-color: ...&quot;</code>、<code>#colorPreview</code></li>
+<li><code>#paintCanvas</code>（800×600）、説明文、<code>whiteboard.js</code> と <code>DOMContentLoaded</code> で <code>rtl.run()</code></li>
+</ul>
+<h2 id="コンパイル方法">コンパイル方法</h2>
+<p>pas2js が入っている環境で、ブラウザ向けにコンパイルします。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js whiteboard.pas -Tbrowser <span style="color:#e6db74">&#34;-Jirtl.js&#34;</span>
+</span></span></code></pre></div><p><code>whiteboard.js</code> が生成されます。<code>index.html</code> では <code>rtl.js</code>（ランタイム）を先に読み込み、その後に <code>whiteboard.js</code> を読み込むか、<code>-Jirtl.js</code> でランタイムを同梱している場合は <code>whiteboard.js</code> のみで構いません。実際のプロジェクトに合わせてスクリプトの読み込み順を調整してください。</p>
+<h2 id="実行結果">実行結果</h2>
+<p><img src="/images/LazarusDay033.png" alt="Pas2JSオートシェイプ"></p>
+<p>ツールで四角・丸・線を選び、色を選んでからキャンバス上でドラッグすると図形が追加されます。選択ツールで図形をクリックしてドラッグすると移動できます。Pascal の継承とポリモーフィズムで、図形の種類を増やしても <code>Render</code> とヒット判定のロジックをそのまま使える構成になっています。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p><strong>アプリをブラウザで開く</strong>: <a href="/apps/day033/">ホワイトボードを開く</a></p>
+<p>作成したオートシェイプ風ホワイトボード（HTML / Pascal ソース・コンパイル済み JS）は以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day033_whiteboard.zip">day033_whiteboard.zip</a></p>
+<p>図解ツールや簡易CADのように、図形をオブジェクトで管理する処理は Pascal の型とクラス設計がよく合います。次は矢印やテキスト図形の追加、Undo/Redo のリスト管理などに広げるのもおすすめです。</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 33/100</em></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day031-pas2js-markdown/">Pas2JSでMarkdownエディタを作成 - Day31</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day032-pas2js-userform/">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day030-pas2js-calculator/">Pas2JSで計算機アプリを作成 - Day30</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day029-pas2js-color/">Pas2JSでカラー表示アプリを作成 - Day29</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day028-pas2js-calendar/">Pas2JSでカレンダーアプリを作成 - Day28</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day027-pas2js-todo/">Pas2JSでTodoアプリを作成 - Day27</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day026-pas2js/">Pas2JSを試してみる - Day26</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day018-2048/">2048ゲームの作成 - Day18</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day025-colorpop/">同色消しパズル（ColorPop）の作成 - Day25</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day024-lightsout/">Lights Outゲームの作成 - Day24</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day023-pdfviewer/">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day022-spreadsheet-viewer/">スプレッドシート作成の試みとビューワー実装 - Day22</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day021-15puzzle/">15パズルの作成に挑戦 - Day21</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day020-picross/">ピクロス（ノノグラム）の作成に挑戦 - Day20</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day019-menu100/">Lazarusアプリ用ランチャーの作成 - Day19</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

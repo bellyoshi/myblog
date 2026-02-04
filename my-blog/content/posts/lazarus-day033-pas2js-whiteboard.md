@@ -146,6 +146,8 @@ pas2js whiteboard.pas -Tbrowser "-Jirtl.js"
 
 ## ダウンロード
 
+**アプリをブラウザで開く**: [ホワイトボードを開く](/apps/day033/)
+
 作成したオートシェイプ風ホワイトボード（HTML / Pascal ソース・コンパイル済み JS）は以下のリンクからダウンロードできます：
 
 [day033_whiteboard.zip](/downloads/day033_whiteboard.zip)

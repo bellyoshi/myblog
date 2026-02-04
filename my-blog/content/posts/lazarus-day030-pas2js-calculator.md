@@ -239,6 +239,8 @@ pas2js -Tbrowser calculator.pas
 
 ## ダウンロード
 
+**アプリをブラウザで開く**: [計算機アプリを開く](/apps/day030/calculator.html)
+
 作成した計算機アプリは以下のリンクからダウンロードできます：
 
 [day030_calculator.zip](/downloads/day030_calculator.zip)

@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+    
+      <link href="/posts/index.xml" rel="alternate" type="application/rss+xml" title="私の技術ブログ" />
+      <link href="/posts/index.xml" rel="feed" type="application/rss+xml" title="私の技術ブログ" />
+      
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Posts">
+  <meta property="og:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="website">
+
+  <meta itemprop="name" content="Posts">
+  <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
+  <meta itemprop="datePublished" content="2026-02-03T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-03T21:00:00+09:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Posts">
+  <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+
+  <header>
+    <div class="pb3-m pb6-l bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv3 ph3 ph4-ns">
+        <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
+          Posts
+        </h1>
+        
+      </div>
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+  <article class="pa3 pa4-ns nested-copy-line-height">
+    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links mid-gray"></section>
+    <section class="flex-ns mt5 flex-wrap justify-around">
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day024-lightsout/" class="link black dim">
+        Lights Outゲームの作成 - Day24
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="lights-outゲームの作成---day24">Lights Outゲームの作成 - Day24</h1>
+<p>Lazarusチャレンジ24日目です。今回は、古典的な電子パズルゲーム「<strong>Lights Out</strong>（ライツアウト）」を作成しました。</p>
+<h2 id="ゲームのルール">ゲームのルール</h2>
+<p>Lights Outは、5x5のグリッド状に並んだライト（マス）をすべて消灯（OFF）させることを目指すパズルです。</p>
+<ul>
+<li><strong>操作</strong>: マスをクリックすると、そのマスと上下左右に隣接するマスの状態が反転します（ONならOFF、OFFならON）。</li>
+<li><strong>目的</strong>: すべてのマスをOFFにすればクリアです。</li>
+</ul>
+<p>単純に見えますが、むやみに押すと堂々巡りになり、論理的な思考が求められる奥深いゲームです。</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<p>今回はLazarus (Free Pascal) で1フォームのシンプルなアプリケーションとして実装しました。</p>
+<h3 id="1-盤面データの管理">1. 盤面データの管理</h3>
+<p>盤面の状態は2次元配列で管理します。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">private
+  FLights: array[0..4, 0..4] of Boolean;
+</code></pre><p>視覚的な表示には <code>TPanel</code> コンポーネントを使用し、これを<code>FormCreate</code>イベントで動的に生成しています。これにより、フォームデザイナーで25個のパネルを手作業で配置する手間を省いています。</p>
+<h3 id="2-必ず解ける初期配置">2. 必ず解ける初期配置</h3>
+<p>Lights Outの重要な性質として、「<strong>ランダムにON/OFF配置を決めると、数学的に解けない配置が存在する</strong>」という点があります。
+プレイヤーに不条理な苦痛を与えないよう、初期化処理に一工夫加えました。</p>
+<ol>
+<li>まず盤面をすべてOFF（クリア状態）にする。</li>
+<li>ランダムな場所をクリック（合法手）する操作を複数回（今回は20回）繰り返す。</li>
+</ol>
+<p>この手順で生成された盤面は、逆の手順（押した場所をもう一度押す）を辿れば必ず元に戻せるため、<strong>必ず解けることが保証されます</strong>。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">procedure TForm1.InitializeGame;
+var
+  i, rx, ry: Integer;
+begin
+  Randomize;
+  // 全てOFFにする
+  for i := 0 to GridSize - 1 do
+    for rx := 0 to GridSize - 1 do
+      FLights[i, rx] := False;
+
+  // 適当にクリック操作をシミュレートして「必ず解ける」初期盤面を作る
+  for i := 1 to 20 do
+  begin
+    rx := Random(GridSize);
+    ry := Random(GridSize);
+    ToggleCell(rx, ry);
+  end;
+  
+  UpdateVisuals;
+end;
+</code></pre><h3 id="3-ロジックの実装">3. ロジックの実装</h3>
+<p>マスの反転処理は、範囲チェックを行った上で状態を反転させるシンプルなものです。</p>
+    </div>
+    <a href="/posts/lazarus-day024-lightsout/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day023-pdfviewer/" class="link black dim">
+        PDFビューワーの作成とAIクレジット枯渇との戦い - Day23
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pdfビューワーの作成とaiクレジット枯渇との戦い---day23">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</h1>
+<p>Lazarusチャレンジ23日目です。今回は、<strong>PDFファイルを表示するビューワー</strong>の作成に挑戦しました。</p>
+<p>しかし、今回はこれまでと少し事情が違います。開発の相棒である <strong>Cursor Pro（AIエディタ）の月間クレジットがついに底をつきかけてしまいました。</strong> そのため、AIに頼り切った開発から一転、ほとんどのコードを<strong>手書きと過去の自作コードの流用</strong>で実装するという、原点回帰的な開発となりました。</p>
+<h2 id="今回の目標と制約">今回の目標と制約</h2>
+<p>目標は、PDFファイルを読み込み、ページをめくれるシンプルなビューワーを作ることです。</p>
+<ul>
+<li><strong>目標</strong>:
+<ul>
+<li>PDFファイルを開いて表示できる</li>
+<li>「次へ」「前へ」ボタンでページを移動できる</li>
+<li>現在のページ番号と総ページ数を表示する</li>
+</ul>
+</li>
+<li><strong>制約</strong>:
+<ul>
+<li>AI（Cursor）の使用を最小限に抑える</li>
+<li>過去に作成したコード資産を積極的に再利用する</li>
+</ul>
+</li>
+</ul>
+<h2 id="実装の核pdfiumライブラリ">実装の核：PDFiumライブラリ</h2>
+<p>PDFのレンダリングは非常に複雑なため、ゼロから作るのは現実的ではありません。そこで、GoogleがメンテナンスしているオープンソースのPDFレンダリングライブラリ <strong>PDFium</strong> を利用することにしました。</p>
+<p>LazarusからPDFiumを利用するには、<code>pdfium.dll</code>というダイナミックリンクライブラリ（DLL）が必要です。このDLLをアプリケーションの実行ファイルと同じフォルダに配置し、Pascalコードからその関数を呼び出すことで、PDFの機能を利用します。</p>
+<h3 id="dllの準備">DLLの準備</h3>
+<p><code>pdfium.dll</code>は、公式のGitHubリポジトリなどから、自分の環境（Windows 64bitなど）に合ったものをダウンロードして配置する必要があります。</p>
+<h2 id="実装戦略ラッパークラスによる抽象化">実装戦略：ラッパークラスによる抽象化</h2>
+<p>PDFiumのAPIはC言語スタイルであり、そのまま使うのはPascalのオブジェクト指向に馴染みません。そこで、過去のプロジェクトの経験を活かし、APIを使いやすくするための<strong>ラッパークラス</strong>を複数作成しました。AIに頼れない今、このような構造化されたコード資産が非常に役立ちます。</p>
+<h3 id="主なユニット構成">主なユニット構成</h3>
+<ul>
+<li>
+<p><strong><code>PdfiumLib.pas</code></strong>: <code>pdfium.dll</code>からエクスポートされている関数を直接宣言するユニット。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">// pdfium.dllの関数をPascalから使えるように宣言
+procedure FPDF_InitLibrary(); cdecl; external PDFiumDll;
+function FPDF_LoadDocument(file_path: FPDF_STRING; ...): FPDF_DOCUMENT; cdecl; external PDFiumDll;
+// ...など
+</code></pre></li>
+<li>
+<p><strong><code>PdfDocument.pas</code></strong>: PDFドキュメント全体を管理する<code>TPdfDocument</code>クラス。ファイルの読み込みやクローズ、ページ数の取得などを担当します。</p>
+</li>
+<li>
+<p><strong><code>PdfPage.pas</code></strong>: 個々のページを管理する<code>TPdfPage</code>クラス。ページの幅や高さを取得します。</p>
+</li>
+<li>
+<p><strong><code>PdfRenderer.pas</code></strong>: PDFのページをLazarusの<code>TBitmap</code>オブジェクトに描画（レンダリング）する手続きをまとめたユニット。</p>
+</li>
+<li>
+<p><strong><code>PdfViewer.pas</code></strong>: UIとやり取りする高レベルな<code>TPdfViewer</code>クラス。現在のページインデックスを管理し、ページ移動のロジック（<code>Next</code>, <code>Previous</code>）などを持ちます。</p>
+</li>
+</ul>
+<p>このように機能を分割することで、メインフォームのコード（<code>Unit1.pas</code>）は非常にシンプルになります。</p>
+<h2 id="uiの実装-unit1pas">UIの実装 (Unit1.pas)</h2>
+<p>メインフォームでは、<code>TPdfViewer</code>クラスを利用してPDFの表示と操作を行います。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">unit Unit1;
+
+interface
+
+uses
+  ..., PdfViewer;
+
+type
+  TForm1 = class(TForm)
+    // ... UIコンポーネント
+  private
+    FPdfViewer: TPdfViewer; // ビューワーのインスタンス
+    procedure LoadPdfFile(const FileName: string);
+    procedure UpdatePage;
+    // ...
+  public
+
+  end;
+
+implementation
+
+// ...
+
+procedure TForm1.LoadPdfFile(const FileName: string);
+begin
+  try
+    if Assigned(FPdfViewer) then
+      FPdfViewer.Free;
+
+    // 新しいPDFファイルでビューワーインスタンスを作成
+    FPdfViewer := TPdfViewer.Create(FileName);
+
+    UpdatePage; // 最初のページを表示
+    Caption := &#39;PDF Viewer - &#39; + ExtractFileName(FileName);
+  except
+    on E: Exception do
+      ShowMessage(&#39;PDFファイルの読み込みに失敗しました: &#39; + E.Message);
+  end;
+end;
+
+procedure TForm1.UpdatePage;
+var
+  Bitmap: TBitmap;
+begin
+  if not Assigned(FPdfViewer) then
+  begin
+    Image1.Picture.Clear;
+    lblPageInfo.Caption := &#39;ページ 0 / 0&#39;;
+    Exit;
+  end;
+
+  // ビューワーから現在のページのビットマップを取得
+  Bitmap := FPdfViewer.GetBitmap(Panel1.ClientWidth, Panel1.ClientHeight);
+  Image1.Picture.Assign(Bitmap); // TImageに表示
+  Bitmap.Free;
+
+  // ページ情報を更新
+  lblPageInfo.Caption := Format(&#39;ページ %d / %d&#39;, [FPdfViewer.PageIndex + 1, FPdfViewer.PageCount]);
+
+  // ボタンの有効/無効を更新
+  btnPrevious.Enabled := FPdfViewer.CanPrevious;
+  btnNext.Enabled := FPdfViewer.CanNext;
+end;
+
+procedure TForm1.btnNextClick(Sender: TObject);
+begin
+  if Assigned(FPdfViewer) then
+  begin
+    FPdfViewer.Next; // 次のページへ
+    UpdatePage;      // 表示を更新
+  end;
+end;
+
+// ... btnPreviousClickも同様
+
+end.
+</code></pre><p>UI側のコードは、<code>TPdfViewer</code>オブジェクトに「次のページを見せて」「今のページを画像にして」と指示するだけで済み、PDFiumの複雑な詳細を知る必要がありません。</p>
+    </div>
+    <a href="/posts/lazarus-day023-pdfviewer/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day022-spreadsheet-viewer/" class="link black dim">
+        スプレッドシート作成の試みとビューワー実装 - Day22
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="スプレッドシート作成の試みとビューワー実装---day22">スプレッドシート作成の試みとビューワー実装 - Day22</h1>
+<p>Lazarusチャレンジ22日目です。今回は、本来スプレッドシート（表計算ソフト）自体を自作しようと試みましたが、開発途中でCursor（AIエディタ）の利用制限（上限）に引っかかってしまい、手動での作業が必要になりました。</p>
+<p>結果として、編集機能までには至りませんでしたが、<strong>Excelファイル（.xlsx）を読み込んで表示するビューワー</strong>として完成させました。</p>
+<h2 id="今回の目標とその経緯">今回の目標とその経緯</h2>
+<p>当初の目標は、セルへの入力や計算機能を持つ簡易的なスプレッドシートアプリケーションの作成でした。しかし、AIアシスタントとの対話中に利用上限に達してしまい、複雑なロジックの実装を継続するのが困難になりました。</p>
+<p>そこで目標を切り替え、<strong>既存のExcelファイルを読み込んで表示する</strong>という機能に絞って実装を行いました。</p>
+<h2 id="実装内容">実装内容</h2>
+<p>使用したライブラリは <code>fpspreadsheet</code> です。これはFree Pascalでスプレッドシート形式（.ods, .xls, .xlsxなど）を読み書きするための強力なライブラリです。</p>
+<h3 id="ソースコード-unit1pas">ソースコード (Unit1.pas)</h3>
+<p>以下が今回作成したメインユニットのコードです。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">unit Unit1;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus,
+  fpspreadsheet, fpspreadsheetgrid, fpsallformats, fpstypes;
+
+type
+
+  { TForm1 }
+
+  TForm1 = class(TForm)
+    MainMenu1: TMainMenu;
+    MenuItemFile: TMenuItem;
+    MenuItemLoad: TMenuItem;
+    MenuItemExit: TMenuItem;
+    OpenDialog1: TOpenDialog;
+    sWorksheetGrid1: TsWorksheetGrid;
+    procedure MenuItemLoadClick(Sender: TObject);
+    procedure MenuItemExitClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+  private
+
+  public
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.lfm}
+
+
+{ --- 読み込み処理 --- }
+procedure TForm1.MenuItemLoadClick(Sender: TObject);
+begin
+  if not OpenDialog1.Execute then
+  begin
+    Exit;
+  end;
+
+  if not FileExists(OpenDialog1.FileName) then
+  begin
+    ShowMessage(&#39;ファイルが見つかりません: &#39; + OpenDialog1.FileName);
+    Exit;
+  end;
+
+  try
+    // 1. ファイルから読み込む
+    sWorksheetGrid1.Workbook.ReadFromFile(OpenDialog1.FileName, sfOOXML);
+    ShowMessage(&#39;読み込みました&#39;);
+  except
+    on E: Exception do
+      ShowMessage(&#39;読み込みに失敗しました: &#39; + E.Message);
+  end;
+end;
+
+{ --- 終了処理 --- }
+procedure TForm1.MenuItemExitClick(Sender: TObject);
+begin
+  Close;
+end;
+
+{ --- アプリ終了時の処理 --- }
+procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  // 終了時の処理なし
+end;
+
+end.
+</code></pre><h2 id="ポイント">ポイント</h2>
+<h3 id="fpspreadsheetの活用">fpspreadsheetの活用</h3>
+<p><code>uses</code> 節に <code>fpspreadsheet</code>, <code>fpspreadsheetgrid</code>, <code>fpsallformats</code> を追加することで、スプレッドシートの機能を簡単に利用できます。</p>
+    </div>
+    <a href="/posts/lazarus-day022-spreadsheet-viewer/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day021-15puzzle/" class="link black dim">
+        15パズルの作成に挑戦 - Day21
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="15パズルの作成に挑戦---day21">15パズルの作成に挑戦 - Day21</h1>
+<p>Lazarusチャレンジ21日目です。今回は、<strong>15パズル</strong>の作成に挑戦しました。15パズルは、1から15までの数字が書かれたタイルをスライドさせて、正しい順序に並べるパズルゲームです。Lazarusで作る題材として、シンプルで分かりやすいパズルゲームです。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成する15パズルアプリとして、以下の機能を実装することを目指しました：</p>
+<ul>
+<li><strong>TButton 16個</strong>: 0-15のTagで位置管理（0は空白）</li>
+<li><strong>4×4配列</strong>: パズルの状態を管理する2次元配列</li>
+<li><strong>シャッフル機能</strong>: 完成状態から合法手のみでランダムにシャッフル</li>
+<li><strong>移動ロジック</strong>: クリックしたボタンが空白の隣なら移動</li>
+<li><strong>クリア判定</strong>: 1-15の順序で完成か判定し、完成時にメッセージ表示</li>
+</ul>
+<h2 id="15パズルとは">15パズルとは？</h2>
+<p>15パズルは、1から15までの数字が書かれたタイルをスライドさせて、正しい順序に並べるパズルゲームです。</p>
+<h3 id="基本ルール">基本ルール</h3>
+<ul>
+<li><strong>4×4の盤面</strong>: 16個のマス（15個のタイル + 1個の空白）</li>
+<li><strong>タイルの移動</strong>: 空白の隣にあるタイルだけが移動できる</li>
+<li><strong>目標</strong>: 1から15までを順番に並べる</li>
+<li><strong>シャッフル</strong>: 完成状態から合法手のみでランダムに移動してシャッフル</li>
+</ul>
+<h3 id="完成状態">完成状態</h3>
+<pre tabindex="0"><code>[ 1] [ 2] [ 3] [ 4]
+[ 5] [ 6] [ 7] [ 8]
+[ 9] [10] [11] [12]
+[13] [14] [15] [  ]
+</code></pre><h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day021_15</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>15パズルアプリの開発は、Cursorに直接プロンプトを投入して進めました。</p>
+<h3 id="プロンプト-15パズルの作成">プロンプト: 15パズルの作成</h3>
+<pre tabindex="0"><code>Lazarusで15パズルを作る。
+TButton 16個、Tagで位置管理。
+4×4配列でロジック管理。
+シャッフルは完成状態から合法手のみ。
+クリア判定あり。
+完全なForm1.pasを書いて。
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+    </div>
+    <a href="/posts/lazarus-day021-15puzzle/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day020-picross/" class="link black dim">
+        ピクロス（ノノグラム）の作成に挑戦 - Day20
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="ピクロスノノグラムの作成に挑戦---day20">ピクロス（ノノグラム）の作成に挑戦 - Day20</h1>
+<p>Lazarusチャレンジ20日目です。今回は、**ピクロス（ノノグラム）**の作成に挑戦しました。ピクロスは、数字をヒントにマスを塗りつぶして絵を完成させるロジックパズルです。Lazarusで作る題材としてめちゃくちゃ相性がいい、ということで挑戦してみました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成するピクロスアプリとしての初日は最小構成として以下の機能を実装することを目指しました：</p>
+<ul>
+<li><strong>10×10固定盤面</strong>: TDrawGridを使用して盤面を表示</li>
+<li><strong>セルの状態管理</strong>: 未確定（白）と塗りつぶし（黒）の2状態</li>
+<li><strong>マウス操作</strong>: 左クリックでセルを黒に塗る、もう一度クリックで白に戻す</li>
+<li><strong>ヒント表示</strong>: 行ヒント（左側）と列ヒント（上側）を表示</li>
+<li><strong>問題データ</strong>: 簡単なレベルの問題データを固定データとして用意（十字型の図形）</li>
+</ul>
+<h2 id="ピクロスノノグラムとは">ピクロス（ノノグラム）とは？</h2>
+<p>ピクロスは、数字をヒントにマスを塗りつぶして絵を完成させるロジックパズルです。</p>
+<h3 id="基本ルール">基本ルール</h3>
+<ul>
+<li><strong>縦・横に並んだ数字がヒント</strong>: 数字は「連続して塗るマスの数」を表す</li>
+<li><strong>マスの状態</strong>: 未確定（白）、塗る（黒）、空白（×）の3状態</li>
+<li><strong>黒の塊同士は必ず1マス以上空く</strong>: 連続した数字は別々の塊を表す</li>
+<li><strong>すべての条件を満たすと絵が完成</strong>: ドット絵が浮かび上がる</li>
+</ul>
+<h3 id="例超ミニ">例（超ミニ）</h3>
+<pre tabindex="0"><code>横ヒント →  [3] [1]
+            □ □ □ □ □
+縦ヒント ↓
+[1]         ■ □ ■ □ □
+[2]         ■ □ ■ ■ □
+</code></pre><ul>
+<li><code>[3]</code> → どこかに3マス連続で黒</li>
+<li><code>[1 2]</code> → 1マス黒 → 空白 → 2マス黒</li>
+</ul>
+<p>完成すると「ハート」「文字」「キャラ」みたいな絵になるのが気持ちいいパズルです。</p>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day020_Picross</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>ピクロスアプリの開発は、ChatGPTで作成したプロンプトを基に進めました。</p>
+<h3 id="プロンプト-ピクロスノノグラムの試作---day-1">プロンプト: ピクロス（ノノグラム）の試作 - Day 1</h3>
+<pre tabindex="0"><code>Lazarus（Free Pascal）でピクロス（ノノグラム）の試作を作成してください。
+対象は Day 1 の最小構成のみです。
+
+要件
+
+デスクトップアプリ（Lazarus）
+フォーム1枚で完結
+盤面サイズは 10×10 固定
+セルは正方形で見やすく描画する
+
+UI
+TDrawGrid を使用する
+
+データ
+行ヒント（左）
+[1]
+[1]
+[1]
+[1]
+[10]
+[1]
+[1]
+[1]
+[1]
+[1]
+
+列ヒント（上）
+[1] [1] [1] [1] [10] [1] [1] [1] [1] [1]
+
+行番号・列番号の表示はまだ不要
+
+各セルは以下の状態のみ扱う
+未確定（白）
+塗りつぶし（黒）
+
+操作
+左クリックでセルを黒に塗る
+黒いセルをもう一度左クリックすると白に戻る
+右クリックや×印などは実装しない（Day 2以降）
+
+データ
+盤面状態は2次元配列で管理する
+初期状態はすべて未確定
+簡単なレベルの問題データを 固定データとして用意する
+（例：10×10で、中央に十字や簡単な図形が完成する程度）
+
+まだクリア判定やヒント表示は実装しない
+
+その他
+コードは読みやすく、後で拡張しやすい構成にする
+イベント処理（OnDrawCell / OnMouseDown）は明確に分ける
+コメントは日本語で記述する
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+    </div>
+    <a href="/posts/lazarus-day020-picross/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day019-menu100/" class="link black dim">
+        Lazarusアプリ用ランチャーの作成 - Day19
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="lazarusアプリ用ランチャーの作成---day19">Lazarusアプリ用ランチャーの作成 - Day19</h1>
+<p>Lazarusチャレンジ19日目です。今回は、**Lazarusアプリ用のランチャー（メニューアプリ）**を作成しました。day001からday018まで、たくさんのアプリができたので、それらを管理・起動するためのアプリがあると便利かな、と思いました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成するランチャーアプリは、以下の機能を実装することを目指しました：</p>
+<ul>
+<li><strong>アプリ一覧表示</strong>: JSONファイルからアプリ情報を読み込み、ListViewで一覧表示</li>
+<li><strong>アプリの実行</strong>: 選択したアプリのフォルダ内にあるexeファイルを自動探索して起動</li>
+<li><strong>自動ビルド機能</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動</li>
+<li><strong>ブログ記事の起動</strong>: 各アプリのブログ記事URLをブラウザで開く</li>
+<li><strong>LazManagerの起動</strong>: 設定されたLazManagerを起動</li>
+<li><strong>メモ機能</strong>: 各アプリごとに後日追加したい機能などのメモを保存</li>
+<li><strong>JSON管理</strong>: アプリ情報をJSONファイルで管理（フォルダ名、タイトル、ブログURL、メモ、有効/無効フラグ）</li>
+</ul>
+<h2 id="ランチャーアプリとは">ランチャーアプリとは？</h2>
+<p>ランチャーアプリは、複数のアプリケーションを一箇所から管理・起動できるアプリです。今回作成したランチャーは、Daily-Lazarus-Appsフォルダ内にあるday001～day018の各アプリを管理するために作成しました。</p>
+<h3 id="主な機能">主な機能</h3>
+<ul>
+<li><strong>アプリ一覧</strong>: 有効なアプリをday番号順に表示</li>
+<li><strong>アプリ起動</strong>: フォルダ内のexeファイルを自動探索して実行</li>
+<li><strong>自動ビルド</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動</li>
+<li><strong>ブログ記事</strong>: 各アプリのブログ記事URLをブラウザで開く</li>
+<li><strong>メモ管理</strong>: 各アプリごとにメモを保存・編集</li>
+<li><strong>LazManager連携</strong>: LazManagerを起動してプロジェクトを管理</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day019_Menu100</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>ランチャーアプリの開発は、ChatGPTに壁打ちしてプロンプトを考えてもらい、そのプロンプトをCursorに投入してはじめました。</p>
+<h3 id="プロンプト-ランチャーアプリの作成">プロンプト: ランチャーアプリの作成</h3>
+<pre tabindex="0"><code>Lazarus (Free Pascal) で Windows 向けのデスクトップアプリを作成してください。
+
+目的：
+Daily-Lazarus-Apps フォルダ内にある day001～day018 の各アプリを一覧表示し、
+exe を自動探索して起動できる「メニューアプリ」を作る。
+
+前提条件：
+- 設定は apps.json から読み込む
+- apps.json の構造は以下の仕様に従う
+  - baseDir : string
+  - apps : object
+    - キー = アプリのフォルダ名（例: day017_CryptEditor）
+    - 値:
+      - title : string
+      - blogUrl : string
+      - notes : string[]
+      - enabled : boolean
+
+仕様：
+- exe ファイルは json に登録しない
+- baseDir\フォルダ名 配下にある最初の *.exe を自動探索して実行する
+- enabled = true のアプリのみ表示する
+- アプリ一覧は day 番号順にソートする
+
+UI 要件：
+- メインフォームに以下を配置
+  - TListView（アプリ一覧表示）
+  - 実行ボタン（選択中アプリの exe を起動）
+  - ブログボタン（blogUrl が空でなければ既定ブラウザで開く）
+  - 管理ボタン (LazManagerを開く）
+- 選択中アプリの notes を下部に表示（TMemo）
+- メモの編集・保存機能
+
+実装要件：
+- fpjson, jsonparser を使用する
+- JSON の読み込みを行うクラス TAppConfig を作成する
+- exe 探索用の関数を実装する
+  - 入力: アプリフォルダのフルパス
+  - 出力: exe のフルパス（見つからなければ空文字）
+
+その他：
+- エラー時は例外ではなく MessageDlg で通知
+- 可読性を重視し、1ユニット完結でもよい
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+    </div>
+    <a href="/posts/lazarus-day019-menu100/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day018-2048/" class="link black dim">
+        2048ゲームの作成 - Day18
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="2048ゲームの作成---day18">2048ゲームの作成 - Day18</h1>
+<p>Lazarusチャレンジ18日目です。今回は、<strong>2048ゲーム</strong>を作成しました。4×4のマス目で同じ数字のタイルを合体させて、最終的に「2048」を作るパズルゲームです。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成する2048ゲームは、以下の機能を実装することを目指しました：</p>
+<ul>
+<li><strong>4×4の盤面</strong>: 2次元配列でゲーム盤面を管理</li>
+<li><strong>矢印キー操作</strong>: 上下左右の矢印キーでタイルを移動</li>
+<li><strong>タイルの合体</strong>: 同じ数字のタイルがぶつかると合体（1手につき1回のみ）</li>
+<li><strong>新タイル生成</strong>: 移動できたときのみ、空マスに新タイルを生成（90%で2、10%で4）</li>
+<li><strong>勝利条件</strong>: 2048が出現したら勝利</li>
+<li><strong>ゲームオーバー</strong>: 全方向に移動不能になったら終了</li>
+<li><strong>Canvas描画</strong>: 美しい色分けでタイルを表示</li>
+</ul>
+<h2 id="2048ゲームとは">2048ゲームとは？</h2>
+<p>2048は、4×4のマス目の中で、同じ数字のタイルを合体させて最終的に「2048」を作るパズルゲームです。</p>
+<h3 id="基本ルール">基本ルール</h3>
+<ul>
+<li><strong>初期状態</strong>: 2または4のタイルが2個ランダムに出現</li>
+<li><strong>操作</strong>: 上下左右キーで盤面をスライド</li>
+<li><strong>動きの仕組み</strong>:
+<ul>
+<li>全タイルが指定方向に詰められる</li>
+<li>同じ数字がぶつかると合体（2 + 2 → 4、4 + 4 → 8...）</li>
+<li>合体は1ターンにつき1回のみ</li>
+</ul>
+</li>
+<li><strong>移動後</strong>: 空いているマスに2（高確率）か4（低確率）が1つ出現</li>
+<li><strong>終了条件</strong>:
+<ul>
+<li>2048を作ったら勝利</li>
+<li>動かせなくなったらゲームオーバー</li>
+</ul>
+</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day018_2048</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>2048ゲームの開発は、ChatGPTで作成したプロンプトを基に進めました。</p>
+<h3 id="プロンプト-2048ゲームの作成">プロンプト: 2048ゲームの作成</h3>
+<p>ChatGPTで作成したプロンプトをCursorに投入しました。</p>
+<pre tabindex="0"><code>あなたは Free Pascal / Lazarus の熟練開発者です。
+
+Lazarus（LCL）で動作する「2048ゲーム」を作成してください。
+
+要件:
+- 言語: Free Pascal
+- GUI: Lazarus TForm + Canvas 描画
+- 盤面サイズ: 4x4
+- データ構造: 2次元配列 array[0..3,0..3] of Integer（0は空マス）
+- 操作: 矢印キー（上下左右）
+- 同じ数字のタイルは1手につき1回だけ合体
+- 移動できたときのみ新しいタイルを生成
+- 新タイルは 90%で2、10%で4
+- 勝利条件: 2048が出現
+- ゲームオーバー条件: 全方向に移動不能
+
+実装方針:
+- 左移動ロジックを基準に、反転・転置で他方向を実装
+- ロジックと描画を分離する
+- 可読性を重視する
+
+出力:
+- 完全な FormUnit（unit1.pas）
+- 主要な処理にはコメントを付ける
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+    </div>
+    <a href="/posts/lazarus-day018-2048/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day017-crypt-editor/" class="link black dim">
+        暗号化テキストエディタの作成 - Day17
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="暗号化テキストエディタの作成---day17">暗号化テキストエディタの作成 - Day17</h1>
+<p>Lazarusチャレンジ17日目です。今回は、<strong>暗号化テキストエディタ</strong>を作成しました。DCPcryptパッケージを使用して、AES-256アルゴリズムでテキストを暗号化・復号化できるエディタを実装しました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成する暗号化テキストエディタは、以下の機能を実装することを目指しました：</p>
+<ul>
+<li><strong>暗号化保存</strong>: テキストを暗号化してテキストファイルとして保存</li>
+<li><strong>復号化読み込み</strong>: 暗号化されたファイルをパスワードで復号化して表示</li>
+<li><strong>通常のテキストファイル</strong>: メモ帳などで開くと暗号化された文字列として表示</li>
+<li><strong>AES-256暗号化</strong>: 強固な暗号化アルゴリズムを使用</li>
+<li><strong>Base64エンコード</strong>: バイナリデータをテキスト形式で保存</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day017_CryptEditor</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="パッケージのインストール---はまった点">パッケージのインストール - はまった点</h2>
+<p>暗号化機能を実装するために、<strong>DCPcrypt</strong>パッケージをインストールする必要がありました。ここで重要な発見がありました。</p>
+<h3 id="オンラインパッケージの2段階インストール">オンラインパッケージの2段階インストール</h3>
+<p>オンラインからパッケージをインストールする場合、<strong>2段階の手順が必要</strong>であることが分かりました：</p>
+<ol>
+<li><strong>Lazarus自体へのインストール</strong>: パッケージマネージャからインストール</li>
+<li><strong>プロジェクトへの追加</strong>: プロジェクトインスペクタからパッケージを追加</li>
+</ol>
+<h3 id="インストール手順">インストール手順</h3>
+<h4 id="ステップ1-パッケージマネージャからインストール">ステップ1: パッケージマネージャからインストール</h4>
+<ol>
+<li>Lazarusのメニューから <strong>[パッケージ] &gt; [オンラインパッケージマネージャ]</strong> を開く</li>
+<li><strong>DCPcrypt</strong> を検索してインストール</li>
+<li>Lazarus自体が再コンパイルされ、再起動する</li>
+</ol>
+<p><img src="/images/LazarusDay017DCPcryptPackage.png" alt="DCPcryptパッケージのインストール"></p>
+<p>この時点で「インストール完了」と思いがちですが、実はこれだけでは不十分でした。</p>
+<h4 id="ステップ2-プロジェクトインスペクタからパッケージを追加">ステップ2: プロジェクトインスペクタからパッケージを追加</h4>
+<p>コンパイルを実行すると、<strong>「パッケージが見つからない」というエラー</strong>が発生しました。</p>
+<p>原因は、パッケージをLazarusにインストールしただけでは、<strong>個別のプロジェクトで使用できない</strong>ことでした。</p>
+<p>解決方法：</p>
+<ol>
+<li><strong>プロジェクトインスペクタ</strong>を開く（メニュー: [表示] &gt; [プロジェクトインスペクタ]）</li>
+<li>プロジェクト名を右クリック</li>
+<li><strong>[新規追加] &gt; [新規要件]</strong> を選択</li>
+<li>インストールしたパッケージ（DCPcrypt）を選択して追加</li>
+</ol>
+<p><img src="/images/LazarusDay017projectinspector.png" alt="プロジェクトインスペクタでのパッケージ追加"></p>
+<p>これで、プロジェクトでDCPcryptパッケージを使用できるようになりました。</p>
+<h3 id="学んだこと">学んだこと</h3>
+<ul>
+<li><strong>オンラインパッケージのインストールは2段階</strong>: Lazarusへのインストールと、プロジェクトへの追加が必要</li>
+<li><strong>再コンパイル・再起動だけでは不十分</strong>: パッケージマネージャからインストールして再起動しても、プロジェクトでは使用できない</li>
+<li><strong>プロジェクトインスペクタが重要</strong>: プロジェクトでパッケージを使用するには、プロジェクトインスペクタから明示的に追加する必要がある</li>
+</ul>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>暗号化テキストエディタの開発は、Geminiで作成したプロンプトを基に進めました。</p>
+<h3 id="プロンプト-暗号化テキストエディタの作成">プロンプト: 暗号化テキストエディタの作成</h3>
+<p>Geminiで作成したプロンプトをCursorに投入しました。</p>
+    </div>
+    <a href="/posts/lazarus-day017-crypt-editor/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day016-sokoban/" class="link black dim">
+        倉庫番ゲームの作成 - Day16
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="倉庫番ゲームの作成---day16">倉庫番ゲームの作成 - Day16</h1>
+<p>Lazarusチャレンジ16日目です。今回は、<strong>コンソールアプリケーション</strong>として<strong>倉庫番（Sokoban）ゲーム</strong>を作成しました。GUIアプリではなく、テキストベースのシンプルなパズルゲームを実装しました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成する倉庫番ゲームは、以下の機能を実装することを目指しました：</p>
+<ul>
+<li><strong>コンソールアプリケーション</strong>: GUIではなく、コンソールで動作するテキストベースのゲーム</li>
+<li><strong>倉庫番のゲームロジック</strong>: 箱を押してゴールに配置するパズルゲーム</li>
+<li><strong>マップ表示</strong>: テキストベースでマップを表示</li>
+<li><strong>プレイヤー移動</strong>: 矢印キーでプレイヤーを移動</li>
+<li><strong>箱の押し</strong>: 箱を押して移動させる機能</li>
+<li><strong>クリア判定</strong>: すべての箱がゴールに置かれたらクリア</li>
+</ul>
+<h2 id="倉庫番ゲームとは">倉庫番ゲームとは</h2>
+<p>倉庫番（Sokoban）は、倉庫の中で箱を押して、すべての箱を指定されたマス（ゴール）に運ぶパズルゲームです。</p>
+<p><strong>ゲームの特徴：</strong></p>
+<ul>
+<li>箱は<strong>押せるけど引けない</strong></li>
+<li>箱同士・壁はすり抜け不可</li>
+<li>一度ミスると<strong>詰み状態</strong>になることがある</li>
+<li>だから「先を読む」パズルとして名作</li>
+</ul>
+<p><strong>盤面の構成要素：</strong></p>
+<ul>
+<li><code>#</code>: 壁（動けない）</li>
+<li><code> </code>: 床（移動可能）</li>
+<li><code>@</code>: プレイヤー（操作キャラ）</li>
+<li><code>$</code>: 箱（押す対象）</li>
+<li><code>.</code>: ゴール（置き場所）</li>
+<li><code>*</code>: 箱＋ゴール（正解状態）</li>
+</ul>
+<p><strong>操作ルール：</strong></p>
+<ul>
+<li>プレイヤーが上下左右に移動する時：
+<ul>
+<li>前が床 or ゴール → そのまま移動</li>
+<li>前が箱 → その先が床 or ゴールなら箱を押して移動</li>
+<li>前が壁 → 移動不可</li>
+</ul>
+</li>
+</ul>
+<p><strong>クリア条件：</strong></p>
+<ul>
+<li>ゴールマスの数 ＝ 箱の数</li>
+<li>すべてのゴールに箱が置かれている</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day016_Sokoban</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>今回は<strong>コンソールアプリケーション</strong>として作成するため、LazManagerで「コンソール」を選択しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>倉庫番ゲームの開発は、いくつかのプロンプトに分けて進めました。</p>
+<h3 id="プロンプト1-コンソールで動くテキストベースの倉庫番ゲーム">プロンプト1: コンソールで動くテキストベースの倉庫番ゲーム</h3>
+<p>最初のプロンプトでは、基本的な倉庫番ゲームを実装しました。</p>
+<pre tabindex="0"><code>コンソールで動くテキストベースの倉庫番ゲーム。
+
+const Map: array[0..6] of string = (
+  &#39;#######&#39;,
+  &#39;#     #&#39;,
+  &#39;# .$@ #&#39;,
+  &#39;#  .  #&#39;,
+  &#39;#     #&#39;,
+  &#39;#######&#39;
+);
+
+壁	動けない	#
+床	移動可能	
+プレイヤー	操作キャラ	@
+箱	押す対象	$
+ゴール	置き場所	.
+箱＋ゴール	正解状態	*
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+    </div>
+    <a href="/posts/lazarus-day016-sokoban/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day015-sudoku/" class="link black dim">
+        数独アプリの作成 - Day15
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="数独アプリの作成---day15">数独アプリの作成 - Day15</h1>
+<p>Lazarusチャレンジ15日目です。今回は、<strong>数独（ナンプレ）ソルバーアプリ</strong>を作成しました。Knuth's Algorithm X (Dancing Links)という強力なアルゴリズムを実装し、どんな難問でも一瞬で解けるソルバーを完成させました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成する数独アプリは、以下の機能を実装することを目指しました：</p>
+<ul>
+<li><strong>問題入力モード</strong>: 9×9のグリッドに数独の問題を入力できる機能</li>
+<li><strong>Knuth's Algorithm X (Dancing Links)</strong>: 最強の数独ソルバーアルゴリズムを実装</li>
+<li><strong>解の表示</strong>: 別ウィンドウで解を表示する機能</li>
+<li><strong>懸賞問題の解決</strong>: 新聞の懸賞問題なども一発で解決できる機能</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day015_Sudoku</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>数独アプリの開発は、2つのプロンプトに分けて進めました。</p>
+<h3 id="プロンプト1-knuths-algorithm-x-dancing-linksの実装">プロンプト1: Knuth's Algorithm X (Dancing Links)の実装</h3>
+<p>最初のプロンプトでは、数独ソルバーの核心となるアルゴリズムを実装しました。</p>
+<pre tabindex="0"><code>数独ソルバーをつくる。
+Knuth&#39;s Algorithm X (Dancing Links)を実装したユニットの作成
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+<ul>
+<li>
+<p><strong>TDancingLinksNode</strong>: 双方向リンクリストのノード構造</p>
+<ul>
+<li>上下左右のリンク</li>
+<li>列ヘッダーへのポインタ</li>
+<li>行ID（数独ではセル位置と値の組み合わせ）</li>
+</ul>
+</li>
+<li>
+<p><strong>TDancingLinksSolver</strong>: Dancing Linksソルバークラス</p>
+<ul>
+<li><code>Create</code>: 指定数の列で初期化</li>
+<li><code>AddRow</code>: 行を追加（行IDとカバーする列のインデックス）</li>
+<li><code>Solve</code>: Algorithm Xで解を探索</li>
+<li><code>GetSolution</code>: 解を取得</li>
+<li><code>CoverColumn</code>/<code>UncoverColumn</code>: 列のカバー/アンカバー</li>
+<li><code>SelectColumn</code>: 最小サイズの列を選択</li>
+</ul>
+</li>
+</ul>
+<p><strong>Algorithm Xとは：</strong></p>
+<p>Algorithm Xは、ドナルド・クヌースが提唱した「完全被覆問題（Exact Cover Problem）」を解くためのアルゴリズムです。数独は以下の4つの制約をすべて満たすように数字を配置するゲームですが、これを「行」と「列」の巨大な行列（マトリックス）として表現します：</p>
+<ul>
+<li><strong>マス制約</strong>: 全てのマス（81箇所）に何らかの数字が入る</li>
+<li><strong>行制約</strong>: 各行（9行）に1〜9が1つずつ入る</li>
+<li><strong>列制約</strong>: 各列（9列）に1〜9が1つずつ入る</li>
+<li><strong>ブロック制約</strong>: 各ブロック（9個）に1〜9が1つずつ入る</li>
+</ul>
+<p><strong>Dancing Links (DLX)とは：</strong></p>
+    </div>
+    <a href="/posts/lazarus-day015-sudoku/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+    </section>
+    <ul class="pagination pagination-default">
+      <li class="page-item">
+        <a href="/posts/" aria-label="First" class="page-link" role="button"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/" aria-label="Previous" class="page-link" role="button"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/" aria-label="Page 1" class="page-link" role="button">1</a>
+      </li>
+      <li class="page-item active">
+        <a aria-current="page" aria-label="Page 2" class="page-link" role="button">2</a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/3/" aria-label="Page 3" class="page-link" role="button">3</a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/4/" aria-label="Page 4" class="page-link" role="button">4</a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/3/" aria-label="Next" class="page-link" role="button"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/4/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      </li>
+    </ul></article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

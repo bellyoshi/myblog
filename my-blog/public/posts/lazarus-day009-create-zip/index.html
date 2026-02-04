@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Zip圧縮ツールの作成 - Day9 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ9日目。Zip圧縮ツールを作成しました。フォルダを指定してZipに圧縮し、実行ファイルを除外する機能を実装しました。Lazbuildを使ったビルド方法も記録しました。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day009-create-zip/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day009-create-zip/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Zip圧縮ツールの作成 - Day9">
+  <meta property="og:description" content="Lazarusチャレンジ9日目。Zip圧縮ツールを作成しました。フォルダを指定してZipに圧縮し、実行ファイルを除外する機能を実装しました。Lazbuildを使ったビルド方法も記録しました。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-09T21:00:00+09:00">
+    <meta property="article:modified_time" content="2026-01-09T21:00:00+09:00">
+
+  <meta itemprop="name" content="Zip圧縮ツールの作成 - Day9">
+  <meta itemprop="description" content="Lazarusチャレンジ9日目。Zip圧縮ツールを作成しました。フォルダを指定してZipに圧縮し、実行ファイルを除外する機能を実装しました。Lazbuildを使ったビルド方法も記録しました。">
+  <meta itemprop="datePublished" content="2026-01-09T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-09T21:00:00+09:00">
+  <meta itemprop="wordCount" content="123">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Zip圧縮ツールの作成 - Day9">
+  <meta name="twitter:description" content="Lazarusチャレンジ9日目。Zip圧縮ツールを作成しました。フォルダを指定してZipに圧縮し、実行ファイルを除外する機能を実装しました。Lazbuildを使ったビルド方法も記録しました。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay009.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Zip圧縮ツールの作成 - Day9</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ9日目。Zip圧縮ツールを作成しました。フォルダを指定してZipに圧縮し、実行ファイルを除外する機能を実装しました。Lazbuildを使ったビルド方法も記録しました。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Zip圧縮ツールの作成 - Day9</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-09T21:00:00+09:00">January 9, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="zip圧縮ツールの作成---day9">Zip圧縮ツールの作成 - Day9</h1>
+<p>Lazarusチャレンジ9日目です。今回は、<strong>Zip圧縮ツール</strong>を作成することにしました。フォルダを指定してZipに圧縮し、実行ファイルを除外する機能を実装しました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成するZip圧縮ツールは、LazManagerの機能拡張の一環として考えています。LazManagerを改造して、Cursorを起動するときに起動していますのメッセージが出るようにしたいのですが、今回はその機能を実装できるのかを検証するための実験的な別アプリとして作成することにしました。</p>
+<p>以下の機能を実装することにしました：</p>
+<ul>
+<li><strong>圧縮フォルダ名テキストボックス</strong>: 圧縮するフォルダを指定するテキストボックス</li>
+<li><strong>フォルダを開くボタン</strong>: 圧縮するフォルダを選択するボタン</li>
+<li><strong>保存先設定フォルダ</strong>: 保存先フォルダを指定するテキストボックス</li>
+<li><strong>設定値を読み取る</strong>: 保存先フォルダの設定値を読み取る機能</li>
+<li><strong>Zipに圧縮</strong>: フォルダ名と同じ名前でZipに圧縮する機能</li>
+<li><strong>保存先に保存</strong>: 圧縮したZipファイルを保存先に保存</li>
+<li><strong>実行ファイルの除外</strong>: 圧縮の際、実行ファイル（.exe）を除外する機能</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day009_CreateZip</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>Zip圧縮ツールの開発は、以下のようなプロンプトを投入しました：</p>
+<pre tabindex="0"><code>圧縮フォルダ名テキストボックス。フォルダを開く。
+保存先設定フォルダ。テキストボックス。設定値を読み取る。
+
+ボタンを押すとフォルダ名と同じ名前で
+Zipに圧縮する。保存先に保存する。
+圧縮の際、実行ファイルは除外したい。
+</code></pre><p>このプロンプトで、基本的なZip圧縮ツールが実装されました。</p>
+<h2 id="cursorからlazbuildを使ったビルド">CursorからLazbuildを使ったビルド</h2>
+<p>今回の開発でもビルド方法をプロンプトしています。以前はIDEを使ってコンパイルすると、一度ではコンパイル完了しませんでした。表示されたエラーをコピーしてCursorに教えてあげる手間が必要でした。エラーが出るたびに毎回コピーペーストが必要でしたが、「<strong>C:\Lazarus\Lazbuildでビルド</strong>」とプロンプトすることで、ビルドも任せることができます。</p>
+<p>ビルドしてとだけだとLazbuildでビルドすることはCursorも知っているのですが、Lazbuildがどこにあるのかがわからないです。パスを通すというのも一つの手ですが、Lazarusをインストールしたフォルダを指定してLazbuildがどこにあるかを教えてやればよいです。こちらの方が環境変数を汚さなくて済みます。</p>
+<h2 id="完成したアプリの機能">完成したアプリの機能</h2>
+<p>完成したZip圧縮ツールには、以下の機能が実装されています：</p>
+<p><img src="/images/LazarusDay009.png" alt="Zip圧縮ツールのスクリーンショット"></p>
+<ul>
+<li>✅ <strong>圧縮フォルダ名テキストボックス</strong>: 圧縮するフォルダを指定するテキストボックス</li>
+<li>✅ <strong>フォルダを開くボタン</strong>: 圧縮するフォルダを選択するボタン</li>
+<li>✅ <strong>保存先設定フォルダ</strong>: 保存先フォルダを指定するテキストボックス</li>
+<li>✅ <strong>設定値を読み取る</strong>: 保存先フォルダの設定値を読み取る機能</li>
+<li>✅ <strong>Zipに圧縮</strong>: フォルダ名と同じ名前でZipに圧縮する機能</li>
+<li>✅ <strong>保存先に保存</strong>: 圧縮したZipファイルを保存先に保存</li>
+<li>✅ <strong>実行ファイルの除外</strong>: 圧縮の際、実行ファイル（.exe）を除外する機能</li>
+<li>✅ <strong>圧縮完了メッセージ</strong>: 圧縮が完了したことを示すメッセージを表示</li>
+</ul>
+<h2 id="技術的なポイント">技術的なポイント</h2>
+<p>Zip圧縮ツールの実装では、以下の技術的なポイントがありました：</p>
+<ul>
+<li><strong>Zip圧縮ライブラリ</strong>: LazarusのZip圧縮ライブラリを使用して、フォルダをZipに圧縮</li>
+<li><strong>ファイルのフィルタリング</strong>: 実行ファイル（.exe）を除外する機能を実装</li>
+<li><strong>フォルダ選択ダイアログ</strong>: 圧縮するフォルダと保存先フォルダを選択するダイアログ</li>
+<li><strong>設定値の読み取り</strong>: 保存先フォルダの設定値を読み取る機能</li>
+<li><strong>エラーハンドリング</strong>: 圧縮処理中のエラーを適切に処理</li>
+</ul>
+<h2 id="学んだこと">学んだこと</h2>
+<p>Day9の開発を通じて、以下のことを学びました：</p>
+<h3 id="lazbuildを使ったビルドの効率化">Lazbuildを使ったビルドの効率化</h3>
+<p>Lazbuildを使ったビルドにより、開発効率が大幅に向上しました。</p>
+<ul>
+<li><strong>自動エラー修正</strong>: ビルドエラーを自動的に修正してもらえる</li>
+<li><strong>手間の削減</strong>: IDEを使ったコンパイルとエラー報告の手間が不要</li>
+<li><strong>環境変数の汚染を回避</strong>: パスを通す必要がなく、Lazarusのインストールフォルダを指定するだけで済む</li>
+</ul>
+<h3 id="zip圧縮の実装">Zip圧縮の実装</h3>
+<p>Zip圧縮機能の実装では、以下の点を学びました：</p>
+<ul>
+<li><strong>Zip圧縮ライブラリの使用</strong>: LazarusのZip圧縮ライブラリを使用して、フォルダをZipに圧縮</li>
+<li><strong>ファイルのフィルタリング</strong>: 実行ファイルを除外する機能を実装</li>
+<li><strong>エラーハンドリング</strong>: 圧縮処理中のエラーを適切に処理する重要性</li>
+</ul>
+<h2 id="まとめ">まとめ</h2>
+<p>Day9では、Zip圧縮ツールを作成しました。</p>
+<ol>
+<li>
+<p><strong>Zip圧縮ツールの実装</strong>: フォルダを指定してZipに圧縮し、実行ファイルを除外する機能を実装</p>
+</li>
+<li>
+<p><strong>ビルド方法の改善</strong>: Lazbuildを使ったビルドにより、開発効率が大幅に向上</p>
+</li>
+<li>
+<p><strong>機能の実装</strong>: 圧縮フォルダの選択、保存先フォルダの設定、実行ファイルの除外機能を実装</p>
+</li>
+<li>
+<p><strong>エラーハンドリング</strong>: 圧縮処理中のエラーを適切に処理</p>
+</li>
+</ol>
+<h3 id="完成したzip圧縮ツールについて">完成したZip圧縮ツールについて</h3>
+<p>完成したZip圧縮ツールは、基本的な機能が実装されており、フォルダを指定してZipに圧縮する機能として動作しています。実行ファイルを除外する機能も実装されており、ソースコードのみを圧縮することができます。</p>
+<h2 id="今後の改善案">今後の改善案</h2>
+<p>次回以降、以下のような改善を行うことで、より実用的なツールになるでしょう：</p>
+<ul>
+<li><strong>圧縮オプションの追加</strong>: 圧縮レベルや圧縮形式を選択できる機能</li>
+<li><strong>除外ファイルのカスタマイズ</strong>: 除外するファイルの種類をカスタマイズできる機能</li>
+<li><strong>進捗表示</strong>: 圧縮処理の進捗を表示する機能</li>
+<li><strong>複数フォルダの圧縮</strong>: 複数のフォルダを一度に圧縮する機能</li>
+<li><strong>LazManagerへの統合</strong>: LazManagerに統合して、より便利なツールにする</li>
+</ul>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p>作成したアプリは以下のリンクからダウンロードできます：
+<a href="/downloads/day009_CreateZip.zip">day009_CreateZip.zip</a>
+こちらのZipは今回作成したアプリ自身が生成したものです。</p>
+<p>次回のDay10では、また新しいアプリに挑戦します！</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 9/100</em></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day008-moon-calendar/">月間カレンダーアプリの作成 - Day8</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day007-minesweeper/">マインスイーパーゲームの作成 - Day7</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day006-worldclock/">世界時計アプリの作成 - Day6</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day005-chess/">チェスゲームの作成 - Day5</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day004-reversi/">Reversi（リバーシ）ゲームの作成 - Day4</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day003-lazmanager/">LazManager - LazbuildをGUIで操作するアプリ - Day3</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day002-midi-player/">LazarusでMIDIプレイヤーを作成 - Day2</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day001-midi-kaeru/">LazarusでMIDIファイルを作成するアプリ - カエルの歌</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/survival-report-lazarus-challenge-2025/">生存報告。そして来年、私はLazarusの修羅に入る。</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

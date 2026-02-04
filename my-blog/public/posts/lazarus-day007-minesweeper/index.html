@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>マインスイーパーゲームの作成 - Day7 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ7日目。マインスイーパーゲームを作成しました。地雷を避けながらマスを開けていくクラシックなパズルゲームを実装しました。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day007-minesweeper/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day007-minesweeper/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="マインスイーパーゲームの作成 - Day7">
+  <meta property="og:description" content="Lazarusチャレンジ7日目。マインスイーパーゲームを作成しました。地雷を避けながらマスを開けていくクラシックなパズルゲームを実装しました。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-07T21:00:00+09:00">
+    <meta property="article:modified_time" content="2026-01-07T21:00:00+09:00">
+
+  <meta itemprop="name" content="マインスイーパーゲームの作成 - Day7">
+  <meta itemprop="description" content="Lazarusチャレンジ7日目。マインスイーパーゲームを作成しました。地雷を避けながらマスを開けていくクラシックなパズルゲームを実装しました。">
+  <meta itemprop="datePublished" content="2026-01-07T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-07T21:00:00+09:00">
+  <meta itemprop="wordCount" content="121">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="マインスイーパーゲームの作成 - Day7">
+  <meta name="twitter:description" content="Lazarusチャレンジ7日目。マインスイーパーゲームを作成しました。地雷を避けながらマスを開けていくクラシックなパズルゲームを実装しました。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay007_init.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">マインスイーパーゲームの作成 - Day7</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ7日目。マインスイーパーゲームを作成しました。地雷を避けながらマスを開けていくクラシックなパズルゲームを実装しました。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">マインスイーパーゲームの作成 - Day7</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-07T21:00:00+09:00">January 7, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="マインスイーパーゲームの作成---day7">マインスイーパーゲームの作成 - Day7</h1>
+<p>Lazarusチャレンジ7日目です。今回は、<strong>マインスイーパーゲーム</strong>を作成することにしました。昔Windows3.1で遊んだ懐かしのゲーム。いつの頃からかWindowsに標準搭載されなくなっていました。またやってみたくなり自作。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>マインスイーパーは、地雷を避けながらマスを開けていくクラシックなパズルゲームです。今回は、以下の機能を実装することにしました：</p>
+<ul>
+<li><strong>ゲーム盤面の表示</strong>: グリッドで盤面を表示</li>
+<li><strong>マスの開封</strong>: クリックでマスを開ける</li>
+<li><strong>地雷の配置</strong>: ランダムに地雷を配置</li>
+<li><strong>数字の表示</strong>: 周囲の地雷数を表示</li>
+<li><strong>ゲーム終了判定</strong>: 地雷を踏んだらゲームオーバー、すべての安全なマスを開けたらクリア</li>
+<li><strong>リセット機能</strong>: ゲームをリセットできる</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day007_Minesweeper</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>マインスイーパーゲームの開発は、以下のようなプロンプトを投入しました：</p>
+<pre tabindex="0"><code>一番簡単なレベルのマインスイーパーゲーム。
+C:\Lazarus\Lazbuildでビルド
+</code></pre><p>このプロンプトで、マインスイーパーゲームの基本的な機能がすべて実装されました。</p>
+<h2 id="ビルドと実行">ビルドと実行</h2>
+<p>ビルドが成功したので、早速実行してみました。</p>
+<p><img src="/images/LazarusDay007_init.png" alt="マインスイーパーゲームの初期画面"></p>
+<p>うしろにPanel1という文字がでているのと、初手で爆弾にあたるときがあるので修正をお願いしました。</p>
+<p>プロンプト</p>
+<pre tabindex="0"><code>初手は地雷でないようにする。初手を打ってから地雷の配置をする。Panel1と表示されている。
+</code></pre><p>ゲームが正常に動作しています！盤面が表示され、マスをクリックすると開けるようになっています。</p>
+<h2 id="ゲームの機能">ゲームの機能</h2>
+<p>完成したマインスイーパーゲームには、以下の機能が実装されています：</p>
+<ul>
+<li>✅ <strong>盤面の表示</strong>: グリッドで盤面を表示</li>
+<li>✅ <strong>マスの開封</strong>: クリックでマスを開ける</li>
+<li>✅ <strong>地雷の配置</strong>: ランダムに地雷を配置</li>
+<li>✅ <strong>数字の表示</strong>: 周囲の地雷数を表示</li>
+<li>✅ <strong>ゲーム終了判定</strong>: 地雷を踏んだらゲームオーバー</li>
+<li>✅ <strong>クリア判定</strong>: すべての安全なマスを開けたらクリア</li>
+<li>✅ <strong>リセット機能</strong>: ゲームをリセットできる</li>
+</ul>
+<h2 id="ゲームオーバー画面">ゲームオーバー画面</h2>
+<p>地雷を踏むと、ゲームオーバーになります。</p>
+<p><img src="/images/LazarusDay007_gameover.png" alt="マインスイーパーゲームのゲームオーバー画面"></p>
+<p>ゲームオーバー時には、すべての地雷の位置が表示され、ゲームが終了します。</p>
+<h2 id="技術的なポイント">技術的なポイント</h2>
+<p>マインスイーパーゲームの実装では、以下の技術的なポイントがありました：</p>
+<ul>
+<li><strong>グリッドの管理</strong>: 2次元配列で盤面の状態を管理</li>
+<li><strong>地雷の配置</strong>: ランダムに地雷を配置し、重複を避ける</li>
+<li><strong>周囲の地雷数の計算</strong>: 各マスの周囲8方向の地雷数を計算</li>
+<li><strong>再帰的な開封</strong>: 周囲に地雷がないマスを自動的に開く</li>
+<li><strong>ゲーム状態の管理</strong>: ゲーム中、ゲームオーバー、クリアの状態を管理</li>
+</ul>
+<h2 id="学んだこと">学んだこと</h2>
+<p>Day7の開発を通じて、以下のことを学びました：</p>
+<h3 id="グリッドベースのゲーム開発">グリッドベースのゲーム開発</h3>
+<p>マインスイーパーは、グリッドベースのゲームの典型例です。</p>
+<ul>
+<li><strong>2次元配列の活用</strong>: 盤面の状態を2次元配列で管理することで、効率的に処理できる</li>
+<li><strong>周囲のマスの処理</strong>: 8方向のマスを処理するロジックを実装することで、地雷数の計算が可能になる</li>
+</ul>
+<h3 id="再帰的な処理">再帰的な処理</h3>
+<p>周囲に地雷がないマスを自動的に開く処理では、再帰的な処理が重要です。</p>
+<ul>
+<li><strong>再帰的な開封</strong>: 周囲に地雷がないマスを開くと、その周囲のマスも自動的に開く</li>
+<li><strong>効率的な処理</strong>: 再帰的な処理により、一度のクリックで広い範囲を開くことができる</li>
+</ul>
+<h3 id="ゲーム状態の管理">ゲーム状態の管理</h3>
+<p>ゲームの状態（ゲーム中、ゲームオーバー、クリア）を適切に管理することで、ゲームの動作が安定します。</p>
+<ul>
+<li><strong>状態の遷移</strong>: ゲーム中からゲームオーバー、またはクリアへの状態遷移を適切に処理</li>
+<li><strong>UIの更新</strong>: ゲーム状態に応じてUIを更新することで、ユーザーに分かりやすく表示</li>
+</ul>
+<h2 id="まとめ">まとめ</h2>
+<p>Day7では、マインスイーパーゲームを作成しました。</p>
+<ol>
+<li>
+<p><strong>LazManagerの活用</strong>: LazManagerを使って、プロジェクト作成からビルド、実行までをスムーズに行うことができた</p>
+</li>
+<li>
+<p><strong>グリッドベースのゲーム</strong>: 2次元配列で盤面を管理し、グリッドベースのゲームを実装できた</p>
+</li>
+<li>
+<p><strong>再帰的な処理</strong>: 周囲に地雷がないマスを自動的に開く処理を実装できた</p>
+</li>
+<li>
+<p><strong>ゲーム状態の管理</strong>: ゲームの状態を適切に管理することで、安定した動作を実現できた</p>
+</li>
+</ol>
+<h3 id="完成したマインスイーパーゲームについて">完成したマインスイーパーゲームについて</h3>
+<p>完成したマインスイーパーゲームは、基本的な機能が実装されており、快適にプレイできる状態になっています。地雷を避けながらマスを開けていく、クラシックなパズルゲームとして動作しています。</p>
+<h2 id="今後の改善案">今後の改善案</h2>
+<p>次回以降、以下のような改善を行うことで、より実用的なアプリになるでしょう：</p>
+<ul>
+<li><strong>難易度の選択</strong>: 初級、中級、上級などの難易度を選択できるようにする</li>
+<li><strong>タイマー機能</strong>: ゲーム開始からの経過時間を表示</li>
+<li><strong>地雷数の表示</strong>: 残りの地雷数を表示</li>
+<li><strong>フラグ機能</strong>: 右クリックで地雷にフラグを立てる機能</li>
+<li><strong>ハイスコア機能</strong>: 最速クリア時間を記録</li>
+</ul>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p>作成したアプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day007_Minesweeper.zip">day007_Minesweeper.zip</a></p>
+<p>次回のDay8では、また新しいアプリに挑戦します！</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 7/100</em></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day005-chess/">チェスゲームの作成 - Day5</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day004-reversi/">Reversi（リバーシ）ゲームの作成 - Day4</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day006-worldclock/">世界時計アプリの作成 - Day6</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day003-lazmanager/">LazManager - LazbuildをGUIで操作するアプリ - Day3</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day002-midi-player/">LazarusでMIDIプレイヤーを作成 - Day2</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day001-midi-kaeru/">LazarusでMIDIファイルを作成するアプリ - カエルの歌</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/survival-report-lazarus-challenge-2025/">生存報告。そして来年、私はLazarusの修羅に入る。</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

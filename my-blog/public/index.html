@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="私の技術ブログ">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-01-05T21:21:21+09:00">
-  <meta itemprop="dateModified" content="2026-01-05T21:21:21+09:00">
+  <meta itemprop="datePublished" content="2026-02-03T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-03T21:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="私の技術ブログ">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -141,80 +141,34 @@
       
           
         <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
-          <a href="/posts/lazarus-day005-chess/" class="db grow">
-            <img src="http://localhost:1313/images/LazarusDay005_Chess2.png" class="img" alt="image from チェスゲームの作成 - Day5">
+          <a href="/posts/lazarus-day034-pas2js-simple-interpreter/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay034.png" class="img" alt="image from Pas2JSで簡易インタープリタをブラウザで動かす - Day34">
           </a>
         </div>
       
       <div class="blah w-100 w-60-ns pl3-ns">
         <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/lazarus-day005-chess/" class="color-inherit dim link">
-            チェスゲームの作成 - Day5
+          <a href="/posts/lazarus-day034-pas2js-simple-interpreter/" class="color-inherit dim link">
+            Pas2JSで簡易インタープリタをブラウザで動かす - Day34
             </a>
         </h1>
         <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="チェスゲームの作成---day5">チェスゲームの作成 - Day5</h1>
-<p>Lazarusチャレンジ5日目です。今回は、前回同様<strong>LazManager</strong>を使って、<strong>チェスゲーム</strong>を作成することにしました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>前回のDay4で作成したReversiゲームと同様に、LazManagerを使って新しいプロジェクトを作成し、ゲームアプリを開発してみることにしました。選んだのは、<strong>チェス</strong>です。</p>
-<p>チェスは、8×8の盤面で白と黒の駒を交互に動かし、相手のキングをチェックメイトするゲームです。今回は、以下の機能を実装することにしました：</p>
+          <h1 id="pas2jsで簡易インタープリタをブラウザで動かす---day34">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</h1>
+<p>Lazarusチャレンジ34日目です。<strong>Pas2JS</strong> で、ブラウザ上で動く <strong>簡易インタープリタ</strong> を作成しました。PRINT・変数代入・IF/ELSE・WHILE/WEND をサポートし、式は <strong>再帰下降構文解析</strong> で四則演算の優先順位（<code>*</code>/<code>/</code> が <code>+</code>/<code>-</code> より優先、括弧対応）を正しく評価します。Pascal でトークナイザとパーサを実装し、DOM のテキストエリアとボタンから「Run」で実行できる構成にしています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
 <ul>
-<li><strong>ゲーム盤面の表示</strong>: 8×8のグリッドで盤面を表示</li>
-<li><strong>駒の移動</strong>: クリックで駒を選択し、移動できる</li>
-<li><strong>合法手の判定</strong>: 各駒の動きに応じた合法手の判定</li>
-<li><strong>AI対戦機能</strong>: 簡単なAIを実装して対戦できる</li>
-<li><strong>ターン表示</strong>: 現在のプレイヤーを表示</li>
-<li><strong>リセット機能</strong>: ゲームをリセットできる</li>
+<li><strong>PRINT 文</strong>: 式の値を数値として出力（変数・四則演算・括弧付き式を引数に可能）</li>
+<li><strong>変数</strong>: 代入（<code>x = 5</code>）と式内での参照。未定義変数は 0 として扱う</li>
+<li><strong>IF 文</strong>: 式が 0 でなければ直後の 1 文を実行、0 ならスキップ。<strong>ELSE</strong> 対応（ELSE を消費し、THEN/ELSE のどちらか一方だけ実行）</li>
+<li><strong>WHILE / WEND</strong>: 式が 0 でない間、本体（複数文）を繰り返し実行。ネストした WHILE や IF にも対応</li>
+<li><strong>式</strong>: 再帰下降で <code>+</code> <code>-</code> <code>*</code> <code>/</code>、括弧、単項 <code>+</code>/<code>-</code>、数値・変数を評価</li>
 </ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動します。アプリを起動すると、プロジェクト作成画面が表示されます。</p>
-<p><img src="/images/LazarusDay005_CreatedProject.png" alt="LazManagerのプロジェクト作成画面"></p>
-<p>プロジェクト名に「<strong>day005_Chess</strong>」と入力し、「作成」ボタンを押します。プロジェクトが作成されると、自動的に起動画面が有効になります。</p>
-<p>「<strong>Cursor</strong>」ボタンを押すと、Cursorが起動し、プロジェクトフォルダが開きます。これで開発の準備が整いました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>チェスゲームの開発は、1つのプロンプトに4つの項目をまとめて投入しました。Cursorを起動し、以下のプロンプトを一度に投入しました。</p>
-<pre tabindex="0"><code>1.チェスのゲームユニットの作成
-2.チェスができる簡単なAI Unitの作成
-3.チェスのUI作成
-4.C:\Lazarus\Lazbuildでビルド
-</code></pre><p>この1つのプロンプトだけで、以下の機能がすべて実装されました：</p>
-<ul>
-<li><strong>ゲームロジック</strong>: 盤面の管理、各駒の動きの判定、合法手の判定など、チェスの基本的なルールが実装されました</li>
-<li><strong>AI対戦機能</strong>: 評価関数を使って、合法手の中から最適な手を選択する機能が追加されました</li>
-<li><strong>UI</strong>: 盤面を描画し、マウスクリックで駒を選択・移動できるようになりました</li>
-<li><strong>ビルド</strong>: ビルドが成功し、実行ファイル <code>day005_Chess.exe</code> が作成されました</li>
-</ul>
-<h2 id="ビルドと実行">ビルドと実行</h2>
-<p>ビルドが成功したので、早速実行してみます。LazManagerの「<strong>実行ファイルを起動</strong>」ボタンからも起動できます。</p>
-<p><img src="/images/LazarusDay005_Chess1.png" alt="チェスゲームの最初の実行画面"></p>
-<p>ゲームが正常に動作しています！盤面が表示され、駒も配置されています。ただし、見た目がいまいちでした。駒が文字で表示されているため、見た目が分かりにくい状態でした。</p>
-<h2 id="uiの改善">UIの改善</h2>
-<p>見た目を改善するため、Unicode文字を使った表示に変更することにしました。</p>
-<pre tabindex="0"><code>UIの修正。
-ユニコードのキャラクターを使ってください。
-</code></pre><p>このプロンプトで、駒の表示がUnicode文字（♔、♕、♖、♗、♘、♙など）に変更され、見た目が大幅に改善されました。</p>
-<h2 id="キャスリング機能の追加">キャスリング機能の追加</h2>
-<p>実行してみると、キャスリングができないことが判明しました。チェスの重要な機能であるキャスリングを実装する必要がありました。</p>
-<h3 id="キャスリングとは">キャスリングとは</h3>
-<p>キャスリングは、キングとルークを一度の手で同時に動かす特殊な手です。キングを2マス横に移動させ、その方向のルークをキングの隣に移動させます。</p>
-<p>キャスリングが可能な条件は以下の通りです：</p>
-<ul>
-<li><strong>キングとルークが一度も動いていない</strong>: 両方の駒が初期位置から動いていない必要があります</li>
-<li><strong>キングとルークの間に他の駒がない</strong>: キングとルークの間のマスが空いている必要があります</li>
-<li><strong>キングがチェックされていない</strong>: キングが現在チェックされている状態ではキャスリングできません</li>
-<li><strong>キングが通過するマスが攻撃されていない</strong>: キングが移動するマスと、その隣のマスが相手の駒に攻撃されていない必要があります</li>
-<li><strong>キングが移動先でチェックされない</strong>: キャスリング後のキングの位置がチェックされない必要があります</li>
-</ul>
-<p>キャスリングには2種類あります：</p>
-<ul>
-<li><strong>キングサイドキャスリング（ショートキャスリング）</strong>: キングを右に2マス、右側のルークをキングの左隣に移動</li>
-<li><strong>クイーンサイドキャスリング（ロングキャスリング）</strong>: キングを左に2マス、左側のルークをキングの右隣に移動</li>
-</ul>
-<pre tabindex="0"><code>キャスリングができるようにしてください。
-</code></pre><p>このプロンプトで、キャスリング機能が実装されました。キングとルークが適切な条件を満たしている場合、キャスリングが可能になりました。</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-ブラウザ向けコンパイルと-onclick-の型">1. ブラウザ向けコンパイルと onclick の型</h3>
+<p>pas2js でブラウザ向けにコンパイルする際、DOM の <code>onclick</code> には <strong>手続き型ではなく関数型</strong>（戻り値あり）が必要です。<code>OnRunClick</code> を <code>procedure</code> から <code>function OnRunClick(Event: TJSMouseEvent): Boolean</code> に変更し、先頭で <code>Result := True</code> を代入することでコンパイルエラーを解消しています。</p>
         </div>
         
-          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day005-chess/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day034-pas2js-simple-interpreter/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
       </div>
     </div>
   </div>
@@ -230,78 +184,65 @@
       
           
         <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
-          <a href="/posts/lazarus-day004-reversi/" class="db grow">
-            <img src="http://localhost:1313/images/LazarusDay004_Reversi.png" class="img" alt="image from Reversi（リバーシ）ゲームの作成 - Day4">
+          <a href="/posts/lazarus-day033-pas2js-whiteboard/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay033.png" class="img" alt="image from Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33">
           </a>
         </div>
       
       <div class="blah w-100 w-60-ns pl3-ns">
         <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/lazarus-day004-reversi/" class="color-inherit dim link">
-            Reversi（リバーシ）ゲームの作成 - Day4
+          <a href="/posts/lazarus-day033-pas2js-whiteboard/" class="color-inherit dim link">
+            Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33
             </a>
         </h1>
         <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="reversiリバーシゲームの作成---day4">Reversi（リバーシ）ゲームの作成 - Day4</h1>
-<p>Lazarusチャレンジ4日目です。今回は、前回作成した<strong>LazManager</strong>を使って、<strong>Reversi（リバーシ）ゲーム</strong>を作成することにしました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>Day3で作成したLazManagerを実際に使って、新しいプロジェクトを作成し、ゲームアプリを開発してみることにしました。選んだのは、  <strong>Reversi（リバーシ、オセロ）</strong> です。</p>
-<p>Reversiは、8×8の盤面で黒と白の石を交互に置き、相手の石を挟んでひっくり返すゲームです。今回は、以下の機能を実装することにしました：</p>
+          <h1 id="pas2jsでオートシェイプ風ホワイトボードを作成---day33">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</h1>
+<p>Lazarusチャレンジ33日目です。<strong>Pas2JS</strong> で、Canvas 上で図形（矩形・円・線）を「オブジェクト」として管理し、ドラッグで描画・移動できる <strong>オートシェイプ風ホワイトボード</strong> を作成しました。Pascal の <strong>継承とポリモーフィズム</strong> を活かした設計で、図形を基底クラス <code>TShape</code> から派生させ、リストで一括描画・ヒット判定しています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
 <ul>
-<li><strong>ゲーム盤面の表示</strong>: 8×8のグリッドで盤面を表示</li>
-<li><strong>石の配置</strong>: クリックで石を配置できる</li>
-<li><strong>合法手の判定</strong>: 置ける場所を判定し、黄色の点で表示</li>
-<li><strong>石の反転</strong>: 挟んだ石を自動的に反転</li>
-<li><strong>AI対戦機能</strong>: 簡単なAIを実装して対戦できる</li>
-<li><strong>スコア表示</strong>: 黒と白の石の数を表示</li>
-<li><strong>ゲーム状態管理</strong>: ターン管理、ゲーム終了判定</li>
+<li><strong>ツールパレット</strong>: 選択・四角・丸・線を切り替え。選択ツールで既存図形をドラッグして移動。</li>
+<li><strong>図形の追加</strong>: 四角・丸・線を選んでキャンバス上でドラッグすると、プレビュー表示のあとマウスを離すと図形が確定。</li>
+<li><strong>色パレット</strong>: 10色のスウォッチで色を選択。選択した色が以降に追加する図形に適用され、現在色はプレビュー欄に表示。</li>
+<li><strong>ヒット判定</strong>: 各図形が <code>Contains(PX, PY)</code> で「自分がクリックされたか」を判定。重なりは上（配列の後ろ）から判定。</li>
 </ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動します。アプリを起動すると、プロジェクト作成画面が表示されます。</p>
-<p><img src="/images/LazarusDay004_createproject.png" alt="LazManagerのプロジェクト作成画面"></p>
-<p>プロジェクト名に「<strong>day004_Reversi</strong>」と入力し、「作成」ボタンを押します。プロジェクトが作成されると、自動的に起動画面が有効になります。</p>
-<p><img src="/images/LazarusDay004_createdproject.png" alt="LazManagerの起動画面"></p>
-<p>「<strong>Cursor</strong>」ボタンを押すと、Cursorが起動し、プロジェクトフォルダが開きます。これで開発の準備が整いました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>Reversiゲームの開発は、4つのプロンプトに分けて進めました。それぞれのプロンプトで段階的に機能を実装していきます。</p>
-<h3 id="プロンプト1-reversiゲームユニットの作成">プロンプト1: Reversiゲームユニットの作成</h3>
-<p>最初のプロンプトでは、ゲームのロジック部分を実装するユニットを作成しました。</p>
-<pre tabindex="0"><code>Reversiゲームユニットの作成
-</code></pre><p>このプロンプトだけで、ゲームの核心となるロジック部分が実装されました。盤面の管理、合法手の判定、石の反転など、Reversiの基本的なルールがすべて実装されています。</p>
-<h3 id="プロンプト2-reversiができる簡単なai-unitの作成">プロンプト2: Reversiができる簡単なAI Unitの作成</h3>
-<p>次に、AI対戦機能を実装するユニットを作成しました。</p>
-<pre tabindex="0"><code>Reversiができる簡単なAI Unitの作成
-</code></pre><p>このプロンプトだけで、AI対戦機能が実装されました。評価関数を使って、合法手の中から最適な手を選択する機能が追加されています。角や端の価値を考慮した評価関数により、ある程度の強さを持つAIが実装できました。</p>
-<h3 id="プロンプト3-reversiのui作成">プロンプト3: ReversiのUI作成</h3>
-<p>3つ目のプロンプトでは、ユーザーインターフェースを作成しました。</p>
-<pre tabindex="0"><code>ReversiのUI作成
-</code></pre><p>このプロンプトで、ゲームのUIが完成しました。盤面を描画し、マウスクリックで石を配置できるようになりました。合法手を黄色の点で表示する機能も実装されています。</p>
-<h3 id="プロンプト4-ビルド">プロンプト4: ビルド</h3>
-<p>最後に、ビルドの指示を出しました。</p>
-<pre tabindex="0"><code>C:\Lazarus\lazbuildでビルドしてください。
-</code></pre><p>ビルドが成功し、実行ファイル <code>day004_Reversi.exe</code> が作成されました。</p>
-<h2 id="ビルドと実行">ビルドと実行</h2>
-<p>ビルドが成功したので、早速実行してみます。LazManagerの「<strong>実行ファイルを起動</strong>」ボタンからも起動できます。</p>
-<p><img src="/images/LazarusDay004_Reversi.png" alt="Reversiゲームの実行画面"></p>
-<p>ゲームが正常に動作しています！盤面が表示され、合法手が黄色の点で表示されています。現在のプレイヤーは「黒」で、スコアも正しく表示されています。</p>
-<h2 id="ゲームの機能">ゲームの機能</h2>
-<p>完成したReversiゲームには、以下の機能が実装されています：</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-クラス設計継承の活用">1. クラス設計（継承の活用）</h3>
+<p>すべての図形の基本となる抽象クラス <code>TShape</code> を定義し、矩形・円・線を派生させています。</p>
 <ul>
-<li>✅ <strong>盤面の表示</strong>: 8×8のグリッドで盤面を表示</li>
-<li>✅ <strong>石の配置</strong>: クリックで石を配置できる</li>
-<li>✅ <strong>合法手の表示</strong>: 置ける場所を黄色の点で表示</li>
-<li>✅ <strong>石の反転</strong>: 挟んだ石を自動的に反転</li>
-<li>✅ <strong>AI対戦機能</strong>: 「AIの手」ボタンでAIに手を打たせる</li>
-<li>✅ <strong>AI自動プレイ</strong>: チェックボックスをONにすると、AIが自動的に手を打つ</li>
-<li>✅ <strong>スコア表示</strong>: 黒と白の石の数をリアルタイムで表示</li>
-<li>✅ <strong>ゲーム状態管理</strong>: ターン管理、ゲーム終了判定</li>
-<li>✅ <strong>新しいゲーム</strong>: ボタンでゲームをリセット</li>
+<li><strong>TShape</strong>: 座標 <code>(X, Y)</code>、サイズ <code>(W, H)</code>、色 <code>Color</code>、および <code>Draw</code>（描画）と <code>Contains(PX, PY)</code>（クリック判定）を持つ。<code>Draw</code> は <code>virtual; abstract;</code> で派生クラスが実装。</li>
+<li><strong>TRectangle</strong>: 矩形の <code>fillRect</code> / <code>strokeRect</code> で描画。<code>Contains</code> は基底の「矩形内か」でそのまま利用。</li>
+<li><strong>TCircle</strong>: 中心と半径から <code>arc</code> で描画。<code>Contains</code> は中心からの距離で円内か判定（<code>dx*dx + dy*dy &lt;= r*r</code>）。</li>
+<li><strong>TLine</strong>: 始点から終点まで <code>moveTo</code> / <code>lineTo</code> で描画。<code>Contains</code> は線の両端で作る矩形＋余白（HitPad）で近傍クリックを許容。</li>
 </ul>
-<h2 id="aiとの対戦結果">AIとの対戦結果</h2>
-<p>作者はリバーシが家族には負けない自信がありました。しかし、油断してこちらのAIには<strong>23対41</strong>で負けてしまいました。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">type
+  TShape = class
+    X, Y, W, H: Integer;
+    Color: String;
+    constructor Create(AX, AY, AW, AH: Integer; AColor: String);
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); virtual; abstract;
+    function Contains(PX, PY: Integer): Boolean; virtual;
+  end;
+
+  TRectangle = class(TShape)
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
+  end;
+
+  TCircle = class(TShape)
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
+    function Contains(PX, PY: Integer): Boolean; override;
+  end;
+
+  TLine = class(TShape)
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
+    function Contains(PX, PY: Integer): Boolean; override;
+  end;
+
+  TToolMode = (tmSelect, tmRect, tmCircle, tmLine);
+</code></pre><h3 id="2-ポリモーフィズムで一括描画">2. ポリモーフィズムで一括描画</h3>
+<p><code>Render</code> では <code>Shapes</code> 配列を走査し、<code>s.Draw(Ctx)</code> を呼ぶだけです。矩形・円・線の違いを意識せず、各オブジェクトが自分の描画を行います。</p>
         </div>
         
-          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day004-reversi/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day033-pas2js-whiteboard/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
       </div>
     </div>
   </div>
@@ -317,111 +258,50 @@
       
           
         <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
-          <a href="/posts/lazarus-day003-lazmanager/" class="db grow">
-            <img src="http://localhost:1313/images/LazarusDay003.png" class="img" alt="image from LazManager - LazbuildをGUIで操作するアプリ - Day3">
+          <a href="/posts/lazarus-day031-pas2js-markdown/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay031.png" class="img" alt="image from Pas2JSでMarkdownエディタを作成 - Day31">
           </a>
         </div>
       
       <div class="blah w-100 w-60-ns pl3-ns">
         <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/lazarus-day003-lazmanager/" class="color-inherit dim link">
-            LazManager - LazbuildをGUIで操作するアプリ - Day3
+          <a href="/posts/lazarus-day031-pas2js-markdown/" class="color-inherit dim link">
+            Pas2JSでMarkdownエディタを作成 - Day31
             </a>
         </h1>
         <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="lazmanager---lazbuildをguiで操作するアプリ---day3">LazManager - LazbuildをGUIで操作するアプリ - Day3</h1>
-<p>Lazarusチャレンジ3日目です。今回は、 <strong>LazbuildをGUIで操作するアプリ「LazManager」</strong> を作成することにしました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>Day2の開発を通じて、Lazarusプロジェクトをコマンドラインからビルドする際に、毎回<code>C:\Lazarus\lazbuild</code>とフルパスを指定する必要があることに気づきました。また、プロジェクトの作成や管理をGUIで行えるツールがあれば便利だと考えました。</p>
-<p>そこで今回は、以下の機能を持つLazManagerを開発することにしました：</p>
+          <h1 id="pas2jsでmarkdownエディタを作成---day31">Pas2JSでMarkdownエディタを作成 - Day31</h1>
+<p>Lazarusチャレンジ31日目です。<strong>Pas2JS</strong> で、左にエディタ・右にプレビューを表示する <strong>簡易Markdownエディタ</strong> を作成しました。marked.js などの外部ライブラリは使わず、<strong>Pascal のロジックのみ</strong>で Markdown を HTML に変換する <code>ParseMarkdown</code> を実装しています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
 <ul>
-<li><strong>設定画面</strong>: Lazbuildのパス、エディタの設定、プロジェクトルートフォルダの既定値を設定</li>
-<li><strong>作成画面</strong>: プロジェクトの新規作成（コンソール、単純なプログラム、アプリケーション）</li>
-<li><strong>起動画面</strong>: エディタやコンソール、Lazarus IDE、エクスプローラーでプロジェクトを起動</li>
+<li><strong>左右分割レイアウト</strong>: 左側がテキストエリア（Markdown入力）、右側がプレビュー（HTML表示）</li>
+<li><strong>リアルタイムプレビュー</strong>: 入力するたびに <code>oninput</code> でプレビューを更新</li>
+<li><strong>対応記法</strong>: 見出し（<code>#</code>, <code>##</code>）、<strong>太字</strong>（<code>**</code>）、リスト（<code>*</code> / <code>-</code>）、リンク（<code>[text](url)</code>）、水平線（<code>---</code>）、段落</li>
 </ul>
-<h2 id="アプリの仕様">アプリの仕様</h2>
-<h3 id="設定画面">設定画面</h3>
-<p>以下の設定項目を用意します：</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-dom-へのアクセスとイベント">1. DOM へのアクセスとイベント</h3>
+<p>HTML 側で <code>id=&quot;editor&quot;</code>（textarea）と <code>id=&quot;preview&quot;</code>（div）を定義し、Pascal 側で <code>document.getElementById</code> で取得します。入力のたびにプレビューを更新するため、<code>EditorElem.oninput := @DoUpdate</code> でイベントを紐付けています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">EditorElem := TJSHTMLTextAreaElement(document.getElementById(&#39;editor&#39;));
+PreviewElem := TJSHTMLElement(document.getElementById(&#39;preview&#39;));
+if Assigned(EditorElem) then
+  EditorElem.oninput := @DoUpdate;
+</code></pre><h3 id="2-簡易-markdown-パーサーparsemarkdown">2. 簡易 Markdown パーサー（ParseMarkdown）</h3>
+<p>改行で分割して1行ずつ処理し、行頭の記号でブロック要素を判定してから、インラインの強調・リンクを正規表現で置換しています。</p>
 <ul>
-<li><strong>Lazbuildのパス</strong>: コマンドラインからビルドする際に使用するlazbuildのパス</li>
-<li><strong>エディタ1のパスと名前</strong>: Cursor用の設定</li>
-<li><strong>エディタ2のパスと名前</strong>: VSCode用の設定</li>
-<li><strong>エディタ3のパスと名前</strong>: Antigravity用の設定</li>
-<li><strong>プロジェクトルートフォルダの既定</strong>: 新規プロジェクトを作成する際のデフォルトフォルダ</li>
+<li><strong>水平線</strong>: <code>---</code> の行を <code>&lt;hr /&gt;</code> に</li>
+<li><strong>見出し</strong>: <code>#</code>  で始まる行を <code>&lt;h1&gt;</code>、<code>##</code>  を <code>&lt;h2&gt;</code> に</li>
+<li><strong>リスト</strong>: 行頭の <code>*</code>  または <code>-</code>  を <code>&lt;li&gt;</code> に</li>
+<li><strong>強調</strong>: <code>**...**</code> を <code>TJSRegExp</code> で <code>&lt;strong&gt;...&lt;/strong&gt;</code> に</li>
+<li><strong>リンク</strong>: <code>[text](url)</code> を <code>&lt;a href=&quot;url&quot; target=&quot;_blank&quot;&gt;text&lt;/a&gt;</code> に</li>
+<li><strong>段落</strong>: 上記のいずれでもない非空行を <code>&lt;p&gt;...&lt;/p&gt;</code> で囲む</li>
 </ul>
-<h3 id="作成画面">作成画面</h3>
-<p>プロジェクトを作成するための画面です：</p>
-<ul>
-<li><strong>プロジェクトルートフォルダ</strong>: 設定画面で指定した既定値を初期表示</li>
-<li><strong>アプリ名称</strong>: ローマ字で入力（プロジェクト名として使用）</li>
-<li><strong>アプリの種類</strong>: ラジオボックスで選択
-<ul>
-<li>コンソール</li>
-<li>単純なプログラム（lprのみ）</li>
-<li>アプリケーション（Winアプリ）</li>
-</ul>
-</li>
-<li><strong>作成ボタン</strong>: 押下すると、プロジェクトルートフォルダ＋アプリ名フォルダを作成し、そのフォルダにlazbuildで初期プロジェクトを作成</li>
-</ul>
-<h3 id="起動画面">起動画面</h3>
-<p>作成したプロジェクトを起動するための画面です：</p>
-<ul>
-<li><strong>エディタの起動</strong>: 設定したエディタの名前を表示し、そのフォルダで起動可能</li>
-<li><strong>コンソールの起動</strong>: そのフォルダでコマンドプロンプトを起動</li>
-<li><strong>LPIファイルの起動</strong>: Lazarus IDEでlpiファイルを開く（デフォルトアプリで起動）</li>
-<li><strong>エクスプローラーの起動</strong>: そのフォルダをエクスプローラーで開く</li>
-</ul>
-<h3 id="画面遷移">画面遷移</h3>
-<p>作成画面と起動画面は、同じフォーム上でコントロールの表示/非表示を切り替えることで実現します。プロジェクトを作成した後、自動的に起動画面に切り替わるようにします。</p>
-<h2 id="cursorに投げたプロンプト">Cursorに投げたプロンプト</h2>
-<p>プロジェクトを作成し、Cursorへ以下のプロンプトを投げました：</p>
-<pre tabindex="0"><code># 目的
-Lazarus (Object Pascal) を使用して、Lazarusプロジェクトの作成・管理を効率化するGUIツールを作成したい。
-
-# 動作環境・設定
-- 言語: Object Pascal (Lazarus/LCL)
-- Lazbuildのパス: C:\Lazarus\Lazbuild.exe (デフォルト値)
-- 設定保存: TXMLPropStorage または TJSONConfig を使用して、exeと同じ階層のconfigファイルに保存する。
-
-# UI構成 (TForm1)
-1. **設定セクション** (TPageControlまたは別フォーム)
-   - Lazbuildのフルパス入力 (TFileNameEdit)
-   - エディタ1〜3の「名前」と「実行ファイルパス」の入力欄
-   - 既定のプロジェクトルートフォルダ (TDirectoryEdit)
-
-2. **メインセクション (作成・起動 兼用)**
-   - **新規作成パネル**:
-     - プロジェクト名入力 (TEdit: ローマ字)
-     - プロジェクトルート選択 (TDirectoryEdit: 設定値を初期表示)
-     - 種類選択 (TRadioGroup): 「コンソール」「単純なプログラム(lpr)」「アプリケーション(GUI)」
-     - 「作成」ボタン
-   - **起動・操作パネル**:
-     - エディタ1〜3の名前が付いたボタン（設定から動的にキャプションを変更）
-     - 「コンソールをここで開く」ボタン
-     - 「Lazarus IDEで開く (.lpi)」ボタン
-     - 「エクスプローラーで開く」ボタン
-
-# 処理ロジックの指示
-1. **作成ボタン押下時**:
-   - `ForceDirectories` でフォルダを作成。
-   - `TProcess` を使用して、以下のコマンドを実行してプロジェクトを生成する。
-     - 例: `lazbuild --create-project=app [プロジェクト名].lpi` (種類に応じて引数を変える)
-   - 成功したら、起動パネルを表示（または活性化）させる。
-
-2. **エディタ起動**:
-   - `TProcess` を使用して、設定されたエディタパスを実行する。その際、カレントディレクトリをプロジェクトフォルダに設定すること。
-
-3. **LPI起動**:
-   - `OpenDocument` (LCLIntfユニット) を使用して、システム既定のアプリで .lpi を開く。
-
-# Cursorへの追加指示
-- まず、これらを実現するためのユニット（MainForm.pas）のコード全体を生成してください。
-- 各ボタンのOnClickイベントの実装を含めてください。
-- Windows環境を前提としたパス処理にしてください。
-</code></pre><p>この時点で考え違いをしていたのだが、実は<strong>Lazbuildにはプロジェクト作成機能はない</strong>のかもしれない。よくわからんが。そのため、プロジェクト作成機能もLazManagerに実装することになる。Cursor君がんばれ。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">Line := TJSString(Line).replace(TJSRegExp.New(&#39;\*\*(.*?)\*\*&#39;, &#39;g&#39;), &#39;&lt;strong&gt;$1&lt;/strong&gt;&#39;);
+Line := TJSString(Line).replace(TJSRegExp.New(&#39;\[(.*?)\]\((.*?)\)&#39;, &#39;g&#39;), &#39;&lt;a href=&#34;$2&#34; target=&#34;_blank&#34;&gt;$1&lt;/a&gt;&#39;);
+</code></pre><h3 id="3-tjsstring--tjsregexp-の利用">3. TJSString / TJSRegExp の利用</h3>
+<p>pas2js では、Pascal の <code>string</code> を <code>TJSString(...)</code> で JavaScript の String として扱い、<code>.split()</code> や <code>.replace()</code> が使えます。正規表現は <code>TJSRegExp.New('パターン', 'g')</code> で生成し、<code>$1</code>, <code>$2</code> でキャプチャを参照できます。外部の Markdown ライブラリに頼らずに、Pascal だけで簡易パーサーを書けるポイントです。</p>
         </div>
         
-          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day003-lazmanager/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day031-pas2js-markdown/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
       </div>
     </div>
   </div>
@@ -437,26 +317,26 @@ Lazarus (Object Pascal) を使用して、Lazarusプロジェクトの作成・�
           
           
             <h2 class="f5 fw4 mb4 dib mr3">
-              <a href="/posts/lazarus-day002-midi-player/" class="link black dim">
-                LazarusでMIDIプレイヤーを作成 - Day2
+              <a href="/posts/lazarus-day032-pas2js-userform/" class="link black dim">
+                Pas2JSで型安全なユーザー登録フォームを作成 - Day32
               </a>
             </h2>
           
             <h2 class="f5 fw4 mb4 dib mr3">
-              <a href="/posts/lazarus-day001-midi-kaeru/" class="link black dim">
-                LazarusでMIDIファイルを作成するアプリ - カエルの歌
+              <a href="/posts/lazarus-day030-pas2js-calculator/" class="link black dim">
+                Pas2JSで計算機アプリを作成 - Day30
               </a>
             </h2>
           
             <h2 class="f5 fw4 mb4 dib mr3">
-              <a href="/posts/why-markdown-bold-not-working/" class="link black dim">
-                HugoでMarkdownの**が強調表示されない理由と解決方法
+              <a href="/posts/lazarus-day029-pas2js-color/" class="link black dim">
+                Pas2JSでカラー表示アプリを作成 - Day29
               </a>
             </h2>
           
             <h2 class="f5 fw4 mb4 dib mr3">
-              <a href="/posts/survival-report-lazarus-challenge-2025/" class="link black dim">
-                生存報告。そして来年、私はLazarusの修羅に入る。
+              <a href="/posts/lazarus-day028-pas2js-calendar/" class="link black dim">
+                Pas2JSでカレンダーアプリを作成 - Day28
               </a>
             </h2>
           

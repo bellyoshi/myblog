@@ -214,6 +214,8 @@ pas2js .\calendar.pas -Tbrowser "-Jirtl.js"
 
 ## ダウンロード
 
+**アプリをブラウザで開く**: [カレンダーアプリを開く](/apps/day028/calendar.html)
+
 作成したカレンダーアプリは以下のリンクからダウンロードできます：
 
 [day028_calendar.zip](/downloads/day028_calendar.zip)
