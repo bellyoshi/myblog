@@ -1,192 +1,16 @@
-<!DOCTYPE html>
-<html lang="ja-jp">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
-    <title>Pas2JSでMarkdownエディタを作成 - Day31 | 私の技術ブログ</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <meta name="description" content="Lazarusチャレンジ31日目。Pas2JSで左にエディタ・右にプレビューを表示する簡易Markdownエディタを作成しました。外部ライブラリなしで、PascalのParseMarkdownで見出し・強調・リスト・リンク・水平線を実装しています。">
-    <meta name="generator" content="Hugo 0.153.4">
-    
-    
-    
-      <meta name="robots" content="noindex, nofollow">
-    
-    <meta name="author" content="ブログ管理者">
-    
-
-    
-<link rel="stylesheet" href="/ananke/css/main.min.css" >
-
-
-
-
-    
-
-
-    
-      
-
-    
-
-    
-
-    
-      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day031-pas2js-markdown/">
-    
-
-    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day031-pas2js-markdown/">
-  <meta property="og:site_name" content="私の技術ブログ">
-  <meta property="og:title" content="Pas2JSでMarkdownエディタを作成 - Day31">
-  <meta property="og:description" content="Lazarusチャレンジ31日目。Pas2JSで左にエディタ・右にプレビューを表示する簡易Markdownエディタを作成しました。外部ライブラリなしで、PascalのParseMarkdownで見出し・強調・リスト・リンク・水平線を実装しています。">
-  <meta property="og:locale" content="ja_jp">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-02-01T21:00:00+09:00">
-    <meta property="article:modified_time" content="2026-02-01T21:00:00+09:00">
-
-  <meta itemprop="name" content="Pas2JSでMarkdownエディタを作成 - Day31">
-  <meta itemprop="description" content="Lazarusチャレンジ31日目。Pas2JSで左にエディタ・右にプレビューを表示する簡易Markdownエディタを作成しました。外部ライブラリなしで、PascalのParseMarkdownで見出し・強調・リスト・リンク・水平線を実装しています。">
-  <meta itemprop="datePublished" content="2026-02-01T21:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-02-01T21:00:00+09:00">
-  <meta itemprop="wordCount" content="524">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Pas2JSでMarkdownエディタを作成 - Day31">
-  <meta name="twitter:description" content="Lazarusチャレンジ31日目。Pas2JSで左にエディタ・右にプレビューを表示する簡易Markdownエディタを作成しました。外部ライブラリなしで、PascalのParseMarkdownで見出し・強調・リスト・リンク・水平線を実装しています。">
-
-	<link rel="stylesheet" href="/css/custom.css">
-
-
-  </head><body class="ma0 avenir bg-near-white development">
-
-    
-   
-  
-
-  
-  
-  
-  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay031.png');">
-    <div class="bg-black-60">
-      <nav class="pv3 ph3 ph4-ns" role="navigation">
-  <div class="flex-l center items-center justify-between">
-    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
-      
-        私の技術ブログ
-      
-    </a>
-    <div class="flex-l items-center">
-      
-
-      
-        <ul class="pl0 mr3">
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
-              投稿
-            </a>
-          </li>
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
-              カテゴリ
-            </a>
-          </li>
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
-              タグ
-            </a>
-          </li>
-          
-        </ul>
-      
-      <div class="ananke-socials"></div>
-
-    </div>
-  </div>
-</nav>
-
-      <div class="tc-l pv6 ph3 ph4-ns">
-        
-          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSでMarkdownエディタを作成 - Day31</div>
-          
-            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
-              Lazarusチャレンジ31日目。Pas2JSで左にエディタ・右にプレビューを表示する簡易Markdownエディタを作成しました。外部ライブラリなしで、PascalのParseMarkdownで見出し・強調・リスト・リンク・水平線を実装しています。
-            </div>
-          
-        
-      </div>
-    </div>
-  </header>
-
-
-
-    <main class="pb7" role="main">
-      
-  
-  
-  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
-    <header class="mt4 w-100">
-      <aside class="instapaper_ignoref b helvetica tracked ttu">
-          
-        Posts
-      </aside><div id="sharing" class="mt3 ananke-socials"></div>
-<h1 class="f1 athelas mt3 mb1">Pas2JSでMarkdownエディタを作成 - Day31</h1>
-      
-      <p class="tracked"><strong>ブログ管理者</strong>
-      </p>
-      
-      
-      
-      <time class="f6 mv4 dib tracked" datetime="2026-02-01T21:00:00+09:00">February 1, 2026</time>
-      
-
-      
-      
-    </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsでmarkdownエディタを作成---day31">Pas2JSでMarkdownエディタを作成 - Day31</h1>
-<p>Lazarusチャレンジ31日目です。<strong>Pas2JS</strong> で、左にエディタ・右にプレビューを表示する <strong>簡易Markdownエディタ</strong> を作成しました。marked.js などの外部ライブラリは使わず、<strong>Pascal のロジックのみ</strong>で Markdown を HTML に変換する <code>ParseMarkdown</code> を実装しています。</p>
-<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
-<ul>
-<li><strong>左右分割レイアウト</strong>: 左側がテキストエリア（Markdown入力）、右側がプレビュー（HTML表示）</li>
-<li><strong>リアルタイムプレビュー</strong>: 入力するたびに <code>oninput</code> でプレビューを更新</li>
-<li><strong>対応記法</strong>: 見出し（<code>#</code>, <code>##</code>）、<strong>太字</strong>（<code>**</code>）、リスト（<code>*</code> / <code>-</code>）、リンク（<code>[text](url)</code>）、水平線（<code>---</code>）、段落</li>
-</ul>
-<h2 id="実装のポイント">実装のポイント</h2>
-<h3 id="1-dom-へのアクセスとイベント">1. DOM へのアクセスとイベント</h3>
-<p>HTML 側で <code>id=&quot;editor&quot;</code>（textarea）と <code>id=&quot;preview&quot;</code>（div）を定義し、Pascal 側で <code>document.getElementById</code> で取得します。入力のたびにプレビューを更新するため、<code>EditorElem.oninput := @DoUpdate</code> でイベントを紐付けています。</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">EditorElem := TJSHTMLTextAreaElement(document.getElementById(&#39;editor&#39;));
+<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>Pas2JSでMarkdownエディタを作成 - Day31 | 私の技術ブログ</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Lazarusチャレンジ31日目。Pas2JSで左にエディタ・右にプレビューを表示する簡易Markdownエディタを作成しました。外部ライブラリなしで、PascalのParseMarkdownで見出し・強調・リスト・リンク・水平線を実装しています。"><meta name=generator content="Hugo 0.153.4"><meta name=robots content="index, follow"><meta name=author content="ブログ管理者"><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=canonical href=https://your-site-name.netlify.app/posts/lazarus-day031-pas2js-markdown/><meta property="og:url" content="https://your-site-name.netlify.app/posts/lazarus-day031-pas2js-markdown/"><meta property="og:site_name" content="私の技術ブログ"><meta property="og:title" content="Pas2JSでMarkdownエディタを作成 - Day31"><meta property="og:description" content="Lazarusチャレンジ31日目。Pas2JSで左にエディタ・右にプレビューを表示する簡易Markdownエディタを作成しました。外部ライブラリなしで、PascalのParseMarkdownで見出し・強調・リスト・リンク・水平線を実装しています。"><meta property="og:locale" content="ja_jp"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-02-01T21:00:00+09:00"><meta property="article:modified_time" content="2026-02-01T21:00:00+09:00"><meta itemprop=name content="Pas2JSでMarkdownエディタを作成 - Day31"><meta itemprop=description content="Lazarusチャレンジ31日目。Pas2JSで左にエディタ・右にプレビューを表示する簡易Markdownエディタを作成しました。外部ライブラリなしで、PascalのParseMarkdownで見出し・強調・リスト・リンク・水平線を実装しています。"><meta itemprop=datePublished content="2026-02-01T21:00:00+09:00"><meta itemprop=dateModified content="2026-02-01T21:00:00+09:00"><meta itemprop=wordCount content="524"><meta name=twitter:card content="summary"><meta name=twitter:title content="Pas2JSでMarkdownエディタを作成 - Day31"><meta name=twitter:description content="Lazarusチャレンジ31日目。Pas2JSで左にエディタ・右にプレビューを表示する簡易Markdownエディタを作成しました。外部ライブラリなしで、PascalのParseMarkdownで見出し・強調・リスト・リンク・水平線を実装しています。"><link rel=stylesheet href=/css/custom.css></head><body class="ma0 avenir bg-near-white production"><header class="cover bg-center" style=background-image:url(https://your-site-name.netlify.app/images/LazarusDay031.png)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">私の技術ブログ</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="投稿 page">投稿</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/categories/ title="カテゴリ page">カテゴリ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/tags/ title="タグ page">タグ</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv6 ph3 ph4-ns"><div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSでMarkdownエディタを作成 - Day31</div><div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">Lazarusチャレンジ31日目。Pas2JSで左にエディタ・右にプレビューを表示する簡易Markdownエディタを作成しました。外部ライブラリなしで、PascalのParseMarkdownで見出し・強調・リスト・リンク・水平線を実装しています。</div></div></div></header><main class=pb7 role=main><article class="flex-l mw8 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day030-pas2js-calculator/>← チャレンジ30日目へ</a>
+</span><span><a href=/posts/lazarus-day032-pas2js-userform/>チャレンジ32日目へ →</a></span></nav><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">Pas2JSでMarkdownエディタを作成 - Day31</h1><p class=tracked><strong>ブログ管理者</strong></p><time class="f6 mv4 dib tracked" datetime=2026-02-01T21:00:00+09:00>February 1, 2026</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id=pas2jsでmarkdownエディタを作成---day31>Pas2JSでMarkdownエディタを作成 - Day31</h1><p>Lazarusチャレンジ31日目です。<strong>Pas2JS</strong> で、左にエディタ・右にプレビューを表示する <strong>簡易Markdownエディタ</strong> を作成しました。marked.js などの外部ライブラリは使わず、<strong>Pascal のロジックのみ</strong>で Markdown を HTML に変換する <code>ParseMarkdown</code> を実装しています。</p><h2 id=作成したアプリの機能>作成したアプリの機能</h2><ul><li><strong>左右分割レイアウト</strong>: 左側がテキストエリア（Markdown入力）、右側がプレビュー（HTML表示）</li><li><strong>リアルタイムプレビュー</strong>: 入力するたびに <code>oninput</code> でプレビューを更新</li><li><strong>対応記法</strong>: 見出し（<code>#</code>, <code>##</code>）、<strong>太字</strong>（<code>**</code>）、リスト（<code>*</code> / <code>-</code>）、リンク（<code>[text](url)</code>）、水平線（<code>---</code>）、段落</li></ul><h2 id=実装のポイント>実装のポイント</h2><h3 id=1-dom-へのアクセスとイベント>1. DOM へのアクセスとイベント</h3><p>HTML 側で <code>id="editor"</code>（textarea）と <code>id="preview"</code>（div）を定義し、Pascal 側で <code>document.getElementById</code> で取得します。入力のたびにプレビューを更新するため、<code>EditorElem.oninput := @DoUpdate</code> でイベントを紐付けています。</p><pre tabindex=0><code class=language-pascal data-lang=pascal>EditorElem := TJSHTMLTextAreaElement(document.getElementById(&#39;editor&#39;));
 PreviewElem := TJSHTMLElement(document.getElementById(&#39;preview&#39;));
 if Assigned(EditorElem) then
   EditorElem.oninput := @DoUpdate;
-</code></pre><h3 id="2-簡易-markdown-パーサーparsemarkdown">2. 簡易 Markdown パーサー（ParseMarkdown）</h3>
-<p>改行で分割して1行ずつ処理し、行頭の記号でブロック要素を判定してから、インラインの強調・リンクを正規表現で置換しています。</p>
-<ul>
-<li><strong>水平線</strong>: <code>---</code> の行を <code>&lt;hr /&gt;</code> に</li>
-<li><strong>見出し</strong>: <code>#</code>  で始まる行を <code>&lt;h1&gt;</code>、<code>##</code>  を <code>&lt;h2&gt;</code> に</li>
-<li><strong>リスト</strong>: 行頭の <code>*</code>  または <code>-</code>  を <code>&lt;li&gt;</code> に</li>
-<li><strong>強調</strong>: <code>**...**</code> を <code>TJSRegExp</code> で <code>&lt;strong&gt;...&lt;/strong&gt;</code> に</li>
-<li><strong>リンク</strong>: <code>[text](url)</code> を <code>&lt;a href=&quot;url&quot; target=&quot;_blank&quot;&gt;text&lt;/a&gt;</code> に</li>
-<li><strong>段落</strong>: 上記のいずれでもない非空行を <code>&lt;p&gt;...&lt;/p&gt;</code> で囲む</li>
-</ul>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">Line := TJSString(Line).replace(TJSRegExp.New(&#39;\*\*(.*?)\*\*&#39;, &#39;g&#39;), &#39;&lt;strong&gt;$1&lt;/strong&gt;&#39;);
+</code></pre><h3 id=2-簡易-markdown-パーサーparsemarkdown>2. 簡易 Markdown パーサー（ParseMarkdown）</h3><p>改行で分割して1行ずつ処理し、行頭の記号でブロック要素を判定してから、インラインの強調・リンクを正規表現で置換しています。</p><ul><li><strong>水平線</strong>: <code>---</code> の行を <code>&lt;hr /></code> に</li><li><strong>見出し</strong>: <code>#</code> で始まる行を <code>&lt;h1></code>、<code>##</code> を <code>&lt;h2></code> に</li><li><strong>リスト</strong>: 行頭の <code>*</code> または <code>-</code> を <code>&lt;li></code> に</li><li><strong>強調</strong>: <code>**...**</code> を <code>TJSRegExp</code> で <code>&lt;strong>...&lt;/strong></code> に</li><li><strong>リンク</strong>: <code>[text](url)</code> を <code>&lt;a href="url" target="_blank">text&lt;/a></code> に</li><li><strong>段落</strong>: 上記のいずれでもない非空行を <code>&lt;p>...&lt;/p></code> で囲む</li></ul><pre tabindex=0><code class=language-pascal data-lang=pascal>Line := TJSString(Line).replace(TJSRegExp.New(&#39;\*\*(.*?)\*\*&#39;, &#39;g&#39;), &#39;&lt;strong&gt;$1&lt;/strong&gt;&#39;);
 Line := TJSString(Line).replace(TJSRegExp.New(&#39;\[(.*?)\]\((.*?)\)&#39;, &#39;g&#39;), &#39;&lt;a href=&#34;$2&#34; target=&#34;_blank&#34;&gt;$1&lt;/a&gt;&#39;);
-</code></pre><h3 id="3-tjsstring--tjsregexp-の利用">3. TJSString / TJSRegExp の利用</h3>
-<p>pas2js では、Pascal の <code>string</code> を <code>TJSString(...)</code> で JavaScript の String として扱い、<code>.split()</code> や <code>.replace()</code> が使えます。正規表現は <code>TJSRegExp.New('パターン', 'g')</code> で生成し、<code>$1</code>, <code>$2</code> でキャプチャを参照できます。外部の Markdown ライブラリに頼らずに、Pascal だけで簡易パーサーを書けるポイントです。</p>
-<h3 id="4-html-の読み込みタイミング">4. HTML の読み込みタイミング</h3>
-<p><code>editor.js</code> を head で読み込んでも、body 内の要素はまだ存在しないため、<code>getElementById</code> が失敗することがあります。そのため HTML 側では <code>DOMContentLoaded</code> で DOM の準備ができてから <code>rtl.run()</code> を呼ぶようにしています。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>window.addEventListener(&#39;DOMContentLoaded&#39;, function() {
-</span></span><span style="display:flex;"><span>  if (typeof rtl !== &#39;undefined&#39;) {
-</span></span><span style="display:flex;"><span>    rtl.run();
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>});
-</span></span></code></pre></div><h3 id="5-html-と-css-の分離">5. HTML と CSS の分離</h3>
-<p>レイアウトと見た目は <code>style.css</code> にまとめ、HTML は <code>link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;</code> で読み込みます。<code>.container</code> で flex を使い、<code>#editor</code> と <code>#preview</code> を <code>flex: 1</code> で左右に均等分割しています。</p>
-<h2 id="完成したコード">完成したコード</h2>
-<h3 id="editorpas">editor.pas</h3>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">program editor;
+</code></pre><h3 id=3-tjsstring--tjsregexp-の利用>3. TJSString / TJSRegExp の利用</h3><p>pas2js では、Pascal の <code>string</code> を <code>TJSString(...)</code> で JavaScript の String として扱い、<code>.split()</code> や <code>.replace()</code> が使えます。正規表現は <code>TJSRegExp.New('パターン', 'g')</code> で生成し、<code>$1</code>, <code>$2</code> でキャプチャを参照できます。外部の Markdown ライブラリに頼らずに、Pascal だけで簡易パーサーを書けるポイントです。</p><h3 id=4-html-の読み込みタイミング>4. HTML の読み込みタイミング</h3><p><code>editor.js</code> を head で読み込んでも、body 内の要素はまだ存在しないため、<code>getElementById</code> が失敗することがあります。そのため HTML 側では <code>DOMContentLoaded</code> で DOM の準備ができてから <code>rtl.run()</code> を呼ぶようにしています。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span>window.addEventListener(&#39;DOMContentLoaded&#39;, function() {
+</span></span><span style=display:flex><span>  if (typeof rtl !== &#39;undefined&#39;) {
+</span></span><span style=display:flex><span>    rtl.run();
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>});
+</span></span></code></pre></div><h3 id=5-html-と-css-の分離>5. HTML と CSS の分離</h3><p>レイアウトと見た目は <code>style.css</code> にまとめ、HTML は <code>link rel="stylesheet" href="style.css"</code> で読み込みます。<code>.container</code> で flex を使い、<code>#editor</code> と <code>#preview</code> を <code>flex: 1</code> で左右に均等分割しています。</p><h2 id=完成したコード>完成したコード</h2><h3 id=editorpas>editor.pas</h3><pre tabindex=0><code class=language-pascal data-lang=pascal>program editor;
 
 {$mode objfpc}{$H+}
 
@@ -248,47 +72,31 @@ begin
   if Assigned(EditorElem) then 
     EditorElem.oninput := @DoUpdate;
 end.
-</code></pre><h3 id="editorhtml">editor.html</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
-</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ja&#34;</span>&gt;
-</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
-</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>&gt;
-</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">title</span>&gt;Pas2JS Markdown Editor&lt;/<span style="color:#f92672">title</span>&gt;
-</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;style.css&#34;</span>&gt;
-</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;editor.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
-</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
-</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
-</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;container&#34;</span>&gt;
-</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">textarea</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;editor&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Markdownを入力...&#34;</span>&gt;&lt;/<span style="color:#f92672">textarea</span>&gt;
-</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;preview&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
-</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">script</span>&gt;
-</span></span><span style="display:flex;"><span>        window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;DOMContentLoaded&#39;</span>, <span style="color:#66d9ef">function</span>() {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">rtl</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;undefined&#39;</span>) {
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">rtl</span>.<span style="color:#a6e22e">run</span>();
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>        });
-</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">script</span>&gt;
-</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
-</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
-</span></span></code></pre></div><h3 id="stylecss抜粋">style.css（抜粋）</h3>
-<ul>
-<li><code>body</code> / <code>.container</code>: マージン・パディングゼロ、flex で <code>100vw</code> × <code>100vh</code> を確保</li>
-<li><code>#editor</code>, <code>#preview</code>: <code>flex: 1</code> で左右50%ずつ、<code>padding: 25px</code>、<code>overflow-y: auto</code></li>
-<li><code>#editor</code>: 等幅フォント、リサイズなし、右ボーダーで区切り</li>
-<li><code>#preview</code>: 見出しの下線（<code>h1</code> / <code>h2</code>）、<code>strong</code> の色指定、<code>code</code> の背景など</li>
-</ul>
-<h2 id="コンパイル方法">コンパイル方法</h2>
-<p>Day26〜30 と同様、pas2js でブラウザ向けにコンパイルします。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js -Tbrowser editor.pas
-</span></span></code></pre></div><p><code>editor.js</code> が生成されるので、同じフォルダに <code>editor.html</code> と <code>style.css</code> を置き、ブラウザで <code>editor.html</code> を開いて動作確認します。</p>
-<h2 id="実行結果">実行結果</h2>
-<p>Markdown Editor Screenshot</p>
-<p>左側に Markdown を入力すると、右側にリアルタイムでプレビューが表示されます。見出し・太字・リスト・リンク・水平線が正しく反映されることを確認できます。</p>
-<h2 id="ダウンロード">ダウンロード</h2>
-<p><strong>アプリをブラウザで開く</strong>: <a href="/apps/day031/editor.html">Markdown エディタを開く</a></p>
-<pre tabindex="0"><code>**Pas2JS** で動く簡易 Markdown エディタです。
+</code></pre><h3 id=editorhtml>editor.html</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span><span style=color:#75715e>&lt;!DOCTYPE html&gt;</span>
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>html</span> <span style=color:#a6e22e>lang</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;ja&#34;</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>head</span>&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>meta</span> <span style=color:#a6e22e>charset</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;utf-8&#34;</span>&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>title</span>&gt;Pas2JS Markdown Editor&lt;/<span style=color:#f92672>title</span>&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>link</span> <span style=color:#a6e22e>rel</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;stylesheet&#34;</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;style.css&#34;</span>&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>script</span> <span style=color:#a6e22e>src</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;editor.js&#34;</span>&gt;&lt;/<span style=color:#f92672>script</span>&gt;
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>head</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>body</span>&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;container&#34;</span>&gt;
+</span></span><span style=display:flex><span>        &lt;<span style=color:#f92672>textarea</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;editor&#34;</span> <span style=color:#a6e22e>placeholder</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Markdownを入力...&#34;</span>&gt;&lt;/<span style=color:#f92672>textarea</span>&gt;
+</span></span><span style=display:flex><span>        &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;preview&#34;</span>&gt;&lt;/<span style=color:#f92672>div</span>&gt;
+</span></span><span style=display:flex><span>    &lt;/<span style=color:#f92672>div</span>&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>script</span>&gt;
+</span></span><span style=display:flex><span>        window.<span style=color:#a6e22e>addEventListener</span>(<span style=color:#e6db74>&#39;DOMContentLoaded&#39;</span>, <span style=color:#66d9ef>function</span>() {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>rtl</span> <span style=color:#f92672>!==</span> <span style=color:#e6db74>&#39;undefined&#39;</span>) {
+</span></span><span style=display:flex><span>                <span style=color:#a6e22e>rtl</span>.<span style=color:#a6e22e>run</span>();
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        });
+</span></span><span style=display:flex><span>    &lt;/<span style=color:#f92672>script</span>&gt;
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>body</span>&gt;
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>html</span>&gt;
+</span></span></code></pre></div><h3 id=stylecss抜粋>style.css（抜粋）</h3><ul><li><code>body</code> / <code>.container</code>: マージン・パディングゼロ、flex で <code>100vw</code> × <code>100vh</code> を確保</li><li><code>#editor</code>, <code>#preview</code>: <code>flex: 1</code> で左右50%ずつ、<code>padding: 25px</code>、<code>overflow-y: auto</code></li><li><code>#editor</code>: 等幅フォント、リサイズなし、右ボーダーで区切り</li><li><code>#preview</code>: 見出しの下線（<code>h1</code> / <code>h2</code>）、<code>strong</code> の色指定、<code>code</code> の背景など</li></ul><h2 id=コンパイル方法>コンパイル方法</h2><p>Day26〜30 と同様、pas2js でブラウザ向けにコンパイルします。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>pas2js -Tbrowser editor.pas
+</span></span></code></pre></div><p><code>editor.js</code> が生成されるので、同じフォルダに <code>editor.html</code> と <code>style.css</code> を置き、ブラウザで <code>editor.html</code> を開いて動作確認します。</p><h2 id=実行結果>実行結果</h2><p>Markdown Editor Screenshot</p><p>左側に Markdown を入力すると、右側にリアルタイムでプレビューが表示されます。見出し・太字・リスト・リンク・水平線が正しく反映されることを確認できます。</p><h2 id=ダウンロード>ダウンロード</h2><p><strong>アプリをブラウザで開く</strong>: <a href=/apps/day031/editor.html>Markdown エディタを開く</a></p><pre tabindex=0><code>**Pas2JS** で動く簡易 Markdown エディタです。
 
 ## 対応している記法
 
@@ -298,107 +106,5 @@ end.
 - [リンク](https://example.com)
 - 水平線（下）
 ---
-</code></pre><p>例えば上記をコピーして貼り付ければ動作がわかるかと思います。<br>
-作成した Markdown エディタ（HTML / CSS / ソース）は以下のリンクからダウンロードできます：</p>
-<p><a href="/downloads/day031_markdown_editor.zip">day031_markdown_editor.zip</a></p>
-<p>外部ライブラリを使わず Pascal だけで簡易 Markdown パーサーを実装することで、依存関係を減らしつつ、TJSString と TJSRegExp の使い方に慣れる良い練習になりました。次は LocalStorage で内容を保存したり、コードブロックのシンタックスハイライトに挑戦するのも良さそうです。</p>
-<hr>
-<p><em>Lazarusチャレンジ Day 31/100</em></p>
-<ul class="pa0">
-  
-</ul>
-<div class="mt6 instapaper_ignoref">
-      
-      
-      </div>
-    </div>
-
-    <aside class="w-30-l mt6-l">
-
-
-
-
-  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
-    <p class="f5 b mb3">Related</p>
-    <ul class="pa0 list">
-	   
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day032-pas2js-userform/">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day030-pas2js-calculator/">Pas2JSで計算機アプリを作成 - Day30</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day029-pas2js-color/">Pas2JSでカラー表示アプリを作成 - Day29</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day028-pas2js-calendar/">Pas2JSでカレンダーアプリを作成 - Day28</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day027-pas2js-todo/">Pas2JSでTodoアプリを作成 - Day27</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day026-pas2js/">Pas2JSを試してみる - Day26</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day025-colorpop/">同色消しパズル（ColorPop）の作成 - Day25</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day024-lightsout/">Lights Outゲームの作成 - Day24</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day023-pdfviewer/">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day022-spreadsheet-viewer/">スプレッドシート作成の試みとビューワー実装 - Day22</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day021-15puzzle/">15パズルの作成に挑戦 - Day21</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day020-picross/">ピクロス（ノノグラム）の作成に挑戦 - Day20</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day019-menu100/">Lazarusアプリ用ランチャーの作成 - Day19</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day018-2048/">2048ゲームの作成 - Day18</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day017-crypt-editor/">暗号化テキストエディタの作成 - Day17</a>
-        </li>
-	    
-    </ul>
-</div>
-
-</aside>
-
-  </article>
-
-    </main>
-    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
-  <div class="flex justify-between">
-  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
-    &copy;  私の技術ブログ 2026 
-  </a>
-    <div><div class="ananke-socials"></div>
-</div>
-  </div>
-</footer>
-
-  </body>
-</html>
+</code></pre><p>例えば上記をコピーして貼り付ければ動作がわかるかと思います。<br>作成した Markdown エディタ（HTML / CSS / ソース）は以下のリンクからダウンロードできます：</p><p><a href=/downloads/day031_markdown_editor.zip>day031_markdown_editor.zip</a></p><p>外部ライブラリを使わず Pascal だけで簡易 Markdown パーサーを実装することで、依存関係を減らしつつ、TJSString と TJSRegExp の使い方に慣れる良い練習になりました。次は LocalStorage で内容を保存したり、コードブロックのシンタックスハイライトに挑戦するのも良さそうです。</p><hr><p><em>Lazarusチャレンジ Day 31/100</em></p><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day030-pas2js-calculator/>← チャレンジ30日目へ</a>
+</span><span><a href=/posts/lazarus-day032-pas2js-userform/>チャレンジ32日目へ →</a></span></nav><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/posts/lazarus-day032-pas2js-userform/>Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a></li><li class=mb2><a href=/posts/lazarus-day030-pas2js-calculator/>Pas2JSで計算機アプリを作成 - Day30</a></li><li class=mb2><a href=/posts/lazarus-day029-pas2js-color/>Pas2JSでカラー表示アプリを作成 - Day29</a></li><li class=mb2><a href=/posts/lazarus-day028-pas2js-calendar/>Pas2JSでカレンダーアプリを作成 - Day28</a></li><li class=mb2><a href=/posts/lazarus-day027-pas2js-todo/>Pas2JSでTodoアプリを作成 - Day27</a></li><li class=mb2><a href=/posts/lazarus-day026-pas2js/>Pas2JSを試してみる - Day26</a></li><li class=mb2><a href=/posts/lazarus-day025-colorpop/>同色消しパズル（ColorPop）の作成 - Day25</a></li><li class=mb2><a href=/posts/lazarus-day024-lightsout/>Lights Outゲームの作成 - Day24</a></li><li class=mb2><a href=/posts/lazarus-day023-pdfviewer/>PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a></li><li class=mb2><a href=/posts/lazarus-day022-spreadsheet-viewer/>スプレッドシート作成の試みとビューワー実装 - Day22</a></li><li class=mb2><a href=/posts/lazarus-day021-15puzzle/>15パズルの作成に挑戦 - Day21</a></li><li class=mb2><a href=/posts/lazarus-day020-picross/>ピクロス（ノノグラム）の作成に挑戦 - Day20</a></li><li class=mb2><a href=/posts/lazarus-day019-menu100/>Lazarusアプリ用ランチャーの作成 - Day19</a></li><li class=mb2><a href=/posts/lazarus-day018-2048/>2048ゲームの作成 - Day18</a></li><li class=mb2><a href=/posts/lazarus-day017-crypt-editor/>暗号化テキストエディタの作成 - Day17</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://your-site-name.netlify.app/>&copy; 私の技術ブログ 2026</a><div><div class=ananke-socials></div></div></div></footer></body></html>

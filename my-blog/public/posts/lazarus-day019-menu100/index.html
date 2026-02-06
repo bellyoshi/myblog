@@ -1,182 +1,5 @@
-<!DOCTYPE html>
-<html lang="ja-jp">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
-    <title>Lazarusアプリ用ランチャーの作成 - Day19 | 私の技術ブログ</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <meta name="description" content="Lazarusチャレンジ19日目。たくさんのアプリができたので、それらを管理・起動するためのランチャーアプリを作成しました。JSONファイルでアプリ情報を管理し、ListViewで一覧表示します。">
-    <meta name="generator" content="Hugo 0.153.4">
-    
-    
-    
-      <meta name="robots" content="noindex, nofollow">
-    
-    <meta name="author" content="ブログ管理者">
-    
-
-    
-<link rel="stylesheet" href="/ananke/css/main.min.css" >
-
-
-
-
-    
-
-
-    
-      
-
-    
-
-    
-
-    
-      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day019-menu100/">
-    
-
-    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day019-menu100/">
-  <meta property="og:site_name" content="私の技術ブログ">
-  <meta property="og:title" content="Lazarusアプリ用ランチャーの作成 - Day19">
-  <meta property="og:description" content="Lazarusチャレンジ19日目。たくさんのアプリができたので、それらを管理・起動するためのランチャーアプリを作成しました。JSONファイルでアプリ情報を管理し、ListViewで一覧表示します。">
-  <meta property="og:locale" content="ja_jp">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-01-19T06:00:00+09:00">
-    <meta property="article:modified_time" content="2026-01-19T06:00:00+09:00">
-
-  <meta itemprop="name" content="Lazarusアプリ用ランチャーの作成 - Day19">
-  <meta itemprop="description" content="Lazarusチャレンジ19日目。たくさんのアプリができたので、それらを管理・起動するためのランチャーアプリを作成しました。JSONファイルでアプリ情報を管理し、ListViewで一覧表示します。">
-  <meta itemprop="datePublished" content="2026-01-19T06:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-01-19T06:00:00+09:00">
-  <meta itemprop="wordCount" content="497">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Lazarusアプリ用ランチャーの作成 - Day19">
-  <meta name="twitter:description" content="Lazarusチャレンジ19日目。たくさんのアプリができたので、それらを管理・起動するためのランチャーアプリを作成しました。JSONファイルでアプリ情報を管理し、ListViewで一覧表示します。">
-
-	<link rel="stylesheet" href="/css/custom.css">
-
-
-  </head><body class="ma0 avenir bg-near-white development">
-
-    
-   
-  
-
-  
-  
-  
-  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay019.png');">
-    <div class="bg-black-60">
-      <nav class="pv3 ph3 ph4-ns" role="navigation">
-  <div class="flex-l center items-center justify-between">
-    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
-      
-        私の技術ブログ
-      
-    </a>
-    <div class="flex-l items-center">
-      
-
-      
-        <ul class="pl0 mr3">
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
-              投稿
-            </a>
-          </li>
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
-              カテゴリ
-            </a>
-          </li>
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
-              タグ
-            </a>
-          </li>
-          
-        </ul>
-      
-      <div class="ananke-socials"></div>
-
-    </div>
-  </div>
-</nav>
-
-      <div class="tc-l pv6 ph3 ph4-ns">
-        
-          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Lazarusアプリ用ランチャーの作成 - Day19</div>
-          
-            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
-              Lazarusチャレンジ19日目。たくさんのアプリができたので、それらを管理・起動するためのランチャーアプリを作成しました。JSONファイルでアプリ情報を管理し、ListViewで一覧表示します。
-            </div>
-          
-        
-      </div>
-    </div>
-  </header>
-
-
-
-    <main class="pb7" role="main">
-      
-  
-  
-  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
-    <header class="mt4 w-100">
-      <aside class="instapaper_ignoref b helvetica tracked ttu">
-          
-        Posts
-      </aside><div id="sharing" class="mt3 ananke-socials"></div>
-<h1 class="f1 athelas mt3 mb1">Lazarusアプリ用ランチャーの作成 - Day19</h1>
-      
-      <p class="tracked"><strong>ブログ管理者</strong>
-      </p>
-      
-      
-      
-      <time class="f6 mv4 dib tracked" datetime="2026-01-19T06:00:00+09:00">January 19, 2026</time>
-      
-
-      
-      
-    </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="lazarusアプリ用ランチャーの作成---day19">Lazarusアプリ用ランチャーの作成 - Day19</h1>
-<p>Lazarusチャレンジ19日目です。今回は、**Lazarusアプリ用のランチャー（メニューアプリ）**を作成しました。day001からday018まで、たくさんのアプリができたので、それらを管理・起動するためのアプリがあると便利かな、と思いました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>今回作成するランチャーアプリは、以下の機能を実装することを目指しました：</p>
-<ul>
-<li><strong>アプリ一覧表示</strong>: JSONファイルからアプリ情報を読み込み、ListViewで一覧表示</li>
-<li><strong>アプリの実行</strong>: 選択したアプリのフォルダ内にあるexeファイルを自動探索して起動</li>
-<li><strong>自動ビルド機能</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動</li>
-<li><strong>ブログ記事の起動</strong>: 各アプリのブログ記事URLをブラウザで開く</li>
-<li><strong>LazManagerの起動</strong>: 設定されたLazManagerを起動</li>
-<li><strong>メモ機能</strong>: 各アプリごとに後日追加したい機能などのメモを保存</li>
-<li><strong>JSON管理</strong>: アプリ情報をJSONファイルで管理（フォルダ名、タイトル、ブログURL、メモ、有効/無効フラグ）</li>
-</ul>
-<h2 id="ランチャーアプリとは">ランチャーアプリとは？</h2>
-<p>ランチャーアプリは、複数のアプリケーションを一箇所から管理・起動できるアプリです。今回作成したランチャーは、Daily-Lazarus-Appsフォルダ内にあるday001～day018の各アプリを管理するために作成しました。</p>
-<h3 id="主な機能">主な機能</h3>
-<ul>
-<li><strong>アプリ一覧</strong>: 有効なアプリをday番号順に表示</li>
-<li><strong>アプリ起動</strong>: フォルダ内のexeファイルを自動探索して実行</li>
-<li><strong>自動ビルド</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動</li>
-<li><strong>ブログ記事</strong>: 各アプリのブログ記事URLをブラウザで開く</li>
-<li><strong>メモ管理</strong>: 各アプリごとにメモを保存・編集</li>
-<li><strong>LazManager連携</strong>: LazManagerを起動してプロジェクトを管理</li>
-</ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day019_Menu100</strong>」と入力し、プロジェクトを作成しました。</p>
-<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>ランチャーアプリの開発は、ChatGPTに壁打ちしてプロンプトを考えてもらい、そのプロンプトをCursorに投入してはじめました。</p>
-<h3 id="プロンプト-ランチャーアプリの作成">プロンプト: ランチャーアプリの作成</h3>
-<pre tabindex="0"><code>Lazarus (Free Pascal) で Windows 向けのデスクトップアプリを作成してください。
+<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>Lazarusアプリ用ランチャーの作成 - Day19 | 私の技術ブログ</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Lazarusチャレンジ19日目。たくさんのアプリができたので、それらを管理・起動するためのランチャーアプリを作成しました。JSONファイルでアプリ情報を管理し、ListViewで一覧表示します。"><meta name=generator content="Hugo 0.153.4"><meta name=robots content="index, follow"><meta name=author content="ブログ管理者"><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=canonical href=https://your-site-name.netlify.app/posts/lazarus-day019-menu100/><meta property="og:url" content="https://your-site-name.netlify.app/posts/lazarus-day019-menu100/"><meta property="og:site_name" content="私の技術ブログ"><meta property="og:title" content="Lazarusアプリ用ランチャーの作成 - Day19"><meta property="og:description" content="Lazarusチャレンジ19日目。たくさんのアプリができたので、それらを管理・起動するためのランチャーアプリを作成しました。JSONファイルでアプリ情報を管理し、ListViewで一覧表示します。"><meta property="og:locale" content="ja_jp"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-19T06:00:00+09:00"><meta property="article:modified_time" content="2026-01-19T06:00:00+09:00"><meta itemprop=name content="Lazarusアプリ用ランチャーの作成 - Day19"><meta itemprop=description content="Lazarusチャレンジ19日目。たくさんのアプリができたので、それらを管理・起動するためのランチャーアプリを作成しました。JSONファイルでアプリ情報を管理し、ListViewで一覧表示します。"><meta itemprop=datePublished content="2026-01-19T06:00:00+09:00"><meta itemprop=dateModified content="2026-01-19T06:00:00+09:00"><meta itemprop=wordCount content="497"><meta name=twitter:card content="summary"><meta name=twitter:title content="Lazarusアプリ用ランチャーの作成 - Day19"><meta name=twitter:description content="Lazarusチャレンジ19日目。たくさんのアプリができたので、それらを管理・起動するためのランチャーアプリを作成しました。JSONファイルでアプリ情報を管理し、ListViewで一覧表示します。"><link rel=stylesheet href=/css/custom.css></head><body class="ma0 avenir bg-near-white production"><header class="cover bg-center" style=background-image:url(https://your-site-name.netlify.app/images/LazarusDay019.png)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">私の技術ブログ</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="投稿 page">投稿</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/categories/ title="カテゴリ page">カテゴリ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/tags/ title="タグ page">タグ</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv6 ph3 ph4-ns"><div class="f2 f1-l fw2 white-90 mb0 lh-title">Lazarusアプリ用ランチャーの作成 - Day19</div><div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">Lazarusチャレンジ19日目。たくさんのアプリができたので、それらを管理・起動するためのランチャーアプリを作成しました。JSONファイルでアプリ情報を管理し、ListViewで一覧表示します。</div></div></div></header><main class=pb7 role=main><article class="flex-l mw8 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day018-2048/>← チャレンジ18日目へ</a>
+</span><span><a href=/posts/lazarus-day020-picross/>チャレンジ20日目へ →</a></span></nav><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">Lazarusアプリ用ランチャーの作成 - Day19</h1><p class=tracked><strong>ブログ管理者</strong></p><time class="f6 mv4 dib tracked" datetime=2026-01-19T06:00:00+09:00>January 19, 2026</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id=lazarusアプリ用ランチャーの作成---day19>Lazarusアプリ用ランチャーの作成 - Day19</h1><p>Lazarusチャレンジ19日目です。今回は、**Lazarusアプリ用のランチャー（メニューアプリ）**を作成しました。day001からday018まで、たくさんのアプリができたので、それらを管理・起動するためのアプリがあると便利かな、と思いました。</p><h2 id=今回の目標>今回の目標</h2><p>今回作成するランチャーアプリは、以下の機能を実装することを目指しました：</p><ul><li><strong>アプリ一覧表示</strong>: JSONファイルからアプリ情報を読み込み、ListViewで一覧表示</li><li><strong>アプリの実行</strong>: 選択したアプリのフォルダ内にあるexeファイルを自動探索して起動</li><li><strong>自動ビルド機能</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動</li><li><strong>ブログ記事の起動</strong>: 各アプリのブログ記事URLをブラウザで開く</li><li><strong>LazManagerの起動</strong>: 設定されたLazManagerを起動</li><li><strong>メモ機能</strong>: 各アプリごとに後日追加したい機能などのメモを保存</li><li><strong>JSON管理</strong>: アプリ情報をJSONファイルで管理（フォルダ名、タイトル、ブログURL、メモ、有効/無効フラグ）</li></ul><h2 id=ランチャーアプリとは>ランチャーアプリとは？</h2><p>ランチャーアプリは、複数のアプリケーションを一箇所から管理・起動できるアプリです。今回作成したランチャーは、Daily-Lazarus-Appsフォルダ内にあるday001～day018の各アプリを管理するために作成しました。</p><h3 id=主な機能>主な機能</h3><ul><li><strong>アプリ一覧</strong>: 有効なアプリをday番号順に表示</li><li><strong>アプリ起動</strong>: フォルダ内のexeファイルを自動探索して実行</li><li><strong>自動ビルド</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動</li><li><strong>ブログ記事</strong>: 各アプリのブログ記事URLをブラウザで開く</li><li><strong>メモ管理</strong>: 各アプリごとにメモを保存・編集</li><li><strong>LazManager連携</strong>: LazManagerを起動してプロジェクトを管理</li></ul><h2 id=lazmanagerを使ったプロジェクト作成>LazManagerを使ったプロジェクト作成</h2><p>まず、LazManagerを起動して、プロジェクト名に「<strong>day019_Menu100</strong>」と入力し、プロジェクトを作成しました。</p><p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p><h2 id=cursorへのプロンプト投入>Cursorへのプロンプト投入</h2><p>ランチャーアプリの開発は、ChatGPTに壁打ちしてプロンプトを考えてもらい、そのプロンプトをCursorに投入してはじめました。</p><h3 id=プロンプト-ランチャーアプリの作成>プロンプト: ランチャーアプリの作成</h3><pre tabindex=0><code>Lazarus (Free Pascal) で Windows 向けのデスクトップアプリを作成してください。
 
 目的：
 Daily-Lazarus-Apps フォルダ内にある day001～day018 の各アプリを一覧表示し、
@@ -219,49 +42,23 @@ UI 要件：
 その他：
 - エラー時は例外ではなく MessageDlg で通知
 - 可読性を重視し、1ユニット完結でもよい
-</code></pre><p><strong>AIが実装した内容：</strong></p>
-<ul>
-<li><strong>TAppConfigクラス</strong>: JSONファイルの読み込み・保存を担当
-<ul>
-<li><code>ParseJsonFile</code>: JSONファイルを解析</li>
-<li><code>LoadApps</code>: アプリ情報を配列に読み込み</li>
-<li><code>GetEnabledApps</code>: 有効なアプリをday番号順にソートして返す</li>
-<li><code>UpdateAppNotes</code>: アプリのメモを更新</li>
-<li><code>SaveToFile</code>: JSONファイルに保存</li>
-</ul>
-</li>
-<li><strong>FindExeInFolder関数</strong>: フォルダ内の最初のexeファイルを探索</li>
-<li><strong>BuildWithLazBuild関数</strong>: exeファイルが見つからない場合、LazBuildでビルド</li>
-<li><strong>UIコンポーネント</strong>: TListView、実行/ブログ/管理/保存ボタン、TMemo</li>
-<li><strong>アプリ起動</strong>: TProcessを使用してexeファイルを起動</li>
-<li><strong>ブログ起動</strong>: cmd.exe経由でブラウザを起動</li>
-</ul>
-<h2 id="実装のポイント">実装のポイント</h2>
-<h3 id="jsonファイルの構造">JSONファイルの構造</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;baseDir&#34;</span>: <span style="color:#e6db74">&#34;C:\\Users\\bellm\\source\\repos\\bellyoshi\\Daily-Lazarus-Apps&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;LazManager&#34;</span>: <span style="color:#e6db74">&#34;C:\\Lazarus\\LazManager.exe&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;apps&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;day001_MMKaeru&#34;</span>: {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;MIDIファイル作成 - カエルの歌&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;blogUrl&#34;</span>: <span style="color:#e6db74">&#34;https://yoshiby2nd.netlify.app/posts/lazarus-day001-midi-kaeru/&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;notes&#34;</span>: [
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;後日追加したい機能1&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;後日追加したい機能2&#34;</span>
-</span></span><span style="display:flex;"><span>      ]
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">...</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><ul>
-<li><strong>baseDir</strong>: アプリフォルダのベースディレクトリ</li>
-<li><strong>LazManager</strong>: LazManagerのパス</li>
-<li><strong>apps</strong>: アプリ情報のオブジェクト（キーはフォルダ名）</li>
-</ul>
-<h3 id="exeファイルの自動探索">exeファイルの自動探索</h3>
-<p>exeファイルはJSONに登録せず、フォルダ内を自動探索します：</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">function FindExeInFolder(const FolderPath: string): string;
+</code></pre><p><strong>AIが実装した内容：</strong></p><ul><li><strong>TAppConfigクラス</strong>: JSONファイルの読み込み・保存を担当<ul><li><code>ParseJsonFile</code>: JSONファイルを解析</li><li><code>LoadApps</code>: アプリ情報を配列に読み込み</li><li><code>GetEnabledApps</code>: 有効なアプリをday番号順にソートして返す</li><li><code>UpdateAppNotes</code>: アプリのメモを更新</li><li><code>SaveToFile</code>: JSONファイルに保存</li></ul></li><li><strong>FindExeInFolder関数</strong>: フォルダ内の最初のexeファイルを探索</li><li><strong>BuildWithLazBuild関数</strong>: exeファイルが見つからない場合、LazBuildでビルド</li><li><strong>UIコンポーネント</strong>: TListView、実行/ブログ/管理/保存ボタン、TMemo</li><li><strong>アプリ起動</strong>: TProcessを使用してexeファイルを起動</li><li><strong>ブログ起動</strong>: cmd.exe経由でブラウザを起動</li></ul><h2 id=実装のポイント>実装のポイント</h2><h3 id=jsonファイルの構造>JSONファイルの構造</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;baseDir&#34;</span>: <span style=color:#e6db74>&#34;C:\\Users\\bellm\\source\\repos\\bellyoshi\\Daily-Lazarus-Apps&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;LazManager&#34;</span>: <span style=color:#e6db74>&#34;C:\\Lazarus\\LazManager.exe&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;apps&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;day001_MMKaeru&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;title&#34;</span>: <span style=color:#e6db74>&#34;MIDIファイル作成 - カエルの歌&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;blogUrl&#34;</span>: <span style=color:#e6db74>&#34;https://yoshiby2nd.netlify.app/posts/lazarus-day001-midi-kaeru/&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;enabled&#34;</span>: <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;notes&#34;</span>: [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;後日追加したい機能1&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;後日追加したい機能2&#34;</span>
+</span></span><span style=display:flex><span>      ]
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#960050;background-color:#1e0010>...</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><ul><li><strong>baseDir</strong>: アプリフォルダのベースディレクトリ</li><li><strong>LazManager</strong>: LazManagerのパス</li><li><strong>apps</strong>: アプリ情報のオブジェクト（キーはフォルダ名）</li></ul><h3 id=exeファイルの自動探索>exeファイルの自動探索</h3><p>exeファイルはJSONに登録せず、フォルダ内を自動探索します：</p><pre tabindex=0><code class=language-pascal data-lang=pascal>function FindExeInFolder(const FolderPath: string): string;
 var
   SearchRec: TSearchRec;
   ExePath: string;
@@ -287,9 +84,7 @@ begin
     end;
   end;
 end;
-</code></pre><h3 id="day番号順のソート">day番号順のソート</h3>
-<p>フォルダ名からday番号を抽出し、それでソートします：</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">function TAppConfig.ExtractDayNumber(const FolderName: string): Integer;
+</code></pre><h3 id=day番号順のソート>day番号順のソート</h3><p>フォルダ名からday番号を抽出し、それでソートします：</p><pre tabindex=0><code class=language-pascal data-lang=pascal>function TAppConfig.ExtractDayNumber(const FolderName: string): Integer;
 var
   i: Integer;
   DayStr: string;
@@ -311,211 +106,18 @@ begin
       Result := StrToIntDef(DayStr, 0);
   end;
 end;
-</code></pre><h3 id="listviewの選択変更イベント">ListViewの選択変更イベント</h3>
-<p>ListViewの選択が変更されたとき、メモを更新します。ここで重要な点は、<strong>LazarusのTListViewには<code>OnSelectionChange</code>イベントがなく、<code>OnSelectItem</code>イベントを使用する</strong>必要があることです。</p>
-<p>最初、<code>OnSelectionChange</code>という存在しないイベントを使用しようとしてエラーが発生しましたが、<code>OnSelectItem</code>に修正して解決しました。
+</code></pre><h3 id=listviewの選択変更イベント>ListViewの選択変更イベント</h3><p>ListViewの選択が変更されたとき、メモを更新します。ここで重要な点は、<strong>LazarusのTListViewには<code>OnSelectionChange</code>イベントがなく、<code>OnSelectItem</code>イベントを使用する</strong>必要があることです。</p><p>最初、<code>OnSelectionChange</code>という存在しないイベントを使用しようとしてエラーが発生しましたが、<code>OnSelectItem</code>に修正して解決しました。
 こちらは最初、実行すると、全く動かずに
 Error reading ListViewApps.OnSelectionChange:
-Unknown property: &quot;OnSelectionChange&quot;.
+Unknown property: "OnSelectionChange".
 Press OK to ignore and risk data corruption.
 Press Abort to kill the program.
 というエラーが出ました。
 Geminiに聞いてイベント名が違っていることがわかりました。
 IDEで開発していると、間違えることはないのですが、
 AIエディターで開発していると、存在しないイベントを実装してしまうことがあります。
-コンパイルは通るのではまりやすいです。</p>
-<h2 id="ビルドと実行">ビルドと実行</h2>
-<p>Cursorで実装が完了した後、Lazbuildでビルドを実行しました。</p>
-<pre tabindex="0"><code>C:\Lazarus\Lazbuildでビルド
-</code></pre><p>ビルドが成功し、実行ファイル <code>day019_Menu100.exe</code> が生成されました。</p>
-<p><img src="/images/LazarusDay019.png" alt="ランチャーアプリの画面"></p>
-<p>アプリが正常に動作しています！ListViewでアプリを選択し、実行ボタンでアプリを起動、ブログボタンでブログ記事を開くことができます。</p>
-<h3 id="lazbuildによる自動ビルド">LazBuildによる自動ビルド</h3>
-<p>ランチャーでアプリを実行するときに実行ファイルがないプロジェクトがあるのに気づきました。
+コンパイルは通るのではまりやすいです。</p><h2 id=ビルドと実行>ビルドと実行</h2><p>Cursorで実装が完了した後、Lazbuildでビルドを実行しました。</p><pre tabindex=0><code>C:\Lazarus\Lazbuildでビルド
+</code></pre><p>ビルドが成功し、実行ファイル <code>day019_Menu100.exe</code> が生成されました。</p><p><img src=/images/LazarusDay019.png alt=ランチャーアプリの画面></p><p>アプリが正常に動作しています！ListViewでアプリを選択し、実行ボタンでアプリを起動、ブログボタンでブログ記事を開くことができます。</p><h3 id=lazbuildによる自動ビルド>LazBuildによる自動ビルド</h3><p>ランチャーでアプリを実行するときに実行ファイルがないプロジェクトがあるのに気づきました。
 これは、作者がZipファイルをつくるときにexeを削除してソースのみを公開するためです。
-そこで、exeファイルが見つからない場合、ユーザーに確認してからLazBuildでビルドする機能を実装しました。</p>
-<p>最初の実装では、LazBuildの実行時にデッドロックが発生しました。<code>poWaitOnExit</code>オプションを使用してプロセスの終了を待っていたため、パイプのバッファが満杯になり、プロセスが停止してしまったのです。これを解決するために、<code>poWaitOnExit</code>を外し、プロセスが動いている間は出力を吸い出し続けるようにしました。これにより、デッドロックを防ぐことができました。</p>
-<h2 id="アプリの機能">アプリの機能</h2>
-<p>完成したランチャーアプリには、以下の機能が実装されています：</p>
-<ul>
-<li>✅ <strong>アプリ一覧表示</strong>: JSONファイルからアプリ情報を読み込み、ListViewでday番号順に表示</li>
-<li>✅ <strong>アプリの実行</strong>: 選択したアプリのフォルダ内にあるexeファイルを自動探索して起動</li>
-<li>✅ <strong>自動ビルド機能</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動</li>
-<li>✅ <strong>ブログ記事の起動</strong>: 各アプリのブログ記事URLをブラウザで開く</li>
-<li>✅ <strong>LazManagerの起動</strong>: 設定されたLazManagerを起動</li>
-<li>✅ <strong>メモ機能</strong>: 各アプリごとにメモを保存・編集（後日追加したい機能など）</li>
-<li>✅ <strong>JSON管理</strong>: アプリ情報をJSONファイルで管理（フォルダ名、タイトル、ブログURL、メモ、有効/無効フラグ）</li>
-<li>✅ <strong>exe自動探索</strong>: フォルダ内の最初のexeファイルを自動探索</li>
-<li>✅ <strong>day番号順ソート</strong>: フォルダ名からday番号を抽出してソート</li>
-</ul>
-<h2 id="学んだこと">学んだこと</h2>
-<p>Day19の開発を通じて、以下のことを学びました：</p>
-<h3 id="listviewのイベント">ListViewのイベント</h3>
-<ul>
-<li><strong>OnSelectItemイベント</strong>: LazarusのTListViewには<code>OnSelectionChange</code>がなく、<code>OnSelectItem</code>を使用する必要がある</li>
-<li><strong>イベントの違い</strong>: 他のフレームワーク（FireMonkeyなど）には<code>OnSelectionChange</code>があるが、LCL（Lazarus Component Library）では<code>OnSelectItem</code>が正しい</li>
-<li><strong>エラーからの学習</strong>: 存在しないイベントを使用しようとしてエラーが発生し、正しいイベント名を学んだ</li>
-</ul>
-<h3 id="jsonファイルの管理">JSONファイルの管理</h3>
-<ul>
-<li><strong>fpjsonユニット</strong>: JSONファイルの読み込み・保存に<code>fpjson</code>と<code>jsonparser</code>を使用</li>
-<li><strong>TJSONObject</strong>: JSONオブジェクトを扱うためのクラス</li>
-<li><strong>TJSONArray</strong>: JSON配列を扱うためのクラス</li>
-<li><strong>データ構造の設計</strong>: アプリ情報をJSONで管理することで、柔軟に拡張可能</li>
-</ul>
-<h3 id="ファイル探索">ファイル探索</h3>
-<ul>
-<li><strong>FindFirst/FindNext</strong>: ディレクトリ内のファイルを探索する関数</li>
-<li><strong>自動探索</strong>: exeファイルをJSONに登録せず、フォルダ内を自動探索することで、管理が簡単になる</li>
-</ul>
-<h3 id="アプリ起動">アプリ起動</h3>
-<ul>
-<li><strong>TProcess</strong>: 外部プロセスを起動するためのクラス</li>
-<li><strong>ブラウザ起動</strong>: cmd.exe経由でブラウザを起動する方法</li>
-<li><strong>エラーハンドリング</strong>: ファイルが見つからない場合などのエラー処理</li>
-</ul>
-<h3 id="lazbuildによる自動ビルド-1">LazBuildによる自動ビルド</h3>
-<ul>
-<li><strong>BuildWithLazBuild関数</strong>: exeファイルが見つからない場合、LazBuildでビルドする機能</li>
-<li><strong>プロジェクトファイル探索</strong>: フォルダ内の.lpiファイルを自動探索</li>
-<li><strong>ビルド出力の取得</strong>: パイプを使用してビルド出力を取得し、エラー時に表示</li>
-<li><strong>デッドロック防止</strong>: プロセスが動いている間、出力を吸い出し続けることでデッドロックを防止</li>
-<li><strong>ユーザー確認</strong>: exeファイルが見つからない場合、ユーザーに確認してからビルド</li>
-</ul>
-<h3 id="実用的なアプリの作成">実用的なアプリの作成</h3>
-<ul>
-<li><strong>ランチャーアプリ</strong>: 複数のアプリを管理するための実用的なアプリ</li>
-<li><strong>JSON管理</strong>: 設定ファイルをJSONで管理することで、柔軟に拡張可能</li>
-<li><strong>メモ機能</strong>: 各アプリごとにメモを保存することで、後日追加したい機能などを記録できる</li>
-</ul>
-<h2 id="まとめ">まとめ</h2>
-<p>Day19では、Lazarusアプリ用のランチャー（メニューアプリ）を作成しました。</p>
-<ol>
-<li>
-<p><strong>JSONファイルの管理</strong>: アプリ情報をJSONファイルで管理し、柔軟に拡張可能な構造にした</p>
-<ul>
-<li>baseDir、LazManager、appsオブジェクト</li>
-<li>各アプリにtitle、blogUrl、notes、enabledフラグ</li>
-</ul>
-</li>
-<li>
-<p><strong>exeファイルの自動探索</strong>: exeファイルをJSONに登録せず、フォルダ内を自動探索することで、管理を簡単にした</p>
-</li>
-<li>
-<p><strong>LazBuildによる自動ビルド</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動する機能を実装した</p>
-</li>
-<li>
-<p><strong>ListViewのイベント</strong>: <code>OnSelectionChange</code>ではなく<code>OnSelectItem</code>を使用する必要があることを学んだ</p>
-</li>
-<li>
-<p><strong>メモ機能</strong>: 各アプリごとにメモを保存・編集できる機能を実装した</p>
-</li>
-</ol>
-<h3 id="完成したランチャーアプリについて">完成したランチャーアプリについて</h3>
-<p>完成したランチャーアプリは、day001からday018までのアプリを管理・起動するための実用的なアプリです。JSONファイルでアプリ情報を管理し、ListViewで一覧表示、実行ボタンでアプリを起動、ブログボタンでブログ記事を開くことができます。</p>
-<p>特に便利なのは、<strong>exeファイルがなくても、ランチャーから直接LazBuildでビルドして起動できる</strong>機能です。これにより、ソースコードだけがある状態でも、ランチャーから簡単にビルドして実行できます。</p>
-<p>たくさんのアプリができたので、それらを管理するためのランチャーアプリは非常に便利です。今後も新しいアプリを追加していく際に、このランチャーから簡単に起動できるようになりました。</p>
-<h2 id="ダウンロード">ダウンロード</h2>
-<p>作成したアプリは以下のリンクからダウンロードできます：</p>
-<p><a href="/downloads/day019_Menu100.zip">day019_Menu100.zip</a></p>
-<p>次回のDay20では、また新しいアプリに挑戦します！</p>
-<hr>
-<p><em>Lazarusチャレンジ Day 19/100</em></p>
-<ul class="pa0">
-  
-</ul>
-<div class="mt6 instapaper_ignoref">
-      
-      
-      </div>
-    </div>
-
-    <aside class="w-30-l mt6-l">
-
-
-
-
-  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
-    <p class="f5 b mb3">Related</p>
-    <ul class="pa0 list">
-	   
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day018-2048/">2048ゲームの作成 - Day18</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day017-crypt-editor/">暗号化テキストエディタの作成 - Day17</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day015-sudoku/">数独アプリの作成 - Day15</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day014-3moku-complete/">3目並べの完成 - Day14</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day013-3moku/">3目並べの作成 - Day13</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day012-bmp-viewer/">BMPビューアーの作成 - Day12</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day011-calc/">シンプルな電卓の作成 - Day11</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day010-simple-editor/">シンプルなテキストエディターの作成 - Day10</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day009-create-zip/">Zip圧縮ツールの作成 - Day9</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day008-moon-calendar/">月間カレンダーアプリの作成 - Day8</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day007-minesweeper/">マインスイーパーゲームの作成 - Day7</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day006-worldclock/">世界時計アプリの作成 - Day6</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day005-chess/">チェスゲームの作成 - Day5</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day004-reversi/">Reversi（リバーシ）ゲームの作成 - Day4</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day003-lazmanager/">LazManager - LazbuildをGUIで操作するアプリ - Day3</a>
-        </li>
-	    
-    </ul>
-</div>
-
-</aside>
-
-  </article>
-
-    </main>
-    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
-  <div class="flex justify-between">
-  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
-    &copy;  私の技術ブログ 2026 
-  </a>
-    <div><div class="ananke-socials"></div>
-</div>
-  </div>
-</footer>
-
-  </body>
-</html>
+そこで、exeファイルが見つからない場合、ユーザーに確認してからLazBuildでビルドする機能を実装しました。</p><p>最初の実装では、LazBuildの実行時にデッドロックが発生しました。<code>poWaitOnExit</code>オプションを使用してプロセスの終了を待っていたため、パイプのバッファが満杯になり、プロセスが停止してしまったのです。これを解決するために、<code>poWaitOnExit</code>を外し、プロセスが動いている間は出力を吸い出し続けるようにしました。これにより、デッドロックを防ぐことができました。</p><h2 id=アプリの機能>アプリの機能</h2><p>完成したランチャーアプリには、以下の機能が実装されています：</p><ul><li>✅ <strong>アプリ一覧表示</strong>: JSONファイルからアプリ情報を読み込み、ListViewでday番号順に表示</li><li>✅ <strong>アプリの実行</strong>: 選択したアプリのフォルダ内にあるexeファイルを自動探索して起動</li><li>✅ <strong>自動ビルド機能</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動</li><li>✅ <strong>ブログ記事の起動</strong>: 各アプリのブログ記事URLをブラウザで開く</li><li>✅ <strong>LazManagerの起動</strong>: 設定されたLazManagerを起動</li><li>✅ <strong>メモ機能</strong>: 各アプリごとにメモを保存・編集（後日追加したい機能など）</li><li>✅ <strong>JSON管理</strong>: アプリ情報をJSONファイルで管理（フォルダ名、タイトル、ブログURL、メモ、有効/無効フラグ）</li><li>✅ <strong>exe自動探索</strong>: フォルダ内の最初のexeファイルを自動探索</li><li>✅ <strong>day番号順ソート</strong>: フォルダ名からday番号を抽出してソート</li></ul><h2 id=学んだこと>学んだこと</h2><p>Day19の開発を通じて、以下のことを学びました：</p><h3 id=listviewのイベント>ListViewのイベント</h3><ul><li><strong>OnSelectItemイベント</strong>: LazarusのTListViewには<code>OnSelectionChange</code>がなく、<code>OnSelectItem</code>を使用する必要がある</li><li><strong>イベントの違い</strong>: 他のフレームワーク（FireMonkeyなど）には<code>OnSelectionChange</code>があるが、LCL（Lazarus Component Library）では<code>OnSelectItem</code>が正しい</li><li><strong>エラーからの学習</strong>: 存在しないイベントを使用しようとしてエラーが発生し、正しいイベント名を学んだ</li></ul><h3 id=jsonファイルの管理>JSONファイルの管理</h3><ul><li><strong>fpjsonユニット</strong>: JSONファイルの読み込み・保存に<code>fpjson</code>と<code>jsonparser</code>を使用</li><li><strong>TJSONObject</strong>: JSONオブジェクトを扱うためのクラス</li><li><strong>TJSONArray</strong>: JSON配列を扱うためのクラス</li><li><strong>データ構造の設計</strong>: アプリ情報をJSONで管理することで、柔軟に拡張可能</li></ul><h3 id=ファイル探索>ファイル探索</h3><ul><li><strong>FindFirst/FindNext</strong>: ディレクトリ内のファイルを探索する関数</li><li><strong>自動探索</strong>: exeファイルをJSONに登録せず、フォルダ内を自動探索することで、管理が簡単になる</li></ul><h3 id=アプリ起動>アプリ起動</h3><ul><li><strong>TProcess</strong>: 外部プロセスを起動するためのクラス</li><li><strong>ブラウザ起動</strong>: cmd.exe経由でブラウザを起動する方法</li><li><strong>エラーハンドリング</strong>: ファイルが見つからない場合などのエラー処理</li></ul><h3 id=lazbuildによる自動ビルド-1>LazBuildによる自動ビルド</h3><ul><li><strong>BuildWithLazBuild関数</strong>: exeファイルが見つからない場合、LazBuildでビルドする機能</li><li><strong>プロジェクトファイル探索</strong>: フォルダ内の.lpiファイルを自動探索</li><li><strong>ビルド出力の取得</strong>: パイプを使用してビルド出力を取得し、エラー時に表示</li><li><strong>デッドロック防止</strong>: プロセスが動いている間、出力を吸い出し続けることでデッドロックを防止</li><li><strong>ユーザー確認</strong>: exeファイルが見つからない場合、ユーザーに確認してからビルド</li></ul><h3 id=実用的なアプリの作成>実用的なアプリの作成</h3><ul><li><strong>ランチャーアプリ</strong>: 複数のアプリを管理するための実用的なアプリ</li><li><strong>JSON管理</strong>: 設定ファイルをJSONで管理することで、柔軟に拡張可能</li><li><strong>メモ機能</strong>: 各アプリごとにメモを保存することで、後日追加したい機能などを記録できる</li></ul><h2 id=まとめ>まとめ</h2><p>Day19では、Lazarusアプリ用のランチャー（メニューアプリ）を作成しました。</p><ol><li><p><strong>JSONファイルの管理</strong>: アプリ情報をJSONファイルで管理し、柔軟に拡張可能な構造にした</p><ul><li>baseDir、LazManager、appsオブジェクト</li><li>各アプリにtitle、blogUrl、notes、enabledフラグ</li></ul></li><li><p><strong>exeファイルの自動探索</strong>: exeファイルをJSONに登録せず、フォルダ内を自動探索することで、管理を簡単にした</p></li><li><p><strong>LazBuildによる自動ビルド</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動する機能を実装した</p></li><li><p><strong>ListViewのイベント</strong>: <code>OnSelectionChange</code>ではなく<code>OnSelectItem</code>を使用する必要があることを学んだ</p></li><li><p><strong>メモ機能</strong>: 各アプリごとにメモを保存・編集できる機能を実装した</p></li></ol><h3 id=完成したランチャーアプリについて>完成したランチャーアプリについて</h3><p>完成したランチャーアプリは、day001からday018までのアプリを管理・起動するための実用的なアプリです。JSONファイルでアプリ情報を管理し、ListViewで一覧表示、実行ボタンでアプリを起動、ブログボタンでブログ記事を開くことができます。</p><p>特に便利なのは、<strong>exeファイルがなくても、ランチャーから直接LazBuildでビルドして起動できる</strong>機能です。これにより、ソースコードだけがある状態でも、ランチャーから簡単にビルドして実行できます。</p><p>たくさんのアプリができたので、それらを管理するためのランチャーアプリは非常に便利です。今後も新しいアプリを追加していく際に、このランチャーから簡単に起動できるようになりました。</p><h2 id=ダウンロード>ダウンロード</h2><p>作成したアプリは以下のリンクからダウンロードできます：</p><p><a href=/downloads/day019_Menu100.zip>day019_Menu100.zip</a></p><p>次回のDay20では、また新しいアプリに挑戦します！</p><hr><p><em>Lazarusチャレンジ Day 19/100</em></p><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day018-2048/>← チャレンジ18日目へ</a>
+</span><span><a href=/posts/lazarus-day020-picross/>チャレンジ20日目へ →</a></span></nav><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/posts/lazarus-day018-2048/>2048ゲームの作成 - Day18</a></li><li class=mb2><a href=/posts/lazarus-day017-crypt-editor/>暗号化テキストエディタの作成 - Day17</a></li><li class=mb2><a href=/posts/lazarus-day015-sudoku/>数独アプリの作成 - Day15</a></li><li class=mb2><a href=/posts/lazarus-day014-3moku-complete/>3目並べの完成 - Day14</a></li><li class=mb2><a href=/posts/lazarus-day013-3moku/>3目並べの作成 - Day13</a></li><li class=mb2><a href=/posts/lazarus-day012-bmp-viewer/>BMPビューアーの作成 - Day12</a></li><li class=mb2><a href=/posts/lazarus-day011-calc/>シンプルな電卓の作成 - Day11</a></li><li class=mb2><a href=/posts/lazarus-day010-simple-editor/>シンプルなテキストエディターの作成 - Day10</a></li><li class=mb2><a href=/posts/lazarus-day009-create-zip/>Zip圧縮ツールの作成 - Day9</a></li><li class=mb2><a href=/posts/lazarus-day008-moon-calendar/>月間カレンダーアプリの作成 - Day8</a></li><li class=mb2><a href=/posts/lazarus-day007-minesweeper/>マインスイーパーゲームの作成 - Day7</a></li><li class=mb2><a href=/posts/lazarus-day006-worldclock/>世界時計アプリの作成 - Day6</a></li><li class=mb2><a href=/posts/lazarus-day005-chess/>チェスゲームの作成 - Day5</a></li><li class=mb2><a href=/posts/lazarus-day004-reversi/>Reversi（リバーシ）ゲームの作成 - Day4</a></li><li class=mb2><a href=/posts/lazarus-day003-lazmanager/>LazManager - LazbuildをGUIで操作するアプリ - Day3</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://your-site-name.netlify.app/>&copy; 私の技術ブログ 2026</a><div><div class=ananke-socials></div></div></div></footer></body></html>

@@ -1,171 +1,5 @@
-<!DOCTYPE html>
-<html lang="ja-jp">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
-    <title>Pas2JSで型安全なユーザー登録フォームを作成 - Day32 | 私の技術ブログ</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <meta name="description" content="Lazarusチャレンジ32日目。Pas2JSで範囲型・列挙型・集合型を活かした型安全なユーザー登録フォームを作成しました。PascalのレコードにDOMの値をバインドし、ValidateUserで厳密なバリデーションを行います。">
-    <meta name="generator" content="Hugo 0.153.4">
-    
-    
-    
-      <meta name="robots" content="noindex, nofollow">
-    
-    <meta name="author" content="ブログ管理者">
-    
-
-    
-<link rel="stylesheet" href="/ananke/css/main.min.css" >
-
-
-
-
-    
-
-
-    
-      
-
-    
-
-    
-
-    
-      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day032-pas2js-userform/">
-    
-
-    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day032-pas2js-userform/">
-  <meta property="og:site_name" content="私の技術ブログ">
-  <meta property="og:title" content="Pas2JSで型安全なユーザー登録フォームを作成 - Day32">
-  <meta property="og:description" content="Lazarusチャレンジ32日目。Pas2JSで範囲型・列挙型・集合型を活かした型安全なユーザー登録フォームを作成しました。PascalのレコードにDOMの値をバインドし、ValidateUserで厳密なバリデーションを行います。">
-  <meta property="og:locale" content="ja_jp">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-02-01T21:00:00+09:00">
-    <meta property="article:modified_time" content="2026-02-01T21:00:00+09:00">
-
-  <meta itemprop="name" content="Pas2JSで型安全なユーザー登録フォームを作成 - Day32">
-  <meta itemprop="description" content="Lazarusチャレンジ32日目。Pas2JSで範囲型・列挙型・集合型を活かした型安全なユーザー登録フォームを作成しました。PascalのレコードにDOMの値をバインドし、ValidateUserで厳密なバリデーションを行います。">
-  <meta itemprop="datePublished" content="2026-02-01T21:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-02-01T21:00:00+09:00">
-  <meta itemprop="wordCount" content="588">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Pas2JSで型安全なユーザー登録フォームを作成 - Day32">
-  <meta name="twitter:description" content="Lazarusチャレンジ32日目。Pas2JSで範囲型・列挙型・集合型を活かした型安全なユーザー登録フォームを作成しました。PascalのレコードにDOMの値をバインドし、ValidateUserで厳密なバリデーションを行います。">
-
-	<link rel="stylesheet" href="/css/custom.css">
-
-
-  </head><body class="ma0 avenir bg-near-white development">
-
-    
-   
-  
-
-  
-  
-  
-  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay032.png');">
-    <div class="bg-black-60">
-      <nav class="pv3 ph3 ph4-ns" role="navigation">
-  <div class="flex-l center items-center justify-between">
-    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
-      
-        私の技術ブログ
-      
-    </a>
-    <div class="flex-l items-center">
-      
-
-      
-        <ul class="pl0 mr3">
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
-              投稿
-            </a>
-          </li>
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
-              カテゴリ
-            </a>
-          </li>
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
-              タグ
-            </a>
-          </li>
-          
-        </ul>
-      
-      <div class="ananke-socials"></div>
-
-    </div>
-  </div>
-</nav>
-
-      <div class="tc-l pv6 ph3 ph4-ns">
-        
-          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</div>
-          
-            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
-              Lazarusチャレンジ32日目。Pas2JSで範囲型・列挙型・集合型を活かした型安全なユーザー登録フォームを作成しました。PascalのレコードにDOMの値をバインドし、ValidateUserで厳密なバリデーションを行います。
-            </div>
-          
-        
-      </div>
-    </div>
-  </header>
-
-
-
-    <main class="pb7" role="main">
-      
-  
-  
-  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
-    <header class="mt4 w-100">
-      <aside class="instapaper_ignoref b helvetica tracked ttu">
-          
-        Posts
-      </aside><div id="sharing" class="mt3 ananke-socials"></div>
-<h1 class="f1 athelas mt3 mb1">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</h1>
-      
-      <p class="tracked"><strong>ブログ管理者</strong>
-      </p>
-      
-      
-      
-      <time class="f6 mv4 dib tracked" datetime="2026-02-01T21:00:00+09:00">February 1, 2026</time>
-      
-
-      
-      
-    </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsで型安全なユーザー登録フォームを作成---day32">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</h1>
-<p>Lazarusチャレンジ32日目です。<strong>Pas2JS</strong> で、Pascal の <strong>範囲型・列挙型・集合型</strong> を活かした <strong>型安全なユーザー登録フォーム</strong> を作成しました。ユーザーが入力したデータを Pascal の <code>record</code> にバインドし、型定義に基づいた厳密なバリデーション（<code>ValidateUser</code>）を行い、エラー時は HTML 上にメッセージを表示します。</p>
-<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
-<ul>
-<li><strong>ユーザー名</strong>: 3文字以上で入力（バリデーションでチェック）</li>
-<li><strong>年齢</strong>: 18〜120歳の範囲型（<code>TAgeRange = 18..120</code>）で検証</li>
-<li><strong>興味のある分野</strong>: テクノロジー・アート・スポーツ・音楽から複数選択（集合型 <code>TInterests</code>）</li>
-<li><strong>送信ボタン</strong>: クリックで Pascal 側のバリデーションを実行し、成功時はアラート、失敗時はエラーメッセージを表示</li>
-</ul>
-<h2 id="実装のポイント">実装のポイント</h2>
-<h3 id="1-pascal-の型定義userform-ユニット">1. Pascal の型定義（UserForm ユニット）</h3>
-<p>フォームの「器」となる型を定義します。</p>
-<ul>
-<li><strong>範囲型</strong> <code>TAgeRange = 18..120</code> … 年齢の有効範囲を型で表現</li>
-<li><strong>列挙型</strong> <code>TInterest = (itTech, itArt, itSports, itMusic)</code> … 興味の種類を型安全に</li>
-<li><strong>集合型</strong> <code>TInterests = set of TInterest</code> … 複数選択を Pascal の Set で管理</li>
-<li><strong>レコード</strong> <code>TUserRegistration</code> … ユーザー名・年齢・興味をまとめて保持</li>
-<li><strong>バリデーション結果</strong> <code>TValidationResult</code> … <code>IsValid</code> と <code>ErrorMessage</code> を返す</li>
-</ul>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">type
+<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>Pas2JSで型安全なユーザー登録フォームを作成 - Day32 | 私の技術ブログ</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Lazarusチャレンジ32日目。Pas2JSで範囲型・列挙型・集合型を活かした型安全なユーザー登録フォームを作成しました。PascalのレコードにDOMの値をバインドし、ValidateUserで厳密なバリデーションを行います。"><meta name=generator content="Hugo 0.153.4"><meta name=robots content="index, follow"><meta name=author content="ブログ管理者"><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=canonical href=https://your-site-name.netlify.app/posts/lazarus-day032-pas2js-userform/><meta property="og:url" content="https://your-site-name.netlify.app/posts/lazarus-day032-pas2js-userform/"><meta property="og:site_name" content="私の技術ブログ"><meta property="og:title" content="Pas2JSで型安全なユーザー登録フォームを作成 - Day32"><meta property="og:description" content="Lazarusチャレンジ32日目。Pas2JSで範囲型・列挙型・集合型を活かした型安全なユーザー登録フォームを作成しました。PascalのレコードにDOMの値をバインドし、ValidateUserで厳密なバリデーションを行います。"><meta property="og:locale" content="ja_jp"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-02-01T21:00:00+09:00"><meta property="article:modified_time" content="2026-02-01T21:00:00+09:00"><meta itemprop=name content="Pas2JSで型安全なユーザー登録フォームを作成 - Day32"><meta itemprop=description content="Lazarusチャレンジ32日目。Pas2JSで範囲型・列挙型・集合型を活かした型安全なユーザー登録フォームを作成しました。PascalのレコードにDOMの値をバインドし、ValidateUserで厳密なバリデーションを行います。"><meta itemprop=datePublished content="2026-02-01T21:00:00+09:00"><meta itemprop=dateModified content="2026-02-01T21:00:00+09:00"><meta itemprop=wordCount content="588"><meta name=twitter:card content="summary"><meta name=twitter:title content="Pas2JSで型安全なユーザー登録フォームを作成 - Day32"><meta name=twitter:description content="Lazarusチャレンジ32日目。Pas2JSで範囲型・列挙型・集合型を活かした型安全なユーザー登録フォームを作成しました。PascalのレコードにDOMの値をバインドし、ValidateUserで厳密なバリデーションを行います。"><link rel=stylesheet href=/css/custom.css></head><body class="ma0 avenir bg-near-white production"><header class="cover bg-center" style=background-image:url(https://your-site-name.netlify.app/images/LazarusDay032.png)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">私の技術ブログ</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="投稿 page">投稿</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/categories/ title="カテゴリ page">カテゴリ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/tags/ title="タグ page">タグ</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv6 ph3 ph4-ns"><div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</div><div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">Lazarusチャレンジ32日目。Pas2JSで範囲型・列挙型・集合型を活かした型安全なユーザー登録フォームを作成しました。PascalのレコードにDOMの値をバインドし、ValidateUserで厳密なバリデーションを行います。</div></div></div></header><main class=pb7 role=main><article class="flex-l mw8 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day031-pas2js-markdown/>← チャレンジ31日目へ</a>
+</span><span><a href=/posts/lazarus-day033-pas2js-whiteboard/>チャレンジ33日目へ →</a></span></nav><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</h1><p class=tracked><strong>ブログ管理者</strong></p><time class="f6 mv4 dib tracked" datetime=2026-02-01T21:00:00+09:00>February 1, 2026</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id=pas2jsで型安全なユーザー登録フォームを作成---day32>Pas2JSで型安全なユーザー登録フォームを作成 - Day32</h1><p>Lazarusチャレンジ32日目です。<strong>Pas2JS</strong> で、Pascal の <strong>範囲型・列挙型・集合型</strong> を活かした <strong>型安全なユーザー登録フォーム</strong> を作成しました。ユーザーが入力したデータを Pascal の <code>record</code> にバインドし、型定義に基づいた厳密なバリデーション（<code>ValidateUser</code>）を行い、エラー時は HTML 上にメッセージを表示します。</p><h2 id=作成したアプリの機能>作成したアプリの機能</h2><ul><li><strong>ユーザー名</strong>: 3文字以上で入力（バリデーションでチェック）</li><li><strong>年齢</strong>: 18〜120歳の範囲型（<code>TAgeRange = 18..120</code>）で検証</li><li><strong>興味のある分野</strong>: テクノロジー・アート・スポーツ・音楽から複数選択（集合型 <code>TInterests</code>）</li><li><strong>送信ボタン</strong>: クリックで Pascal 側のバリデーションを実行し、成功時はアラート、失敗時はエラーメッセージを表示</li></ul><h2 id=実装のポイント>実装のポイント</h2><h3 id=1-pascal-の型定義userform-ユニット>1. Pascal の型定義（UserForm ユニット）</h3><p>フォームの「器」となる型を定義します。</p><ul><li><strong>範囲型</strong> <code>TAgeRange = 18..120</code> … 年齢の有効範囲を型で表現</li><li><strong>列挙型</strong> <code>TInterest = (itTech, itArt, itSports, itMusic)</code> … 興味の種類を型安全に</li><li><strong>集合型</strong> <code>TInterests = set of TInterest</code> … 複数選択を Pascal の Set で管理</li><li><strong>レコード</strong> <code>TUserRegistration</code> … ユーザー名・年齢・興味をまとめて保持</li><li><strong>バリデーション結果</strong> <code>TValidationResult</code> … <code>IsValid</code> と <code>ErrorMessage</code> を返す</li></ul><pre tabindex=0><code class=language-pascal data-lang=pascal>type
   TAgeRange = 18..120;
   TInterest = (itTech, itArt, itSports, itMusic);
   TInterests = set of TInterest;
@@ -180,9 +14,7 @@
     IsValid: Boolean;
     ErrorMessage: string;
   end;
-</code></pre><h3 id="2-バリデーション関数-validateuser">2. バリデーション関数 ValidateUser</h3>
-<p><code>TUserRegistration</code> を受け取り、ユーザー名の長さ・年齢の範囲・興味が1つ以上選択されているかをチェックし、<code>TValidationResult</code> を返します。Pascal の <code>in</code> 演算子で <code>Data.Age in [Low(TAgeRange)..High(TAgeRange)]</code> のように範囲チェックができます。</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">function ValidateUser(const Data: TUserRegistration): TValidationResult;
+</code></pre><h3 id=2-バリデーション関数-validateuser>2. バリデーション関数 ValidateUser</h3><p><code>TUserRegistration</code> を受け取り、ユーザー名の長さ・年齢の範囲・興味が1つ以上選択されているかをチェックし、<code>TValidationResult</code> を返します。Pascal の <code>in</code> 演算子で <code>Data.Age in [Low(TAgeRange)..High(TAgeRange)]</code> のように範囲チェックができます。</p><pre tabindex=0><code class=language-pascal data-lang=pascal>function ValidateUser(const Data: TUserRegistration): TValidationResult;
 begin
   Result.IsValid := False;
   if Length(Data.UserName) &lt; 3 then
@@ -203,9 +35,7 @@ begin
   Result.IsValid := True;
   Result.ErrorMessage := &#39;&#39;;
 end;
-</code></pre><h3 id="3-dom-との連携メインプログラム">3. DOM との連携（メインプログラム）</h3>
-<p>HTML の <code>getElementById</code> で入力要素を取得し、値を Pascal のレコードにバインドします。チェックボックスは <code>querySelectorAll('input[name=&quot;interest&quot;]:checked')</code> で取得し、<code>value</code> が <code>itTech</code> などの文字列なので、if 文で列挙型にマッピングして <code>Include(Data.Interests, itTech)</code> で集合に追加します。その後 <code>ValidateUser(Data)</code> を呼び、結果に応じてエラー表示要素の <code>innerText</code> と <code>display</code> を更新するか、<code>window.alert</code> で成功を表示します。</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">Data.UserName := THTMLInputElement(Doc.getElementById(&#39;userName&#39;)).value;
+</code></pre><h3 id=3-dom-との連携メインプログラム>3. DOM との連携（メインプログラム）</h3><p>HTML の <code>getElementById</code> で入力要素を取得し、値を Pascal のレコードにバインドします。チェックボックスは <code>querySelectorAll('input[name="interest"]:checked')</code> で取得し、<code>value</code> が <code>itTech</code> などの文字列なので、if 文で列挙型にマッピングして <code>Include(Data.Interests, itTech)</code> で集合に追加します。その後 <code>ValidateUser(Data)</code> を呼び、結果に応じてエラー表示要素の <code>innerText</code> と <code>display</code> を更新するか、<code>window.alert</code> で成功を表示します。</p><pre tabindex=0><code class=language-pascal data-lang=pascal>Data.UserName := THTMLInputElement(Doc.getElementById(&#39;userName&#39;)).value;
 Data.Age := StrToIntDef(THTMLInputElement(Doc.getElementById(&#39;age&#39;)).value, 0);
 Data.Interests := [];
 CBs := Doc.querySelectorAll(&#39;input[name=&#34;interest&#34;]:checked&#39;);
@@ -217,22 +47,16 @@ begin
   // ... itSports, itMusic も同様
 end;
 Result := ValidateUser(Data);
-</code></pre><h3 id="4-html-と-css-の設計">4. HTML と CSS の設計</h3>
-<p>フォームは <code>novalidate</code> にし、ブラウザ標準のバリデーションではなく Pascal 側のロジックを優先します。エラーメッセージ用の <code>div</code> には <code>aria-live=&quot;polite&quot;</code> を付けてアクセシビリティに対応。チェックボックスの <code>value</code>（<code>itTech</code>, <code>itArt</code> など）を Pascal の列挙型と一致させておくと、マッピングが簡単になります。CSS では <code>.error-msg</code> でエラー表示、<code>.input-error</code> で入力欄の強調が可能です。</p>
-<h3 id="5-起動タイミング">5. 起動タイミング</h3>
-<p>pas2js でコンパイルしたスクリプトは、DOM が準備できてから実行する必要があります。HTML 側で <code>DOMContentLoaded</code> の後に <code>rtl.run()</code> を呼びます。また <code>rtl.js</code> を先に読み込み、その後に <code>project.js</code>（コンパイル結果）を読み込みます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;rtl.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
-</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;project.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
-</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
-</span></span><span style="display:flex;"><span>  window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;DOMContentLoaded&#39;</span>, <span style="color:#66d9ef">function</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">rtl</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;undefined&#39;</span>) {
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">rtl</span>.<span style="color:#a6e22e">run</span>();
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>  });
-</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
-</span></span></code></pre></div><h2 id="完成したコード">完成したコード</h2>
-<h3 id="userformpasユニット">UserForm.pas（ユニット）</h3>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">unit UserForm;
+</code></pre><h3 id=4-html-と-css-の設計>4. HTML と CSS の設計</h3><p>フォームは <code>novalidate</code> にし、ブラウザ標準のバリデーションではなく Pascal 側のロジックを優先します。エラーメッセージ用の <code>div</code> には <code>aria-live="polite"</code> を付けてアクセシビリティに対応。チェックボックスの <code>value</code>（<code>itTech</code>, <code>itArt</code> など）を Pascal の列挙型と一致させておくと、マッピングが簡単になります。CSS では <code>.error-msg</code> でエラー表示、<code>.input-error</code> で入力欄の強調が可能です。</p><h3 id=5-起動タイミング>5. 起動タイミング</h3><p>pas2js でコンパイルしたスクリプトは、DOM が準備できてから実行する必要があります。HTML 側で <code>DOMContentLoaded</code> の後に <code>rtl.run()</code> を呼びます。また <code>rtl.js</code> を先に読み込み、その後に <code>project.js</code>（コンパイル結果）を読み込みます。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span>&lt;<span style=color:#f92672>script</span> <span style=color:#a6e22e>src</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;rtl.js&#34;</span>&gt;&lt;/<span style=color:#f92672>script</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>script</span> <span style=color:#a6e22e>src</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;project.js&#34;</span>&gt;&lt;/<span style=color:#f92672>script</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>script</span>&gt;
+</span></span><span style=display:flex><span>  window.<span style=color:#a6e22e>addEventListener</span>(<span style=color:#e6db74>&#39;DOMContentLoaded&#39;</span>, <span style=color:#66d9ef>function</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>rtl</span> <span style=color:#f92672>!==</span> <span style=color:#e6db74>&#39;undefined&#39;</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>rtl</span>.<span style=color:#a6e22e>run</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>script</span>&gt;
+</span></span></code></pre></div><h2 id=完成したコード>完成したコード</h2><h3 id=userformpasユニット>UserForm.pas（ユニット）</h3><pre tabindex=0><code class=language-pascal data-lang=pascal>unit UserForm;
 
 interface
 
@@ -279,8 +103,7 @@ begin
 end;
 
 end.
-</code></pre><h3 id="userformprojectpasメイン">UserFormProject.pas（メイン）</h3>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">program UserFormProject;
+</code></pre><h3 id=userformprojectpasメイン>UserFormProject.pas（メイン）</h3><pre tabindex=0><code class=language-pascal data-lang=pascal>program UserFormProject;
 
 uses
   browserhtml, sysutils, UserForm;
@@ -329,128 +152,6 @@ end;
 begin
   window.document.getElementById(&#39;submitBtn&#39;).addEventListener(&#39;click&#39;, @OnSubmitClick);
 end.
-</code></pre><h3 id="indexhtml抜粋">index.html（抜粋）</h3>
-<ul>
-<li><code>form</code> に <code>novalidate</code> を指定</li>
-<li><code>id=&quot;userName&quot;</code>, <code>id=&quot;age&quot;</code>, <code>name=&quot;interest&quot;</code> のチェックボックス（value: itTech, itArt, itSports, itMusic）, <code>id=&quot;errorMessage&quot;</code>, <code>id=&quot;submitBtn&quot;</code> を配置</li>
-<li><code>rtl.js</code> → <code>project.js</code> の順で読み込み、<code>DOMContentLoaded</code> で <code>rtl.run()</code> を実行</li>
-</ul>
-<h3 id="stylecss抜粋">style.css（抜粋）</h3>
-<ul>
-<li><code>.form-container</code>: 白背景・角丸・シャドウでフォームを囲む</li>
-<li><code>.form-group</code>, <code>.checkbox-group</code>: ラベルと入力のレイアウト</li>
-<li><code>.error-msg</code>: エラー時のみ表示（<code>display: none</code> → <code>block</code>）、赤系の背景とボーダー</li>
-<li><code>.input-error</code>: 不正な入力欄の強調（必要に応じて Pascal 側でクラスを付与）</li>
-</ul>
-<h2 id="コンパイル方法">コンパイル方法</h2>
-<p>UserForm ユニットとメインプログラムを pas2js でブラウザ向けにコンパイルします。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js -Jc -vw UserFormProject.pas
-</span></span></code></pre></div><p>生成された <code>UserFormProject.js</code> を HTML 側で <code>project.js</code> として読み込むか、ファイル名を合わせてください。<code>rtl.js</code> は pas2js のランタイムなので、同じディレクトリに配置するか、CDN から取得します。</p>
-<h2 id="実行結果">実行結果</h2>
-<p><img src="/images/LazarusDay032.png" alt="型安全ユーザー登録フォーム"></p>
-<p>ユーザー名を3文字以上、年齢を18〜120の範囲で入力し、興味を1つ以上選択して「データを検証して登録」ボタンを押すと、バリデーションが通り登録成功のアラートが表示されます。条件を満たさない場合は、エラーメッセージがフォーム上に表示されます。</p>
-<h2 id="ダウンロード">ダウンロード</h2>
-<p><strong>アプリをブラウザで開く</strong>: <a href="/apps/day032/UserForm1.html">ユーザー登録フォームを開く</a></p>
-<p>作成した型安全ユーザー登録フォーム（HTML / CSS / Pascal ソース）は以下のリンクからダウンロードできます：</p>
-<p><a href="/downloads/day032_UserForm1.zip">day032_UserForm1.zip</a></p>
-<p>Pascal の範囲型・集合型をフォームバリデーションに活かすことで、「入力＝型」の保証ができ、ビジネスロジックを型定義に集約できます。バックエンドも Delphi / Free Pascal であれば、同じ UserForm ユニットを共有して DRY にすることも可能です。次はリアルタイムバリデーション（入力のたびにチェック）や、エラー時に該当入力欄にクラスを付与する演出を追加するのも良さそうです。</p>
-<hr>
-<p><em>Lazarusチャレンジ Day 32/100</em></p>
-<ul class="pa0">
-  
-</ul>
-<div class="mt6 instapaper_ignoref">
-      
-      
-      </div>
-    </div>
-
-    <aside class="w-30-l mt6-l">
-
-
-
-
-  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
-    <p class="f5 b mb3">Related</p>
-    <ul class="pa0 list">
-	   
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day031-pas2js-markdown/">Pas2JSでMarkdownエディタを作成 - Day31</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day030-pas2js-calculator/">Pas2JSで計算機アプリを作成 - Day30</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day029-pas2js-color/">Pas2JSでカラー表示アプリを作成 - Day29</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day028-pas2js-calendar/">Pas2JSでカレンダーアプリを作成 - Day28</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day027-pas2js-todo/">Pas2JSでTodoアプリを作成 - Day27</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day026-pas2js/">Pas2JSを試してみる - Day26</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day025-colorpop/">同色消しパズル（ColorPop）の作成 - Day25</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day024-lightsout/">Lights Outゲームの作成 - Day24</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day023-pdfviewer/">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day022-spreadsheet-viewer/">スプレッドシート作成の試みとビューワー実装 - Day22</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day021-15puzzle/">15パズルの作成に挑戦 - Day21</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day020-picross/">ピクロス（ノノグラム）の作成に挑戦 - Day20</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day019-menu100/">Lazarusアプリ用ランチャーの作成 - Day19</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day018-2048/">2048ゲームの作成 - Day18</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day017-crypt-editor/">暗号化テキストエディタの作成 - Day17</a>
-        </li>
-	    
-    </ul>
-</div>
-
-</aside>
-
-  </article>
-
-    </main>
-    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
-  <div class="flex justify-between">
-  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
-    &copy;  私の技術ブログ 2026 
-  </a>
-    <div><div class="ananke-socials"></div>
-</div>
-  </div>
-</footer>
-
-  </body>
-</html>
+</code></pre><h3 id=indexhtml抜粋>index.html（抜粋）</h3><ul><li><code>form</code> に <code>novalidate</code> を指定</li><li><code>id="userName"</code>, <code>id="age"</code>, <code>name="interest"</code> のチェックボックス（value: itTech, itArt, itSports, itMusic）, <code>id="errorMessage"</code>, <code>id="submitBtn"</code> を配置</li><li><code>rtl.js</code> → <code>project.js</code> の順で読み込み、<code>DOMContentLoaded</code> で <code>rtl.run()</code> を実行</li></ul><h3 id=stylecss抜粋>style.css（抜粋）</h3><ul><li><code>.form-container</code>: 白背景・角丸・シャドウでフォームを囲む</li><li><code>.form-group</code>, <code>.checkbox-group</code>: ラベルと入力のレイアウト</li><li><code>.error-msg</code>: エラー時のみ表示（<code>display: none</code> → <code>block</code>）、赤系の背景とボーダー</li><li><code>.input-error</code>: 不正な入力欄の強調（必要に応じて Pascal 側でクラスを付与）</li></ul><h2 id=コンパイル方法>コンパイル方法</h2><p>UserForm ユニットとメインプログラムを pas2js でブラウザ向けにコンパイルします。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>pas2js -Jc -vw UserFormProject.pas
+</span></span></code></pre></div><p>生成された <code>UserFormProject.js</code> を HTML 側で <code>project.js</code> として読み込むか、ファイル名を合わせてください。<code>rtl.js</code> は pas2js のランタイムなので、同じディレクトリに配置するか、CDN から取得します。</p><h2 id=実行結果>実行結果</h2><p><img src=/images/LazarusDay032.png alt=型安全ユーザー登録フォーム></p><p>ユーザー名を3文字以上、年齢を18〜120の範囲で入力し、興味を1つ以上選択して「データを検証して登録」ボタンを押すと、バリデーションが通り登録成功のアラートが表示されます。条件を満たさない場合は、エラーメッセージがフォーム上に表示されます。</p><h2 id=ダウンロード>ダウンロード</h2><p><strong>アプリをブラウザで開く</strong>: <a href=/apps/day032/UserForm1.html>ユーザー登録フォームを開く</a></p><p>作成した型安全ユーザー登録フォーム（HTML / CSS / Pascal ソース）は以下のリンクからダウンロードできます：</p><p><a href=/downloads/day032_UserForm1.zip>day032_UserForm1.zip</a></p><p>Pascal の範囲型・集合型をフォームバリデーションに活かすことで、「入力＝型」の保証ができ、ビジネスロジックを型定義に集約できます。バックエンドも Delphi / Free Pascal であれば、同じ UserForm ユニットを共有して DRY にすることも可能です。次はリアルタイムバリデーション（入力のたびにチェック）や、エラー時に該当入力欄にクラスを付与する演出を追加するのも良さそうです。</p><hr><p><em>Lazarusチャレンジ Day 32/100</em></p><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day031-pas2js-markdown/>← チャレンジ31日目へ</a>
+</span><span><a href=/posts/lazarus-day033-pas2js-whiteboard/>チャレンジ33日目へ →</a></span></nav><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/posts/lazarus-day031-pas2js-markdown/>Pas2JSでMarkdownエディタを作成 - Day31</a></li><li class=mb2><a href=/posts/lazarus-day030-pas2js-calculator/>Pas2JSで計算機アプリを作成 - Day30</a></li><li class=mb2><a href=/posts/lazarus-day029-pas2js-color/>Pas2JSでカラー表示アプリを作成 - Day29</a></li><li class=mb2><a href=/posts/lazarus-day028-pas2js-calendar/>Pas2JSでカレンダーアプリを作成 - Day28</a></li><li class=mb2><a href=/posts/lazarus-day027-pas2js-todo/>Pas2JSでTodoアプリを作成 - Day27</a></li><li class=mb2><a href=/posts/lazarus-day026-pas2js/>Pas2JSを試してみる - Day26</a></li><li class=mb2><a href=/posts/lazarus-day025-colorpop/>同色消しパズル（ColorPop）の作成 - Day25</a></li><li class=mb2><a href=/posts/lazarus-day024-lightsout/>Lights Outゲームの作成 - Day24</a></li><li class=mb2><a href=/posts/lazarus-day023-pdfviewer/>PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a></li><li class=mb2><a href=/posts/lazarus-day022-spreadsheet-viewer/>スプレッドシート作成の試みとビューワー実装 - Day22</a></li><li class=mb2><a href=/posts/lazarus-day021-15puzzle/>15パズルの作成に挑戦 - Day21</a></li><li class=mb2><a href=/posts/lazarus-day020-picross/>ピクロス（ノノグラム）の作成に挑戦 - Day20</a></li><li class=mb2><a href=/posts/lazarus-day019-menu100/>Lazarusアプリ用ランチャーの作成 - Day19</a></li><li class=mb2><a href=/posts/lazarus-day018-2048/>2048ゲームの作成 - Day18</a></li><li class=mb2><a href=/posts/lazarus-day017-crypt-editor/>暗号化テキストエディタの作成 - Day17</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://your-site-name.netlify.app/>&copy; 私の技術ブログ 2026</a><div><div class=ananke-socials></div></div></div></footer></body></html>

@@ -1,0 +1,38 @@
+{{/* lazarus-day001～day036 の前後チャレンジへのリンク（日付順） */}}
+{{ if and .File (hasPrefix .File.BaseFileName "lazarus-day") }}
+  {{ $list := slice }}
+  {{ range where .Site.RegularPages "Section" "posts" }}
+    {{ if and .File (hasPrefix .File.BaseFileName "lazarus-day") }}
+      {{ $day := replaceRE `lazarus-day(\d+).*` "$1" .File.BaseFileName }}
+      {{ $list = $list | append (dict "day" $day "page" .) }}
+    {{ end }}
+  {{ end }}
+  {{ $sorted := sort $list "day" }}
+  {{ $currentDay := replaceRE `lazarus-day(\d+).*` "$1" .File.BaseFileName }}
+  {{ $idx := -1 }}
+  {{ range $i, $e := $sorted }}
+    {{ if eq $e.day $currentDay }}{{ $idx = $i }}{{ end }}
+  {{ end }}
+  {{ if ge $idx 0 }}
+    {{ $prev := false }}
+    {{ $next := false }}
+    {{ if gt $idx 0 }}{{ $prev = index $sorted (sub $idx 1) }}{{ end }}
+    {{ if lt $idx (sub (len $sorted) 1) }}{{ $next = index $sorted (add $idx 1) }}{{ end }}
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        {{ if $prev }}
+          <a href="{{ $prev.page.RelPermalink }}">← チャレンジ{{ int (float $prev.day) }}日目へ</a>
+        {{ else }}
+          <span class="mid-gray">← 前のチャレンジなし</span>
+        {{ end }}
+      </span>
+      <span>
+        {{ if $next }}
+          <a href="{{ $next.page.RelPermalink }}">チャレンジ{{ int (float $next.day) }}日目へ →</a>
+        {{ else }}
+          <span class="mid-gray">次のチャレンジなし →</span>
+        {{ end }}
+      </span>
+    </nav>
+  {{ end }}
+{{ end }}
