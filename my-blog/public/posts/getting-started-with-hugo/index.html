@@ -1,56 +1,279 @@
-<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>Hugoでブログを始めよう - 初心者ガイド | 私の技術ブログ</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Hugoを使ったブログ作成の完全ガイド。インストールから最初の投稿まで、ステップバイステップで説明します。"><meta name=generator content="Hugo 0.153.4"><meta name=robots content="index, follow"><meta name=author content="ブログ管理者"><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=canonical href=https://your-site-name.netlify.app/posts/getting-started-with-hugo/><meta property="og:url" content="https://your-site-name.netlify.app/posts/getting-started-with-hugo/"><meta property="og:site_name" content="私の技術ブログ"><meta property="og:title" content="Hugoでブログを始めよう - 初心者ガイド"><meta property="og:description" content="Hugoを使ったブログ作成の完全ガイド。インストールから最初の投稿まで、ステップバイステップで説明します。"><meta property="og:locale" content="ja_jp"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-01-16T14:30:00+09:00"><meta property="article:modified_time" content="2024-01-16T14:30:00+09:00"><meta itemprop=name content="Hugoでブログを始めよう - 初心者ガイド"><meta itemprop=description content="Hugoを使ったブログ作成の完全ガイド。インストールから最初の投稿まで、ステップバイステップで説明します。"><meta itemprop=datePublished content="2024-01-16T14:30:00+09:00"><meta itemprop=dateModified content="2024-01-16T14:30:00+09:00"><meta itemprop=wordCount content="156"><meta name=twitter:card content="summary"><meta name=twitter:title content="Hugoでブログを始めよう - 初心者ガイド"><meta name=twitter:description content="Hugoを使ったブログ作成の完全ガイド。インストールから最初の投稿まで、ステップバイステップで説明します。"><link rel=stylesheet href=/css/custom.css></head><body class="ma0 avenir bg-near-white production"><header><div class=bg-black><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">私の技術ブログ</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="投稿 page">投稿</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/categories/ title="カテゴリ page">カテゴリ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/tags/ title="タグ page">タグ</a></li></ul><div class=ananke-socials></div></div></div></nav></div></header><main class=pb7 role=main><article class="flex-l mw8 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">Hugoでブログを始めよう - 初心者ガイド</h1><p class=tracked><strong>ブログ管理者</strong></p><time class="f6 mv4 dib tracked" datetime=2024-01-16T14:30:00+09:00>January 16, 2024</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id=hugoでブログを始めよう---初心者ガイド>Hugoでブログを始めよう - 初心者ガイド</h1><p>前回の投稿でHugoについて少し触れましたが、今回は実際にHugoを使ってブログを作成する方法を詳しく説明します。</p><h2 id=hugoとは>Hugoとは？</h2><p>Hugoは、Go言語で書かれた高速な静的サイトジェネレーターです。MarkdownファイルからHTMLサイトを生成し、以下のような特徴があります：</p><ul><li><strong>高速性</strong>: 数千ページでも数秒でビルド完了</li><li><strong>シンプル</strong>: 設定ファイルが少なく、学習コストが低い</li><li><strong>柔軟性</strong>: 豊富なテーマとカスタマイズオプション</li><li><strong>多言語対応</strong>: 国際化に優れている</li></ul><h2 id=インストール方法>インストール方法</h2><h3 id=windowsの場合>Windowsの場合</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Chocolateyを使用</span>
-</span></span><span style=display:flex><span>choco install hugo-extended
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># または、公式サイトからダウンロード</span>
-</span></span><span style=display:flex><span><span style=color:#75715e># https://gohugo.io/installation/windows/</span>
-</span></span></code></pre></div><h3 id=macosの場合>macOSの場合</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Homebrewを使用</span>
-</span></span><span style=display:flex><span>brew install hugo
-</span></span></code></pre></div><h3 id=linuxの場合>Linuxの場合</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Snapを使用</span>
-</span></span><span style=display:flex><span>sudo snap install hugo
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># または、パッケージマネージャーで</span>
-</span></span><span style=display:flex><span>sudo apt install hugo
-</span></span></code></pre></div><h2 id=新しいサイトの作成>新しいサイトの作成</h2><p>インストールが完了したら、新しいサイトを作成できます：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 新しいサイトを作成</span>
-</span></span><span style=display:flex><span>hugo new site my-blog
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># サイトディレクトリに移動</span>
-</span></span><span style=display:flex><span>cd my-blog
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># テーマを追加（例：Ananke）</span>
-</span></span><span style=display:flex><span>git init
-</span></span><span style=display:flex><span>git submodule add https://github.com/theNewDynamic/gohugo-theme-ananke.git themes/ananke
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 設定ファイルにテーマを指定</span>
-</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#39;theme = &#34;ananke&#34;&#39;</span> &gt;&gt; hugo.toml
-</span></span></code></pre></div><h2 id=最初の投稿を作成>最初の投稿を作成</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 新しい投稿を作成</span>
-</span></span><span style=display:flex><span>hugo new posts/my-first-post.md
-</span></span></code></pre></div><p>作成されたファイルを編集して、Markdownでコンテンツを書きます：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown><span style=display:flex><span>---
-</span></span><span style=display:flex><span>title: &#34;私の最初の投稿&#34;
-</span></span><span style=display:flex><span>date: 2024-01-15T10:00:00+09:00
-</span></span><span style=display:flex><span>draft: false
-</span></span><span style=display:flex><span>---
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span># こんにちは！
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>これは私の最初の投稿です。
-</span></span></code></pre></div><h2 id=サイトのビルドとプレビュー>サイトのビルドとプレビュー</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 開発サーバーを起動（プレビュー用）</span>
-</span></span><span style=display:flex><span>hugo server -D
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 本番用にビルド</span>
-</span></span><span style=display:flex><span>hugo
-</span></span></code></pre></div><h2 id=基本的な設定>基本的な設定</h2><p><code>hugo.toml</code>ファイルで以下の設定ができます：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-toml data-lang=toml><span style=display:flex><span><span style=color:#a6e22e>baseURL</span> = <span style=color:#e6db74>&#39;https://example.org/&#39;</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>languageCode</span> = <span style=color:#e6db74>&#39;ja-jp&#39;</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>title</span> = <span style=color:#e6db74>&#39;私のブログ&#39;</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>theme</span> = <span style=color:#e6db74>&#39;ananke&#39;</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>[<span style=color:#a6e22e>params</span>]
-</span></span><span style=display:flex><span>  <span style=color:#a6e22e>description</span> = <span style=color:#e6db74>&#39;技術ブログです&#39;</span>
-</span></span><span style=display:flex><span>  <span style=color:#a6e22e>author</span> = <span style=color:#e6db74>&#39;ブログ管理者&#39;</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>[<span style=color:#a6e22e>menu</span>]
-</span></span><span style=display:flex><span>  [[<span style=color:#a6e22e>menu</span>.<span style=color:#a6e22e>main</span>]]
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>identifier</span> = <span style=color:#e6db74>&#34;posts&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>name</span> = <span style=color:#e6db74>&#34;投稿&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>url</span> = <span style=color:#e6db74>&#34;/posts/&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>weight</span> = <span style=color:#ae81ff>10</span>
-</span></span></code></pre></div><h2 id=テーマのカスタマイズ>テーマのカスタマイズ</h2><p>Anankeテーマは以下の機能を提供します：</p><ul><li>レスポンシブデザイン</li><li>タグ・カテゴリ分類</li><li>ソーシャルメディア連携</li><li>コメントシステム</li><li>検索機能</li></ul><h2 id=次のステップ>次のステップ</h2><p>基本的なブログができたら、以下のようなカスタマイズを検討してみてください：</p><ol><li><strong>カスタムCSS</strong>: デザインの調整</li><li><strong>ショートコード</strong>: 再利用可能なコンテンツブロック</li><li><strong>プラグイン</strong>: 機能の拡張</li><li><strong>SEO最適化</strong>: 検索エンジン対策</li></ol><h2 id=まとめ>まとめ</h2><p>Hugoは初心者でも簡単に始められる、素晴らしい静的サイトジェネレーターです。このガイドを参考に、ぜひあなたのブログを作成してみてください。</p><p>何か質問があれば、コメントでお気軽にお聞かせください！</p><hr><p><em>次回は、Hugoのテーマカスタマイズについて詳しく説明する予定です。</em></p><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/posts/my-first-blog-post/>私の最初のブログ投稿</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://your-site-name.netlify.app/>&copy; 私の技術ブログ 2026</a><div><div class=ananke-socials></div></div></div></footer></body></html>
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Hugoでブログを始めよう - 初心者ガイド | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Hugoを使ったブログ作成の完全ガイド。インストールから最初の投稿まで、ステップバイステップで説明します。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/getting-started-with-hugo/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/getting-started-with-hugo/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Hugoでブログを始めよう - 初心者ガイド">
+  <meta property="og:description" content="Hugoを使ったブログ作成の完全ガイド。インストールから最初の投稿まで、ステップバイステップで説明します。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-01-16T14:30:00+09:00">
+    <meta property="article:modified_time" content="2024-01-16T14:30:00+09:00">
+
+  <meta itemprop="name" content="Hugoでブログを始めよう - 初心者ガイド">
+  <meta itemprop="description" content="Hugoを使ったブログ作成の完全ガイド。インストールから最初の投稿まで、ステップバイステップで説明します。">
+  <meta itemprop="datePublished" content="2024-01-16T14:30:00+09:00">
+  <meta itemprop="dateModified" content="2024-01-16T14:30:00+09:00">
+  <meta itemprop="wordCount" content="156">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Hugoでブログを始めよう - 初心者ガイド">
+  <meta name="twitter:description" content="Hugoを使ったブログ作成の完全ガイド。インストールから最初の投稿まで、ステップバイステップで説明します。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+
+<div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Hugoでブログを始めよう - 初心者ガイド</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2024-01-16T14:30:00+09:00">January 16, 2024</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="hugoでブログを始めよう---初心者ガイド">Hugoでブログを始めよう - 初心者ガイド</h1>
+<p>前回の投稿でHugoについて少し触れましたが、今回は実際にHugoを使ってブログを作成する方法を詳しく説明します。</p>
+<h2 id="hugoとは">Hugoとは？</h2>
+<p>Hugoは、Go言語で書かれた高速な静的サイトジェネレーターです。MarkdownファイルからHTMLサイトを生成し、以下のような特徴があります：</p>
+<ul>
+<li><strong>高速性</strong>: 数千ページでも数秒でビルド完了</li>
+<li><strong>シンプル</strong>: 設定ファイルが少なく、学習コストが低い</li>
+<li><strong>柔軟性</strong>: 豊富なテーマとカスタマイズオプション</li>
+<li><strong>多言語対応</strong>: 国際化に優れている</li>
+</ul>
+<h2 id="インストール方法">インストール方法</h2>
+<h3 id="windowsの場合">Windowsの場合</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Chocolateyを使用</span>
+</span></span><span style="display:flex;"><span>choco install hugo-extended
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># または、公式サイトからダウンロード</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># https://gohugo.io/installation/windows/</span>
+</span></span></code></pre></div><h3 id="macosの場合">macOSの場合</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Homebrewを使用</span>
+</span></span><span style="display:flex;"><span>brew install hugo
+</span></span></code></pre></div><h3 id="linuxの場合">Linuxの場合</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Snapを使用</span>
+</span></span><span style="display:flex;"><span>sudo snap install hugo
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># または、パッケージマネージャーで</span>
+</span></span><span style="display:flex;"><span>sudo apt install hugo
+</span></span></code></pre></div><h2 id="新しいサイトの作成">新しいサイトの作成</h2>
+<p>インストールが完了したら、新しいサイトを作成できます：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 新しいサイトを作成</span>
+</span></span><span style="display:flex;"><span>hugo new site my-blog
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># サイトディレクトリに移動</span>
+</span></span><span style="display:flex;"><span>cd my-blog
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># テーマを追加（例：Ananke）</span>
+</span></span><span style="display:flex;"><span>git init
+</span></span><span style="display:flex;"><span>git submodule add https://github.com/theNewDynamic/gohugo-theme-ananke.git themes/ananke
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定ファイルにテーマを指定</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;theme = &#34;ananke&#34;&#39;</span> &gt;&gt; hugo.toml
+</span></span></code></pre></div><h2 id="最初の投稿を作成">最初の投稿を作成</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 新しい投稿を作成</span>
+</span></span><span style="display:flex;"><span>hugo new posts/my-first-post.md
+</span></span></code></pre></div><p>作成されたファイルを編集して、Markdownでコンテンツを書きます：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>title: &#34;私の最初の投稿&#34;
+</span></span><span style="display:flex;"><span>date: 2024-01-15T10:00:00+09:00
+</span></span><span style="display:flex;"><span>draft: false
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># こんにちは！
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>これは私の最初の投稿です。
+</span></span></code></pre></div><h2 id="サイトのビルドとプレビュー">サイトのビルドとプレビュー</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 開発サーバーを起動（プレビュー用）</span>
+</span></span><span style="display:flex;"><span>hugo server -D
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 本番用にビルド</span>
+</span></span><span style="display:flex;"><span>hugo
+</span></span></code></pre></div><h2 id="基本的な設定">基本的な設定</h2>
+<p><code>hugo.toml</code>ファイルで以下の設定ができます：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">baseURL</span> = <span style="color:#e6db74">&#39;https://example.org/&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">languageCode</span> = <span style="color:#e6db74">&#39;ja-jp&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">title</span> = <span style="color:#e6db74">&#39;私のブログ&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">theme</span> = <span style="color:#e6db74">&#39;ananke&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">params</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#39;技術ブログです&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">author</span> = <span style="color:#e6db74">&#39;ブログ管理者&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">menu</span>]
+</span></span><span style="display:flex;"><span>  [[<span style="color:#a6e22e">menu</span>.<span style="color:#a6e22e">main</span>]]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">identifier</span> = <span style="color:#e6db74">&#34;posts&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;投稿&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">url</span> = <span style="color:#e6db74">&#34;/posts/&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">weight</span> = <span style="color:#ae81ff">10</span>
+</span></span></code></pre></div><h2 id="テーマのカスタマイズ">テーマのカスタマイズ</h2>
+<p>Anankeテーマは以下の機能を提供します：</p>
+<ul>
+<li>レスポンシブデザイン</li>
+<li>タグ・カテゴリ分類</li>
+<li>ソーシャルメディア連携</li>
+<li>コメントシステム</li>
+<li>検索機能</li>
+</ul>
+<h2 id="次のステップ">次のステップ</h2>
+<p>基本的なブログができたら、以下のようなカスタマイズを検討してみてください：</p>
+<ol>
+<li><strong>カスタムCSS</strong>: デザインの調整</li>
+<li><strong>ショートコード</strong>: 再利用可能なコンテンツブロック</li>
+<li><strong>プラグイン</strong>: 機能の拡張</li>
+<li><strong>SEO最適化</strong>: 検索エンジン対策</li>
+</ol>
+<h2 id="まとめ">まとめ</h2>
+<p>Hugoは初心者でも簡単に始められる、素晴らしい静的サイトジェネレーターです。このガイドを参考に、ぜひあなたのブログを作成してみてください。</p>
+<p>何か質問があれば、コメントでお気軽にお聞かせください！</p>
+<hr>
+<p><em>次回は、Hugoのテーマカスタマイズについて詳しく説明する予定です。</em></p>
+
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/my-first-blog-post/">私の最初のブログ投稿</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

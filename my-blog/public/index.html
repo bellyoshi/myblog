@@ -1,14 +1,372 @@
-<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>私の技術ブログ</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。"><meta name=generator content="Hugo 0.153.4"><meta name=robots content="index, follow"><meta name=author content="ブログ管理者"><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link href=/index.xml rel=alternate type=application/rss+xml title=私の技術ブログ><link href=/index.xml rel=feed type=application/rss+xml title=私の技術ブログ><link rel=canonical href=https://your-site-name.netlify.app/><meta property="og:url" content="https://your-site-name.netlify.app/"><meta property="og:site_name" content="私の技術ブログ"><meta property="og:title" content="私の技術ブログ"><meta property="og:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。"><meta property="og:locale" content="ja_jp"><meta property="og:type" content="website"><meta itemprop=name content="私の技術ブログ"><meta itemprop=description content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。"><meta itemprop=datePublished content="2026-02-06T17:00:00+09:00"><meta itemprop=dateModified content="2026-02-06T17:00:00+09:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="私の技術ブログ"><meta name=twitter:description content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。"><link rel=stylesheet href=/css/custom.css></head><body class="ma0 avenir bg-near-white production"><header><div class="pb3-m pb6-l bg-black"><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">私の技術ブログ</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="投稿 page">投稿</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/categories/ title="カテゴリ page">カテゴリ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/tags/ title="タグ page">タグ</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv3 ph3 ph4-ns"><h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">私の技術ブログ</h1></div></div></header><main class=pb7 role=main><article class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links mid-gray"></article><div class="pa3 pa4-ns w-100 w-70-ns center"><section class="w-100 mw8"><div class="w-100 mb4 relative"><article class="bb b--black-10"><div class="db pv4 ph3 ph0-l dark-gray no-underline"><div class="flex-column flex-row-ns flex"><div class="pr3-ns mb4 mb0-ns w-100 w-40-ns"><a href=/posts/lazarus-day036-pas2js-day-counter/ class="db grow"><img src=https://your-site-name.netlify.app/images/LazarusDay036.png class=img alt="image from Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36"></a></div><div class="blah w-100 w-60-ns pl3-ns"><h1 class="f3 fw1 athelas mt0 lh-title"><a href=/posts/lazarus-day036-pas2js-day-counter/ class="color-inherit dim link">Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36</a></h1><div class="f6 f5-l lh-copy nested-copy-line-height nested-links"><h1 id=pas2jsで経過日数カウンター何日目か表示を作る---day36>Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36</h1><p>Lazarusチャレンジ36日目です。1月の時は日にちがチャレンジ日でしたので問題なかったのですが、
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+    
+      <link href="/index.xml" rel="alternate" type="application/rss+xml" title="私の技術ブログ" />
+      <link href="/index.xml" rel="feed" type="application/rss+xml" title="私の技術ブログ" />
+      
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="私の技術ブログ">
+  <meta property="og:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="website">
+
+  <meta itemprop="name" content="私の技術ブログ">
+  <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
+  <meta itemprop="datePublished" content="2026-02-07T20:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-07T20:00:00+09:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="私の技術ブログ">
+  <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+
+  <header>
+    <div class="pb3-m pb6-l bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv3 ph3 ph4-ns">
+        <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
+          私の技術ブログ
+        </h1>
+        
+      </div>
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+  <article class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links mid-gray">
+    
+  </article>
+
+  
+  
+  
+  
+  
+
+  
+    <div class="pa3 pa4-ns w-100 w-70-ns center">
+      
+
+      <section class="w-100 mw8">
+        
+        
+          <div class="w-100 mb4 relative">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
+    <div class="flex-column flex-row-ns flex">
+      
+          
+        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
+          <a href="/posts/lazarus-day038-pas2js-lsystem/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay038.png" class="img" alt="image from Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38">
+          </a>
+        </div>
+      
+      <div class="blah w-100 w-60-ns pl3-ns">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/lazarus-day038-pas2js-lsystem/" class="color-inherit dim link">
+            Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          <h1 id="pas2jsでブラウザで動く簡易l-system描画フラクタル図形を作る---day38">Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38</h1>
+<p>Lazarusチャレンジ38日目です。数式に基づいて植物や雪の結晶のような<strong>フラクタル図形</strong>を描画する <strong>L-System（リンデンマイヤー系）</strong> を、Pas2JS でブラウザの Canvas に実装しました。アルゴリズム主体のアプリは Pascal の得意分野で、再帰的な書き換えとスタック操作で美しい木やシダ、コッホ曲線を描けます。</p>
+<h2 id="l-systemの基本">L-Systemの基本</h2>
+<p>L-System は <strong>開始文字列（Axiom）</strong> に <strong>書き換え規則（Rules）</strong> を繰り返し適用して得た文字列を、「亀の歩み」（タートルグラフィックス）として解釈する仕組みです。</p>
+<ul>
+<li><strong>F</strong>: 線を引いて進む</li>
+<li><strong>+</strong> / <strong>−</strong>: 右・左に回転</li>
+<li><strong>[</strong> / <strong>]</strong>: 現在の状態（座標・角度）をスタックに保存／復元（枝分かれの表現）</li>
+</ul>
+<p>例として「有機的な木」では Axiom を <code>X</code>、規則を <code>F→FF</code>、<code>X→F[[+X]-X]-F[-FX]+X</code> のようにし、角度 25° で描画します。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>プリセット切り替え</strong>: ドロップダウンで「有機的な木」「シダの葉」「コッホ雪の結晶」を選択。Axiom・Rules・角度をレコードで管理し、切り替え時に再描画</li>
+<li><strong>再帰の深さスライダ</strong>: 0～6 でルール適用回数を変更。スライダを動かすとリアルタイムに図形が成長</li>
+<li><strong>グラデーション描画</strong>: 木・シダでは幹から先端に向けて色を茶系から緑系に変化。枝分かれごとに線を細くする演出</li>
+<li><strong>ステータス表示</strong>: 生成された L-System 文字列の長さを表示</li>
+</ul>
+<p>HTML / CSS / Pascal を分離した構成で、<code>pas2js</code> でコンパイルした <code>project1.js</code> を読み込んで動作します。</p>
+<h2 id="開発でハマった点pas2js-のイベントハンドラ">開発でハマった点（pas2js のイベントハンドラ）</h2>
+<p>スライダの <code>OnInput</code> とセレクトの <code>OnChange</code> に <code>procedure</code> をそのまま渡すと、コンパイルエラーになりました。</p>
+<ol>
+<li>
+<p><strong>procedure → function に変更</strong><br>
+pas2js の <code>OnInput</code> / <code>OnChange</code> は <strong>関数型（戻り値あり）</strong> を要求するため、<code>HandleInput</code> と <code>HandleSelect</code> を <code>function ... : Boolean</code> にし、末尾で <code>Result := True</code> を返すようにしました。</p>
+        </div>
+        
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day038-pas2js-lsystem/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="w-100 mb4 relative">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
+    <div class="flex-column flex-row-ns flex">
+      
+          
+        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
+          <a href="/posts/lazarus-day037-pas2js-munchausen/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay037.png" class="img" alt="image from Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37">
+          </a>
+        </div>
+      
+      <div class="blah w-100 w-60-ns pl3-ns">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/lazarus-day037-pas2js-munchausen/" class="color-inherit dim link">
+            Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          <h1 id="pas2jsで8進数ミュンヒハウゼン数8桁固定を探索する---day37">Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37</h1>
+<p>Lazarusチャレンジ37日目です。<strong>ミュンヒハウゼン数</strong>（各桁を「その数字で累乗」した和が元の数と一致する数）を、<strong>8進数・8桁固定</strong> の条件で Pas2JS で探索するアプリを作りました。見つかった数について、どう計算するとその数になるか式も表示します。</p>
+<h2 id="ミュンヒハウゼン数のおさらい">ミュンヒハウゼン数のおさらい</h2>
+<ul>
+<li><strong>10進数</strong>では、すでに多くの人が周知のとおり、<strong>1</strong> と <strong>3435</strong>（3³+4⁴+3³+5⁵）が有名です。0^0=1 と定義すると <strong>438579088</strong> も成立します。</li>
+<li><strong>16進数</strong>では、1 や C76712FFC311E6E(16進数) など、基数を変えると別の解が現れます。</li>
+<li><strong>8進数</strong>では、普通に（桁数を表記どおりに）やると <strong>1</strong> しか出てきません。</li>
+</ul>
+<p>そこで <strong>固定長8桁・先頭の0も桁として扱う・0^0=1</strong> という条件で探索しました。8進数なので 00000000 ～ 77777777 の範囲です。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>8進数8桁固定</strong>で、各桁 d に対して d^d の和を計算（0^0=1）</li>
+<li>その和が元の数（10進数）と一致するものを探索</li>
+<li>発見時に <strong>8進数表記</strong> と <strong>10進数</strong> に加え、<strong>どの桁の累乗を足すとその数になるか</strong> の式を表示</li>
+<li>ブラウザが固まらないよう、<code>requestAnimationFrame</code> でバッチ処理しながら非同期探索</li>
+</ul>
+<h2 id="探索結果8進数-8桁固定001">探索結果（8進数 8桁固定・0^0=1）</h2>
+<p>範囲 00000000 ～ 77777777 で探索した結果、次の <strong>3つ</strong> が見つかりました。</p>
+<table>
+  <thead>
+      <tr>
+          <th>8進数(8桁)</th>
+          <th>10進数</th>
+          <th>計算式</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>00000010</td>
+          <td>8</td>
+          <td>0⁰+0⁰+0⁰+0⁰+0⁰+0⁰+1¹+0⁰ = 8</td>
+      </tr>
+      <tr>
+          <td>00000412</td>
+          <td>266</td>
+          <td>0⁰+0⁰+0⁰+0⁰+0⁰+4⁴+1¹+2² = 266</td>
+      </tr>
+      <tr>
+          <td>00266222</td>
+          <td>93330</td>
+          <td>0⁰+0⁰+2²+6⁶+6⁶+2²+2²+2² = 93330</td>
+      </tr>
+  </tbody>
+</table>
+<p>（表内は 0^0=1 を 0⁰ と表記しています。）</p>
+        </div>
+        
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day037-pas2js-munchausen/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="w-100 mb4 relative">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
+    <div class="flex-column flex-row-ns flex">
+      
+          
+        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
+          <a href="/posts/lazarus-day036-pas2js-day-counter/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay036.png" class="img" alt="image from Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36">
+          </a>
+        </div>
+      
+      <div class="blah w-100 w-60-ns pl3-ns">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/lazarus-day036-pas2js-day-counter/" class="color-inherit dim link">
+            Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          <h1 id="pas2jsで経過日数カウンター何日目か表示を作る---day36">Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36</h1>
+<p>Lazarusチャレンジ36日目です。1月の時は日にちがチャレンジ日でしたので問題なかったのですが、
 2月に入り、<strong>チャレンジ何日目かがわからなくなる</strong>ことがあったので、
 <strong>開始日を選ぶと「今日は○日目」</strong> と表示する <strong>経過日数カウンター</strong> を Pas2JS で作りました。
 このアプリにより一日さぼってことが判明しました。
 本日実行すると「今日は37日目」と表示されたけれど、本投稿は day036 です。
-本日中にアプリをもう一つ挑戦しましょう。</p><h2 id=作成したアプリの機能>作成したアプリの機能</h2><ul><li><strong>開始日の選択</strong>: <code>&lt;input type="date"></code> でチャレンジ開始日を選ぶ（初期値は今年の1月1日）</li><li><strong>経過日数の表示</strong>: 「今日は開始日から <strong>○日目</strong>」と表示。開始日を1日目として、今日まで何日経過したかを計算</li><li><strong>日付変更時の再計算</strong>: 開始日を変更すると即座に表示が更新される</li></ul><h2 id=開発でハマった点pas2js-の-strtodate>開発でハマった点（pas2js の StrToDate）</h2><p>日付文字列（<code>YYYY-MM-DD</code>）を <code>TDateTime</code> に変換する際、最初は次のように書いていました。</p><pre tabindex=0><code class=language-pascal data-lang=pascal>StrToDate(StartDateInput.Value, &#39;YYYY-MM-DD&#39;)
-</code></pre><p><strong>pas2js</strong> では <code>StrToDate</code> の第2引数は <strong>TFormatSettings 型</strong> であり、フォーマット文字列を渡す仕様ではありません。このためコンパイルエラーになります。</p><ul><li><strong>対応</strong>: TFormatSettingsについていろいろ調査するより
+本日中にアプリをもう一つ挑戦しましょう。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>開始日の選択</strong>: <code>&lt;input type=&quot;date&quot;&gt;</code> でチャレンジ開始日を選ぶ（初期値は今年の1月1日）</li>
+<li><strong>経過日数の表示</strong>: 「今日は開始日から <strong>○日目</strong>」と表示。開始日を1日目として、今日まで何日経過したかを計算</li>
+<li><strong>日付変更時の再計算</strong>: 開始日を変更すると即座に表示が更新される</li>
+</ul>
+<h2 id="開発でハマった点pas2js-の-strtodate">開発でハマった点（pas2js の StrToDate）</h2>
+<p>日付文字列（<code>YYYY-MM-DD</code>）を <code>TDateTime</code> に変換する際、最初は次のように書いていました。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">StrToDate(StartDateInput.Value, &#39;YYYY-MM-DD&#39;)
+</code></pre><p><strong>pas2js</strong> では <code>StrToDate</code> の第2引数は <strong>TFormatSettings 型</strong> であり、フォーマット文字列を渡す仕様ではありません。このためコンパイルエラーになります。</p>
+<ul>
+<li><strong>対応</strong>: TFormatSettingsについていろいろ調査するより
 入力が常に <code>YYYY-MM-DD</code> 形式なら、<strong>手動でパース</strong>するのが確実です。<code>Copy</code> と <code>StrToInt</code> で年・月・日を取り出し、<code>EncodeDate(y, m, d)</code> で <code>TDateTime</code> に変換するように変更しました。
-もちろんCursor君にお任せなんですけどね。</li></ul><pre tabindex=0><code class=language-pascal data-lang=pascal>S := StartDateInput.Value;
+もちろんCursor君にお任せなんですけどね。</li>
+</ul>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">S := StartDateInput.Value;
 y := StrToInt(Copy(S, 1, 4));
 m := StrToInt(Copy(S, 6, 2));
 d := StrToInt(Copy(S, 9, 2));
 StartDate := EncodeDate(y, m, d);
-</code></pre><p><code>ScanDateTime</code>（dateutils）も pas2js では第2引数に <code>TFormatSettings</code> を要求するため、固定フォーマットの場合は手動パースで十分です。</p></div><p class="f6 lh-copy mv0">By ブログ管理者</p><a href=/posts/lazarus-day036-pas2js-day-counter/ class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a></div></div></div></article></div><div class="w-100 mb4 relative"><article class="bb b--black-10"><div class="db pv4 ph3 ph0-l dark-gray no-underline"><div class="flex-column flex-row-ns flex"><div class="pr3-ns mb4 mb0-ns w-100 w-40-ns"><a href=/posts/lazarus-day035-pas2js-kaeru-rinsho/ class="db grow"><img src=https://your-site-name.netlify.app/images/LazarusDay035.png class=img alt="image from Pas2JSでかえるのうたを輪唱で再生する - Day35"></a></div><div class="blah w-100 w-60-ns pl3-ns"><h1 class="f3 fw1 athelas mt0 lh-title"><a href=/posts/lazarus-day035-pas2js-kaeru-rinsho/ class="color-inherit dim link">Pas2JSでかえるのうたを輪唱で再生する - Day35</a></h1><div class="f6 f5-l lh-copy nested-copy-line-height nested-links"><h1 id=pas2jsでかえるのうたを輪唱で再生する---day35>Pas2JSでかえるのうたを輪唱で再生する - Day35</h1><p>Lazarusチャレンジ35日目です。今回は <strong>かえるのうた</strong> を再度取り上げ、<strong>Web で再実現</strong> しました。さらに <strong>輪唱</strong> にもチャレンジしています。</p><p>Day1 では Lazarus で MIDI ファイルを作成するアプリとして「かえるのうた」を実装しました。今回は <strong>Pas2JS</strong> と <strong>Web Audio API</strong> で、ブラウザ上で直接音を鳴らす形にしています。正確なタイミング制御のために <code>AudioContext.currentTime</code> を使い、8拍ずつずらした3パートの輪唱で、かえるのうたが重なって聞こえるようにしました。</p><h2 id=作成したアプリの機能>作成したアプリの機能</h2><ul><li><strong>かえるのうたのメロディー</strong>を Web Audio API のオシレータ（三角波）で再生</li><li><strong>輪唱</strong>: 1パート目から 8拍（約3.2秒）ずつずらして 2パート目・3パート目を再生。3つのメロディーが重なる輪唱になります</li><li><strong>エンベロープ</strong>: <code>linearRampToValueAtTime</code> と <code>exponentialRampToValueAtTime</code> で、音の立ち上がりと減衰を制御し、「ぷつぷつ」したノイズを防ぎつつ自然に聞こえるようにしています</li><li><strong>音量バランス</strong>: 輪唱で音が重なって大きくなりすぎないよう、各パートの音量を 0.3 / 0.2 / 0.1 と段階的に下げてあります</li></ul><h2 id=開発の経緯gemini--cursor-で仕上げ>開発の経緯（Gemini → Cursor で仕上げ）</h2><p>コードは <strong>Gemini</strong> に作成してもらいました。そのままでは pas2js でコンパイルが通らなかったため、<strong>Cursor</strong> で次の2点を修正して仕上げました。</p><h3 id=1-オシレータの型プロパティwebaudio-の予約名>1. オシレータの型プロパティ（webaudio の予約名）</h3><p>webaudio ユニットでは、JavaScript の <code>type</code> が Pascal の予約語と衝突するため、プロパティ名が <strong><code>type_</code></strong> として定義されています。</p><ul><li><strong>修正前</strong>: <code>Osc._type := 'triangle';</code></li><li><strong>修正後</strong>: <code>Osc.type_ := 'triangle';</code></li></ul><h3 id=2-program-では-initialization-が使えない--window-の参照>2. program では initialization が使えない / window の参照</h3><p>HTML のボタンから <code>StartRinsho</code> を呼べるように、グローバルに手続きを登録する必要があります。Gemini のコードでは <code>initialization</code> と <code>TJSWindow.window</code> を使っていました。</p></div><p class="f6 lh-copy mv0">By ブログ管理者</p><a href=/posts/lazarus-day035-pas2js-kaeru-rinsho/ class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a></div></div></div></article></div><div class="w-100 mb4 relative"><article class="bb b--black-10"><div class="db pv4 ph3 ph0-l dark-gray no-underline"><div class="flex-column flex-row-ns flex"><div class="pr3-ns mb4 mb0-ns w-100 w-40-ns"><a href=/posts/lazarus-day034-pas2js-simple-interpreter/ class="db grow"><img src=https://your-site-name.netlify.app/images/LazarusDay034.png class=img alt="image from Pas2JSで簡易インタープリタをブラウザで動かす - Day34"></a></div><div class="blah w-100 w-60-ns pl3-ns"><h1 class="f3 fw1 athelas mt0 lh-title"><a href=/posts/lazarus-day034-pas2js-simple-interpreter/ class="color-inherit dim link">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</a></h1><div class="f6 f5-l lh-copy nested-copy-line-height nested-links"><h1 id=pas2jsで簡易インタープリタをブラウザで動かす---day34>Pas2JSで簡易インタープリタをブラウザで動かす - Day34</h1><p>Lazarusチャレンジ34日目です。<strong>Pas2JS</strong> で、ブラウザ上で動く <strong>簡易インタープリタ</strong> を作成しました。PRINT・変数代入・IF/ELSE・WHILE/WEND をサポートし、式は <strong>再帰下降構文解析</strong> で四則演算の優先順位（<code>*</code>/<code>/</code> が <code>+</code>/<code>-</code> より優先、括弧対応）を正しく評価します。Pascal でトークナイザとパーサを実装し、DOM のテキストエリアとボタンから「Run」で実行できる構成にしています。</p><h2 id=作成したアプリの機能>作成したアプリの機能</h2><ul><li><strong>PRINT 文</strong>: 式の値を数値として出力（変数・四則演算・括弧付き式を引数に可能）</li><li><strong>変数</strong>: 代入（<code>x = 5</code>）と式内での参照。未定義変数は 0 として扱う</li><li><strong>IF 文</strong>: 式が 0 でなければ直後の 1 文を実行、0 ならスキップ。<strong>ELSE</strong> 対応（ELSE を消費し、THEN/ELSE のどちらか一方だけ実行）</li><li><strong>WHILE / WEND</strong>: 式が 0 でない間、本体（複数文）を繰り返し実行。ネストした WHILE や IF にも対応</li><li><strong>式</strong>: 再帰下降で <code>+</code> <code>-</code> <code>*</code> <code>/</code>、括弧、単項 <code>+</code>/<code>-</code>、数値・変数を評価</li></ul><h2 id=実装のポイント>実装のポイント</h2><h3 id=1-ブラウザ向けコンパイルと-onclick-の型>1. ブラウザ向けコンパイルと onclick の型</h3><p>pas2js でブラウザ向けにコンパイルする際、DOM の <code>onclick</code> には <strong>手続き型ではなく関数型</strong>（戻り値あり）が必要です。<code>OnRunClick</code> を <code>procedure</code> から <code>function OnRunClick(Event: TJSMouseEvent): Boolean</code> に変更し、先頭で <code>Result := True</code> を代入することでコンパイルエラーを解消しています。</p></div><p class="f6 lh-copy mv0">By ブログ管理者</p><a href=/posts/lazarus-day034-pas2js-simple-interpreter/ class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a></div></div></div></article></div></section><section class=w-100><h1 class=f3>More</h1><h2 class="f5 fw4 mb4 dib mr3"><a href=/posts/lazarus-day033-pas2js-whiteboard/ class="link black dim">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</a></h2><h2 class="f5 fw4 mb4 dib mr3"><a href=/posts/lazarus-day031-pas2js-markdown/ class="link black dim">Pas2JSでMarkdownエディタを作成 - Day31</a></h2><h2 class="f5 fw4 mb4 dib mr3"><a href=/posts/lazarus-day032-pas2js-userform/ class="link black dim">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a></h2><h2 class="f5 fw4 mb4 dib mr3"><a href=/posts/lazarus-day030-pas2js-calculator/ class="link black dim">Pas2JSで計算機アプリを作成 - Day30</a></h2></section></div></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://your-site-name.netlify.app/>&copy; 私の技術ブログ 2026</a><div><div class=ananke-socials></div></div></div></footer></body></html>
+</code></pre><p><code>ScanDateTime</code>（dateutils）も pas2js では第2引数に <code>TFormatSettings</code> を要求するため、固定フォーマットの場合は手動パースで十分です。</p>
+        </div>
+        
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day036-pas2js-day-counter/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+      </section>
+
+      
+        <section class="w-100">
+          <h1 class="f3">More</h1>
+          
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/" class="link black dim">
+                Pas2JSでかえるのうたを輪唱で再生する - Day35
+              </a>
+            </h2>
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/posts/lazarus-day034-pas2js-simple-interpreter/" class="link black dim">
+                Pas2JSで簡易インタープリタをブラウザで動かす - Day34
+              </a>
+            </h2>
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/posts/lazarus-day033-pas2js-whiteboard/" class="link black dim">
+                Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33
+              </a>
+            </h2>
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/posts/lazarus-day031-pas2js-markdown/" class="link black dim">
+                Pas2JSでMarkdownエディタを作成 - Day31
+              </a>
+            </h2>
+          
+        </section>
+      
+
+    </div>
+  
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

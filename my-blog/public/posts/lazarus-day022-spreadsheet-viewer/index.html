@@ -1,5 +1,463 @@
-<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>スプレッドシート作成の試みとビューワー実装 - Day22 | 私の技術ブログ</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Lazarusチャレンジ22日目。今回はスプレッドシートの手作り実装に挑戦しましたが、Cursorの利用制限により断念。結果としてxlsxファイルを読み込めるビューワーを作成しました。fpspreadsheetライブラリの使用方法などをまとめています。"><meta name=generator content="Hugo 0.153.4"><meta name=robots content="index, follow"><meta name=author content="ブログ管理者"><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=canonical href=https://your-site-name.netlify.app/posts/lazarus-day022-spreadsheet-viewer/><meta property="og:url" content="https://your-site-name.netlify.app/posts/lazarus-day022-spreadsheet-viewer/"><meta property="og:site_name" content="私の技術ブログ"><meta property="og:title" content="スプレッドシート作成の試みとビューワー実装 - Day22"><meta property="og:description" content="Lazarusチャレンジ22日目。今回はスプレッドシートの手作り実装に挑戦しましたが、Cursorの利用制限により断念。結果としてxlsxファイルを読み込めるビューワーを作成しました。fpspreadsheetライブラリの使用方法などをまとめています。"><meta property="og:locale" content="ja_jp"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-22T16:30:00+09:00"><meta property="article:modified_time" content="2026-01-22T16:30:00+09:00"><meta itemprop=name content="スプレッドシート作成の試みとビューワー実装 - Day22"><meta itemprop=description content="Lazarusチャレンジ22日目。今回はスプレッドシートの手作り実装に挑戦しましたが、Cursorの利用制限により断念。結果としてxlsxファイルを読み込めるビューワーを作成しました。fpspreadsheetライブラリの使用方法などをまとめています。"><meta itemprop=datePublished content="2026-01-22T16:30:00+09:00"><meta itemprop=dateModified content="2026-01-22T16:30:00+09:00"><meta itemprop=wordCount content="176"><meta name=twitter:card content="summary"><meta name=twitter:title content="スプレッドシート作成の試みとビューワー実装 - Day22"><meta name=twitter:description content="Lazarusチャレンジ22日目。今回はスプレッドシートの手作り実装に挑戦しましたが、Cursorの利用制限により断念。結果としてxlsxファイルを読み込めるビューワーを作成しました。fpspreadsheetライブラリの使用方法などをまとめています。"><link rel=stylesheet href=/css/custom.css></head><body class="ma0 avenir bg-near-white production"><header class="cover bg-center" style=background-image:url(https://your-site-name.netlify.app/images/LazarusDay022.png)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">私の技術ブログ</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="投稿 page">投稿</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/categories/ title="カテゴリ page">カテゴリ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/tags/ title="タグ page">タグ</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv6 ph3 ph4-ns"><div class="f2 f1-l fw2 white-90 mb0 lh-title">スプレッドシート作成の試みとビューワー実装 - Day22</div><div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">Lazarusチャレンジ22日目。今回はスプレッドシートの手作り実装に挑戦しましたが、Cursorの利用制限により断念。結果としてxlsxファイルを読み込めるビューワーを作成しました。fpspreadsheetライブラリの使用方法などをまとめています。</div></div></div></header><main class=pb7 role=main><article class="flex-l mw8 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day021-15puzzle/>← チャレンジ21日目へ</a>
-</span><span><a href=/posts/lazarus-day023-pdfviewer/>チャレンジ23日目へ →</a></span></nav><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">スプレッドシート作成の試みとビューワー実装 - Day22</h1><p class=tracked><strong>ブログ管理者</strong></p><time class="f6 mv4 dib tracked" datetime=2026-01-22T16:30:00+09:00>January 22, 2026</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id=スプレッドシート作成の試みとビューワー実装---day22>スプレッドシート作成の試みとビューワー実装 - Day22</h1><p>Lazarusチャレンジ22日目です。今回は、本来スプレッドシート（表計算ソフト）自体を自作しようと試みましたが、開発途中でCursor（AIエディタ）の利用制限（上限）に引っかかってしまい、手動での作業が必要になりました。</p><p>結果として、編集機能までには至りませんでしたが、<strong>Excelファイル（.xlsx）を読み込んで表示するビューワー</strong>として完成させました。</p><h2 id=今回の目標とその経緯>今回の目標とその経緯</h2><p>当初の目標は、セルへの入力や計算機能を持つ簡易的なスプレッドシートアプリケーションの作成でした。しかし、AIアシスタントとの対話中に利用上限に達してしまい、複雑なロジックの実装を継続するのが困難になりました。</p><p>そこで目標を切り替え、<strong>既存のExcelファイルを読み込んで表示する</strong>という機能に絞って実装を行いました。</p><h2 id=実装内容>実装内容</h2><p>使用したライブラリは <code>fpspreadsheet</code> です。これはFree Pascalでスプレッドシート形式（.ods, .xls, .xlsxなど）を読み書きするための強力なライブラリです。</p><h3 id=ソースコード-unit1pas>ソースコード (Unit1.pas)</h3><p>以下が今回作成したメインユニットのコードです。</p><pre tabindex=0><code class=language-pascal data-lang=pascal>unit Unit1;
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>スプレッドシート作成の試みとビューワー実装 - Day22 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ22日目。今回はスプレッドシートの手作り実装に挑戦しましたが、Cursorの利用制限により断念。結果としてxlsxファイルを読み込めるビューワーを作成しました。fpspreadsheetライブラリの使用方法などをまとめています。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day022-spreadsheet-viewer/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day022-spreadsheet-viewer/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="スプレッドシート作成の試みとビューワー実装 - Day22">
+  <meta property="og:description" content="Lazarusチャレンジ22日目。今回はスプレッドシートの手作り実装に挑戦しましたが、Cursorの利用制限により断念。結果としてxlsxファイルを読み込めるビューワーを作成しました。fpspreadsheetライブラリの使用方法などをまとめています。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-22T16:30:00+09:00">
+    <meta property="article:modified_time" content="2026-01-22T16:30:00+09:00">
+
+  <meta itemprop="name" content="スプレッドシート作成の試みとビューワー実装 - Day22">
+  <meta itemprop="description" content="Lazarusチャレンジ22日目。今回はスプレッドシートの手作り実装に挑戦しましたが、Cursorの利用制限により断念。結果としてxlsxファイルを読み込めるビューワーを作成しました。fpspreadsheetライブラリの使用方法などをまとめています。">
+  <meta itemprop="datePublished" content="2026-01-22T16:30:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-22T16:30:00+09:00">
+  <meta itemprop="wordCount" content="176">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="スプレッドシート作成の試みとビューワー実装 - Day22">
+  <meta name="twitter:description" content="Lazarusチャレンジ22日目。今回はスプレッドシートの手作り実装に挑戦しましたが、Cursorの利用制限により断念。結果としてxlsxファイルを読み込めるビューワーを作成しました。fpspreadsheetライブラリの使用方法などをまとめています。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay022.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">スプレッドシート作成の試みとビューワー実装 - Day22</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ22日目。今回はスプレッドシートの手作り実装に挑戦しましたが、Cursorの利用制限により断念。結果としてxlsxファイルを読み込めるビューワーを作成しました。fpspreadsheetライブラリの使用方法などをまとめています。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day021-15puzzle/">← チャレンジ21日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day023-pdfviewer/">チャレンジ23日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">スプレッドシート作成の試みとビューワー実装 - Day22</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-22T16:30:00+09:00">January 22, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="スプレッドシート作成の試みとビューワー実装---day22">スプレッドシート作成の試みとビューワー実装 - Day22</h1>
+<p>Lazarusチャレンジ22日目です。今回は、本来スプレッドシート（表計算ソフト）自体を自作しようと試みましたが、開発途中でCursor（AIエディタ）の利用制限（上限）に引っかかってしまい、手動での作業が必要になりました。</p>
+<p>結果として、編集機能までには至りませんでしたが、<strong>Excelファイル（.xlsx）を読み込んで表示するビューワー</strong>として完成させました。</p>
+<h2 id="今回の目標とその経緯">今回の目標とその経緯</h2>
+<p>当初の目標は、セルへの入力や計算機能を持つ簡易的なスプレッドシートアプリケーションの作成でした。しかし、AIアシスタントとの対話中に利用上限に達してしまい、複雑なロジックの実装を継続するのが困難になりました。</p>
+<p>そこで目標を切り替え、<strong>既存のExcelファイルを読み込んで表示する</strong>という機能に絞って実装を行いました。</p>
+<h2 id="実装内容">実装内容</h2>
+<p>使用したライブラリは <code>fpspreadsheet</code> です。これはFree Pascalでスプレッドシート形式（.ods, .xls, .xlsxなど）を読み書きするための強力なライブラリです。</p>
+<h3 id="ソースコード-unit1pas">ソースコード (Unit1.pas)</h3>
+<p>以下が今回作成したメインユニットのコードです。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">unit Unit1;
 
 {$mode objfpc}{$H+}
 
@@ -73,7 +531,424 @@ begin
 end;
 
 end.
-</code></pre><h2 id=ポイント>ポイント</h2><h3 id=fpspreadsheetの活用>fpspreadsheetの活用</h3><p><code>uses</code> 節に <code>fpspreadsheet</code>, <code>fpspreadsheetgrid</code>, <code>fpsallformats</code> を追加することで、スプレッドシートの機能を簡単に利用できます。</p><p>こちらは使用する前にパッケージのインストールが必要です。
-Lazarusのメニューから「パッケージ」→「パッケージマネージャ」で「fpspreadsheet」を検索してインストールしてください。</p><p>パッケージをインストールすると、コンパイルが走ります。
-<img src=/images/LazarusDay022Package.png alt=パッケージのインストール></p><p>また、プロジェクトインスペクターで要求パッケージの追加が必要です。</p><h3 id=ui構成>UI構成</h3><ul><li><strong>TsWorksheetGrid</strong>: スプレッドシートのデータを表示するための専用グリッドコンポーネントです。</li><li><strong>TOpenDialog</strong>: 読み込むファイルを選択するために使用します。</li><li><strong>MainMenu</strong>: 「ファイル」メニューから「読み込み」「終了」を選択できるようにしています。</li></ul><h2 id=まとめ>まとめ</h2><p>今日はAIの利用制限というトラブルがありましたが、Lazarusには強力なコンポーネントがあるため、短いコードでも実用的なビューワーが作れることが再確認できました。</p><h2 id=ダウンロード>ダウンロード</h2><p>作成したアプリは以下のリンクからダウンロードできます：</p><p><a href=/downloads/Day022_spread.zip>Day022_spread.zip</a></p><p>次回は、また別のアプリに挑戦します。</p><hr><p><em>Lazarusチャレンジ Day 22/100</em></p><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day021-15puzzle/>← チャレンジ21日目へ</a>
-</span><span><a href=/posts/lazarus-day023-pdfviewer/>チャレンジ23日目へ →</a></span></nav><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/posts/lazarus-day021-15puzzle/>15パズルの作成に挑戦 - Day21</a></li><li class=mb2><a href=/posts/lazarus-day020-picross/>ピクロス（ノノグラム）の作成に挑戦 - Day20</a></li><li class=mb2><a href=/posts/lazarus-day019-menu100/>Lazarusアプリ用ランチャーの作成 - Day19</a></li><li class=mb2><a href=/posts/lazarus-day018-2048/>2048ゲームの作成 - Day18</a></li><li class=mb2><a href=/posts/lazarus-day017-crypt-editor/>暗号化テキストエディタの作成 - Day17</a></li><li class=mb2><a href=/posts/lazarus-day015-sudoku/>数独アプリの作成 - Day15</a></li><li class=mb2><a href=/posts/lazarus-day014-3moku-complete/>3目並べの完成 - Day14</a></li><li class=mb2><a href=/posts/lazarus-day013-3moku/>3目並べの作成 - Day13</a></li><li class=mb2><a href=/posts/lazarus-day012-bmp-viewer/>BMPビューアーの作成 - Day12</a></li><li class=mb2><a href=/posts/lazarus-day011-calc/>シンプルな電卓の作成 - Day11</a></li><li class=mb2><a href=/posts/lazarus-day010-simple-editor/>シンプルなテキストエディターの作成 - Day10</a></li><li class=mb2><a href=/posts/lazarus-day009-create-zip/>Zip圧縮ツールの作成 - Day9</a></li><li class=mb2><a href=/posts/lazarus-day008-moon-calendar/>月間カレンダーアプリの作成 - Day8</a></li><li class=mb2><a href=/posts/lazarus-day007-minesweeper/>マインスイーパーゲームの作成 - Day7</a></li><li class=mb2><a href=/posts/lazarus-day006-worldclock/>世界時計アプリの作成 - Day6</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://your-site-name.netlify.app/>&copy; 私の技術ブログ 2026</a><div><div class=ananke-socials></div></div></div></footer></body></html>
+</code></pre><h2 id="ポイント">ポイント</h2>
+<h3 id="fpspreadsheetの活用">fpspreadsheetの活用</h3>
+<p><code>uses</code> 節に <code>fpspreadsheet</code>, <code>fpspreadsheetgrid</code>, <code>fpsallformats</code> を追加することで、スプレッドシートの機能を簡単に利用できます。</p>
+<p>こちらは使用する前にパッケージのインストールが必要です。
+Lazarusのメニューから「パッケージ」→「パッケージマネージャ」で「fpspreadsheet」を検索してインストールしてください。</p>
+<p>パッケージをインストールすると、コンパイルが走ります。
+<img src="/images/LazarusDay022Package.png" alt="パッケージのインストール"></p>
+<p>また、プロジェクトインスペクターで要求パッケージの追加が必要です。</p>
+<h3 id="ui構成">UI構成</h3>
+<ul>
+<li><strong>TsWorksheetGrid</strong>: スプレッドシートのデータを表示するための専用グリッドコンポーネントです。</li>
+<li><strong>TOpenDialog</strong>: 読み込むファイルを選択するために使用します。</li>
+<li><strong>MainMenu</strong>: 「ファイル」メニューから「読み込み」「終了」を選択できるようにしています。</li>
+</ul>
+<h2 id="まとめ">まとめ</h2>
+<p>今日はAIの利用制限というトラブルがありましたが、Lazarusには強力なコンポーネントがあるため、短いコードでも実用的なビューワーが作れることが再確認できました。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p>作成したアプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/Day022_spread.zip">Day022_spread.zip</a></p>
+<p>次回は、また別のアプリに挑戦します。</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 22/100</em></p>
+
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day021-15puzzle/">← チャレンジ21日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day023-pdfviewer/">チャレンジ23日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day021-15puzzle/">15パズルの作成に挑戦 - Day21</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day020-picross/">ピクロス（ノノグラム）の作成に挑戦 - Day20</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day019-menu100/">Lazarusアプリ用ランチャーの作成 - Day19</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day018-2048/">2048ゲームの作成 - Day18</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day017-crypt-editor/">暗号化テキストエディタの作成 - Day17</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day015-sudoku/">数独アプリの作成 - Day15</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day014-3moku-complete/">3目並べの完成 - Day14</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day013-3moku/">3目並べの作成 - Day13</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day012-bmp-viewer/">BMPビューアーの作成 - Day12</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day011-calc/">シンプルな電卓の作成 - Day11</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day010-simple-editor/">シンプルなテキストエディターの作成 - Day10</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day009-create-zip/">Zip圧縮ツールの作成 - Day9</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day008-moon-calendar/">月間カレンダーアプリの作成 - Day8</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day007-minesweeper/">マインスイーパーゲームの作成 - Day7</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day006-worldclock/">世界時計アプリの作成 - Day6</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

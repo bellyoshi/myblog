@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ38日目。L-System（リンデンマイヤー系）で植物や雪の結晶のようなフラクタル図形をCanvasに描画するアプリをPas2JSで作成。プリセット（木・シダ・コッホ雪の結晶）の切り替えと再帰の深さスライダでリアルタイムに描画が変わるUIを実装。コンパイル時のイベントハンドラ修正（procedure→function、TEventListenerEvent）もまとめました。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day038-pas2js-lsystem/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day038-pas2js-lsystem/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38">
+  <meta property="og:description" content="Lazarusチャレンジ38日目。L-System（リンデンマイヤー系）で植物や雪の結晶のようなフラクタル図形をCanvasに描画するアプリをPas2JSで作成。プリセット（木・シダ・コッホ雪の結晶）の切り替えと再帰の深さスライダでリアルタイムに描画が変わるUIを実装。コンパイル時のイベントハンドラ修正（procedure→function、TEventListenerEvent）もまとめました。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-07T20:00:00+09:00">
+    <meta property="article:modified_time" content="2026-02-07T20:00:00+09:00">
+
+  <meta itemprop="name" content="Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38">
+  <meta itemprop="description" content="Lazarusチャレンジ38日目。L-System（リンデンマイヤー系）で植物や雪の結晶のようなフラクタル図形をCanvasに描画するアプリをPas2JSで作成。プリセット（木・シダ・コッホ雪の結晶）の切り替えと再帰の深さスライダでリアルタイムに描画が変わるUIを実装。コンパイル時のイベントハンドラ修正（procedure→function、TEventListenerEvent）もまとめました。">
+  <meta itemprop="datePublished" content="2026-02-07T20:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-07T20:00:00+09:00">
+  <meta itemprop="wordCount" content="197">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38">
+  <meta name="twitter:description" content="Lazarusチャレンジ38日目。L-System（リンデンマイヤー系）で植物や雪の結晶のようなフラクタル図形をCanvasに描画するアプリをPas2JSで作成。プリセット（木・シダ・コッホ雪の結晶）の切り替えと再帰の深さスライダでリアルタイムに描画が変わるUIを実装。コンパイル時のイベントハンドラ修正（procedure→function、TEventListenerEvent）もまとめました。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay038.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ38日目。L-System（リンデンマイヤー系）で植物や雪の結晶のようなフラクタル図形をCanvasに描画するアプリをPas2JSで作成。プリセット（木・シダ・コッホ雪の結晶）の切り替えと再帰の深さスライダでリアルタイムに描画が変わるUIを実装。コンパイル時のイベントハンドラ修正（procedure→function、TEventListenerEvent）もまとめました。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day037-pas2js-munchausen/">← チャレンジ37日目へ</a>
+        
+      </span>
+      <span>
+        
+          <span class="mid-gray">次のチャレンジなし →</span>
+        
+      </span>
+    </nav>
+  
+
+<div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-02-07T20:00:00+09:00">February 7, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsでブラウザで動く簡易l-system描画フラクタル図形を作る---day38">Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38</h1>
+<p>Lazarusチャレンジ38日目です。数式に基づいて植物や雪の結晶のような<strong>フラクタル図形</strong>を描画する <strong>L-System（リンデンマイヤー系）</strong> を、Pas2JS でブラウザの Canvas に実装しました。アルゴリズム主体のアプリは Pascal の得意分野で、再帰的な書き換えとスタック操作で美しい木やシダ、コッホ曲線を描けます。</p>
+<h2 id="l-systemの基本">L-Systemの基本</h2>
+<p>L-System は <strong>開始文字列（Axiom）</strong> に <strong>書き換え規則（Rules）</strong> を繰り返し適用して得た文字列を、「亀の歩み」（タートルグラフィックス）として解釈する仕組みです。</p>
+<ul>
+<li><strong>F</strong>: 線を引いて進む</li>
+<li><strong>+</strong> / <strong>−</strong>: 右・左に回転</li>
+<li><strong>[</strong> / <strong>]</strong>: 現在の状態（座標・角度）をスタックに保存／復元（枝分かれの表現）</li>
+</ul>
+<p>例として「有機的な木」では Axiom を <code>X</code>、規則を <code>F→FF</code>、<code>X→F[[+X]-X]-F[-FX]+X</code> のようにし、角度 25° で描画します。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>プリセット切り替え</strong>: ドロップダウンで「有機的な木」「シダの葉」「コッホ雪の結晶」を選択。Axiom・Rules・角度をレコードで管理し、切り替え時に再描画</li>
+<li><strong>再帰の深さスライダ</strong>: 0～6 でルール適用回数を変更。スライダを動かすとリアルタイムに図形が成長</li>
+<li><strong>グラデーション描画</strong>: 木・シダでは幹から先端に向けて色を茶系から緑系に変化。枝分かれごとに線を細くする演出</li>
+<li><strong>ステータス表示</strong>: 生成された L-System 文字列の長さを表示</li>
+</ul>
+<p>HTML / CSS / Pascal を分離した構成で、<code>pas2js</code> でコンパイルした <code>project1.js</code> を読み込んで動作します。</p>
+<h2 id="開発でハマった点pas2js-のイベントハンドラ">開発でハマった点（pas2js のイベントハンドラ）</h2>
+<p>スライダの <code>OnInput</code> とセレクトの <code>OnChange</code> に <code>procedure</code> をそのまま渡すと、コンパイルエラーになりました。</p>
+<ol>
+<li>
+<p><strong>procedure → function に変更</strong><br>
+pas2js の <code>OnInput</code> / <code>OnChange</code> は <strong>関数型（戻り値あり）</strong> を要求するため、<code>HandleInput</code> と <code>HandleSelect</code> を <code>function ... : Boolean</code> にし、末尾で <code>Result := True</code> を返すようにしました。</p>
+</li>
+<li>
+<p><strong>引数の型を TEventListenerEvent に合わせる</strong><br>
+コンパイラが「arg no. 1: Got &quot;TEventListenerEvent&quot;, expected &quot;TJSInputEvent&quot;」と報告していたため、両ハンドラの第1引数を <code>TEventListenerEvent</code> に変更。<code>HandleSelect</code> 内では <code>Event.Target</code> を <code>TJSHTMLElement(Event.Target)</code> でキャストしてから <code>TJSHTMLSelectElement</code> として扱うようにしました。</p>
+</li>
+</ol>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">function HandleInput(Event: TEventListenerEvent): Boolean;
+begin
+  Depth := StrToInt(TJSHTMLInputElement(document.GetElementById(&#39;depthRange&#39;)).Value);
+  document.GetElementById(&#39;depthVal&#39;).InnerHTML := IntToStr(Depth);
+  Render;
+  Result := True;
+end;
+
+function HandleSelect(Event: TEventListenerEvent): Boolean;
+begin
+  SetPreset(TJSHTMLSelectElement(TJSHTMLElement(Event.Target)).Value);
+  Render;
+  Result := True;
+end;
+</code></pre><p>この修正で <code>pas2js project1.pas -Tbrowser &quot;-Jirtl.js&quot;</code> によるコンパイルが正常に完了します。</p>
+<h2 id="コンパイル方法">コンパイル方法</h2>
+<p>pas2js が入っている環境で、ブラウザ向けにコンパイルします。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js project1.pas -Tbrowser <span style="color:#e6db74">&#34;-Jirtl.js&#34;</span>
+</span></span></code></pre></div><p>生成された <code>project1.js</code> を <code>index.html</code> から読み込み、<code>rtl.run()</code> で実行するとブラウザで動作します。</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<ul>
+<li><strong>動的スタック</strong>: <code>array of TState</code> と <code>SetLength</code> で座標・角度・線幅をプッシュ/ポップし、<code>[</code> <code>]</code> による枝分かれを再現</li>
+<li><strong>プリセットの型安全な管理</strong>: <code>TLSystemPreset</code> レコードに Axiom, RuleF, RuleX, Angle, InitialStep, InitialY をまとめ、<code>SetPreset(Kind)</code> で切り替え</li>
+<li><strong>X 記号</strong>: 描画はしないが書き換えに使うダミー記号として扱い、複雑な分岐パターンを実現</li>
+</ul>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p><strong>アプリをブラウザで開く</strong>: <a href="/apps/day038/day038_pas2jsLSystem/">L-System Fractal Explorer を開く</a></p>
+<p>作成したアプリ（HTML / CSS / Pascal ソース・コンパイル済み JS）は以下のリンクからダウンロードできます。</p>
+<p><a href="/downloads/day038_pas2jsLSystem.zip">day038_pas2jsLSystem.zip</a></p>
+<p>規則や角度を変えるだけで雪の結晶から有機的な低木まで姿が変わるので、パラメータをいじってみると楽しめます。</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 38/100</em></p>
+
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day037-pas2js-munchausen/">← チャレンジ37日目へ</a>
+        
+      </span>
+      <span>
+        
+          <span class="mid-gray">次のチャレンジなし →</span>
+        
+      </span>
+    </nav>
+  
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day033-pas2js-whiteboard/">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day037-pas2js-munchausen/">Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day036-pas2js-day-counter/">Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/">Pas2JSでかえるのうたを輪唱で再生する - Day35</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day034-pas2js-simple-interpreter/">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day031-pas2js-markdown/">Pas2JSでMarkdownエディタを作成 - Day31</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day032-pas2js-userform/">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day030-pas2js-calculator/">Pas2JSで計算機アプリを作成 - Day30</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day029-pas2js-color/">Pas2JSでカラー表示アプリを作成 - Day29</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day028-pas2js-calendar/">Pas2JSでカレンダーアプリを作成 - Day28</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day027-pas2js-todo/">Pas2JSでTodoアプリを作成 - Day27</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day026-pas2js/">Pas2JSを試してみる - Day26</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day018-2048/">2048ゲームの作成 - Day18</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day025-colorpop/">同色消しパズル（ColorPop）の作成 - Day25</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day024-lightsout/">Lights Outゲームの作成 - Day24</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

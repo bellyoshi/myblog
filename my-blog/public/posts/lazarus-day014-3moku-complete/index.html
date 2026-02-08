@@ -1,22 +1,1211 @@
-<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>3目並べの完成 - Day14 | 私の技術ブログ</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Lazarusチャレンジ14日目。Day13で未完成だった3目並べアプリを完成させました。段階的なプロンプトで、ゲームロジック、AI機能、UIを実装し、3つのAIレベル（ランダム、妨害、勝利優先）を実装しました。"><meta name=generator content="Hugo 0.153.4"><meta name=robots content="index, follow"><meta name=author content="ブログ管理者"><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=canonical href=https://your-site-name.netlify.app/posts/lazarus-day014-3moku-complete/><meta property="og:url" content="https://your-site-name.netlify.app/posts/lazarus-day014-3moku-complete/"><meta property="og:site_name" content="私の技術ブログ"><meta property="og:title" content="3目並べの完成 - Day14"><meta property="og:description" content="Lazarusチャレンジ14日目。Day13で未完成だった3目並べアプリを完成させました。段階的なプロンプトで、ゲームロジック、AI機能、UIを実装し、3つのAIレベル（ランダム、妨害、勝利優先）を実装しました。"><meta property="og:locale" content="ja_jp"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-14T17:00:00+09:00"><meta property="article:modified_time" content="2026-01-14T17:00:00+09:00"><meta itemprop=name content="3目並べの完成 - Day14"><meta itemprop=description content="Lazarusチャレンジ14日目。Day13で未完成だった3目並べアプリを完成させました。段階的なプロンプトで、ゲームロジック、AI機能、UIを実装し、3つのAIレベル（ランダム、妨害、勝利優先）を実装しました。"><meta itemprop=datePublished content="2026-01-14T17:00:00+09:00"><meta itemprop=dateModified content="2026-01-14T17:00:00+09:00"><meta itemprop=wordCount content="346"><meta name=twitter:card content="summary"><meta name=twitter:title content="3目並べの完成 - Day14"><meta name=twitter:description content="Lazarusチャレンジ14日目。Day13で未完成だった3目並べアプリを完成させました。段階的なプロンプトで、ゲームロジック、AI機能、UIを実装し、3つのAIレベル（ランダム、妨害、勝利優先）を実装しました。"><link rel=stylesheet href=/css/custom.css></head><body class="ma0 avenir bg-near-white production"><header class="cover bg-center" style=background-image:url(https://your-site-name.netlify.app/images/LazarusDay013Fail.png)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">私の技術ブログ</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="投稿 page">投稿</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/categories/ title="カテゴリ page">カテゴリ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/tags/ title="タグ page">タグ</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv6 ph3 ph4-ns"><div class="f2 f1-l fw2 white-90 mb0 lh-title">3目並べの完成 - Day14</div><div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">Lazarusチャレンジ14日目。Day13で未完成だった3目並べアプリを完成させました。段階的なプロンプトで、ゲームロジック、AI機能、UIを実装し、3つのAIレベル（ランダム、妨害、勝利優先）を実装しました。</div></div></div></header><main class=pb7 role=main><article class="flex-l mw8 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day013-3moku/>← チャレンジ13日目へ</a>
-</span><span><a href=/posts/lazarus-day015-sudoku/>チャレンジ15日目へ →</a></span></nav><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">3目並べの完成 - Day14</h1><p class=tracked><strong>ブログ管理者</strong></p><time class="f6 mv4 dib tracked" datetime=2026-01-14T17:00:00+09:00>January 14, 2026</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id=3目並べの完成---day14>3目並べの完成 - Day14</h1><p>Lazarusチャレンジ14日目です。Day13で未完成だった**3目並べ（三目並べ）**アプリを、今回は段階的なプロンプトで完成させることができました。AI対戦機能も含めた本格的なゲームアプリとして完成しました。</p><h2 id=今回の目標>今回の目標</h2><p>Day13で未完成だった3目並べアプリを、今回は以下の機能を実装して完成させることを目指しました：</p><ul><li><strong>3目並べのゲームロジック</strong>: 3×3のグリッドで3目並べをプレイできる機能</li><li><strong>AI対戦</strong>: コンピューターとの対戦機能（3つのレベル）</li><li><strong>GUI</strong>: 視覚的に分かりやすいゲームボード</li><li><strong>先手/後手選択</strong>: ゲーム開始時に先手か後手かを選択できる機能</li><li><strong>AIレベル選択</strong>: 3つのAIレベルから選択できる機能</li><li><strong>リセット機能</strong>: ゲームをリセットして再開できる機能</li></ul><h2 id=lazmanagerを使ったプロジェクト作成>LazManagerを使ったプロジェクト作成</h2><p>まず、LazManagerを起動して、プロジェクト名に「<strong>day014_3moku</strong>」と入力し、プロジェクトを作成しました。</p><p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p><h2 id=cursorへのプロンプト投入>Cursorへのプロンプト投入</h2><p>3目並べアプリの開発は、7つのプロンプトに分けて進めました。それぞれのプロンプトで段階的に機能を実装していきます。プロンプトは省略せず、すべて記載します。</p><h3 id=プロンプト1-3目ならべのゲームユニット作成>プロンプト1: 3目ならべのゲームユニット作成</h3><p>最初のプロンプトでは、ゲームのロジック部分を実装するユニットを作成しました。</p><pre tabindex=0><code>3目ならべのゲームユニット。
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>3目並べの完成 - Day14 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ14日目。Day13で未完成だった3目並べアプリを完成させました。段階的なプロンプトで、ゲームロジック、AI機能、UIを実装し、3つのAIレベル（ランダム、妨害、勝利優先）を実装しました。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day014-3moku-complete/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day014-3moku-complete/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="3目並べの完成 - Day14">
+  <meta property="og:description" content="Lazarusチャレンジ14日目。Day13で未完成だった3目並べアプリを完成させました。段階的なプロンプトで、ゲームロジック、AI機能、UIを実装し、3つのAIレベル（ランダム、妨害、勝利優先）を実装しました。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-14T17:00:00+09:00">
+    <meta property="article:modified_time" content="2026-01-14T17:00:00+09:00">
+
+  <meta itemprop="name" content="3目並べの完成 - Day14">
+  <meta itemprop="description" content="Lazarusチャレンジ14日目。Day13で未完成だった3目並べアプリを完成させました。段階的なプロンプトで、ゲームロジック、AI機能、UIを実装し、3つのAIレベル（ランダム、妨害、勝利優先）を実装しました。">
+  <meta itemprop="datePublished" content="2026-01-14T17:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-14T17:00:00+09:00">
+  <meta itemprop="wordCount" content="346">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="3目並べの完成 - Day14">
+  <meta name="twitter:description" content="Lazarusチャレンジ14日目。Day13で未完成だった3目並べアプリを完成させました。段階的なプロンプトで、ゲームロジック、AI機能、UIを実装し、3つのAIレベル（ランダム、妨害、勝利優先）を実装しました。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay013Fail.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">3目並べの完成 - Day14</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ14日目。Day13で未完成だった3目並べアプリを完成させました。段階的なプロンプトで、ゲームロジック、AI機能、UIを実装し、3つのAIレベル（ランダム、妨害、勝利優先）を実装しました。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day013-3moku/">← チャレンジ13日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day015-sudoku/">チャレンジ15日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">3目並べの完成 - Day14</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-14T17:00:00+09:00">January 14, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="3目並べの完成---day14">3目並べの完成 - Day14</h1>
+<p>Lazarusチャレンジ14日目です。Day13で未完成だった**3目並べ（三目並べ）**アプリを、今回は段階的なプロンプトで完成させることができました。AI対戦機能も含めた本格的なゲームアプリとして完成しました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>Day13で未完成だった3目並べアプリを、今回は以下の機能を実装して完成させることを目指しました：</p>
+<ul>
+<li><strong>3目並べのゲームロジック</strong>: 3×3のグリッドで3目並べをプレイできる機能</li>
+<li><strong>AI対戦</strong>: コンピューターとの対戦機能（3つのレベル）</li>
+<li><strong>GUI</strong>: 視覚的に分かりやすいゲームボード</li>
+<li><strong>先手/後手選択</strong>: ゲーム開始時に先手か後手かを選択できる機能</li>
+<li><strong>AIレベル選択</strong>: 3つのAIレベルから選択できる機能</li>
+<li><strong>リセット機能</strong>: ゲームをリセットして再開できる機能</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day014_3moku</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>3目並べアプリの開発は、7つのプロンプトに分けて進めました。それぞれのプロンプトで段階的に機能を実装していきます。プロンプトは省略せず、すべて記載します。</p>
+<h3 id="プロンプト1-3目ならべのゲームユニット作成">プロンプト1: 3目ならべのゲームユニット作成</h3>
+<p>最初のプロンプトでは、ゲームのロジック部分を実装するユニットを作成しました。</p>
+<pre tabindex="0"><code>3目ならべのゲームユニット。
 Game3mokuUnitを作成。
-</code></pre><p>このプロンプトで、AIが<code>Game3mokuUnit</code>ユニットを作成しました。</p><p><strong>AIが実装した内容：</strong></p><ul><li><p><strong>TGame3mokuクラス</strong>: 3目ならべのゲームロジックを管理するクラス</p><ul><li><code>Reset</code>: ゲームをリセットするメソッド</li><li><code>MakeMove(Row, Col)</code>: 指定位置に手を打つメソッド</li><li><code>GetCell(Row, Col)</code>: セルの状態を取得するメソッド</li><li><code>GetCurrentPlayer</code>: 現在のプレイヤー（XまたはO）を取得するメソッド</li><li><code>GetGameState</code>: ゲームの状態（進行中、X勝利、O勝利、引き分け）を取得するメソッド</li><li><code>IsValidMove(Row, Col)</code>: 有効な手かどうかをチェックするメソッド</li></ul></li><li><p><strong>型定義</strong>:</p><ul><li><code>TPlayer</code>: プレイヤーを表す型（pNone, pX, pO）</li><li><code>TGameState</code>: ゲームの状態を表す型（gsPlaying, gsXWon, gsOWon, gsDraw）</li></ul></li><li><p><strong>勝敗判定</strong>: 横・縦・斜めの3つ並びを自動判定し、引き分けの判定も実装</p></li></ul><p>このユニットにより、3目ならべの基本的なゲームロジックが完成しました。盤面の管理、手の検証、勝敗判定など、ゲームの核心となる機能がすべて実装されています。</p><h3 id=プロンプト2-シンプルなaiの作成>プロンプト2: シンプルなAIの作成</h3><p>次に、合法手からランダムに選ぶシンプルなAIを追加しました。</p><pre tabindex=0><code>非常にシンプルなAIの作成。合法手の中からランダムな手を返す。
-</code></pre><p><strong>AIが実装した内容：</strong></p><ul><li><p><strong><code>GetRandomMove(out Row, Col: Integer): Boolean</code>メソッド</strong>:</p><ul><li>合法手を収集し、その中からランダムに1つを選択</li><li>選択した手を<code>Row</code>と<code>Col</code>に返す</li><li>合法手がない場合やゲームが終了している場合は<code>False</code>を返す</li></ul></li><li><p><strong>乱数生成器の初期化</strong>: コンストラクタに<code>Randomize</code>を追加し、毎回異なるランダムな手を生成</p></li></ul><p>このAIは、現在のゲーム状態から合法手を取得し、その中からランダムに1つを選びます。非常にシンプルですが、ゲームとして成立する最低限のAI機能が実装されました。</p><h3 id=プロンプト3-aiを別ユニットに分離>プロンプト3: AIを別ユニットに分離</h3><p>AI機能を別ユニットに分離して、ゲームロジックとAIロジックを分離しました。</p><pre tabindex=0><code>AIは別のユニットにする
-</code></pre><p><strong>AIが実装した内容：</strong></p><ul><li><p><strong>AI3mokuUnit.pas（新規作成）</strong>:</p><ul><li><code>TAI3moku</code>クラスを定義</li><li><code>GetRandomMove(Game: TGame3moku; out Row, Col: Integer): Boolean</code>メソッドを実装</li><li><code>TGame3moku</code>インスタンスを受け取り、合法手からランダムに選択</li></ul></li><li><p><strong>Game3mokuUnit.pas（修正）</strong>:</p><ul><li><code>GetRandomMove</code>メソッドを削除</li><li><code>Randomize</code>の呼び出しを削除（AIユニットで初期化）</li></ul></li></ul><p>この変更により、ゲームロジックとAIロジックが分離され、コードの保守性が向上しました。AIの実装を変更しても、ゲームロジックに影響を与えない構造になりました。</p><h3 id=プロンプト4-uiの作成>プロンプト4: UIの作成</h3><p>3×3のボタンでゲームボードを表示するUIを作成しました。</p><pre tabindex=0><code>UIの作成
-</code></pre><p><strong>AIが実装した内容：</strong></p><ul><li><p><strong>3×3のゲームボード</strong>:</p><ul><li>9個のボタンで3×3のグリッドを表示</li><li>各ボタンにクリックイベントを設定</li><li>ボタンのTagプロパティで位置（0-8）を管理</li></ul></li><li><p><strong>ゲーム状態の表示</strong>:</p><ul><li><code>LabelStatus</code>で現在のプレイヤーやゲーム結果を表示</li><li>「プレイヤー X の番」「プレイヤー O の番」「勝利」「引き分け」を表示</li></ul></li><li><p><strong>リセットボタン</strong>: ゲームをリセットして再開</p></li><li><p><strong>AI対戦機能</strong>: プレイヤーが手を打つと、自動的にAIがランダムな手を打つ</p></li></ul><p><strong>動作の流れ：</strong></p><ol><li>プレイヤーがボタンをクリック</li><li>その位置にXが配置される</li><li>ゲーム状態を更新</li><li>ゲームが続いていれば、AIがランダムに手を打つ（Oが配置される）</li><li>勝敗が決まるか引き分けになるまで繰り返し</li></ol><p><strong>UIの特徴：</strong></p><ul><li>ボタンは大きめ（60x80ピクセル）で見やすい</li><li>フォントは太字で、XとOがはっきり表示</li><li>ゲーム終了時はボタンを無効化</li><li>フォームサイズは400x400ピクセル</li></ul><p>これで、基本的な3目ならべゲームが動作するようになりました。</p><h3 id=プロンプト5-ゲーム開始ボタンと先手後手選択>プロンプト5: ゲーム開始ボタンと先手/後手選択</h3><p>ゲーム開始ボタンを押すと、プレイヤーが後手か先手かを選ぶ画面を追加しました。</p><pre tabindex=0><code>ゲーム開始ボタンを押すと、プレイヤーが後手か先手かを選ぶ画面
-</code></pre><p><strong>AIが実装した内容：</strong></p><ul><li><p><strong>ゲーム開始ボタン（ButtonStart）</strong>:</p><ul><li>ゲーム開始前に表示</li><li>クリックでゲームを開始</li></ul></li><li><p><strong>先手/後手選択（RadioGroupOrder）</strong>:</p><ul><li>「先手（X）」と「後手（O）」から選択</li><li>デフォルトは先手</li></ul></li><li><p><strong>ゲーム開始処理</strong>:</p><ul><li>プレイヤーが先手の場合：プレイヤーがXで開始</li><li>プレイヤーが後手の場合：AIがXで先に手を打ち、その後プレイヤーがOで手を打つ</li></ul></li><li><p><strong>UIの状態管理</strong>:</p><ul><li>ゲーム開始前：ゲームボードは無効、選択画面を表示</li><li>ゲーム開始後：ゲームボードを有効化、選択画面を非表示</li><li>リセット時：ゲーム開始前の状態に戻す</li></ul></li></ul><p><strong>動作の流れ：</strong></p><ol><li>アプリ起動時：ゲームボードは無効、先手/後手を選択</li><li>「ゲーム開始」をクリック：選択に応じてゲーム開始</li><li>後手選択時：AIが先に手を打つ</li><li>ゲーム中：プレイヤーとAIが交互に手を打つ</li><li>「リセット」をクリック：ゲーム開始前の状態に戻る</li></ol><p>これで、ゲーム開始時に先手/後手を選択できるようになりました。</p><h3 id=プロンプト6-aiレベルの実装level1-level2-level3>プロンプト6: AIレベルの実装（Level1, Level2, Level3）</h3><p>現在のAIをLevel1AIとして名称変更し、Level2AIとLevel3AIを作成しました。</p><pre tabindex=0><code>現在のAIをLevel1AIとする。名称変更
+</code></pre><p>このプロンプトで、AIが<code>Game3mokuUnit</code>ユニットを作成しました。</p>
+<p><strong>AIが実装した内容：</strong></p>
+<ul>
+<li>
+<p><strong>TGame3mokuクラス</strong>: 3目ならべのゲームロジックを管理するクラス</p>
+<ul>
+<li><code>Reset</code>: ゲームをリセットするメソッド</li>
+<li><code>MakeMove(Row, Col)</code>: 指定位置に手を打つメソッド</li>
+<li><code>GetCell(Row, Col)</code>: セルの状態を取得するメソッド</li>
+<li><code>GetCurrentPlayer</code>: 現在のプレイヤー（XまたはO）を取得するメソッド</li>
+<li><code>GetGameState</code>: ゲームの状態（進行中、X勝利、O勝利、引き分け）を取得するメソッド</li>
+<li><code>IsValidMove(Row, Col)</code>: 有効な手かどうかをチェックするメソッド</li>
+</ul>
+</li>
+<li>
+<p><strong>型定義</strong>:</p>
+<ul>
+<li><code>TPlayer</code>: プレイヤーを表す型（pNone, pX, pO）</li>
+<li><code>TGameState</code>: ゲームの状態を表す型（gsPlaying, gsXWon, gsOWon, gsDraw）</li>
+</ul>
+</li>
+<li>
+<p><strong>勝敗判定</strong>: 横・縦・斜めの3つ並びを自動判定し、引き分けの判定も実装</p>
+</li>
+</ul>
+<p>このユニットにより、3目ならべの基本的なゲームロジックが完成しました。盤面の管理、手の検証、勝敗判定など、ゲームの核心となる機能がすべて実装されています。</p>
+<h3 id="プロンプト2-シンプルなaiの作成">プロンプト2: シンプルなAIの作成</h3>
+<p>次に、合法手からランダムに選ぶシンプルなAIを追加しました。</p>
+<pre tabindex="0"><code>非常にシンプルなAIの作成。合法手の中からランダムな手を返す。
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+<ul>
+<li>
+<p><strong><code>GetRandomMove(out Row, Col: Integer): Boolean</code>メソッド</strong>:</p>
+<ul>
+<li>合法手を収集し、その中からランダムに1つを選択</li>
+<li>選択した手を<code>Row</code>と<code>Col</code>に返す</li>
+<li>合法手がない場合やゲームが終了している場合は<code>False</code>を返す</li>
+</ul>
+</li>
+<li>
+<p><strong>乱数生成器の初期化</strong>: コンストラクタに<code>Randomize</code>を追加し、毎回異なるランダムな手を生成</p>
+</li>
+</ul>
+<p>このAIは、現在のゲーム状態から合法手を取得し、その中からランダムに1つを選びます。非常にシンプルですが、ゲームとして成立する最低限のAI機能が実装されました。</p>
+<h3 id="プロンプト3-aiを別ユニットに分離">プロンプト3: AIを別ユニットに分離</h3>
+<p>AI機能を別ユニットに分離して、ゲームロジックとAIロジックを分離しました。</p>
+<pre tabindex="0"><code>AIは別のユニットにする
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+<ul>
+<li>
+<p><strong>AI3mokuUnit.pas（新規作成）</strong>:</p>
+<ul>
+<li><code>TAI3moku</code>クラスを定義</li>
+<li><code>GetRandomMove(Game: TGame3moku; out Row, Col: Integer): Boolean</code>メソッドを実装</li>
+<li><code>TGame3moku</code>インスタンスを受け取り、合法手からランダムに選択</li>
+</ul>
+</li>
+<li>
+<p><strong>Game3mokuUnit.pas（修正）</strong>:</p>
+<ul>
+<li><code>GetRandomMove</code>メソッドを削除</li>
+<li><code>Randomize</code>の呼び出しを削除（AIユニットで初期化）</li>
+</ul>
+</li>
+</ul>
+<p>この変更により、ゲームロジックとAIロジックが分離され、コードの保守性が向上しました。AIの実装を変更しても、ゲームロジックに影響を与えない構造になりました。</p>
+<h3 id="プロンプト4-uiの作成">プロンプト4: UIの作成</h3>
+<p>3×3のボタンでゲームボードを表示するUIを作成しました。</p>
+<pre tabindex="0"><code>UIの作成
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+<ul>
+<li>
+<p><strong>3×3のゲームボード</strong>:</p>
+<ul>
+<li>9個のボタンで3×3のグリッドを表示</li>
+<li>各ボタンにクリックイベントを設定</li>
+<li>ボタンのTagプロパティで位置（0-8）を管理</li>
+</ul>
+</li>
+<li>
+<p><strong>ゲーム状態の表示</strong>:</p>
+<ul>
+<li><code>LabelStatus</code>で現在のプレイヤーやゲーム結果を表示</li>
+<li>「プレイヤー X の番」「プレイヤー O の番」「勝利」「引き分け」を表示</li>
+</ul>
+</li>
+<li>
+<p><strong>リセットボタン</strong>: ゲームをリセットして再開</p>
+</li>
+<li>
+<p><strong>AI対戦機能</strong>: プレイヤーが手を打つと、自動的にAIがランダムな手を打つ</p>
+</li>
+</ul>
+<p><strong>動作の流れ：</strong></p>
+<ol>
+<li>プレイヤーがボタンをクリック</li>
+<li>その位置にXが配置される</li>
+<li>ゲーム状態を更新</li>
+<li>ゲームが続いていれば、AIがランダムに手を打つ（Oが配置される）</li>
+<li>勝敗が決まるか引き分けになるまで繰り返し</li>
+</ol>
+<p><strong>UIの特徴：</strong></p>
+<ul>
+<li>ボタンは大きめ（60x80ピクセル）で見やすい</li>
+<li>フォントは太字で、XとOがはっきり表示</li>
+<li>ゲーム終了時はボタンを無効化</li>
+<li>フォームサイズは400x400ピクセル</li>
+</ul>
+<p>これで、基本的な3目ならべゲームが動作するようになりました。</p>
+<h3 id="プロンプト5-ゲーム開始ボタンと先手後手選択">プロンプト5: ゲーム開始ボタンと先手/後手選択</h3>
+<p>ゲーム開始ボタンを押すと、プレイヤーが後手か先手かを選ぶ画面を追加しました。</p>
+<pre tabindex="0"><code>ゲーム開始ボタンを押すと、プレイヤーが後手か先手かを選ぶ画面
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+<ul>
+<li>
+<p><strong>ゲーム開始ボタン（ButtonStart）</strong>:</p>
+<ul>
+<li>ゲーム開始前に表示</li>
+<li>クリックでゲームを開始</li>
+</ul>
+</li>
+<li>
+<p><strong>先手/後手選択（RadioGroupOrder）</strong>:</p>
+<ul>
+<li>「先手（X）」と「後手（O）」から選択</li>
+<li>デフォルトは先手</li>
+</ul>
+</li>
+<li>
+<p><strong>ゲーム開始処理</strong>:</p>
+<ul>
+<li>プレイヤーが先手の場合：プレイヤーがXで開始</li>
+<li>プレイヤーが後手の場合：AIがXで先に手を打ち、その後プレイヤーがOで手を打つ</li>
+</ul>
+</li>
+<li>
+<p><strong>UIの状態管理</strong>:</p>
+<ul>
+<li>ゲーム開始前：ゲームボードは無効、選択画面を表示</li>
+<li>ゲーム開始後：ゲームボードを有効化、選択画面を非表示</li>
+<li>リセット時：ゲーム開始前の状態に戻す</li>
+</ul>
+</li>
+</ul>
+<p><strong>動作の流れ：</strong></p>
+<ol>
+<li>アプリ起動時：ゲームボードは無効、先手/後手を選択</li>
+<li>「ゲーム開始」をクリック：選択に応じてゲーム開始</li>
+<li>後手選択時：AIが先に手を打つ</li>
+<li>ゲーム中：プレイヤーとAIが交互に手を打つ</li>
+<li>「リセット」をクリック：ゲーム開始前の状態に戻る</li>
+</ol>
+<p>これで、ゲーム開始時に先手/後手を選択できるようになりました。</p>
+<h3 id="プロンプト6-aiレベルの実装level1-level2-level3">プロンプト6: AIレベルの実装（Level1, Level2, Level3）</h3>
+<p>現在のAIをLevel1AIとして名称変更し、Level2AIとLevel3AIを作成しました。</p>
+<pre tabindex="0"><code>現在のAIをLevel1AIとする。名称変更
 Level2AIを作成。
 一手先をよみ、２目並んでいたら
 ３目が並ばないように妨害する。
 それ以外はランダムに選ぶ。
 
 ゲーム開始時にレベルを選択できるようにする。
-</code></pre><p><strong>AIが実装した内容：</strong></p><ol><li><p><strong>AIの名称変更</strong>:</p><ul><li><code>TAI3moku</code> → <code>TLevel1AI</code>に変更</li><li><code>GetRandomMove</code> → <code>GetMove</code>に変更</li></ul></li><li><p><strong>Level2AIの実装</strong>:</p><ul><li>一手先を読んで、相手が2目並んでいる場合に妨害</li><li>横・縦・斜めの2目並びをチェック</li><li>妨害が不要な場合はランダムに選択</li></ul></li><li><p><strong>UIの更新</strong>:</p><ul><li>レベル選択用の<code>RadioGroupLevel</code>を追加</li><li>「Level 1（ランダム）」と「Level 2（妨害）」から選択可能</li><li>ゲーム開始時に先手/後手とAIレベルを選択</li></ul></li></ol><p><strong>動作：</strong></p><ul><li>Level 1: 合法手からランダムに選択</li><li>Level 2: 相手の2目並びを妨害し、それ以外はランダム</li></ul><p>次に、Level3AIを追加しました。</p><pre tabindex=0><code>AILevel3を作成。
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+<ol>
+<li>
+<p><strong>AIの名称変更</strong>:</p>
+<ul>
+<li><code>TAI3moku</code> → <code>TLevel1AI</code>に変更</li>
+<li><code>GetRandomMove</code> → <code>GetMove</code>に変更</li>
+</ul>
+</li>
+<li>
+<p><strong>Level2AIの実装</strong>:</p>
+<ul>
+<li>一手先を読んで、相手が2目並んでいる場合に妨害</li>
+<li>横・縦・斜めの2目並びをチェック</li>
+<li>妨害が不要な場合はランダムに選択</li>
+</ul>
+</li>
+<li>
+<p><strong>UIの更新</strong>:</p>
+<ul>
+<li>レベル選択用の<code>RadioGroupLevel</code>を追加</li>
+<li>「Level 1（ランダム）」と「Level 2（妨害）」から選択可能</li>
+<li>ゲーム開始時に先手/後手とAIレベルを選択</li>
+</ul>
+</li>
+</ol>
+<p><strong>動作：</strong></p>
+<ul>
+<li>Level 1: 合法手からランダムに選択</li>
+<li>Level 2: 相手の2目並びを妨害し、それ以外はランダム</li>
+</ul>
+<p>次に、Level3AIを追加しました。</p>
+<pre tabindex="0"><code>AILevel3を作成。
 一手先を読み、AIが２目並んでいて勝利を確定できる場合は
 ３目目をうつ。
 また、勝利を確定できない場合はLevel2と同様。
-</code></pre><p><strong>AIが実装した内容：</strong></p><ul><li><p><strong>Level3AIの作成</strong>:</p><ul><li><code>TLevel3AI</code>クラスを追加</li><li>優先順位：<ol><li>勝利確定：自分の2目並びがあれば3目目を打つ</li><li>妨害：相手の2目並びを妨害（Level2と同じ）</li><li>ランダム：それ以外はランダムに選択</li></ol></li></ul></li><li><p><strong>UIの更新</strong>:</p><ul><li><code>RadioGroupLevel</code>に「Level 3（勝利優先）」を追加</li><li>フォームの高さを調整</li></ul></li><li><p><strong>Unit1.pasの更新</strong>:</p><ul><li><code>FLevel3AI</code>を追加</li><li>Level3AIを使用する処理を追加</li></ul></li></ul><p><strong>Level3AIの動作：</strong></p><ul><li>自分の2目並びを検出し、勝利確定手を優先</li><li>勝利確定できない場合は、相手の2目並びを妨害</li><li>どちらもない場合はランダムに選択</li></ul><p>これで、Level 1（ランダム）、Level 2（妨害）、Level 3（勝利優先）の3つのAIレベルから選択できるようになりました。</p><h3 id=プロンプト7-レベル選択をリストに変更>プロンプト7: レベル選択をリストに変更</h3><p>レベル選択をラジオボタンからリスト（ComboBox）に変更しました。</p><pre tabindex=0><code>UIでレベルはリストで選択する
-</code></pre><p><strong>AIが実装した内容：</strong></p><ul><li><p><strong>RadioGroupLevel → ComboBoxLevelに変更</strong>:</p><ul><li><code>TRadioGroup</code>から<code>TComboBox</code>に変更</li><li>ドロップダウンリストでレベルを選択</li></ul></li><li><p><strong>LabelLevelを追加</strong>:</p><ul><li>「AIレベルを選択」のラベルを追加</li></ul></li><li><p><strong>コードの更新</strong>:</p><ul><li><code>RadioGroupLevel.ItemIndex</code> → <code>ComboBoxLevel.ItemIndex</code>に変更</li><li><code>FormCreate</code>でComboBoxにアイテムを追加</li><li>表示/非表示の制御を更新</li></ul></li></ul><p><strong>UIの改善：</strong></p><ul><li>ラジオボタンからコンボボックスに変更し、スペースを削減</li><li>ドロップダウンで選択可能</li></ul><p>これで、AIレベルはコンボボックス（リスト）で選択できるようになりました。</p><h2 id=ビルドと実行>ビルドと実行</h2><p>各プロンプトの後、ビルドを実行して動作を確認しました。</p><pre tabindex=0><code>C:\Lazarus\Lazbuildでビルド
-</code></pre><p>ビルドが成功し、実行ファイル <code>day014_3moku.exe</code> が作成されました。</p><p><strong>ビルド結果：</strong></p><ul><li>実行ファイル <code>day014_3moku.exe</code> が作成されました</li><li>コンパイルは正常に完了しました（エラーなし）</li><li>いくつかのヒント（未使用パラメータなど）がありますが、動作には影響ありません</li></ul><p>ビルドが成功したので、早速実行してみます。LazManagerの「<strong>実行ファイルを起動</strong>」ボタンからも起動できます。</p><p><img src=/images/LazarusDay014_Initial.png alt=3目並べゲームの初期画面></p><p>ゲームが正常に動作しています！ゲーム開始画面では、先手/後手とAIレベルを選択できます。初期画面では、ゲームボードは無効化されており、「ゲーム開始」ボタンを押すとゲームが開始されます。</p><h2 id=ゲームの機能>ゲームの機能</h2><p>完成した3目並べゲームには、以下の機能が実装されています：</p><ul><li>✅ <strong>3×3のゲームボード</strong>: 9個のボタンで3×3のグリッドを表示</li><li>✅ <strong>ゲーム状態の表示</strong>: 現在のプレイヤーやゲーム結果を表示</li><li>✅ <strong>先手/後手選択</strong>: ゲーム開始時に先手（X）か後手（O）かを選択</li><li>✅ <strong>AIレベル選択</strong>: Level 1（ランダム）、Level 2（妨害）、Level 3（勝利優先）から選択</li><li>✅ <strong>AI対戦機能</strong>: 選択したレベルに応じたAIと対戦</li><li>✅ <strong>リセット機能</strong>: ゲームをリセットして再開</li><li>✅ <strong>勝敗判定</strong>: 横・縦・斜めの3つ並びを自動判定</li><li>✅ <strong>引き分け判定</strong>: 盤面が埋まった場合の引き分け判定</li></ul><p><img src=/images/LazarusDay014_AIWIN.png alt=3目並べゲームのAI勝利画面></p><p>Level 3のAIと対戦した結果、AIが勝利しました。Level 3のAIは、勝利確定を最優先にし、次に妨害、最後にランダムという優先順位で手を打つため、まあまあの強さのAIになっています。</p><h2 id=学んだこと>学んだこと</h2><p>Day14の開発を通じて、以下のことを学びました：</p><h3 id=プロンプトの分割の重要性>プロンプトの分割の重要性</h3><p>7つのプロンプトに分けて開発を進めたことで、以下のメリットがありました：</p><ul><li><strong>段階的な実装</strong>: ゲームロジック → AI → UI → 機能追加という順序で実装することで、各機能を確実に動作させることができた</li><li><strong>問題の早期発見</strong>: 各段階でビルドと動作確認を行うことで、問題を早期に発見できた</li><li><strong>AIの理解</strong>: AIが生成したコードを理解しやすくなり、必要に応じて修正や改善がしやすくなった</li></ul><h3 id=ai実装の学び>AI実装の学び</h3><ul><li><strong>段階的なAI実装</strong>: Level 1（ランダム）→ Level 2（妨害）→ Level 3（勝利優先）という段階的な実装により、AIの動作を理解しやすくなった</li><li><strong>優先順位の重要性</strong>: Level3AIでは、勝利確定を最優先にし、次に妨害、最後にランダムという優先順位を実装することで、より強いAIが実装できた</li><li><strong>一手先読み</strong>: 一手先を読むことで、相手の2目並びを妨害したり、自分の勝利を確定したりできることを学んだ</li></ul><h3 id=ui実装の学び>UI実装の学び</h3><ul><li><strong>状態管理</strong>: ゲーム開始前とゲーム中の状態を適切に管理することで、ユーザー体験が向上した</li><li><strong>コンポーネントの選択</strong>: ラジオボタンからコンボボックスに変更することで、UIがよりコンパクトになった</li><li><strong>イベントハンドラー</strong>: ボタンクリック時のイベントハンドラーを正しく実装することで、ゲームが正常に動作するようになった</li></ul><h3 id=コードの分離の重要性>コードの分離の重要性</h3><ul><li><strong>ゲームロジックとAIロジックの分離</strong>: AIを別ユニットに分離することで、コードの保守性が向上した</li><li><strong>各AIクラスの独立性</strong>: Level1AI、Level2AI、Level3AIを独立したクラスとして実装することで、各AIの動作を理解しやすくなった</li></ul><h2 id=まとめ>まとめ</h2><p>Day14では、Day13で未完成だった3目並べアプリを完成させることができました。</p><ol><li><p><strong>段階的なプロンプト</strong>: 7つのプロンプトに分けて開発を進めることで、各機能を確実に実装できた</p></li><li><p><strong>3つのAIレベル</strong>: Level 1（ランダム）、Level 2（妨害）、Level 3（勝利優先）の3つのAIレベルを実装し、プレイヤーの好みに応じて選択できるようになった</p></li><li><p><strong>先手/後手選択</strong>: ゲーム開始時に先手/後手を選択できる機能を実装し、より柔軟なゲームプレイが可能になった</p></li><li><p><strong>UIの改善</strong>: ラジオボタンからコンボボックスに変更するなど、UIを改善することで、より使いやすいアプリになった</p></li></ol><h3 id=完成した3目並べゲームについて>完成した3目並べゲームについて</h3><p>完成した3目並べゲームは、基本的な機能がすべて実装されており、快適にプレイできる状態になっています。3つのAIレベルから選択でき、先手/後手も選択できるため、様々な対戦パターンを楽しむことができます。</p><p>Day13で未完成だったアプリを、今回は段階的なプロンプトで完成させることができました。プロンプトを適切に分割し、各段階でビルドと動作確認を行うことで、問題なく完成させることができました。</p><h2 id=ダウンロード>ダウンロード</h2><p>作成したアプリは以下のリンクからダウンロードできます：</p><p><a href=/downloads/day014_3moku.zip>day014_3moku.zip</a></p><p>次回のDay15では、また新しいアプリに挑戦します！</p><hr><p><em>Lazarusチャレンジ Day 14/100</em></p><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day013-3moku/>← チャレンジ13日目へ</a>
-</span><span><a href=/posts/lazarus-day015-sudoku/>チャレンジ15日目へ →</a></span></nav><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/posts/lazarus-day013-3moku/>3目並べの作成 - Day13</a></li><li class=mb2><a href=/posts/lazarus-day005-chess/>チェスゲームの作成 - Day5</a></li><li class=mb2><a href=/posts/lazarus-day004-reversi/>Reversi（リバーシ）ゲームの作成 - Day4</a></li><li class=mb2><a href=/posts/lazarus-day007-minesweeper/>マインスイーパーゲームの作成 - Day7</a></li><li class=mb2><a href=/posts/lazarus-day012-bmp-viewer/>BMPビューアーの作成 - Day12</a></li><li class=mb2><a href=/posts/lazarus-day011-calc/>シンプルな電卓の作成 - Day11</a></li><li class=mb2><a href=/posts/lazarus-day010-simple-editor/>シンプルなテキストエディターの作成 - Day10</a></li><li class=mb2><a href=/posts/lazarus-day009-create-zip/>Zip圧縮ツールの作成 - Day9</a></li><li class=mb2><a href=/posts/lazarus-day008-moon-calendar/>月間カレンダーアプリの作成 - Day8</a></li><li class=mb2><a href=/posts/lazarus-day006-worldclock/>世界時計アプリの作成 - Day6</a></li><li class=mb2><a href=/posts/lazarus-day003-lazmanager/>LazManager - LazbuildをGUIで操作するアプリ - Day3</a></li><li class=mb2><a href=/posts/lazarus-day002-midi-player/>LazarusでMIDIプレイヤーを作成 - Day2</a></li><li class=mb2><a href=/posts/lazarus-day001-midi-kaeru/>LazarusでMIDIファイルを作成するアプリ - カエルの歌</a></li><li class=mb2><a href=/posts/survival-report-lazarus-challenge-2025/>生存報告。そして来年、私はLazarusの修羅に入る。</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://your-site-name.netlify.app/>&copy; 私の技術ブログ 2026</a><div><div class=ananke-socials></div></div></div></footer></body></html>
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+<ul>
+<li>
+<p><strong>Level3AIの作成</strong>:</p>
+<ul>
+<li><code>TLevel3AI</code>クラスを追加</li>
+<li>優先順位：
+<ol>
+<li>勝利確定：自分の2目並びがあれば3目目を打つ</li>
+<li>妨害：相手の2目並びを妨害（Level2と同じ）</li>
+<li>ランダム：それ以外はランダムに選択</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>UIの更新</strong>:</p>
+<ul>
+<li><code>RadioGroupLevel</code>に「Level 3（勝利優先）」を追加</li>
+<li>フォームの高さを調整</li>
+</ul>
+</li>
+<li>
+<p><strong>Unit1.pasの更新</strong>:</p>
+<ul>
+<li><code>FLevel3AI</code>を追加</li>
+<li>Level3AIを使用する処理を追加</li>
+</ul>
+</li>
+</ul>
+<p><strong>Level3AIの動作：</strong></p>
+<ul>
+<li>自分の2目並びを検出し、勝利確定手を優先</li>
+<li>勝利確定できない場合は、相手の2目並びを妨害</li>
+<li>どちらもない場合はランダムに選択</li>
+</ul>
+<p>これで、Level 1（ランダム）、Level 2（妨害）、Level 3（勝利優先）の3つのAIレベルから選択できるようになりました。</p>
+<h3 id="プロンプト7-レベル選択をリストに変更">プロンプト7: レベル選択をリストに変更</h3>
+<p>レベル選択をラジオボタンからリスト（ComboBox）に変更しました。</p>
+<pre tabindex="0"><code>UIでレベルはリストで選択する
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+<ul>
+<li>
+<p><strong>RadioGroupLevel → ComboBoxLevelに変更</strong>:</p>
+<ul>
+<li><code>TRadioGroup</code>から<code>TComboBox</code>に変更</li>
+<li>ドロップダウンリストでレベルを選択</li>
+</ul>
+</li>
+<li>
+<p><strong>LabelLevelを追加</strong>:</p>
+<ul>
+<li>「AIレベルを選択」のラベルを追加</li>
+</ul>
+</li>
+<li>
+<p><strong>コードの更新</strong>:</p>
+<ul>
+<li><code>RadioGroupLevel.ItemIndex</code> → <code>ComboBoxLevel.ItemIndex</code>に変更</li>
+<li><code>FormCreate</code>でComboBoxにアイテムを追加</li>
+<li>表示/非表示の制御を更新</li>
+</ul>
+</li>
+</ul>
+<p><strong>UIの改善：</strong></p>
+<ul>
+<li>ラジオボタンからコンボボックスに変更し、スペースを削減</li>
+<li>ドロップダウンで選択可能</li>
+</ul>
+<p>これで、AIレベルはコンボボックス（リスト）で選択できるようになりました。</p>
+<h2 id="ビルドと実行">ビルドと実行</h2>
+<p>各プロンプトの後、ビルドを実行して動作を確認しました。</p>
+<pre tabindex="0"><code>C:\Lazarus\Lazbuildでビルド
+</code></pre><p>ビルドが成功し、実行ファイル <code>day014_3moku.exe</code> が作成されました。</p>
+<p><strong>ビルド結果：</strong></p>
+<ul>
+<li>実行ファイル <code>day014_3moku.exe</code> が作成されました</li>
+<li>コンパイルは正常に完了しました（エラーなし）</li>
+<li>いくつかのヒント（未使用パラメータなど）がありますが、動作には影響ありません</li>
+</ul>
+<p>ビルドが成功したので、早速実行してみます。LazManagerの「<strong>実行ファイルを起動</strong>」ボタンからも起動できます。</p>
+<p><img src="/images/LazarusDay014_Initial.png" alt="3目並べゲームの初期画面"></p>
+<p>ゲームが正常に動作しています！ゲーム開始画面では、先手/後手とAIレベルを選択できます。初期画面では、ゲームボードは無効化されており、「ゲーム開始」ボタンを押すとゲームが開始されます。</p>
+<h2 id="ゲームの機能">ゲームの機能</h2>
+<p>完成した3目並べゲームには、以下の機能が実装されています：</p>
+<ul>
+<li>✅ <strong>3×3のゲームボード</strong>: 9個のボタンで3×3のグリッドを表示</li>
+<li>✅ <strong>ゲーム状態の表示</strong>: 現在のプレイヤーやゲーム結果を表示</li>
+<li>✅ <strong>先手/後手選択</strong>: ゲーム開始時に先手（X）か後手（O）かを選択</li>
+<li>✅ <strong>AIレベル選択</strong>: Level 1（ランダム）、Level 2（妨害）、Level 3（勝利優先）から選択</li>
+<li>✅ <strong>AI対戦機能</strong>: 選択したレベルに応じたAIと対戦</li>
+<li>✅ <strong>リセット機能</strong>: ゲームをリセットして再開</li>
+<li>✅ <strong>勝敗判定</strong>: 横・縦・斜めの3つ並びを自動判定</li>
+<li>✅ <strong>引き分け判定</strong>: 盤面が埋まった場合の引き分け判定</li>
+</ul>
+<p><img src="/images/LazarusDay014_AIWIN.png" alt="3目並べゲームのAI勝利画面"></p>
+<p>Level 3のAIと対戦した結果、AIが勝利しました。Level 3のAIは、勝利確定を最優先にし、次に妨害、最後にランダムという優先順位で手を打つため、まあまあの強さのAIになっています。</p>
+<h2 id="学んだこと">学んだこと</h2>
+<p>Day14の開発を通じて、以下のことを学びました：</p>
+<h3 id="プロンプトの分割の重要性">プロンプトの分割の重要性</h3>
+<p>7つのプロンプトに分けて開発を進めたことで、以下のメリットがありました：</p>
+<ul>
+<li><strong>段階的な実装</strong>: ゲームロジック → AI → UI → 機能追加という順序で実装することで、各機能を確実に動作させることができた</li>
+<li><strong>問題の早期発見</strong>: 各段階でビルドと動作確認を行うことで、問題を早期に発見できた</li>
+<li><strong>AIの理解</strong>: AIが生成したコードを理解しやすくなり、必要に応じて修正や改善がしやすくなった</li>
+</ul>
+<h3 id="ai実装の学び">AI実装の学び</h3>
+<ul>
+<li><strong>段階的なAI実装</strong>: Level 1（ランダム）→ Level 2（妨害）→ Level 3（勝利優先）という段階的な実装により、AIの動作を理解しやすくなった</li>
+<li><strong>優先順位の重要性</strong>: Level3AIでは、勝利確定を最優先にし、次に妨害、最後にランダムという優先順位を実装することで、より強いAIが実装できた</li>
+<li><strong>一手先読み</strong>: 一手先を読むことで、相手の2目並びを妨害したり、自分の勝利を確定したりできることを学んだ</li>
+</ul>
+<h3 id="ui実装の学び">UI実装の学び</h3>
+<ul>
+<li><strong>状態管理</strong>: ゲーム開始前とゲーム中の状態を適切に管理することで、ユーザー体験が向上した</li>
+<li><strong>コンポーネントの選択</strong>: ラジオボタンからコンボボックスに変更することで、UIがよりコンパクトになった</li>
+<li><strong>イベントハンドラー</strong>: ボタンクリック時のイベントハンドラーを正しく実装することで、ゲームが正常に動作するようになった</li>
+</ul>
+<h3 id="コードの分離の重要性">コードの分離の重要性</h3>
+<ul>
+<li><strong>ゲームロジックとAIロジックの分離</strong>: AIを別ユニットに分離することで、コードの保守性が向上した</li>
+<li><strong>各AIクラスの独立性</strong>: Level1AI、Level2AI、Level3AIを独立したクラスとして実装することで、各AIの動作を理解しやすくなった</li>
+</ul>
+<h2 id="まとめ">まとめ</h2>
+<p>Day14では、Day13で未完成だった3目並べアプリを完成させることができました。</p>
+<ol>
+<li>
+<p><strong>段階的なプロンプト</strong>: 7つのプロンプトに分けて開発を進めることで、各機能を確実に実装できた</p>
+</li>
+<li>
+<p><strong>3つのAIレベル</strong>: Level 1（ランダム）、Level 2（妨害）、Level 3（勝利優先）の3つのAIレベルを実装し、プレイヤーの好みに応じて選択できるようになった</p>
+</li>
+<li>
+<p><strong>先手/後手選択</strong>: ゲーム開始時に先手/後手を選択できる機能を実装し、より柔軟なゲームプレイが可能になった</p>
+</li>
+<li>
+<p><strong>UIの改善</strong>: ラジオボタンからコンボボックスに変更するなど、UIを改善することで、より使いやすいアプリになった</p>
+</li>
+</ol>
+<h3 id="完成した3目並べゲームについて">完成した3目並べゲームについて</h3>
+<p>完成した3目並べゲームは、基本的な機能がすべて実装されており、快適にプレイできる状態になっています。3つのAIレベルから選択でき、先手/後手も選択できるため、様々な対戦パターンを楽しむことができます。</p>
+<p>Day13で未完成だったアプリを、今回は段階的なプロンプトで完成させることができました。プロンプトを適切に分割し、各段階でビルドと動作確認を行うことで、問題なく完成させることができました。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p>作成したアプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day014_3moku.zip">day014_3moku.zip</a></p>
+<p>次回のDay15では、また新しいアプリに挑戦します！</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 14/100</em></p>
+
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day013-3moku/">← チャレンジ13日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day015-sudoku/">チャレンジ15日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day013-3moku/">3目並べの作成 - Day13</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day005-chess/">チェスゲームの作成 - Day5</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day004-reversi/">Reversi（リバーシ）ゲームの作成 - Day4</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day007-minesweeper/">マインスイーパーゲームの作成 - Day7</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day012-bmp-viewer/">BMPビューアーの作成 - Day12</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day011-calc/">シンプルな電卓の作成 - Day11</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day010-simple-editor/">シンプルなテキストエディターの作成 - Day10</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day009-create-zip/">Zip圧縮ツールの作成 - Day9</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day008-moon-calendar/">月間カレンダーアプリの作成 - Day8</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day006-worldclock/">世界時計アプリの作成 - Day6</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day003-lazmanager/">LazManager - LazbuildをGUIで操作するアプリ - Day3</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day002-midi-player/">LazarusでMIDIプレイヤーを作成 - Day2</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day001-midi-kaeru/">LazarusでMIDIファイルを作成するアプリ - カエルの歌</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/survival-report-lazarus-challenge-2025/">生存報告。そして来年、私はLazarusの修羅に入る。</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

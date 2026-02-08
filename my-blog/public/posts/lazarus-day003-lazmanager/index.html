@@ -1,5 +1,499 @@
-<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>LazManager - LazbuildをGUIで操作するアプリ - Day3 | 私の技術ブログ</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Lazarusチャレンジ3日目。LazbuildをGUIで操作するアプリ「LazManager」を開発しました。プロジェクトの作成から起動まで、すべてをGUIで行えるツールです。"><meta name=generator content="Hugo 0.153.4"><meta name=robots content="index, follow"><meta name=author content="ブログ管理者"><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=canonical href=https://your-site-name.netlify.app/posts/lazarus-day003-lazmanager/><meta property="og:url" content="https://your-site-name.netlify.app/posts/lazarus-day003-lazmanager/"><meta property="og:site_name" content="私の技術ブログ"><meta property="og:title" content="LazManager - LazbuildをGUIで操作するアプリ - Day3"><meta property="og:description" content="Lazarusチャレンジ3日目。LazbuildをGUIで操作するアプリ「LazManager」を開発しました。プロジェクトの作成から起動まで、すべてをGUIで行えるツールです。"><meta property="og:locale" content="ja_jp"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-03T10:00:00+09:00"><meta property="article:modified_time" content="2026-01-03T10:00:00+09:00"><meta itemprop=name content="LazManager - LazbuildをGUIで操作するアプリ - Day3"><meta itemprop=description content="Lazarusチャレンジ3日目。LazbuildをGUIで操作するアプリ「LazManager」を開発しました。プロジェクトの作成から起動まで、すべてをGUIで行えるツールです。"><meta itemprop=datePublished content="2026-01-03T10:00:00+09:00"><meta itemprop=dateModified content="2026-01-03T10:00:00+09:00"><meta itemprop=wordCount content="406"><meta name=twitter:card content="summary"><meta name=twitter:title content="LazManager - LazbuildをGUIで操作するアプリ - Day3"><meta name=twitter:description content="Lazarusチャレンジ3日目。LazbuildをGUIで操作するアプリ「LazManager」を開発しました。プロジェクトの作成から起動まで、すべてをGUIで行えるツールです。"><link rel=stylesheet href=/css/custom.css></head><body class="ma0 avenir bg-near-white production"><header class="cover bg-center" style=background-image:url(https://your-site-name.netlify.app/images/LazarusDay003.png)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">私の技術ブログ</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="投稿 page">投稿</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/categories/ title="カテゴリ page">カテゴリ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/tags/ title="タグ page">タグ</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv6 ph3 ph4-ns"><div class="f2 f1-l fw2 white-90 mb0 lh-title">LazManager - LazbuildをGUIで操作するアプリ - Day3</div><div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">Lazarusチャレンジ3日目。LazbuildをGUIで操作するアプリ「LazManager」を開発しました。プロジェクトの作成から起動まで、すべてをGUIで行えるツールです。</div></div></div></header><main class=pb7 role=main><article class="flex-l mw8 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day002-midi-player/>← チャレンジ2日目へ</a>
-</span><span><a href=/posts/lazarus-day004-reversi/>チャレンジ4日目へ →</a></span></nav><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">LazManager - LazbuildをGUIで操作するアプリ - Day3</h1><p class=tracked><strong>ブログ管理者</strong></p><time class="f6 mv4 dib tracked" datetime=2026-01-03T10:00:00+09:00>January 3, 2026</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id=lazmanager---lazbuildをguiで操作するアプリ---day3>LazManager - LazbuildをGUIで操作するアプリ - Day3</h1><p>Lazarusチャレンジ3日目です。今回は、 <strong>LazbuildをGUIで操作するアプリ「LazManager」</strong> を作成することにしました。</p><h2 id=今回の目標>今回の目標</h2><p>Day2の開発を通じて、Lazarusプロジェクトをコマンドラインからビルドする際に、毎回<code>C:\Lazarus\lazbuild</code>とフルパスを指定する必要があることに気づきました。また、プロジェクトの作成や管理をGUIで行えるツールがあれば便利だと考えました。</p><p>そこで今回は、以下の機能を持つLazManagerを開発することにしました：</p><ul><li><strong>設定画面</strong>: Lazbuildのパス、エディタの設定、プロジェクトルートフォルダの既定値を設定</li><li><strong>作成画面</strong>: プロジェクトの新規作成（コンソール、単純なプログラム、アプリケーション）</li><li><strong>起動画面</strong>: エディタやコンソール、Lazarus IDE、エクスプローラーでプロジェクトを起動</li></ul><h2 id=アプリの仕様>アプリの仕様</h2><h3 id=設定画面>設定画面</h3><p>以下の設定項目を用意します：</p><ul><li><strong>Lazbuildのパス</strong>: コマンドラインからビルドする際に使用するlazbuildのパス</li><li><strong>エディタ1のパスと名前</strong>: Cursor用の設定</li><li><strong>エディタ2のパスと名前</strong>: VSCode用の設定</li><li><strong>エディタ3のパスと名前</strong>: Antigravity用の設定</li><li><strong>プロジェクトルートフォルダの既定</strong>: 新規プロジェクトを作成する際のデフォルトフォルダ</li></ul><h3 id=作成画面>作成画面</h3><p>プロジェクトを作成するための画面です：</p><ul><li><strong>プロジェクトルートフォルダ</strong>: 設定画面で指定した既定値を初期表示</li><li><strong>アプリ名称</strong>: ローマ字で入力（プロジェクト名として使用）</li><li><strong>アプリの種類</strong>: ラジオボックスで選択<ul><li>コンソール</li><li>単純なプログラム（lprのみ）</li><li>アプリケーション（Winアプリ）</li></ul></li><li><strong>作成ボタン</strong>: 押下すると、プロジェクトルートフォルダ＋アプリ名フォルダを作成し、そのフォルダにlazbuildで初期プロジェクトを作成</li></ul><h3 id=起動画面>起動画面</h3><p>作成したプロジェクトを起動するための画面です：</p><ul><li><strong>エディタの起動</strong>: 設定したエディタの名前を表示し、そのフォルダで起動可能</li><li><strong>コンソールの起動</strong>: そのフォルダでコマンドプロンプトを起動</li><li><strong>LPIファイルの起動</strong>: Lazarus IDEでlpiファイルを開く（デフォルトアプリで起動）</li><li><strong>エクスプローラーの起動</strong>: そのフォルダをエクスプローラーで開く</li></ul><h3 id=画面遷移>画面遷移</h3><p>作成画面と起動画面は、同じフォーム上でコントロールの表示/非表示を切り替えることで実現します。プロジェクトを作成した後、自動的に起動画面に切り替わるようにします。</p><h2 id=cursorに投げたプロンプト>Cursorに投げたプロンプト</h2><p>プロジェクトを作成し、Cursorへ以下のプロンプトを投げました：</p><pre tabindex=0><code># 目的
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>LazManager - LazbuildをGUIで操作するアプリ - Day3 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ3日目。LazbuildをGUIで操作するアプリ「LazManager」を開発しました。プロジェクトの作成から起動まで、すべてをGUIで行えるツールです。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day003-lazmanager/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day003-lazmanager/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="LazManager - LazbuildをGUIで操作するアプリ - Day3">
+  <meta property="og:description" content="Lazarusチャレンジ3日目。LazbuildをGUIで操作するアプリ「LazManager」を開発しました。プロジェクトの作成から起動まで、すべてをGUIで行えるツールです。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-03T10:00:00+09:00">
+    <meta property="article:modified_time" content="2026-01-03T10:00:00+09:00">
+
+  <meta itemprop="name" content="LazManager - LazbuildをGUIで操作するアプリ - Day3">
+  <meta itemprop="description" content="Lazarusチャレンジ3日目。LazbuildをGUIで操作するアプリ「LazManager」を開発しました。プロジェクトの作成から起動まで、すべてをGUIで行えるツールです。">
+  <meta itemprop="datePublished" content="2026-01-03T10:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-03T10:00:00+09:00">
+  <meta itemprop="wordCount" content="406">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="LazManager - LazbuildをGUIで操作するアプリ - Day3">
+  <meta name="twitter:description" content="Lazarusチャレンジ3日目。LazbuildをGUIで操作するアプリ「LazManager」を開発しました。プロジェクトの作成から起動まで、すべてをGUIで行えるツールです。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay003.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">LazManager - LazbuildをGUIで操作するアプリ - Day3</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ3日目。LazbuildをGUIで操作するアプリ「LazManager」を開発しました。プロジェクトの作成から起動まで、すべてをGUIで行えるツールです。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day002-midi-player/">← チャレンジ2日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day004-reversi/">チャレンジ4日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">LazManager - LazbuildをGUIで操作するアプリ - Day3</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-03T10:00:00+09:00">January 3, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="lazmanager---lazbuildをguiで操作するアプリ---day3">LazManager - LazbuildをGUIで操作するアプリ - Day3</h1>
+<p>Lazarusチャレンジ3日目です。今回は、 <strong>LazbuildをGUIで操作するアプリ「LazManager」</strong> を作成することにしました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>Day2の開発を通じて、Lazarusプロジェクトをコマンドラインからビルドする際に、毎回<code>C:\Lazarus\lazbuild</code>とフルパスを指定する必要があることに気づきました。また、プロジェクトの作成や管理をGUIで行えるツールがあれば便利だと考えました。</p>
+<p>そこで今回は、以下の機能を持つLazManagerを開発することにしました：</p>
+<ul>
+<li><strong>設定画面</strong>: Lazbuildのパス、エディタの設定、プロジェクトルートフォルダの既定値を設定</li>
+<li><strong>作成画面</strong>: プロジェクトの新規作成（コンソール、単純なプログラム、アプリケーション）</li>
+<li><strong>起動画面</strong>: エディタやコンソール、Lazarus IDE、エクスプローラーでプロジェクトを起動</li>
+</ul>
+<h2 id="アプリの仕様">アプリの仕様</h2>
+<h3 id="設定画面">設定画面</h3>
+<p>以下の設定項目を用意します：</p>
+<ul>
+<li><strong>Lazbuildのパス</strong>: コマンドラインからビルドする際に使用するlazbuildのパス</li>
+<li><strong>エディタ1のパスと名前</strong>: Cursor用の設定</li>
+<li><strong>エディタ2のパスと名前</strong>: VSCode用の設定</li>
+<li><strong>エディタ3のパスと名前</strong>: Antigravity用の設定</li>
+<li><strong>プロジェクトルートフォルダの既定</strong>: 新規プロジェクトを作成する際のデフォルトフォルダ</li>
+</ul>
+<h3 id="作成画面">作成画面</h3>
+<p>プロジェクトを作成するための画面です：</p>
+<ul>
+<li><strong>プロジェクトルートフォルダ</strong>: 設定画面で指定した既定値を初期表示</li>
+<li><strong>アプリ名称</strong>: ローマ字で入力（プロジェクト名として使用）</li>
+<li><strong>アプリの種類</strong>: ラジオボックスで選択
+<ul>
+<li>コンソール</li>
+<li>単純なプログラム（lprのみ）</li>
+<li>アプリケーション（Winアプリ）</li>
+</ul>
+</li>
+<li><strong>作成ボタン</strong>: 押下すると、プロジェクトルートフォルダ＋アプリ名フォルダを作成し、そのフォルダにlazbuildで初期プロジェクトを作成</li>
+</ul>
+<h3 id="起動画面">起動画面</h3>
+<p>作成したプロジェクトを起動するための画面です：</p>
+<ul>
+<li><strong>エディタの起動</strong>: 設定したエディタの名前を表示し、そのフォルダで起動可能</li>
+<li><strong>コンソールの起動</strong>: そのフォルダでコマンドプロンプトを起動</li>
+<li><strong>LPIファイルの起動</strong>: Lazarus IDEでlpiファイルを開く（デフォルトアプリで起動）</li>
+<li><strong>エクスプローラーの起動</strong>: そのフォルダをエクスプローラーで開く</li>
+</ul>
+<h3 id="画面遷移">画面遷移</h3>
+<p>作成画面と起動画面は、同じフォーム上でコントロールの表示/非表示を切り替えることで実現します。プロジェクトを作成した後、自動的に起動画面に切り替わるようにします。</p>
+<h2 id="cursorに投げたプロンプト">Cursorに投げたプロンプト</h2>
+<p>プロジェクトを作成し、Cursorへ以下のプロンプトを投げました：</p>
+<pre tabindex="0"><code># 目的
 Lazarus (Object Pascal) を使用して、Lazarusプロジェクトの作成・管理を効率化するGUIツールを作成したい。
 
 # 動作環境・設定
@@ -42,7 +536,515 @@ Lazarus (Object Pascal) を使用して、Lazarusプロジェクトの作成・�
 - まず、これらを実現するためのユニット（MainForm.pas）のコード全体を生成してください。
 - 各ボタンのOnClickイベントの実装を含めてください。
 - Windows環境を前提としたパス処理にしてください。
-</code></pre><p>この時点で考え違いをしていたのだが、実は<strong>Lazbuildにはプロジェクト作成機能はない</strong>のかもしれない。よくわからんが。そのため、プロジェクト作成機能もLazManagerに実装することになる。Cursor君がんばれ。</p><h2 id=ビルドと実行>ビルドと実行</h2><p>さて、<code>C:\Lazarus\Lazbuild</code>でビルドと指示。</p><p>できたのがこれ。</p><p><img src=/images/LazarusDay003.png alt=Lazarusプロジェクトマネージャーのスクリーンショット></p><h2 id=発生した問題1-プロジェクトの作成ができない>発生した問題1: プロジェクトの作成ができない</h2><p>まず、プロジェクトの作成からできない。Geminiに聞いてみる。</p><p><strong>lazbuildにcreate project機能はあるか。</strong></p><p>結論から申し上げますと、残念ながら <strong>lazbuild 自体に「新規プロジェクトをゼロから作成する（Create Project）」という機能はありません。</strong></p><p>lazbuild はあくまで、既存のプロジェクトファイル（.lpi）やパッケージファイル（.lpk）をコマンドラインからビルド（コンパイル）するためのツールです。</p><p><strong>なにー。</strong></p><p>ということでCursorに追加の作業依頼。プロジェクト作成機能をLazManagerに実装することになりました。</p><h2 id=発生した問題2-ビルド時に固まる>発生した問題2: ビルド時に固まる</h2><p>次にビルドをしようとしても固まるバグ。Geminiに相談。</p><p><strong>以下は不完全なLazarusのコードである。<code>Process.Execute;</code>で固まりアプリが動かなくなる。どうしてかを解説。</strong></p><p>Geminiの解説によると、問題の原因は**デッドロック（行き止まり）**の発生です。</p><h3 id=固まる原因パイプのバッファ溢れ>固まる原因：パイプのバッファ溢れ</h3><p><code>TProcess</code> のオプションに <code>poWaitOnExit</code> と <code>poUsePipes</code> を同時に指定していることが原因です。</p><p><strong>パイプの仕組み</strong>: <code>poUsePipes</code> を使うと、OSは実行したプログラム（lazbuild）の出力を一時的に保存する「バッファ（メモリ上の箱）」を用意します。</p><p><strong>バッファの限界</strong>: この箱のサイズは有限です（通常数KB〜64KB程度）。プログラムの出力（ログなど）がこの量を超えると、OSは**「中身を読み取ってもらうまで、次の書き込みを待機（停止）」**させます。</p><p><strong>待ちぼうけ</strong>: しかし、コードは <code>poWaitOnExit</code> を指定しているため、<code>Process.Execute</code> の行で「プログラムが完全に終わるまで」じっと待っています。</p><p><strong>デッドロック</strong>:</p><ul><li>lazbuild: 「ログが一杯だ。誰か読み取ってくれないと、これ以上進めない（停止）」</li><li>あなたのアプリ: 「lazbuildが終わるまで、次の行（読み取り処理）には進まない（停止）」</li></ul><p>結果、お互いが相手を待つ状態になり、永遠に固まります。</p><h3 id=解決策>解決策</h3><p>大きな出力を伴うビルド処理などでは、<code>Execute</code> を呼び出した後に、プロセスが動いている間、逐次的に出力を読み取る必要があります。</p><p>最も一般的で簡単な修正方法は、<code>TProcess</code> を継承して便利にした <code>RunCommand</code> 関数（Process ユニットに含まれる）を使うか、ループで読み取るコードに書き換えることです。</p><p>ということで、Geminiに完全なコードをお願いする。修正はあっという間に完了する。</p><h2 id=発生した問題3-エディタ起動時のエラー>発生した問題3: エディタ起動時のエラー</h2><p>次にエディタを起動してみるが、パスも名前も「Cursor」としていたのだが、エラーコード2で動かない。こちらもGeminiに聞いてみる。</p><p><strong>以下は不完全なLazarusのコード。実行するとEProcess例外が発生。Failed To execute:2が発生する。パスは「Cursor」が設定されている。なぜかを解説。</strong></p><p>Lazarus（Free Pascal）の <code>TProcess</code> を使用して「Cursor」を起動しようとした際に <code>Failed to execute: 2</code> が発生する主な理由は、<code>TProcess</code> が Windows のシェル（コマンドプロンプトや環境変数）を経由せず、直接バイナリを叩こうとしているからです。</p><p>エラーコード「2」は、OSレベルの <strong>「指定されたファイルが見つかりません（File Not Found）」</strong> を意味します。</p><h3 id=tprocess-は-path-を自動補完しない>TProcess は PATH を自動補完しない</h3><p><code>TProcess</code> は、実行ファイル名だけ（例：「Cursor」）を指定しても、Windowsの環境変数 <code>PATH</code> を参照して自動的にフルパスに変換してくれる機能がありません。そのため、実行ファイルのフルパスを指定する必要があります。</p><h3 id=解決策cmd-c-を介して実行する推奨>解決策：cmd /c を介して実行する（推奨）</h3><p><code>cmd /c</code> を使う方法でメソッドの完全なコードを出してくださいとお願いする。</p><p>そうすると、今度は動きました。</p><h2 id=完成したアプリ>完成したアプリ</h2><p>最終的に、以下の機能を持つLazManagerが完成しました：</p><ul><li>✅ 設定画面: Lazbuildのパス、エディタの設定、プロジェクトルートフォルダの既定値を設定</li><li>✅ プロジェクト作成: コンソール、単純なプログラム、アプリケーションの3種類から選択してプロジェクトを作成</li><li>✅ エディタ起動: 設定したエディタ（Cursor、VSCode、Antigravity）でプロジェクトフォルダを開く</li><li>✅ コンソール起動: プロジェクトフォルダでコマンドプロンプトを起動</li><li>✅ Lazarus IDE起動: .lpiファイルをLazarus IDEで開く</li><li>✅ エクスプローラー起動: プロジェクトフォルダをエクスプローラーで開く</li><li>✅ ビルド機能: プロジェクトをビルド</li><li>✅ 実行ファイル起動: ビルドした実行ファイルを起動</li></ul><h2 id=アイコンの作成>アイコンの作成</h2><p>アプリが完成したので、次はアイコンを作成することにしました。今回はGeminiにアイコンを作ってもらいました。</p><h3 id=アイデアの検討>アイデアの検討</h3><p>まず、Geminiに「このアプリに設定するアイコンのアイデアをいくつかテキストベースで考えてほしい」とプロンプトを送りました。</p><p>Geminiから以下の案が出てきました：</p><p><strong>「Pascal ギア（歯車）」デザイン</strong></p><ul><li>モチーフ: 歯車 ＋ チェスの駒（ナイト）またはチーターのシルエット</li><li>詳細: Lazarusの象徴であるチーター、もしくは「L」の文字を刻印した青い歯車。歯車の周りに小さなドットが3つあり、それが設定した3つのエディタを表現。</li><li>印象: 「ツールを動かすエンジン」「自動化・効率化」というテクニカルなイメージ。</li></ul><p>最近、チェスにはまっているのでこれに目を引かれました。<strong>ナイト。いいねー。</strong></p><h3 id=アイコンの生成>アイコンの生成</h3><p>「アイコンをイメージで作成。32x32」とプロンプトを送ると、以下のアイコンが生成されました。</p><p><img src=/images/LazarusDay003_icon1.jpg alt=最初に生成されたアイコン（チーター）></p><p>うん？チータ？？？ああ、確かにチータって書いてあった。いやナイトにしたかったのに。これを採用にしよう一瞬と思いましたが。</p><p>「ナイトの案を見せてください。ナイトの案で周りに歯車」とプロンプトを送ると、以下のアイコンが生成されました。</p><p><img src=/images/LazarusDay003_icon2.jpg alt=ナイトと歯車のアイコン></p><p>おお！いい感じだ。</p><h3 id=アイコンファイルへの変換>アイコンファイルへの変換</h3><p>「この画像を64x64の大きさにしてください」とすると、
-<img src=/images/LazarusDay003_icon2.jpg alt=ナイトと歯車のアイコン>
-同じ画像が返ってきました。いや、さっきと同じだろ。どうやって使うんだ？</p><p>画像生成AIは、リサイズには対応していないようです。画像をアイコンファイル（.ico）に変換するには、専用のツールが必要です。</p><p>こんなときは、やはりGemini。</p><p>「この画像をアイコンにするにはどんなソフトを使えばよいか」とプロンプトを送ると、Geminiから以下のソフトが紹介されました。</p><p><strong>@icon変換 (At Icon Converter):</strong></p><ul><li>特徴: 非常に軽量で、PNG をドラッグ＆ドロップするだけで .ico に変換できます。</li><li>使い方: 画像を読み込み、必要なサイズ（16, 32, 48, 64, 256など）を選択して保存するだけです。</li></ul><p>さっそくググってインストール。画像をドラッグ＆ドロップして、複数のサイズ64をチョイスして.icoファイルを作成しました。</p><p>こちらのショートカットが作成できました。</p><p><img src=/images/LazarusDay003_shortcut.png alt=LazManagerのショートカット></p><p>無事にアイコンが設定できました！ナイトと歯車のデザインが、LazManagerの「プロジェクトを動かすエンジン」というコンセプトをよく表現していると思います。</p><p>チェスのナイトは、独特の動き（L字型）で盤面を駆け回る駒です。この「自由に動き回る」イメージが、LazManagerが様々なエディタやツールを起動できる柔軟性を表現しているように感じます。また、歯車は「機械」「自動化」「効率化」を象徴しており、プロジェクト管理ツールとしての機能を視覚的に伝えています。</p><p>アイコン作成も、AIツールを活用することで、デザインスキルがなくても魅力的なアイコンを作成できることを実感しました。今後も、このようなAIツールを活用して、開発効率を上げていきたいと思います。</p><h2 id=学んだこと>学んだこと</h2><p>Day3の開発を通じて、多くのことを学びました：</p><h3 id=ツールの機能について>ツールの機能について</h3><ul><li><strong>Lazbuildにはプロジェクト作成機能がない</strong>: ビルド専用のツールであることを理解した</li><li><strong>プロジェクト作成は自分で実装する必要がある</strong>: .lpiファイルや.lprファイルを手動で生成する必要がある</li></ul><h3 id=技術的な学び>技術的な学び</h3><ul><li><strong>TProcessのデッドロック問題</strong>: <code>poWaitOnExit</code> と <code>poUsePipes</code> を同時に使うと、バッファ溢れでデッドロックが発生する</li><li><strong>出力の逐次読み取り</strong>: 大きな出力を伴う処理では、プロセス実行中に逐次的に出力を読み取る必要がある</li><li><strong>TProcessとPATH</strong>: <code>TProcess</code> は環境変数 <code>PATH</code> を自動補完しないため、フルパスを指定するか、<code>cmd /c</code> を介して実行する必要がある</li></ul><h3 id=アイコン作成の学び>アイコン作成の学び</h3><ul><li><strong>AIによるアイデア出し</strong>: Geminiにアイデアを考えてもらうことで、自分では思いつかないデザイン案を得られた</li><li><strong>プロンプトの重要性</strong>: 「ナイト」と「チーター」の違いを明確に指定することで、希望通りのアイコンを生成できた</li><li><strong>画像からアイコンへの変換</strong>: 画像生成AIで作成した画像を、専用ツール（@icon変換）で.icoファイルに変換する必要がある</li><li><strong>デザインの意味</strong>: ナイトと歯車の組み合わせが、「プロジェクトを動かすエンジン」というコンセプトを視覚的に表現できた</li></ul><h3 id=問題解決のプロセス>問題解決のプロセス</h3><ul><li>Cursorに依頼しても、すべてが完璧に動くとは限らない</li><li>Geminiは問題の原因を詳しく解説してくれるので、技術的な理解を深めるのに有効</li><li>複数のAIツールを使い分けることで、効率的に問題を解決できる</li><li>アイコン作成でも、AIにアイデアを考えてもらい、生成してもらい、変換方法を教えてもらうという一連の流れで完成させることができた</li></ul><h2 id=まとめ>まとめ</h2><p>Day3では、LazManagerの開発を通じて、以下のことを経験しました：</p><ol><li><p><strong>Cursorでのコード生成</strong> - 最初のコードは生成されたが、想定と異なる部分があった</p><ul><li>lazbuildにプロジェクト作成機能がないことが判明し、自分で実装する必要があった</li><li>プロンプトを詳細に書くことで、より正確なコードが生成されることを実感</li></ul></li><li><p><strong>Geminiでの問題解決</strong> - ビルド時の固まりやエディタ起動エラーの原因を解説してもらい、修正コードを取得</p><ul><li>TProcessのデッドロック問題を理解できた</li><li><code>cmd /c</code>を使った解決方法を学んだ</li><li>技術的な背景を理解することで、今後の開発に活かせる知識が得られた</li></ul></li><li><p><strong>アイコンの作成</strong> - Geminiにアイデアを考えてもらい、画像を生成してもらい、変換方法を教えてもらった</p><ul><li>チェスのナイトと歯車の組み合わせで、アプリのコンセプトを視覚的に表現できた</li><li>AIツールを活用することで、デザインスキルがなくても魅力的なアイコンを作成できることを実感</li><li>@icon変換という便利なツールを知ることができた</li></ul></li><li><p><strong>実際の開発過程</strong> - 想定外の問題が発生したが、最終的には完成させることができた</p><ul><li>複数の問題に直面したが、一つずつ解決していくことで完成に至った</li><li>AIツールを適切に使い分けることで、効率的に開発を進められることを学んだ</li></ul></li></ol><h3 id=完成したlazmanagerについて>完成したLazManagerについて</h3><p>このソフトいる人って100日チャレンジするひとぐらいかなー。でも、自分が使うために作ったツールなので、これから毎日使っていきます！</p><p>LazManagerは、Lazarusプロジェクトの作成から起動までをGUIで行える便利なツールです。特に、毎日新しいアプリを作成する100日チャレンジでは、プロジェクト作成の手間を大幅に削減できるため、開発効率が向上することが期待できます。</p><p>また、ナイトと歯車のアイコンが、アプリの「プロジェクトを動かすエンジン」というコンセプトを視覚的に表現しており、モチベーションがあがります！</p><h2 id=ダウンロード>ダウンロード</h2><p>作成したアプリは以下のリンクからダウンロードできます：</p><p><a href=/downloads/day003_LazManager.zip>day003_LazManager.zip</a></p><p>次回のDay4では、このLazManagerを使って新しいアプリに挑戦します！</p><hr><p><em>Lazarusチャレンジ Day 3/100</em></p><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day002-midi-player/>← チャレンジ2日目へ</a>
-</span><span><a href=/posts/lazarus-day004-reversi/>チャレンジ4日目へ →</a></span></nav><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/posts/lazarus-day002-midi-player/>LazarusでMIDIプレイヤーを作成 - Day2</a></li><li class=mb2><a href=/posts/lazarus-day001-midi-kaeru/>LazarusでMIDIファイルを作成するアプリ - カエルの歌</a></li><li class=mb2><a href=/posts/survival-report-lazarus-challenge-2025/>生存報告。そして来年、私はLazarusの修羅に入る。</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://your-site-name.netlify.app/>&copy; 私の技術ブログ 2026</a><div><div class=ananke-socials></div></div></div></footer></body></html>
+</code></pre><p>この時点で考え違いをしていたのだが、実は<strong>Lazbuildにはプロジェクト作成機能はない</strong>のかもしれない。よくわからんが。そのため、プロジェクト作成機能もLazManagerに実装することになる。Cursor君がんばれ。</p>
+<h2 id="ビルドと実行">ビルドと実行</h2>
+<p>さて、<code>C:\Lazarus\Lazbuild</code>でビルドと指示。</p>
+<p>できたのがこれ。</p>
+<p><img src="/images/LazarusDay003.png" alt="Lazarusプロジェクトマネージャーのスクリーンショット"></p>
+<h2 id="発生した問題1-プロジェクトの作成ができない">発生した問題1: プロジェクトの作成ができない</h2>
+<p>まず、プロジェクトの作成からできない。Geminiに聞いてみる。</p>
+<p><strong>lazbuildにcreate project機能はあるか。</strong></p>
+<p>結論から申し上げますと、残念ながら <strong>lazbuild 自体に「新規プロジェクトをゼロから作成する（Create Project）」という機能はありません。</strong></p>
+<p>lazbuild はあくまで、既存のプロジェクトファイル（.lpi）やパッケージファイル（.lpk）をコマンドラインからビルド（コンパイル）するためのツールです。</p>
+<p><strong>なにー。</strong></p>
+<p>ということでCursorに追加の作業依頼。プロジェクト作成機能をLazManagerに実装することになりました。</p>
+<h2 id="発生した問題2-ビルド時に固まる">発生した問題2: ビルド時に固まる</h2>
+<p>次にビルドをしようとしても固まるバグ。Geminiに相談。</p>
+<p><strong>以下は不完全なLazarusのコードである。<code>Process.Execute;</code>で固まりアプリが動かなくなる。どうしてかを解説。</strong></p>
+<p>Geminiの解説によると、問題の原因は**デッドロック（行き止まり）**の発生です。</p>
+<h3 id="固まる原因パイプのバッファ溢れ">固まる原因：パイプのバッファ溢れ</h3>
+<p><code>TProcess</code> のオプションに <code>poWaitOnExit</code> と <code>poUsePipes</code> を同時に指定していることが原因です。</p>
+<p><strong>パイプの仕組み</strong>: <code>poUsePipes</code> を使うと、OSは実行したプログラム（lazbuild）の出力を一時的に保存する「バッファ（メモリ上の箱）」を用意します。</p>
+<p><strong>バッファの限界</strong>: この箱のサイズは有限です（通常数KB〜64KB程度）。プログラムの出力（ログなど）がこの量を超えると、OSは**「中身を読み取ってもらうまで、次の書き込みを待機（停止）」**させます。</p>
+<p><strong>待ちぼうけ</strong>: しかし、コードは <code>poWaitOnExit</code> を指定しているため、<code>Process.Execute</code> の行で「プログラムが完全に終わるまで」じっと待っています。</p>
+<p><strong>デッドロック</strong>:</p>
+<ul>
+<li>lazbuild: 「ログが一杯だ。誰か読み取ってくれないと、これ以上進めない（停止）」</li>
+<li>あなたのアプリ: 「lazbuildが終わるまで、次の行（読み取り処理）には進まない（停止）」</li>
+</ul>
+<p>結果、お互いが相手を待つ状態になり、永遠に固まります。</p>
+<h3 id="解決策">解決策</h3>
+<p>大きな出力を伴うビルド処理などでは、<code>Execute</code> を呼び出した後に、プロセスが動いている間、逐次的に出力を読み取る必要があります。</p>
+<p>最も一般的で簡単な修正方法は、<code>TProcess</code> を継承して便利にした <code>RunCommand</code> 関数（Process ユニットに含まれる）を使うか、ループで読み取るコードに書き換えることです。</p>
+<p>ということで、Geminiに完全なコードをお願いする。修正はあっという間に完了する。</p>
+<h2 id="発生した問題3-エディタ起動時のエラー">発生した問題3: エディタ起動時のエラー</h2>
+<p>次にエディタを起動してみるが、パスも名前も「Cursor」としていたのだが、エラーコード2で動かない。こちらもGeminiに聞いてみる。</p>
+<p><strong>以下は不完全なLazarusのコード。実行するとEProcess例外が発生。Failed To execute:2が発生する。パスは「Cursor」が設定されている。なぜかを解説。</strong></p>
+<p>Lazarus（Free Pascal）の <code>TProcess</code> を使用して「Cursor」を起動しようとした際に <code>Failed to execute: 2</code> が発生する主な理由は、<code>TProcess</code> が Windows のシェル（コマンドプロンプトや環境変数）を経由せず、直接バイナリを叩こうとしているからです。</p>
+<p>エラーコード「2」は、OSレベルの <strong>「指定されたファイルが見つかりません（File Not Found）」</strong> を意味します。</p>
+<h3 id="tprocess-は-path-を自動補完しない">TProcess は PATH を自動補完しない</h3>
+<p><code>TProcess</code> は、実行ファイル名だけ（例：「Cursor」）を指定しても、Windowsの環境変数 <code>PATH</code> を参照して自動的にフルパスに変換してくれる機能がありません。そのため、実行ファイルのフルパスを指定する必要があります。</p>
+<h3 id="解決策cmd-c-を介して実行する推奨">解決策：cmd /c を介して実行する（推奨）</h3>
+<p><code>cmd /c</code> を使う方法でメソッドの完全なコードを出してくださいとお願いする。</p>
+<p>そうすると、今度は動きました。</p>
+<h2 id="完成したアプリ">完成したアプリ</h2>
+<p>最終的に、以下の機能を持つLazManagerが完成しました：</p>
+<ul>
+<li>✅ 設定画面: Lazbuildのパス、エディタの設定、プロジェクトルートフォルダの既定値を設定</li>
+<li>✅ プロジェクト作成: コンソール、単純なプログラム、アプリケーションの3種類から選択してプロジェクトを作成</li>
+<li>✅ エディタ起動: 設定したエディタ（Cursor、VSCode、Antigravity）でプロジェクトフォルダを開く</li>
+<li>✅ コンソール起動: プロジェクトフォルダでコマンドプロンプトを起動</li>
+<li>✅ Lazarus IDE起動: .lpiファイルをLazarus IDEで開く</li>
+<li>✅ エクスプローラー起動: プロジェクトフォルダをエクスプローラーで開く</li>
+<li>✅ ビルド機能: プロジェクトをビルド</li>
+<li>✅ 実行ファイル起動: ビルドした実行ファイルを起動</li>
+</ul>
+<h2 id="アイコンの作成">アイコンの作成</h2>
+<p>アプリが完成したので、次はアイコンを作成することにしました。今回はGeminiにアイコンを作ってもらいました。</p>
+<h3 id="アイデアの検討">アイデアの検討</h3>
+<p>まず、Geminiに「このアプリに設定するアイコンのアイデアをいくつかテキストベースで考えてほしい」とプロンプトを送りました。</p>
+<p>Geminiから以下の案が出てきました：</p>
+<p><strong>「Pascal ギア（歯車）」デザイン</strong></p>
+<ul>
+<li>モチーフ: 歯車 ＋ チェスの駒（ナイト）またはチーターのシルエット</li>
+<li>詳細: Lazarusの象徴であるチーター、もしくは「L」の文字を刻印した青い歯車。歯車の周りに小さなドットが3つあり、それが設定した3つのエディタを表現。</li>
+<li>印象: 「ツールを動かすエンジン」「自動化・効率化」というテクニカルなイメージ。</li>
+</ul>
+<p>最近、チェスにはまっているのでこれに目を引かれました。<strong>ナイト。いいねー。</strong></p>
+<h3 id="アイコンの生成">アイコンの生成</h3>
+<p>「アイコンをイメージで作成。32x32」とプロンプトを送ると、以下のアイコンが生成されました。</p>
+<p><img src="/images/LazarusDay003_icon1.jpg" alt="最初に生成されたアイコン（チーター）"></p>
+<p>うん？チータ？？？ああ、確かにチータって書いてあった。いやナイトにしたかったのに。これを採用にしよう一瞬と思いましたが。</p>
+<p>「ナイトの案を見せてください。ナイトの案で周りに歯車」とプロンプトを送ると、以下のアイコンが生成されました。</p>
+<p><img src="/images/LazarusDay003_icon2.jpg" alt="ナイトと歯車のアイコン"></p>
+<p>おお！いい感じだ。</p>
+<h3 id="アイコンファイルへの変換">アイコンファイルへの変換</h3>
+<p>「この画像を64x64の大きさにしてください」とすると、
+<img src="/images/LazarusDay003_icon2.jpg" alt="ナイトと歯車のアイコン">
+同じ画像が返ってきました。いや、さっきと同じだろ。どうやって使うんだ？</p>
+<p>画像生成AIは、リサイズには対応していないようです。画像をアイコンファイル（.ico）に変換するには、専用のツールが必要です。</p>
+<p>こんなときは、やはりGemini。</p>
+<p>「この画像をアイコンにするにはどんなソフトを使えばよいか」とプロンプトを送ると、Geminiから以下のソフトが紹介されました。</p>
+<p><strong>@icon変換 (At Icon Converter):</strong></p>
+<ul>
+<li>特徴: 非常に軽量で、PNG をドラッグ＆ドロップするだけで .ico に変換できます。</li>
+<li>使い方: 画像を読み込み、必要なサイズ（16, 32, 48, 64, 256など）を選択して保存するだけです。</li>
+</ul>
+<p>さっそくググってインストール。画像をドラッグ＆ドロップして、複数のサイズ64をチョイスして.icoファイルを作成しました。</p>
+<p>こちらのショートカットが作成できました。</p>
+<p><img src="/images/LazarusDay003_shortcut.png" alt="LazManagerのショートカット"></p>
+<p>無事にアイコンが設定できました！ナイトと歯車のデザインが、LazManagerの「プロジェクトを動かすエンジン」というコンセプトをよく表現していると思います。</p>
+<p>チェスのナイトは、独特の動き（L字型）で盤面を駆け回る駒です。この「自由に動き回る」イメージが、LazManagerが様々なエディタやツールを起動できる柔軟性を表現しているように感じます。また、歯車は「機械」「自動化」「効率化」を象徴しており、プロジェクト管理ツールとしての機能を視覚的に伝えています。</p>
+<p>アイコン作成も、AIツールを活用することで、デザインスキルがなくても魅力的なアイコンを作成できることを実感しました。今後も、このようなAIツールを活用して、開発効率を上げていきたいと思います。</p>
+<h2 id="学んだこと">学んだこと</h2>
+<p>Day3の開発を通じて、多くのことを学びました：</p>
+<h3 id="ツールの機能について">ツールの機能について</h3>
+<ul>
+<li><strong>Lazbuildにはプロジェクト作成機能がない</strong>: ビルド専用のツールであることを理解した</li>
+<li><strong>プロジェクト作成は自分で実装する必要がある</strong>: .lpiファイルや.lprファイルを手動で生成する必要がある</li>
+</ul>
+<h3 id="技術的な学び">技術的な学び</h3>
+<ul>
+<li><strong>TProcessのデッドロック問題</strong>: <code>poWaitOnExit</code> と <code>poUsePipes</code> を同時に使うと、バッファ溢れでデッドロックが発生する</li>
+<li><strong>出力の逐次読み取り</strong>: 大きな出力を伴う処理では、プロセス実行中に逐次的に出力を読み取る必要がある</li>
+<li><strong>TProcessとPATH</strong>: <code>TProcess</code> は環境変数 <code>PATH</code> を自動補完しないため、フルパスを指定するか、<code>cmd /c</code> を介して実行する必要がある</li>
+</ul>
+<h3 id="アイコン作成の学び">アイコン作成の学び</h3>
+<ul>
+<li><strong>AIによるアイデア出し</strong>: Geminiにアイデアを考えてもらうことで、自分では思いつかないデザイン案を得られた</li>
+<li><strong>プロンプトの重要性</strong>: 「ナイト」と「チーター」の違いを明確に指定することで、希望通りのアイコンを生成できた</li>
+<li><strong>画像からアイコンへの変換</strong>: 画像生成AIで作成した画像を、専用ツール（@icon変換）で.icoファイルに変換する必要がある</li>
+<li><strong>デザインの意味</strong>: ナイトと歯車の組み合わせが、「プロジェクトを動かすエンジン」というコンセプトを視覚的に表現できた</li>
+</ul>
+<h3 id="問題解決のプロセス">問題解決のプロセス</h3>
+<ul>
+<li>Cursorに依頼しても、すべてが完璧に動くとは限らない</li>
+<li>Geminiは問題の原因を詳しく解説してくれるので、技術的な理解を深めるのに有効</li>
+<li>複数のAIツールを使い分けることで、効率的に問題を解決できる</li>
+<li>アイコン作成でも、AIにアイデアを考えてもらい、生成してもらい、変換方法を教えてもらうという一連の流れで完成させることができた</li>
+</ul>
+<h2 id="まとめ">まとめ</h2>
+<p>Day3では、LazManagerの開発を通じて、以下のことを経験しました：</p>
+<ol>
+<li>
+<p><strong>Cursorでのコード生成</strong> - 最初のコードは生成されたが、想定と異なる部分があった</p>
+<ul>
+<li>lazbuildにプロジェクト作成機能がないことが判明し、自分で実装する必要があった</li>
+<li>プロンプトを詳細に書くことで、より正確なコードが生成されることを実感</li>
+</ul>
+</li>
+<li>
+<p><strong>Geminiでの問題解決</strong> - ビルド時の固まりやエディタ起動エラーの原因を解説してもらい、修正コードを取得</p>
+<ul>
+<li>TProcessのデッドロック問題を理解できた</li>
+<li><code>cmd /c</code>を使った解決方法を学んだ</li>
+<li>技術的な背景を理解することで、今後の開発に活かせる知識が得られた</li>
+</ul>
+</li>
+<li>
+<p><strong>アイコンの作成</strong> - Geminiにアイデアを考えてもらい、画像を生成してもらい、変換方法を教えてもらった</p>
+<ul>
+<li>チェスのナイトと歯車の組み合わせで、アプリのコンセプトを視覚的に表現できた</li>
+<li>AIツールを活用することで、デザインスキルがなくても魅力的なアイコンを作成できることを実感</li>
+<li>@icon変換という便利なツールを知ることができた</li>
+</ul>
+</li>
+<li>
+<p><strong>実際の開発過程</strong> - 想定外の問題が発生したが、最終的には完成させることができた</p>
+<ul>
+<li>複数の問題に直面したが、一つずつ解決していくことで完成に至った</li>
+<li>AIツールを適切に使い分けることで、効率的に開発を進められることを学んだ</li>
+</ul>
+</li>
+</ol>
+<h3 id="完成したlazmanagerについて">完成したLazManagerについて</h3>
+<p>このソフトいる人って100日チャレンジするひとぐらいかなー。でも、自分が使うために作ったツールなので、これから毎日使っていきます！</p>
+<p>LazManagerは、Lazarusプロジェクトの作成から起動までをGUIで行える便利なツールです。特に、毎日新しいアプリを作成する100日チャレンジでは、プロジェクト作成の手間を大幅に削減できるため、開発効率が向上することが期待できます。</p>
+<p>また、ナイトと歯車のアイコンが、アプリの「プロジェクトを動かすエンジン」というコンセプトを視覚的に表現しており、モチベーションがあがります！</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p>作成したアプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day003_LazManager.zip">day003_LazManager.zip</a></p>
+<p>次回のDay4では、このLazManagerを使って新しいアプリに挑戦します！</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 3/100</em></p>
+
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day002-midi-player/">← チャレンジ2日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day004-reversi/">チャレンジ4日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day002-midi-player/">LazarusでMIDIプレイヤーを作成 - Day2</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day001-midi-kaeru/">LazarusでMIDIファイルを作成するアプリ - カエルの歌</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/survival-report-lazarus-challenge-2025/">生存報告。そして来年、私はLazarusの修羅に入る。</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

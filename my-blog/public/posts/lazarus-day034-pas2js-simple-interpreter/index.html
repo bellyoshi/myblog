@@ -1,6 +1,502 @@
-<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>Pas2JSで簡易インタープリタをブラウザで動かす - Day34 | 私の技術ブログ</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。"><meta name=generator content="Hugo 0.153.4"><meta name=robots content="index, follow"><meta name=author content="ブログ管理者"><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=canonical href=https://your-site-name.netlify.app/posts/lazarus-day034-pas2js-simple-interpreter/><meta property="og:url" content="https://your-site-name.netlify.app/posts/lazarus-day034-pas2js-simple-interpreter/"><meta property="og:site_name" content="私の技術ブログ"><meta property="og:title" content="Pas2JSで簡易インタープリタをブラウザで動かす - Day34"><meta property="og:description" content="Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。"><meta property="og:locale" content="ja_jp"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-02-03T21:00:00+09:00"><meta property="article:modified_time" content="2026-02-03T21:00:00+09:00"><meta itemprop=name content="Pas2JSで簡易インタープリタをブラウザで動かす - Day34"><meta itemprop=description content="Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。"><meta itemprop=datePublished content="2026-02-03T21:00:00+09:00"><meta itemprop=dateModified content="2026-02-03T21:00:00+09:00"><meta itemprop=wordCount content="343"><meta name=twitter:card content="summary"><meta name=twitter:title content="Pas2JSで簡易インタープリタをブラウザで動かす - Day34"><meta name=twitter:description content="Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。"><link rel=stylesheet href=/css/custom.css></head><body class="ma0 avenir bg-near-white production"><header class="cover bg-center" style=background-image:url(https://your-site-name.netlify.app/images/LazarusDay034.png)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">私の技術ブログ</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="投稿 page">投稿</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/categories/ title="カテゴリ page">カテゴリ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/tags/ title="タグ page">タグ</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv6 ph3 ph4-ns"><div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</div><div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。</div></div></div></header><main class=pb7 role=main><article class="flex-l mw8 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day033-pas2js-whiteboard/>← チャレンジ33日目へ</a>
-</span><span><a href=/posts/lazarus-day035-pas2js-kaeru-rinsho/>チャレンジ35日目へ →</a></span></nav><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</h1><p class=tracked><strong>ブログ管理者</strong></p><time class="f6 mv4 dib tracked" datetime=2026-02-03T21:00:00+09:00>February 3, 2026</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id=pas2jsで簡易インタープリタをブラウザで動かす---day34>Pas2JSで簡易インタープリタをブラウザで動かす - Day34</h1><p>Lazarusチャレンジ34日目です。<strong>Pas2JS</strong> で、ブラウザ上で動く <strong>簡易インタープリタ</strong> を作成しました。PRINT・変数代入・IF/ELSE・WHILE/WEND をサポートし、式は <strong>再帰下降構文解析</strong> で四則演算の優先順位（<code>*</code>/<code>/</code> が <code>+</code>/<code>-</code> より優先、括弧対応）を正しく評価します。Pascal でトークナイザとパーサを実装し、DOM のテキストエリアとボタンから「Run」で実行できる構成にしています。</p><h2 id=作成したアプリの機能>作成したアプリの機能</h2><ul><li><strong>PRINT 文</strong>: 式の値を数値として出力（変数・四則演算・括弧付き式を引数に可能）</li><li><strong>変数</strong>: 代入（<code>x = 5</code>）と式内での参照。未定義変数は 0 として扱う</li><li><strong>IF 文</strong>: 式が 0 でなければ直後の 1 文を実行、0 ならスキップ。<strong>ELSE</strong> 対応（ELSE を消費し、THEN/ELSE のどちらか一方だけ実行）</li><li><strong>WHILE / WEND</strong>: 式が 0 でない間、本体（複数文）を繰り返し実行。ネストした WHILE や IF にも対応</li><li><strong>式</strong>: 再帰下降で <code>+</code> <code>-</code> <code>*</code> <code>/</code>、括弧、単項 <code>+</code>/<code>-</code>、数値・変数を評価</li></ul><h2 id=実装のポイント>実装のポイント</h2><h3 id=1-ブラウザ向けコンパイルと-onclick-の型>1. ブラウザ向けコンパイルと onclick の型</h3><p>pas2js でブラウザ向けにコンパイルする際、DOM の <code>onclick</code> には <strong>手続き型ではなく関数型</strong>（戻り値あり）が必要です。<code>OnRunClick</code> を <code>procedure</code> から <code>function OnRunClick(Event: TJSMouseEvent): Boolean</code> に変更し、先頭で <code>Result := True</code> を代入することでコンパイルエラーを解消しています。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>pas2js SimpleInterpreter.pas -Tbrowser <span style=color:#e6db74>&#34;-Jirtl.js&#34;</span>
-</span></span></code></pre></div><h3 id=2-再帰下降構文解析四則演算の優先順位>2. 再帰下降構文解析（四則演算の優先順位）</h3><p>式の評価は次の文法で再帰下降パーサを実装しています。</p><ul><li><strong>expression</strong> = term ( (<code>+</code> | <code>-</code>) term )*</li><li><strong>term</strong> = factor ( (<code>*</code> | <code>/</code>) factor )*</li><li><strong>factor</strong> = <code>(</code> expression <code>)</code> | 単項 <code>+</code>/<code>-</code> factor | 数値 | 変数</li></ul><p>1トークン先読み（<code>FLookAhead</code>、<code>PeekToken</code>）を導入し、トークンを消費する <code>FetchToken</code> と、先読みがあればそれを返す <code>GetToken</code> に分離。<code>ParseExpression</code> → <code>ParseTerm</code> → <code>ParseFactor</code> の流れで、例えば次のように評価されます。</p><ul><li><code>2 + 3 * 4</code> → 14（<code>*</code> が先）</li><li><code>(2 + 3) * 4</code> → 20（括弧が最優先）</li><li><code>-1 + 2</code> → 1（単項マイナス）</li></ul><h3 id=3-変数の仕組み>3. 変数の仕組み</h3><ul><li><strong>格納</strong>: <code>TInterpreter</code> の <code>FVariables: TStringList</code> で「名前=値」を文字列で保持。値は参照時に <code>StrToFloatDef(..., 0)</code> で数値に変換</li><li><strong>代入</strong>: 文が <code>PRINT</code>/<code>IF</code>/<code>WHILE</code> 以外の 1 トークンのとき「変数名」とみなし、<code>**=</code> を 1 トークン消費してから** 右辺を <code>EvaluateExpression</code> で評価して代入</li><li><strong>参照</strong>: <code>ParseFactor</code> 内で、数値・括弧・単項演算子以外のトークンは変数名として <code>FVariables.Values[T]</code> を参照。未定義時は 0</li><li><strong>代入で <code>=</code> を消費しないバグ</strong> があったため、右辺が <code>=</code> から始まって 0 になっていた問題を、「代入と判断したら <code>=</code> を消費してから右辺を評価」するよう修正しました</li></ul><h3 id=4-if-文の仕様>4. IF 文の仕様</h3><ul><li><strong>書式</strong>: <code>IF</code> の次に式 1 つ、その直後に 1 文（THEN は省略可能）。続けて <code>ELSE</code> と 1 文を書ける</li><li><strong>意味</strong>: 式が 0 でなければ THEN 側の 1 文を実行し、<code>ELSE</code> があれば ELSE 側の 1 文を<strong>スキップ</strong>。式が 0 なら THEN 側をスキップし、<code>ELSE</code> があれば <code>ELSE</code> を消費して ELSE 側の 1 文を<strong>実行</strong></li><li>条件は「式が 0 かどうか」のみ（比較演算子は未実装）</li></ul><h3 id=5-while-文の仕様>5. WHILE 文の仕様</h3><ul><li><strong>書式</strong>: <code>WHILE</code> の後に式、続けて複数文、最後に <code>WEND</code></li><li><strong>意味</strong>: 式が 0 でない間、本体を繰り返し実行。<code>SkipUntilWEND</code> で <code>WEND</code> までスキップする際、内側の <code>WHILE</code> があればその条件と本体もスキップしてから対応する <code>WEND</code> まで進む</li><li><code>DoWhileLoop</code> 内でも IF/ELSE を同じ仕様で処理</li></ul><h3 id=6-print-文について>6. PRINT 文について</h3><p>PRINT の引数は <code>EvaluateExpression</code> で評価されるため、変数・式のどちらも指定できます。表示は <strong>数値のみ</strong>（文字列リテラルは未対応）です。</p><h2 id=サンプルプログラムindexhtml-のテキストエリア例>サンプルプログラム（index.html のテキストエリア例）</h2><pre tabindex=0><code>n = 3
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Pas2JSで簡易インタープリタをブラウザで動かす - Day34 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day034-pas2js-simple-interpreter/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day034-pas2js-simple-interpreter/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Pas2JSで簡易インタープリタをブラウザで動かす - Day34">
+  <meta property="og:description" content="Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-03T21:00:00+09:00">
+    <meta property="article:modified_time" content="2026-02-03T21:00:00+09:00">
+
+  <meta itemprop="name" content="Pas2JSで簡易インタープリタをブラウザで動かす - Day34">
+  <meta itemprop="description" content="Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。">
+  <meta itemprop="datePublished" content="2026-02-03T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-03T21:00:00+09:00">
+  <meta itemprop="wordCount" content="343">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pas2JSで簡易インタープリタをブラウザで動かす - Day34">
+  <meta name="twitter:description" content="Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay034.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day033-pas2js-whiteboard/">← チャレンジ33日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/">チャレンジ35日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-02-03T21:00:00+09:00">February 3, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsで簡易インタープリタをブラウザで動かす---day34">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</h1>
+<p>Lazarusチャレンジ34日目です。<strong>Pas2JS</strong> で、ブラウザ上で動く <strong>簡易インタープリタ</strong> を作成しました。PRINT・変数代入・IF/ELSE・WHILE/WEND をサポートし、式は <strong>再帰下降構文解析</strong> で四則演算の優先順位（<code>*</code>/<code>/</code> が <code>+</code>/<code>-</code> より優先、括弧対応）を正しく評価します。Pascal でトークナイザとパーサを実装し、DOM のテキストエリアとボタンから「Run」で実行できる構成にしています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>PRINT 文</strong>: 式の値を数値として出力（変数・四則演算・括弧付き式を引数に可能）</li>
+<li><strong>変数</strong>: 代入（<code>x = 5</code>）と式内での参照。未定義変数は 0 として扱う</li>
+<li><strong>IF 文</strong>: 式が 0 でなければ直後の 1 文を実行、0 ならスキップ。<strong>ELSE</strong> 対応（ELSE を消費し、THEN/ELSE のどちらか一方だけ実行）</li>
+<li><strong>WHILE / WEND</strong>: 式が 0 でない間、本体（複数文）を繰り返し実行。ネストした WHILE や IF にも対応</li>
+<li><strong>式</strong>: 再帰下降で <code>+</code> <code>-</code> <code>*</code> <code>/</code>、括弧、単項 <code>+</code>/<code>-</code>、数値・変数を評価</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-ブラウザ向けコンパイルと-onclick-の型">1. ブラウザ向けコンパイルと onclick の型</h3>
+<p>pas2js でブラウザ向けにコンパイルする際、DOM の <code>onclick</code> には <strong>手続き型ではなく関数型</strong>（戻り値あり）が必要です。<code>OnRunClick</code> を <code>procedure</code> から <code>function OnRunClick(Event: TJSMouseEvent): Boolean</code> に変更し、先頭で <code>Result := True</code> を代入することでコンパイルエラーを解消しています。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js SimpleInterpreter.pas -Tbrowser <span style="color:#e6db74">&#34;-Jirtl.js&#34;</span>
+</span></span></code></pre></div><h3 id="2-再帰下降構文解析四則演算の優先順位">2. 再帰下降構文解析（四則演算の優先順位）</h3>
+<p>式の評価は次の文法で再帰下降パーサを実装しています。</p>
+<ul>
+<li><strong>expression</strong> = term ( (<code>+</code> | <code>-</code>) term )*</li>
+<li><strong>term</strong> = factor ( (<code>*</code> | <code>/</code>) factor )*</li>
+<li><strong>factor</strong> = <code>(</code> expression <code>)</code> | 単項 <code>+</code>/<code>-</code> factor | 数値 | 変数</li>
+</ul>
+<p>1トークン先読み（<code>FLookAhead</code>、<code>PeekToken</code>）を導入し、トークンを消費する <code>FetchToken</code> と、先読みがあればそれを返す <code>GetToken</code> に分離。<code>ParseExpression</code> → <code>ParseTerm</code> → <code>ParseFactor</code> の流れで、例えば次のように評価されます。</p>
+<ul>
+<li><code>2 + 3 * 4</code> → 14（<code>*</code> が先）</li>
+<li><code>(2 + 3) * 4</code> → 20（括弧が最優先）</li>
+<li><code>-1 + 2</code> → 1（単項マイナス）</li>
+</ul>
+<h3 id="3-変数の仕組み">3. 変数の仕組み</h3>
+<ul>
+<li><strong>格納</strong>: <code>TInterpreter</code> の <code>FVariables: TStringList</code> で「名前=値」を文字列で保持。値は参照時に <code>StrToFloatDef(..., 0)</code> で数値に変換</li>
+<li><strong>代入</strong>: 文が <code>PRINT</code>/<code>IF</code>/<code>WHILE</code> 以外の 1 トークンのとき「変数名」とみなし、<code>**=</code> を 1 トークン消費してから** 右辺を <code>EvaluateExpression</code> で評価して代入</li>
+<li><strong>参照</strong>: <code>ParseFactor</code> 内で、数値・括弧・単項演算子以外のトークンは変数名として <code>FVariables.Values[T]</code> を参照。未定義時は 0</li>
+<li><strong>代入で <code>=</code> を消費しないバグ</strong> があったため、右辺が <code>=</code> から始まって 0 になっていた問題を、「代入と判断したら <code>=</code> を消費してから右辺を評価」するよう修正しました</li>
+</ul>
+<h3 id="4-if-文の仕様">4. IF 文の仕様</h3>
+<ul>
+<li><strong>書式</strong>: <code>IF</code> の次に式 1 つ、その直後に 1 文（THEN は省略可能）。続けて <code>ELSE</code> と 1 文を書ける</li>
+<li><strong>意味</strong>: 式が 0 でなければ THEN 側の 1 文を実行し、<code>ELSE</code> があれば ELSE 側の 1 文を<strong>スキップ</strong>。式が 0 なら THEN 側をスキップし、<code>ELSE</code> があれば <code>ELSE</code> を消費して ELSE 側の 1 文を<strong>実行</strong></li>
+<li>条件は「式が 0 かどうか」のみ（比較演算子は未実装）</li>
+</ul>
+<h3 id="5-while-文の仕様">5. WHILE 文の仕様</h3>
+<ul>
+<li><strong>書式</strong>: <code>WHILE</code> の後に式、続けて複数文、最後に <code>WEND</code></li>
+<li><strong>意味</strong>: 式が 0 でない間、本体を繰り返し実行。<code>SkipUntilWEND</code> で <code>WEND</code> までスキップする際、内側の <code>WHILE</code> があればその条件と本体もスキップしてから対応する <code>WEND</code> まで進む</li>
+<li><code>DoWhileLoop</code> 内でも IF/ELSE を同じ仕様で処理</li>
+</ul>
+<h3 id="6-print-文について">6. PRINT 文について</h3>
+<p>PRINT の引数は <code>EvaluateExpression</code> で評価されるため、変数・式のどちらも指定できます。表示は <strong>数値のみ</strong>（文字列リテラルは未対応）です。</p>
+<h2 id="サンプルプログラムindexhtml-のテキストエリア例">サンプルプログラム（index.html のテキストエリア例）</h2>
+<pre tabindex="0"><code>n = 3
 WHILE n
 PRINT n
 n = n - 1
@@ -12,6 +508,417 @@ PRINT 1
 ELSE
 PRINT 0
 PRINT 100
-</code></pre><p><strong>期待される出力例</strong>: <code>3</code> → <code>2</code> → <code>1</code> → <code>99</code> → <code>1</code> → <code>100</code>（WHILE で 3,2,1 と 99、IF で 1 が表示され、ELSE はスキップ、最後に 100）</p><h2 id=コンパイル方法>コンパイル方法</h2><p>pas2js が入っている環境で、ブラウザ向けにコンパイルします。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>pas2js SimpleInterpreter.pas -Tbrowser <span style=color:#e6db74>&#34;-Jirtl.js&#34;</span>
-</span></span></code></pre></div><p><code>-Jirtl.js</code> で RTL 込みの JS が生成されます。<code>index.html</code> ではスクリプトを読み込み、DOM 準備後に実行する形にします。</p><h2 id=実行結果>実行結果</h2><p>Pas2JS簡易インタープリタ</p><p>テキストエリアにサンプルを入力し「Run」で実行すると、PRINT の結果が出力欄に表示されます。再帰下降で四則の優先順位と括弧が正しく動き、変数・IF/ELSE・WHILE/WEND で簡単なプログラムを試せます。</p><h2 id=ダウンロード>ダウンロード</h2><p><strong>アプリをブラウザで開く</strong>: <a href=/apps/day034/>簡易インタープリタを開く</a></p><p>作成した簡易インタープリタ（HTML / Pascal ソース・コンパイル済み JS）は以下のリンクからダウンロードできます。</p><p><a href=/downloads/day034_SimpleInterpreter.zip>day034_SimpleInterpreter.zip</a></p><p>Pascal でトークナイザ・再帰下降パーサ・文の実行を一通り実装する良い練習になります。次は REM コメント、比較演算子付きの IF、FOR 文などに拡張するのもおすすめです。</p><hr><p><em>Lazarusチャレンジ Day 34/100</em></p><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day033-pas2js-whiteboard/>← チャレンジ33日目へ</a>
-</span><span><a href=/posts/lazarus-day035-pas2js-kaeru-rinsho/>チャレンジ35日目へ →</a></span></nav><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/posts/lazarus-day030-pas2js-calculator/>Pas2JSで計算機アプリを作成 - Day30</a></li><li class=mb2><a href=/posts/lazarus-day033-pas2js-whiteboard/>Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</a></li><li class=mb2><a href=/posts/lazarus-day031-pas2js-markdown/>Pas2JSでMarkdownエディタを作成 - Day31</a></li><li class=mb2><a href=/posts/lazarus-day032-pas2js-userform/>Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a></li><li class=mb2><a href=/posts/lazarus-day029-pas2js-color/>Pas2JSでカラー表示アプリを作成 - Day29</a></li><li class=mb2><a href=/posts/lazarus-day028-pas2js-calendar/>Pas2JSでカレンダーアプリを作成 - Day28</a></li><li class=mb2><a href=/posts/lazarus-day027-pas2js-todo/>Pas2JSでTodoアプリを作成 - Day27</a></li><li class=mb2><a href=/posts/lazarus-day026-pas2js/>Pas2JSを試してみる - Day26</a></li><li class=mb2><a href=/posts/lazarus-day025-colorpop/>同色消しパズル（ColorPop）の作成 - Day25</a></li><li class=mb2><a href=/posts/lazarus-day024-lightsout/>Lights Outゲームの作成 - Day24</a></li><li class=mb2><a href=/posts/lazarus-day023-pdfviewer/>PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a></li><li class=mb2><a href=/posts/lazarus-day022-spreadsheet-viewer/>スプレッドシート作成の試みとビューワー実装 - Day22</a></li><li class=mb2><a href=/posts/lazarus-day021-15puzzle/>15パズルの作成に挑戦 - Day21</a></li><li class=mb2><a href=/posts/lazarus-day020-picross/>ピクロス（ノノグラム）の作成に挑戦 - Day20</a></li><li class=mb2><a href=/posts/lazarus-day019-menu100/>Lazarusアプリ用ランチャーの作成 - Day19</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://your-site-name.netlify.app/>&copy; 私の技術ブログ 2026</a><div><div class=ananke-socials></div></div></div></footer></body></html>
+</code></pre><p><strong>期待される出力例</strong>: <code>3</code> → <code>2</code> → <code>1</code> → <code>99</code> → <code>1</code> → <code>100</code>（WHILE で 3,2,1 と 99、IF で 1 が表示され、ELSE はスキップ、最後に 100）</p>
+<h2 id="コンパイル方法">コンパイル方法</h2>
+<p>pas2js が入っている環境で、ブラウザ向けにコンパイルします。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js SimpleInterpreter.pas -Tbrowser <span style="color:#e6db74">&#34;-Jirtl.js&#34;</span>
+</span></span></code></pre></div><p><code>-Jirtl.js</code> で RTL 込みの JS が生成されます。<code>index.html</code> ではスクリプトを読み込み、DOM 準備後に実行する形にします。</p>
+<h2 id="実行結果">実行結果</h2>
+<p>Pas2JS簡易インタープリタ</p>
+<p>テキストエリアにサンプルを入力し「Run」で実行すると、PRINT の結果が出力欄に表示されます。再帰下降で四則の優先順位と括弧が正しく動き、変数・IF/ELSE・WHILE/WEND で簡単なプログラムを試せます。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p><strong>アプリをブラウザで開く</strong>: <a href="/apps/day034/">簡易インタープリタを開く</a></p>
+<p>作成した簡易インタープリタ（HTML / Pascal ソース・コンパイル済み JS）は以下のリンクからダウンロードできます。</p>
+<p><a href="/downloads/day034_SimpleInterpreter.zip">day034_SimpleInterpreter.zip</a></p>
+<p>Pascal でトークナイザ・再帰下降パーサ・文の実行を一通り実装する良い練習になります。次は REM コメント、比較演算子付きの IF、FOR 文などに拡張するのもおすすめです。</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 34/100</em></p>
+
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day033-pas2js-whiteboard/">← チャレンジ33日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/">チャレンジ35日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day030-pas2js-calculator/">Pas2JSで計算機アプリを作成 - Day30</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day033-pas2js-whiteboard/">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day031-pas2js-markdown/">Pas2JSでMarkdownエディタを作成 - Day31</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day032-pas2js-userform/">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day029-pas2js-color/">Pas2JSでカラー表示アプリを作成 - Day29</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day028-pas2js-calendar/">Pas2JSでカレンダーアプリを作成 - Day28</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day027-pas2js-todo/">Pas2JSでTodoアプリを作成 - Day27</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day026-pas2js/">Pas2JSを試してみる - Day26</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day025-colorpop/">同色消しパズル（ColorPop）の作成 - Day25</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day024-lightsout/">Lights Outゲームの作成 - Day24</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day023-pdfviewer/">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day022-spreadsheet-viewer/">スプレッドシート作成の試みとビューワー実装 - Day22</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day021-15puzzle/">15パズルの作成に挑戦 - Day21</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day020-picross/">ピクロス（ノノグラム）の作成に挑戦 - Day20</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day019-menu100/">Lazarusアプリ用ランチャーの作成 - Day19</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

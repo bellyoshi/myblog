@@ -1,5 +1,470 @@
-<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>月間カレンダーアプリの作成 - Day8 | 私の技術ブログ</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Lazarusチャレンジ8日目。月間カレンダーアプリを作成しました。各日に月齢と月のアイコンを表示し、満月・新月をハイライトする機能を実装しました。月齢計算式の精度を改善する過程も記録しました。"><meta name=generator content="Hugo 0.153.4"><meta name=robots content="index, follow"><meta name=author content="ブログ管理者"><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=canonical href=https://your-site-name.netlify.app/posts/lazarus-day008-moon-calendar/><meta property="og:url" content="https://your-site-name.netlify.app/posts/lazarus-day008-moon-calendar/"><meta property="og:site_name" content="私の技術ブログ"><meta property="og:title" content="月間カレンダーアプリの作成 - Day8"><meta property="og:description" content="Lazarusチャレンジ8日目。月間カレンダーアプリを作成しました。各日に月齢と月のアイコンを表示し、満月・新月をハイライトする機能を実装しました。月齢計算式の精度を改善する過程も記録しました。"><meta property="og:locale" content="ja_jp"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-08T21:00:00+09:00"><meta property="article:modified_time" content="2026-01-08T21:00:00+09:00"><meta itemprop=name content="月間カレンダーアプリの作成 - Day8"><meta itemprop=description content="Lazarusチャレンジ8日目。月間カレンダーアプリを作成しました。各日に月齢と月のアイコンを表示し、満月・新月をハイライトする機能を実装しました。月齢計算式の精度を改善する過程も記録しました。"><meta itemprop=datePublished content="2026-01-08T21:00:00+09:00"><meta itemprop=dateModified content="2026-01-08T21:00:00+09:00"><meta itemprop=wordCount content="151"><meta name=twitter:card content="summary"><meta name=twitter:title content="月間カレンダーアプリの作成 - Day8"><meta name=twitter:description content="Lazarusチャレンジ8日目。月間カレンダーアプリを作成しました。各日に月齢と月のアイコンを表示し、満月・新月をハイライトする機能を実装しました。月齢計算式の精度を改善する過程も記録しました。"><link rel=stylesheet href=/css/custom.css></head><body class="ma0 avenir bg-near-white production"><header class="cover bg-center" style=background-image:url(https://your-site-name.netlify.app/images/LazarusDay008_1.png)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">私の技術ブログ</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="投稿 page">投稿</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/categories/ title="カテゴリ page">カテゴリ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/tags/ title="タグ page">タグ</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv6 ph3 ph4-ns"><div class="f2 f1-l fw2 white-90 mb0 lh-title">月間カレンダーアプリの作成 - Day8</div><div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">Lazarusチャレンジ8日目。月間カレンダーアプリを作成しました。各日に月齢と月のアイコンを表示し、満月・新月をハイライトする機能を実装しました。月齢計算式の精度を改善する過程も記録しました。</div></div></div></header><main class=pb7 role=main><article class="flex-l mw8 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day007-minesweeper/>← チャレンジ7日目へ</a>
-</span><span><a href=/posts/lazarus-day009-create-zip/>チャレンジ9日目へ →</a></span></nav><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">月間カレンダーアプリの作成 - Day8</h1><p class=tracked><strong>ブログ管理者</strong></p><time class="f6 mv4 dib tracked" datetime=2026-01-08T21:00:00+09:00>January 8, 2026</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id=月間カレンダーアプリの作成---day8>月間カレンダーアプリの作成 - Day8</h1><p>Lazarusチャレンジ8日目です。今回は、<strong>月間カレンダーアプリ</strong>を作成することにしました。各日に月齢と月のアイコンを表示し、満月・新月をハイライトする機能を実装しました。</p><h2 id=今回の目標>今回の目標</h2><p>月間カレンダーアプリは、月のサイクルに合わせて過ごすためのツールです。以下の機能を実装することにしました：</p><ul><li><strong>各日に月のアイコン表示</strong>: 🌑🌒🌓🌔🌕🌖🌗🌘 のアイコンを表示</li><li><strong>月齢の表示</strong>: 各日の月齢（数字）を表示</li><li><strong>今日の強調表示</strong>: 今日の日付を強調表示</li><li><strong>満月・新月のハイライト</strong>: 満月と新月の日をハイライト表示</li><li><strong>月齢の説明表示</strong>: 月齢をクリックすると説明を表示</li><li><strong>体調・気分メモの連携</strong>: 月齢と体調・気分メモを連携</li></ul><h2 id=lazmanagerを使ったプロジェクト作成>LazManagerを使ったプロジェクト作成</h2><p>まず、LazManagerを起動して、プロジェクト名に「<strong>day008_MoonCalendar</strong>」と入力し、プロジェクトを作成しました。</p><p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p><h2 id=cursorへのプロンプト投入>Cursorへのプロンプト投入</h2><p>月間カレンダーアプリの開発は、以下のようなプロンプトを投入しました：</p><pre tabindex=0><code>月間カレンダー
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>月間カレンダーアプリの作成 - Day8 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ8日目。月間カレンダーアプリを作成しました。各日に月齢と月のアイコンを表示し、満月・新月をハイライトする機能を実装しました。月齢計算式の精度を改善する過程も記録しました。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day008-moon-calendar/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day008-moon-calendar/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="月間カレンダーアプリの作成 - Day8">
+  <meta property="og:description" content="Lazarusチャレンジ8日目。月間カレンダーアプリを作成しました。各日に月齢と月のアイコンを表示し、満月・新月をハイライトする機能を実装しました。月齢計算式の精度を改善する過程も記録しました。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-08T21:00:00+09:00">
+    <meta property="article:modified_time" content="2026-01-08T21:00:00+09:00">
+
+  <meta itemprop="name" content="月間カレンダーアプリの作成 - Day8">
+  <meta itemprop="description" content="Lazarusチャレンジ8日目。月間カレンダーアプリを作成しました。各日に月齢と月のアイコンを表示し、満月・新月をハイライトする機能を実装しました。月齢計算式の精度を改善する過程も記録しました。">
+  <meta itemprop="datePublished" content="2026-01-08T21:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-08T21:00:00+09:00">
+  <meta itemprop="wordCount" content="151">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="月間カレンダーアプリの作成 - Day8">
+  <meta name="twitter:description" content="Lazarusチャレンジ8日目。月間カレンダーアプリを作成しました。各日に月齢と月のアイコンを表示し、満月・新月をハイライトする機能を実装しました。月齢計算式の精度を改善する過程も記録しました。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay008_1.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">月間カレンダーアプリの作成 - Day8</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ8日目。月間カレンダーアプリを作成しました。各日に月齢と月のアイコンを表示し、満月・新月をハイライトする機能を実装しました。月齢計算式の精度を改善する過程も記録しました。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day007-minesweeper/">← チャレンジ7日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day009-create-zip/">チャレンジ9日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">月間カレンダーアプリの作成 - Day8</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-08T21:00:00+09:00">January 8, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="月間カレンダーアプリの作成---day8">月間カレンダーアプリの作成 - Day8</h1>
+<p>Lazarusチャレンジ8日目です。今回は、<strong>月間カレンダーアプリ</strong>を作成することにしました。各日に月齢と月のアイコンを表示し、満月・新月をハイライトする機能を実装しました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>月間カレンダーアプリは、月のサイクルに合わせて過ごすためのツールです。以下の機能を実装することにしました：</p>
+<ul>
+<li><strong>各日に月のアイコン表示</strong>: 🌑🌒🌓🌔🌕🌖🌗🌘 のアイコンを表示</li>
+<li><strong>月齢の表示</strong>: 各日の月齢（数字）を表示</li>
+<li><strong>今日の強調表示</strong>: 今日の日付を強調表示</li>
+<li><strong>満月・新月のハイライト</strong>: 満月と新月の日をハイライト表示</li>
+<li><strong>月齢の説明表示</strong>: 月齢をクリックすると説明を表示</li>
+<li><strong>体調・気分メモの連携</strong>: 月齢と体調・気分メモを連携</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day008_MoonCalendar</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>月間カレンダーアプリの開発は、以下のようなプロンプトを投入しました：</p>
+<pre tabindex="0"><code>月間カレンダー
 
 各日に 🌑🌒🌓🌔🌕🌖🌗🌘 のアイコン
 月齢（数字）
@@ -9,6 +474,465 @@
 月齢をクリックすると説明表示
 
 月齢と体調・気分メモの連携
-</code></pre><p>このプロンプトで、基本的な月間カレンダーアプリが実装されました。</p><h2 id=最初の実装と問題点>最初の実装と問題点</h2><p>最初の実装が完了し、アプリを実行してみました。</p><p><img src=/images/LazarusDay008_1.png alt=月間カレンダーアプリの初期実装></p><p>アプリは正常に動作していましたが、<strong>月齢がかなりずれている</strong>ことが判明しました。月齢の計算式に問題があるようでした。</p><h2 id=月齢計算式の改善>月齢計算式の改善</h2><p>月齢の精度を改善するため、ウェブを検索して、より正確な月齢計算式を探しました。</p><h3 id=2000年以降の月齢計算式>2000年以降の月齢計算式</h3><p>検索の結果、2000年以降の月齢を計算する式を見つけました：</p><pre tabindex=0><code>C = ((Y - 2009) % 19) × 11 + M + D
-</code></pre><p>この式では：</p><ul><li><strong>Y</strong>: 年（例：2026）</li><li><strong>M</strong>: 月（例：1）</li><li><strong>D</strong>: 日（例：8）</li><li><strong>C</strong>: 計算結果（これを19で割った余りが月齢の近似値）</li></ul><p>この計算式をプロンプトに追加して、月齢計算を改善しました。</p><h2 id=修正後の結果>修正後の結果</h2><p>修正後のアプリを実行してみました。</p><p><img src=/images/LazarusDay008_2.png alt=月齢計算式を修正した後のカレンダー></p><p>修正後は<strong>1日程度のずれ</strong>となりました。改善はしましたが、精度は今一つです。正確にするには、天文ライブラリを使う必要があるでしょう。</p><h2 id=完成したアプリの機能>完成したアプリの機能</h2><p>完成した月間カレンダーアプリには、以下の機能が実装されています：</p><ul><li>✅ <strong>月間カレンダーの表示</strong>: 月間カレンダーをグリッドで表示</li><li>✅ <strong>月のアイコン表示</strong>: 各日に月の位相に応じたアイコンを表示</li><li>✅ <strong>月齢の表示</strong>: 各日の月齢を数字で表示</li><li>✅ <strong>今日の強調表示</strong>: 今日の日付を強調表示</li><li>✅ <strong>満月・新月のハイライト</strong>: 満月と新月の日をハイライト表示</li><li>✅ <strong>月齢の説明表示</strong>: 月齢をクリックすると説明を表示</li><li>✅ <strong>体調・気分メモ</strong>: 月齢と連携した体調・気分メモ機能</li></ul><h2 id=技術的なポイント>技術的なポイント</h2><p>月間カレンダーアプリの実装では、以下の技術的なポイントがありました：</p><ul><li><strong>月齢の計算</strong>: 月齢を計算する式を実装</li><li><strong>月の位相の判定</strong>: 月齢から月の位相（新月、三日月、上弦、満月など）を判定</li><li><strong>カレンダーグリッドの表示</strong>: 月間カレンダーをグリッドで表示</li><li><strong>日付の強調表示</strong>: 今日の日付や満月・新月の日を強調表示</li><li><strong>メモ機能</strong>: 体調・気分メモを保存・表示</li></ul><h2 id=学んだこと>学んだこと</h2><p>Day8の開発を通じて、以下のことを学びました：</p><h3 id=月齢計算の難しさ>月齢計算の難しさ</h3><p>月齢の計算は、単純な式では正確に計算するのが難しいことがわかりました。</p><ul><li><strong>近似式の限界</strong>: 簡易的な計算式では、1日程度のずれが生じる</li><li><strong>天文ライブラリの必要性</strong>: 正確な月齢を計算するには、天文ライブラリを使用する必要がある</li><li><strong>実用性とのバランス</strong>: 完全な精度を求めるか、実用性を優先するかのバランスが重要</li></ul><h3 id=月のサイクルと体調の連携>月のサイクルと体調の連携</h3><p>月のサイクルと体調・気分を連携させることで、より実用的なアプリになりました。</p><ul><li><strong>月齢の表示</strong>: 各日の月齢を表示することで、月のサイクルを視覚的に把握できる</li><li><strong>メモ機能</strong>: 体調・気分をメモすることで、月のサイクルとの関連性を記録できる</li><li><strong>説明機能</strong>: 月齢をクリックすると説明を表示することで、月のサイクルについて学べる</li></ul><h2 id=まとめ>まとめ</h2><p>Day8では、月間カレンダーアプリを作成しました。</p><ol><li><p><strong>月間カレンダーの実装</strong>: 月間カレンダーをグリッドで表示し、各日に月齢と月のアイコンを表示</p></li><li><p><strong>月齢計算式の改善</strong>: ウェブ検索で見つけた計算式を使用して、月齢の精度を改善（1日程度のずれまで改善）</p></li><li><p><strong>機能の実装</strong>: 満月・新月のハイライト、月齢の説明表示、体調・気分メモ機能を実装</p></li><li><p><strong>精度の課題</strong>: 完全な精度を求めるには、天文ライブラリを使用する必要があることが判明</p></li></ol><h3 id=完成した月間カレンダーアプリについて>完成した月間カレンダーアプリについて</h3><p>完成した月間カレンダーアプリは、基本的な機能が実装されており、月のサイクルに合わせて過ごすためのツールとして動作しています。月齢の精度は1日程度のずれがありますが、実用的な範囲内です。より正確な月齢が必要な場合は、天文ライブラリを使用することをお勧めします。</p><h2 id=今後の改善案>今後の改善案</h2><p>次回以降、以下のような改善を行うことで、より実用的なアプリになるでしょう：</p><ul><li><strong>天文ライブラリの導入</strong>: より正確な月齢を計算するために、天文ライブラリを使用</li><li><strong>月齢の説明の充実</strong>: 各月齢について、より詳細な説明を追加</li><li><strong>メモの保存機能</strong>: 体調・気分メモをファイルに保存する機能を追加</li><li><strong>統計機能</strong>: 月齢と体調・気分の関連性を統計的に分析する機能</li><li><strong>カスタマイズ機能</strong>: カレンダーの表示をカスタマイズする機能</li></ul><h2 id=ダウンロード>ダウンロード</h2><p>作成したアプリは以下のリンクからダウンロードできます：</p><p><a href=/downloads/day008_MoonCalendar.zip>day008_MoonCalendar.zip</a></p><p>次回のDay9では、また新しいアプリに挑戦します！</p><hr><p><em>Lazarusチャレンジ Day 8/100</em></p><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day007-minesweeper/>← チャレンジ7日目へ</a>
-</span><span><a href=/posts/lazarus-day009-create-zip/>チャレンジ9日目へ →</a></span></nav><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/posts/lazarus-day007-minesweeper/>マインスイーパーゲームの作成 - Day7</a></li><li class=mb2><a href=/posts/lazarus-day006-worldclock/>世界時計アプリの作成 - Day6</a></li><li class=mb2><a href=/posts/lazarus-day005-chess/>チェスゲームの作成 - Day5</a></li><li class=mb2><a href=/posts/lazarus-day004-reversi/>Reversi（リバーシ）ゲームの作成 - Day4</a></li><li class=mb2><a href=/posts/lazarus-day003-lazmanager/>LazManager - LazbuildをGUIで操作するアプリ - Day3</a></li><li class=mb2><a href=/posts/lazarus-day002-midi-player/>LazarusでMIDIプレイヤーを作成 - Day2</a></li><li class=mb2><a href=/posts/lazarus-day001-midi-kaeru/>LazarusでMIDIファイルを作成するアプリ - カエルの歌</a></li><li class=mb2><a href=/posts/survival-report-lazarus-challenge-2025/>生存報告。そして来年、私はLazarusの修羅に入る。</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://your-site-name.netlify.app/>&copy; 私の技術ブログ 2026</a><div><div class=ananke-socials></div></div></div></footer></body></html>
+</code></pre><p>このプロンプトで、基本的な月間カレンダーアプリが実装されました。</p>
+<h2 id="最初の実装と問題点">最初の実装と問題点</h2>
+<p>最初の実装が完了し、アプリを実行してみました。</p>
+<p><img src="/images/LazarusDay008_1.png" alt="月間カレンダーアプリの初期実装"></p>
+<p>アプリは正常に動作していましたが、<strong>月齢がかなりずれている</strong>ことが判明しました。月齢の計算式に問題があるようでした。</p>
+<h2 id="月齢計算式の改善">月齢計算式の改善</h2>
+<p>月齢の精度を改善するため、ウェブを検索して、より正確な月齢計算式を探しました。</p>
+<h3 id="2000年以降の月齢計算式">2000年以降の月齢計算式</h3>
+<p>検索の結果、2000年以降の月齢を計算する式を見つけました：</p>
+<pre tabindex="0"><code>C = ((Y - 2009) % 19) × 11 + M + D
+</code></pre><p>この式では：</p>
+<ul>
+<li><strong>Y</strong>: 年（例：2026）</li>
+<li><strong>M</strong>: 月（例：1）</li>
+<li><strong>D</strong>: 日（例：8）</li>
+<li><strong>C</strong>: 計算結果（これを19で割った余りが月齢の近似値）</li>
+</ul>
+<p>この計算式をプロンプトに追加して、月齢計算を改善しました。</p>
+<h2 id="修正後の結果">修正後の結果</h2>
+<p>修正後のアプリを実行してみました。</p>
+<p><img src="/images/LazarusDay008_2.png" alt="月齢計算式を修正した後のカレンダー"></p>
+<p>修正後は<strong>1日程度のずれ</strong>となりました。改善はしましたが、精度は今一つです。正確にするには、天文ライブラリを使う必要があるでしょう。</p>
+<h2 id="完成したアプリの機能">完成したアプリの機能</h2>
+<p>完成した月間カレンダーアプリには、以下の機能が実装されています：</p>
+<ul>
+<li>✅ <strong>月間カレンダーの表示</strong>: 月間カレンダーをグリッドで表示</li>
+<li>✅ <strong>月のアイコン表示</strong>: 各日に月の位相に応じたアイコンを表示</li>
+<li>✅ <strong>月齢の表示</strong>: 各日の月齢を数字で表示</li>
+<li>✅ <strong>今日の強調表示</strong>: 今日の日付を強調表示</li>
+<li>✅ <strong>満月・新月のハイライト</strong>: 満月と新月の日をハイライト表示</li>
+<li>✅ <strong>月齢の説明表示</strong>: 月齢をクリックすると説明を表示</li>
+<li>✅ <strong>体調・気分メモ</strong>: 月齢と連携した体調・気分メモ機能</li>
+</ul>
+<h2 id="技術的なポイント">技術的なポイント</h2>
+<p>月間カレンダーアプリの実装では、以下の技術的なポイントがありました：</p>
+<ul>
+<li><strong>月齢の計算</strong>: 月齢を計算する式を実装</li>
+<li><strong>月の位相の判定</strong>: 月齢から月の位相（新月、三日月、上弦、満月など）を判定</li>
+<li><strong>カレンダーグリッドの表示</strong>: 月間カレンダーをグリッドで表示</li>
+<li><strong>日付の強調表示</strong>: 今日の日付や満月・新月の日を強調表示</li>
+<li><strong>メモ機能</strong>: 体調・気分メモを保存・表示</li>
+</ul>
+<h2 id="学んだこと">学んだこと</h2>
+<p>Day8の開発を通じて、以下のことを学びました：</p>
+<h3 id="月齢計算の難しさ">月齢計算の難しさ</h3>
+<p>月齢の計算は、単純な式では正確に計算するのが難しいことがわかりました。</p>
+<ul>
+<li><strong>近似式の限界</strong>: 簡易的な計算式では、1日程度のずれが生じる</li>
+<li><strong>天文ライブラリの必要性</strong>: 正確な月齢を計算するには、天文ライブラリを使用する必要がある</li>
+<li><strong>実用性とのバランス</strong>: 完全な精度を求めるか、実用性を優先するかのバランスが重要</li>
+</ul>
+<h3 id="月のサイクルと体調の連携">月のサイクルと体調の連携</h3>
+<p>月のサイクルと体調・気分を連携させることで、より実用的なアプリになりました。</p>
+<ul>
+<li><strong>月齢の表示</strong>: 各日の月齢を表示することで、月のサイクルを視覚的に把握できる</li>
+<li><strong>メモ機能</strong>: 体調・気分をメモすることで、月のサイクルとの関連性を記録できる</li>
+<li><strong>説明機能</strong>: 月齢をクリックすると説明を表示することで、月のサイクルについて学べる</li>
+</ul>
+<h2 id="まとめ">まとめ</h2>
+<p>Day8では、月間カレンダーアプリを作成しました。</p>
+<ol>
+<li>
+<p><strong>月間カレンダーの実装</strong>: 月間カレンダーをグリッドで表示し、各日に月齢と月のアイコンを表示</p>
+</li>
+<li>
+<p><strong>月齢計算式の改善</strong>: ウェブ検索で見つけた計算式を使用して、月齢の精度を改善（1日程度のずれまで改善）</p>
+</li>
+<li>
+<p><strong>機能の実装</strong>: 満月・新月のハイライト、月齢の説明表示、体調・気分メモ機能を実装</p>
+</li>
+<li>
+<p><strong>精度の課題</strong>: 完全な精度を求めるには、天文ライブラリを使用する必要があることが判明</p>
+</li>
+</ol>
+<h3 id="完成した月間カレンダーアプリについて">完成した月間カレンダーアプリについて</h3>
+<p>完成した月間カレンダーアプリは、基本的な機能が実装されており、月のサイクルに合わせて過ごすためのツールとして動作しています。月齢の精度は1日程度のずれがありますが、実用的な範囲内です。より正確な月齢が必要な場合は、天文ライブラリを使用することをお勧めします。</p>
+<h2 id="今後の改善案">今後の改善案</h2>
+<p>次回以降、以下のような改善を行うことで、より実用的なアプリになるでしょう：</p>
+<ul>
+<li><strong>天文ライブラリの導入</strong>: より正確な月齢を計算するために、天文ライブラリを使用</li>
+<li><strong>月齢の説明の充実</strong>: 各月齢について、より詳細な説明を追加</li>
+<li><strong>メモの保存機能</strong>: 体調・気分メモをファイルに保存する機能を追加</li>
+<li><strong>統計機能</strong>: 月齢と体調・気分の関連性を統計的に分析する機能</li>
+<li><strong>カスタマイズ機能</strong>: カレンダーの表示をカスタマイズする機能</li>
+</ul>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p>作成したアプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day008_MoonCalendar.zip">day008_MoonCalendar.zip</a></p>
+<p>次回のDay9では、また新しいアプリに挑戦します！</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 8/100</em></p>
+
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day007-minesweeper/">← チャレンジ7日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day009-create-zip/">チャレンジ9日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day007-minesweeper/">マインスイーパーゲームの作成 - Day7</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day006-worldclock/">世界時計アプリの作成 - Day6</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day005-chess/">チェスゲームの作成 - Day5</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day004-reversi/">Reversi（リバーシ）ゲームの作成 - Day4</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day003-lazmanager/">LazManager - LazbuildをGUIで操作するアプリ - Day3</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day002-midi-player/">LazarusでMIDIプレイヤーを作成 - Day2</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day001-midi-kaeru/">LazarusでMIDIファイルを作成するアプリ - カエルの歌</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/survival-report-lazarus-challenge-2025/">生存報告。そして来年、私はLazarusの修羅に入る。</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

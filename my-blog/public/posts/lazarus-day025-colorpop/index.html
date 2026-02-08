@@ -1,6 +1,469 @@
-<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>同色消しパズル（ColorPop）の作成 - Day25 | 私の技術ブログ</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Lazarusチャレンジ25日目。SameGame風の同色消しパズル「ColorPop」を作成しました。幅優先探索(BFS)による連結成分の検出や、重力によるブロック落下処理について解説します。"><meta name=generator content="Hugo 0.153.4"><meta name=robots content="index, follow"><meta name=author content="ブログ管理者"><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=canonical href=https://your-site-name.netlify.app/posts/lazarus-day025-colorpop/><meta property="og:url" content="https://your-site-name.netlify.app/posts/lazarus-day025-colorpop/"><meta property="og:site_name" content="私の技術ブログ"><meta property="og:title" content="同色消しパズル（ColorPop）の作成 - Day25"><meta property="og:description" content="Lazarusチャレンジ25日目。SameGame風の同色消しパズル「ColorPop」を作成しました。幅優先探索(BFS)による連結成分の検出や、重力によるブロック落下処理について解説します。"><meta property="og:locale" content="ja_jp"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-25T13:30:00+09:00"><meta property="article:modified_time" content="2026-01-25T13:30:00+09:00"><meta itemprop=name content="同色消しパズル（ColorPop）の作成 - Day25"><meta itemprop=description content="Lazarusチャレンジ25日目。SameGame風の同色消しパズル「ColorPop」を作成しました。幅優先探索(BFS)による連結成分の検出や、重力によるブロック落下処理について解説します。"><meta itemprop=datePublished content="2026-01-25T13:30:00+09:00"><meta itemprop=dateModified content="2026-01-25T13:30:00+09:00"><meta itemprop=wordCount content="808"><meta name=twitter:card content="summary"><meta name=twitter:title content="同色消しパズル（ColorPop）の作成 - Day25"><meta name=twitter:description content="Lazarusチャレンジ25日目。SameGame風の同色消しパズル「ColorPop」を作成しました。幅優先探索(BFS)による連結成分の検出や、重力によるブロック落下処理について解説します。"><link rel=stylesheet href=/css/custom.css></head><body class="ma0 avenir bg-near-white production"><header class="cover bg-center" style=background-image:url(https://your-site-name.netlify.app/images/LazarusDay025.png)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">私の技術ブログ</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="投稿 page">投稿</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/categories/ title="カテゴリ page">カテゴリ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/tags/ title="タグ page">タグ</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv6 ph3 ph4-ns"><div class="f2 f1-l fw2 white-90 mb0 lh-title">同色消しパズル（ColorPop）の作成 - Day25</div><div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">Lazarusチャレンジ25日目。SameGame風の同色消しパズル「ColorPop」を作成しました。幅優先探索(BFS)による連結成分の検出や、重力によるブロック落下処理について解説します。</div></div></div></header><main class=pb7 role=main><article class="flex-l mw8 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day024-lightsout/>← チャレンジ24日目へ</a>
-</span><span><a href=/posts/lazarus-day026-pas2js/>チャレンジ26日目へ →</a></span></nav><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">同色消しパズル（ColorPop）の作成 - Day25</h1><p class=tracked><strong>ブログ管理者</strong></p><time class="f6 mv4 dib tracked" datetime=2026-01-25T13:30:00+09:00>January 25, 2026</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id=同色消しパズルcolorpopの作成---day25>同色消しパズル（ColorPop）の作成 - Day25</h1><p>Lazarusチャレンジ25日目です。今回は、クリックして同色のブロックを消していく「SameGame」風のパズルゲームを作成しました。</p><h2 id=ゲームのルール>ゲームのルール</h2><p>プロジェクト名は「ColorPop」としました。ルールはシンプルです。</p><ul><li><strong>盤面</strong>: 10×10 のマス目。</li><li><strong>ブロック</strong>: 3色（赤、緑、青）のブロックがランダムに配置されます。</li><li><strong>操作</strong>: 隣り合った同色のブロックが2つ以上ある場所をクリックすると、それらが消滅します。</li><li><strong>重力</strong>: 消えたブロックの上にあったブロックは下に落ちてきます。</li><li><strong>列詰め</strong>: 今回の実装では、列ごとの落下処理のみ行い、空になった列を詰める横移動は行っていません。</li></ul><h2 id=実装のポイント>実装のポイント</h2><p>今回は <code>TPanel</code> などのコンポーネントを並べるのではなく、フォームの <code>Canvas</code> に直接描画する方式をとりました。また、連結判定には <strong>幅優先探索 (BFS)</strong> を採用しています。</p><h3 id=1-幅優先探索-bfs-による連結検出>1. 幅優先探索 (BFS) による連結検出</h3><p>再帰関数（深さ優先探索）を使っても実装できますが、今回はスタックオーバーフローの心配がないキューを用いた幅優先探索で実装しました。
-Lazarus (Free Pascal) の標準ライブラリには汎用的な <code>TQueue</code> がありますが、シンプルに <code>TList</code> をキュー代わりに使用しています。</p><pre tabindex=0><code class=language-pascal data-lang=pascal>procedure TForm1.RemoveAndDrop(StartX, StartY: Integer);
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>同色消しパズル（ColorPop）の作成 - Day25 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ25日目。SameGame風の同色消しパズル「ColorPop」を作成しました。幅優先探索(BFS)による連結成分の検出や、重力によるブロック落下処理について解説します。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day025-colorpop/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day025-colorpop/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="同色消しパズル（ColorPop）の作成 - Day25">
+  <meta property="og:description" content="Lazarusチャレンジ25日目。SameGame風の同色消しパズル「ColorPop」を作成しました。幅優先探索(BFS)による連結成分の検出や、重力によるブロック落下処理について解説します。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-25T13:30:00+09:00">
+    <meta property="article:modified_time" content="2026-01-25T13:30:00+09:00">
+
+  <meta itemprop="name" content="同色消しパズル（ColorPop）の作成 - Day25">
+  <meta itemprop="description" content="Lazarusチャレンジ25日目。SameGame風の同色消しパズル「ColorPop」を作成しました。幅優先探索(BFS)による連結成分の検出や、重力によるブロック落下処理について解説します。">
+  <meta itemprop="datePublished" content="2026-01-25T13:30:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-25T13:30:00+09:00">
+  <meta itemprop="wordCount" content="808">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="同色消しパズル（ColorPop）の作成 - Day25">
+  <meta name="twitter:description" content="Lazarusチャレンジ25日目。SameGame風の同色消しパズル「ColorPop」を作成しました。幅優先探索(BFS)による連結成分の検出や、重力によるブロック落下処理について解説します。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay025.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">同色消しパズル（ColorPop）の作成 - Day25</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ25日目。SameGame風の同色消しパズル「ColorPop」を作成しました。幅優先探索(BFS)による連結成分の検出や、重力によるブロック落下処理について解説します。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day024-lightsout/">← チャレンジ24日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day026-pas2js/">チャレンジ26日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">同色消しパズル（ColorPop）の作成 - Day25</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-25T13:30:00+09:00">January 25, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="同色消しパズルcolorpopの作成---day25">同色消しパズル（ColorPop）の作成 - Day25</h1>
+<p>Lazarusチャレンジ25日目です。今回は、クリックして同色のブロックを消していく「SameGame」風のパズルゲームを作成しました。</p>
+<h2 id="ゲームのルール">ゲームのルール</h2>
+<p>プロジェクト名は「ColorPop」としました。ルールはシンプルです。</p>
+<ul>
+<li><strong>盤面</strong>: 10×10 のマス目。</li>
+<li><strong>ブロック</strong>: 3色（赤、緑、青）のブロックがランダムに配置されます。</li>
+<li><strong>操作</strong>: 隣り合った同色のブロックが2つ以上ある場所をクリックすると、それらが消滅します。</li>
+<li><strong>重力</strong>: 消えたブロックの上にあったブロックは下に落ちてきます。</li>
+<li><strong>列詰め</strong>: 今回の実装では、列ごとの落下処理のみ行い、空になった列を詰める横移動は行っていません。</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<p>今回は <code>TPanel</code> などのコンポーネントを並べるのではなく、フォームの <code>Canvas</code> に直接描画する方式をとりました。また、連結判定には <strong>幅優先探索 (BFS)</strong> を採用しています。</p>
+<h3 id="1-幅優先探索-bfs-による連結検出">1. 幅優先探索 (BFS) による連結検出</h3>
+<p>再帰関数（深さ優先探索）を使っても実装できますが、今回はスタックオーバーフローの心配がないキューを用いた幅優先探索で実装しました。
+Lazarus (Free Pascal) の標準ライブラリには汎用的な <code>TQueue</code> がありますが、シンプルに <code>TList</code> をキュー代わりに使用しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">procedure TForm1.RemoveAndDrop(StartX, StartY: Integer);
 var
   Q: TList; // キューとして使用
   // ...
@@ -34,8 +497,10 @@ begin
       end;
     end;
     // ...
-</code></pre><h3 id=2-重力処理ブロックの落下>2. 重力処理（ブロックの落下）</h3><p>ブロックが消えた後、空いたスペースを埋めるために上のブロックを落とす処理です。
-各列ごとに下から上に向かって走査し、ブロックがあれば「書き込み位置（WritePos）」に移動させるというアルゴリズムで、O(N) で効率的に処理しています。</p><pre tabindex=0><code class=language-pascal data-lang=pascal>      for cx := 0 to BoardSize - 1 do
+</code></pre><h3 id="2-重力処理ブロックの落下">2. 重力処理（ブロックの落下）</h3>
+<p>ブロックが消えた後、空いたスペースを埋めるために上のブロックを落とす処理です。
+各列ごとに下から上に向かって走査し、ブロックがあれば「書き込み位置（WritePos）」に移動させるというアルゴリズムで、O(N) で効率的に処理しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">      for cx := 0 to BoardSize - 1 do
       begin
         WritePos := BoardSize - 1; // 下から詰めていく
         for cy := BoardSize - 1 downto 0 do
@@ -55,7 +520,9 @@ begin
           Dec(WritePos);
         end;
       end;
-</code></pre><h2 id=完成したコード-unit1pas>完成したコード (Unit1.pas)</h2><p>以下がメインユニットの全コードです。シンプルに1ファイルで完結しています。</p><pre tabindex=0><code class=language-pascal data-lang=pascal>unit Unit1;
+</code></pre><h2 id="完成したコード-unit1pas">完成したコード (Unit1.pas)</h2>
+<p>以下がメインユニットの全コードです。シンプルに1ファイルで完結しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">unit Unit1;
 {$mode objfpc}{$H+}
 interface
 uses
@@ -245,8 +712,415 @@ begin
   end;
 end;
 end.
-</code></pre><h2 id=実行してみたものの>実行してみたものの・・・</h2><p>実行してみたものの灰色の画面のままでした。
+</code></pre><h2 id="実行してみたものの">実行してみたものの・・・</h2>
+<p>実行してみたものの灰色の画面のままでした。
 IDEを開いて確認すると、
-OnPaintのイベントが紐づけされていなかったのでOnPaintのプロパティをダブルクリックしてイベントハンドラと紐づけしました。</p><h2 id=完成>完成</h2><p><img src=/images/LazarusDay025.png alt="ColorPop Screenshot">
-クリックすると同色が並んでいるところのブロックが消えて、重力でブロックが落ちてきます。</p><h2 id=ダウンロード>ダウンロード</h2><p>作成したアプリは以下のリンクからダウンロードできます：</p><p><a href=/downloads/day025_colorpop.zip>day025_colorpop.zip</a></p><p>BFS（幅優先探索）はグラフ探索の基本なので、実際に動くパズルゲームとして実装してみると理解が深まりますね。</p><hr><p><em>Lazarusチャレンジ Day 25/100</em></p><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day024-lightsout/>← チャレンジ24日目へ</a>
-</span><span><a href=/posts/lazarus-day026-pas2js/>チャレンジ26日目へ →</a></span></nav><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/posts/lazarus-day024-lightsout/>Lights Outゲームの作成 - Day24</a></li><li class=mb2><a href=/posts/lazarus-day021-15puzzle/>15パズルの作成に挑戦 - Day21</a></li><li class=mb2><a href=/posts/lazarus-day020-picross/>ピクロス（ノノグラム）の作成に挑戦 - Day20</a></li><li class=mb2><a href=/posts/lazarus-day018-2048/>2048ゲームの作成 - Day18</a></li><li class=mb2><a href=/posts/lazarus-day007-minesweeper/>マインスイーパーゲームの作成 - Day7</a></li><li class=mb2><a href=/posts/lazarus-day023-pdfviewer/>PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a></li><li class=mb2><a href=/posts/lazarus-day022-spreadsheet-viewer/>スプレッドシート作成の試みとビューワー実装 - Day22</a></li><li class=mb2><a href=/posts/lazarus-day019-menu100/>Lazarusアプリ用ランチャーの作成 - Day19</a></li><li class=mb2><a href=/posts/lazarus-day017-crypt-editor/>暗号化テキストエディタの作成 - Day17</a></li><li class=mb2><a href=/posts/lazarus-day016-sokoban/>倉庫番ゲームの作成 - Day16</a></li><li class=mb2><a href=/posts/lazarus-day015-sudoku/>数独アプリの作成 - Day15</a></li><li class=mb2><a href=/posts/lazarus-day014-3moku-complete/>3目並べの完成 - Day14</a></li><li class=mb2><a href=/posts/lazarus-day013-3moku/>3目並べの作成 - Day13</a></li><li class=mb2><a href=/posts/lazarus-day012-bmp-viewer/>BMPビューアーの作成 - Day12</a></li><li class=mb2><a href=/posts/lazarus-day011-calc/>シンプルな電卓の作成 - Day11</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://your-site-name.netlify.app/>&copy; 私の技術ブログ 2026</a><div><div class=ananke-socials></div></div></div></footer></body></html>
+OnPaintのイベントが紐づけされていなかったのでOnPaintのプロパティをダブルクリックしてイベントハンドラと紐づけしました。</p>
+<h2 id="完成">完成</h2>
+<p><img src="/images/LazarusDay025.png" alt="ColorPop Screenshot">
+クリックすると同色が並んでいるところのブロックが消えて、重力でブロックが落ちてきます。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p>作成したアプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day025_colorpop.zip">day025_colorpop.zip</a></p>
+<p>BFS（幅優先探索）はグラフ探索の基本なので、実際に動くパズルゲームとして実装してみると理解が深まりますね。</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 25/100</em></p>
+
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day024-lightsout/">← チャレンジ24日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day026-pas2js/">チャレンジ26日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day024-lightsout/">Lights Outゲームの作成 - Day24</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day021-15puzzle/">15パズルの作成に挑戦 - Day21</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day020-picross/">ピクロス（ノノグラム）の作成に挑戦 - Day20</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day018-2048/">2048ゲームの作成 - Day18</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day007-minesweeper/">マインスイーパーゲームの作成 - Day7</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day023-pdfviewer/">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day022-spreadsheet-viewer/">スプレッドシート作成の試みとビューワー実装 - Day22</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day019-menu100/">Lazarusアプリ用ランチャーの作成 - Day19</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day017-crypt-editor/">暗号化テキストエディタの作成 - Day17</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day016-sokoban/">倉庫番ゲームの作成 - Day16</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day015-sudoku/">数独アプリの作成 - Day15</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day014-3moku-complete/">3目並べの完成 - Day14</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day013-3moku/">3目並べの作成 - Day13</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day012-bmp-viewer/">BMPビューアーの作成 - Day12</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day011-calc/">シンプルな電卓の作成 - Day11</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

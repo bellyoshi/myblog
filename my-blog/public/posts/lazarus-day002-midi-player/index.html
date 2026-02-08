@@ -1,13 +1,959 @@
-<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>LazarusでMIDIプレイヤーを作成 - Day2 | 私の技術ブログ</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Lazarusチャレンジ2日目。MIDIプレイヤーを作成しました。前回作成したカエルの歌を再生できるようにするアプリを開発中です。"><meta name=generator content="Hugo 0.153.4"><meta name=robots content="index, follow"><meta name=author content="ブログ管理者"><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=canonical href=https://your-site-name.netlify.app/posts/lazarus-day002-midi-player/><meta property="og:url" content="https://your-site-name.netlify.app/posts/lazarus-day002-midi-player/"><meta property="og:site_name" content="私の技術ブログ"><meta property="og:title" content="LazarusでMIDIプレイヤーを作成 - Day2"><meta property="og:description" content="Lazarusチャレンジ2日目。MIDIプレイヤーを作成しました。前回作成したカエルの歌を再生できるようにするアプリを開発中です。"><meta property="og:locale" content="ja_jp"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-02T10:00:00+09:00"><meta property="article:modified_time" content="2026-01-02T10:00:00+09:00"><meta itemprop=name content="LazarusでMIDIプレイヤーを作成 - Day2"><meta itemprop=description content="Lazarusチャレンジ2日目。MIDIプレイヤーを作成しました。前回作成したカエルの歌を再生できるようにするアプリを開発中です。"><meta itemprop=datePublished content="2026-01-02T10:00:00+09:00"><meta itemprop=dateModified content="2026-01-02T10:00:00+09:00"><meta itemprop=wordCount content="183"><meta name=twitter:card content="summary"><meta name=twitter:title content="LazarusでMIDIプレイヤーを作成 - Day2"><meta name=twitter:description content="Lazarusチャレンジ2日目。MIDIプレイヤーを作成しました。前回作成したカエルの歌を再生できるようにするアプリを開発中です。"><link rel=stylesheet href=/css/custom.css></head><body class="ma0 avenir bg-near-white production"><header class="cover bg-center" style=background-image:url(https://your-site-name.netlify.app/images/LazarusDay002MenuFail.png)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">私の技術ブログ</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="投稿 page">投稿</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/categories/ title="カテゴリ page">カテゴリ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/tags/ title="タグ page">タグ</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv6 ph3 ph4-ns"><div class="f2 f1-l fw2 white-90 mb0 lh-title">LazarusでMIDIプレイヤーを作成 - Day2</div><div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">Lazarusチャレンジ2日目。MIDIプレイヤーを作成しました。前回作成したカエルの歌を再生できるようにするアプリを開発中です。</div></div></div></header><main class=pb7 role=main><article class="flex-l mw8 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day001-midi-kaeru/>← チャレンジ1日目へ</a>
-</span><span><a href=/posts/lazarus-day003-lazmanager/>チャレンジ3日目へ →</a></span></nav><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">LazarusでMIDIプレイヤーを作成 - Day2</h1><p class=tracked><strong>ブログ管理者</strong></p><time class="f6 mv4 dib tracked" datetime=2026-01-02T10:00:00+09:00>January 2, 2026</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id=lazarusでmidiプレイヤーを作成---day2>LazarusでMIDIプレイヤーを作成 - Day2</h1><p>Lazarusチャレンジ2日目です。今回は、前回作成したカエルの歌のMIDIファイルを実際に再生できるMIDIプレイヤーを作成することにしました。</p><h2 id=今回の目標>今回の目標</h2><p>Day1でMIDIファイルを作成するアプリを完成させましたが、作成したMIDIファイルを再生する手段がありませんでした。そこで今回は、以下の機能を持つMIDIプレイヤーを開発することにしました：</p><ul><li>MIDIファイルの再生機能</li><li>Trackbarによる再生位置の調整</li><li>再生、停止、一時停止の操作</li><li>メニューからの操作</li><li>ファイルを開く機能</li></ul><p>前回作成したカエルの歌を、自分で作ったプレイヤーで再生できるようになるのが目標です。</p><h2 id=プロジェクトの作成>プロジェクトの作成</h2><p>まずはLazarus IDEを開いて、新規プロジェクトを作成します。</p><ol><li>Lazarus IDEを起動</li><li>「ファイル」→「新規プロジェクト」を選択</li><li>「アプリケーション」を選択してOK</li><li>プロジェクト用のフォルダを作成し、lprファイルとunitファイルを保存</li></ol><p>プロジェクトの準備ができたら、Cursorでフォルダを開いて開発を進めます。Cursorを使うことで、AIの力を借りながら効率的にコーディングできるはずです。</p><h2 id=cursorとの協働開発>Cursorとの協働開発</h2><p>Cursorに以下のプロンプトを送り、MIDIプレイヤーの実装を依頼しました：</p><pre tabindex=0><code>MIDIファイルの再生ができるソフト。
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>LazarusでMIDIプレイヤーを作成 - Day2 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ2日目。MIDIプレイヤーを作成しました。前回作成したカエルの歌を再生できるようにするアプリを開発中です。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day002-midi-player/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day002-midi-player/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="LazarusでMIDIプレイヤーを作成 - Day2">
+  <meta property="og:description" content="Lazarusチャレンジ2日目。MIDIプレイヤーを作成しました。前回作成したカエルの歌を再生できるようにするアプリを開発中です。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-02T10:00:00+09:00">
+    <meta property="article:modified_time" content="2026-01-02T10:00:00+09:00">
+
+  <meta itemprop="name" content="LazarusでMIDIプレイヤーを作成 - Day2">
+  <meta itemprop="description" content="Lazarusチャレンジ2日目。MIDIプレイヤーを作成しました。前回作成したカエルの歌を再生できるようにするアプリを開発中です。">
+  <meta itemprop="datePublished" content="2026-01-02T10:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-01-02T10:00:00+09:00">
+  <meta itemprop="wordCount" content="183">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="LazarusでMIDIプレイヤーを作成 - Day2">
+  <meta name="twitter:description" content="Lazarusチャレンジ2日目。MIDIプレイヤーを作成しました。前回作成したカエルの歌を再生できるようにするアプリを開発中です。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay002MenuFail.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">LazarusでMIDIプレイヤーを作成 - Day2</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ2日目。MIDIプレイヤーを作成しました。前回作成したカエルの歌を再生できるようにするアプリを開発中です。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day001-midi-kaeru/">← チャレンジ1日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day003-lazmanager/">チャレンジ3日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">LazarusでMIDIプレイヤーを作成 - Day2</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-02T10:00:00+09:00">January 2, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="lazarusでmidiプレイヤーを作成---day2">LazarusでMIDIプレイヤーを作成 - Day2</h1>
+<p>Lazarusチャレンジ2日目です。今回は、前回作成したカエルの歌のMIDIファイルを実際に再生できるMIDIプレイヤーを作成することにしました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>Day1でMIDIファイルを作成するアプリを完成させましたが、作成したMIDIファイルを再生する手段がありませんでした。そこで今回は、以下の機能を持つMIDIプレイヤーを開発することにしました：</p>
+<ul>
+<li>MIDIファイルの再生機能</li>
+<li>Trackbarによる再生位置の調整</li>
+<li>再生、停止、一時停止の操作</li>
+<li>メニューからの操作</li>
+<li>ファイルを開く機能</li>
+</ul>
+<p>前回作成したカエルの歌を、自分で作ったプレイヤーで再生できるようになるのが目標です。</p>
+<h2 id="プロジェクトの作成">プロジェクトの作成</h2>
+<p>まずはLazarus IDEを開いて、新規プロジェクトを作成します。</p>
+<ol>
+<li>Lazarus IDEを起動</li>
+<li>「ファイル」→「新規プロジェクト」を選択</li>
+<li>「アプリケーション」を選択してOK</li>
+<li>プロジェクト用のフォルダを作成し、lprファイルとunitファイルを保存</li>
+</ol>
+<p>プロジェクトの準備ができたら、Cursorでフォルダを開いて開発を進めます。Cursorを使うことで、AIの力を借りながら効率的にコーディングできるはずです。</p>
+<h2 id="cursorとの協働開発">Cursorとの協働開発</h2>
+<p>Cursorに以下のプロンプトを送り、MIDIプレイヤーの実装を依頼しました：</p>
+<pre tabindex="0"><code>MIDIファイルの再生ができるソフト。
 Trackbarで再生位置調整可能。再生、停止、一時停止
 メニューで操作可能。ファイルを開く。
-</code></pre><p>Cursorは自動的に必要なコンポーネントを配置し、MIDI再生のためのコードを生成してくれました。LazarusのMIDI再生には、Windowsの場合は<code>mmsystem</code>ユニットを使用する必要がありますが、Cursorが適切に処理してくれたようです。</p><h2 id=ビルドと実行>ビルドと実行</h2><p>コードが完成したら、コマンドラインからビルドを実行します：
-こちらもCursorにプロンプトを投げます。</p><pre tabindex=0><code>c:\Lazarus\lazbuildでビルド
-</code></pre><p>ビルドは成功し、実行ファイルが生成されました。しかし、実行してみると...</p><h2 id=発生した問題>発生した問題</h2><p><img src=/images/LazarusDay002MenuFail.png alt=Menuが表示されていない状態></p><p>アプリケーションを起動してみたところ、<strong>メニューが表示されていない</strong>という問題が発生しました。これではファイルを開く機能が使えず、MIDIファイルを再生することができません。</p><p>おそらく、メニューコンポーネント（MainMenu）の設定に問題があるか、フォームの設計時にメニューが正しく配置されなかった可能性があります。</p><h2 id=ideを開いて修正>IDEを開いて修正</h2><p>Cursorを使っていると普段はIDEは開かないのですが、今回はメニューの設定が必要なのでLazarus IDEを開きました。</p><p>「IDEはいらないのでは？Lazarusの意味はあるのか。fpcだけでよくね？」と思いながらも、フォームデザイナーでメニューを設定する必要があるのでIDEを使うことにしました。</p><p><img src=/images/LazarusDay002MenuProperty.png alt=MenuPropertyの設定画面></p><p>画像のように、Menuになにもプロパティが設定されていないので、メニューを設定します。「ファイル」メニューと「開く」メニュー項目を追加しました。</p><p>設定が完了したらコンパイルします。</p><p><img src=/images/LazarusDay002MenuOK.png alt=Menuが正常に表示された状態></p><p>できたー！メニューが正常に表示されるようになりました。</p><h2 id=カエルの歌を再生してみる>カエルの歌を再生してみる</h2><p>早速、昨日作成したカエルの歌のMIDIファイルを開いて再生してみます。</p><p>できたー！と思ったら、<strong>ドしか聞こえない</strong>。おかしい、停止してしまう。</p><p>もう一回再生ボタンを押すと「レ」。もう一回押すと「ミ」。</p><p>うーん、<strong>一音ごとに再生がストップしてしまうみたい</strong>。MIDIファイルの再生処理に問題があるようです。おそらく、MIDIイベントの処理方法や再生ループの実装に問題があるのでしょう。</p><h2 id=cursorに再修正を依頼>Cursorに再修正を依頼</h2><p>非常に安直ですが、たぶんやってくれるでしょう。Cursor君がんばれ。</p><p>プロンプトを再び投げます：</p><pre tabindex=0><code>再生ボタンを押すと一音しか再生されずにとまってしまう。再生ボタンを押したら最後まで再生するようにして。
-</code></pre><p>修正が終わったら、再び「ビルド」とプロンプトを投げます。</p><p>先ほど「C:\Lazarus\Lazbuildでビルドして」と言っているので、Cursorはそれを覚えています。「ビルド」だけで通じます。最初に教えていないとLazbuildがパスが通っていないので見つけられません。パスを通してもいいのですが、環境変数を汚したくないので。<code>C:\Lazarus\</code>は自分がインストールした場所です。普通のインストールすればここに入っています。</p><h2 id=修正結果の確認>修正結果の確認</h2><p>さて、これで修正されているのでしょうか。</p><p>起動してみました。見た目は先ほどと変わっていません。</p><p>再生してみると・・・。</p><p><strong>だめやないかーい。</strong></p><p>再生すると、今度はドを再生したらトラックバーが最後にいって再生終了。Cursor君、今回はうまくいかなかったようです。</p><p>ちょっとコードを見てみるしかないか。次回は自分でコードを確認して修正する必要がありそうです。</p><h2 id=コードを確認してみる>コードを確認してみる</h2><p>コードを1分ほど、眺めてみて、うーん。</p><p>わからん。</p><p>ということでCursorにできなくてもGeminiはわかるのでは。</p><p>Geminiにすべてを任せた。</p><p>Geminiにプロンプト：</p><pre tabindex=0><code>以下のコードは不完全で、再生を押すと、一音しか再生されない。どこが悪いか解説。
+</code></pre><p>Cursorは自動的に必要なコンポーネントを配置し、MIDI再生のためのコードを生成してくれました。LazarusのMIDI再生には、Windowsの場合は<code>mmsystem</code>ユニットを使用する必要がありますが、Cursorが適切に処理してくれたようです。</p>
+<h2 id="ビルドと実行">ビルドと実行</h2>
+<p>コードが完成したら、コマンドラインからビルドを実行します：
+こちらもCursorにプロンプトを投げます。</p>
+<pre tabindex="0"><code>c:\Lazarus\lazbuildでビルド
+</code></pre><p>ビルドは成功し、実行ファイルが生成されました。しかし、実行してみると...</p>
+<h2 id="発生した問題">発生した問題</h2>
+<p><img src="/images/LazarusDay002MenuFail.png" alt="Menuが表示されていない状態"></p>
+<p>アプリケーションを起動してみたところ、<strong>メニューが表示されていない</strong>という問題が発生しました。これではファイルを開く機能が使えず、MIDIファイルを再生することができません。</p>
+<p>おそらく、メニューコンポーネント（MainMenu）の設定に問題があるか、フォームの設計時にメニューが正しく配置されなかった可能性があります。</p>
+<h2 id="ideを開いて修正">IDEを開いて修正</h2>
+<p>Cursorを使っていると普段はIDEは開かないのですが、今回はメニューの設定が必要なのでLazarus IDEを開きました。</p>
+<p>「IDEはいらないのでは？Lazarusの意味はあるのか。fpcだけでよくね？」と思いながらも、フォームデザイナーでメニューを設定する必要があるのでIDEを使うことにしました。</p>
+<p><img src="/images/LazarusDay002MenuProperty.png" alt="MenuPropertyの設定画面"></p>
+<p>画像のように、Menuになにもプロパティが設定されていないので、メニューを設定します。「ファイル」メニューと「開く」メニュー項目を追加しました。</p>
+<p>設定が完了したらコンパイルします。</p>
+<p><img src="/images/LazarusDay002MenuOK.png" alt="Menuが正常に表示された状態"></p>
+<p>できたー！メニューが正常に表示されるようになりました。</p>
+<h2 id="カエルの歌を再生してみる">カエルの歌を再生してみる</h2>
+<p>早速、昨日作成したカエルの歌のMIDIファイルを開いて再生してみます。</p>
+<p>できたー！と思ったら、<strong>ドしか聞こえない</strong>。おかしい、停止してしまう。</p>
+<p>もう一回再生ボタンを押すと「レ」。もう一回押すと「ミ」。</p>
+<p>うーん、<strong>一音ごとに再生がストップしてしまうみたい</strong>。MIDIファイルの再生処理に問題があるようです。おそらく、MIDIイベントの処理方法や再生ループの実装に問題があるのでしょう。</p>
+<h2 id="cursorに再修正を依頼">Cursorに再修正を依頼</h2>
+<p>非常に安直ですが、たぶんやってくれるでしょう。Cursor君がんばれ。</p>
+<p>プロンプトを再び投げます：</p>
+<pre tabindex="0"><code>再生ボタンを押すと一音しか再生されずにとまってしまう。再生ボタンを押したら最後まで再生するようにして。
+</code></pre><p>修正が終わったら、再び「ビルド」とプロンプトを投げます。</p>
+<p>先ほど「C:\Lazarus\Lazbuildでビルドして」と言っているので、Cursorはそれを覚えています。「ビルド」だけで通じます。最初に教えていないとLazbuildがパスが通っていないので見つけられません。パスを通してもいいのですが、環境変数を汚したくないので。<code>C:\Lazarus\</code>は自分がインストールした場所です。普通のインストールすればここに入っています。</p>
+<h2 id="修正結果の確認">修正結果の確認</h2>
+<p>さて、これで修正されているのでしょうか。</p>
+<p>起動してみました。見た目は先ほどと変わっていません。</p>
+<p>再生してみると・・・。</p>
+<p><strong>だめやないかーい。</strong></p>
+<p>再生すると、今度はドを再生したらトラックバーが最後にいって再生終了。Cursor君、今回はうまくいかなかったようです。</p>
+<p>ちょっとコードを見てみるしかないか。次回は自分でコードを確認して修正する必要がありそうです。</p>
+<h2 id="コードを確認してみる">コードを確認してみる</h2>
+<p>コードを1分ほど、眺めてみて、うーん。</p>
+<p>わからん。</p>
+<p>ということでCursorにできなくてもGeminiはわかるのでは。</p>
+<p>Geminiにすべてを任せた。</p>
+<p>Geminiにプロンプト：</p>
+<pre tabindex="0"><code>以下のコードは不完全で、再生を押すと、一音しか再生されない。どこが悪いか解説。
 unit Unit1;
 ・・・コードをここにコピーした。
-</code></pre><p>すると解説が返ってきました。</p><h3 id=geminiの解説>Geminiの解説</h3><p>ご提示いただいたコードで「一音（あるいは一瞬）しか再生されない」という現象が起きる最大の原因は、**TrackBar1Change イベントの再帰的な呼び出し（ループ）**にあります。</p><h4 id=根本的な原因無限ループシークの競合>根本的な原因：無限ループ（シークの競合）</h4><p>Geminiの解説によると、問題の流れは以下の通りです：</p><ol><li><code>Timer1Timer</code> が実行され、<code>UpdatePosition</code> を呼び出します。</li><li><code>UpdatePosition</code> 内で、現在の再生位置に合わせて <code>TrackBar1.Position := ...</code> と値を書き換えます。</li><li>すると、プログラムによって値が変わったにもかかわらず、<code>TrackBar1Change</code> イベントが発生してしまいます。</li><li><code>TrackBar1Change</code> 内で <code>SetMidiPosition</code>（MCIのシーク操作）が実行されます。</li><li>再生中にシーク操作（MCI_SEEK）を行うと、多くのデバイスでは再生が停止するか、あるいはシークした瞬間にまたタイマーが動いて位置を戻そうとするため、再生が極めて短時間で止まったり、冒頭に戻ったりしてしまいます。</li></ol><p>結果として、「再生開始 → タイマー作動 → トラックバー更新 → シーク命令発行 → 再生停止」という流れが一瞬で起きています。</p><h4 id=解決方法>解決方法</h4><p>この問題を解決するには、プログラムによるトラックバーの更新と、ユーザーによる操作を区別する必要があります。具体的には：</p><ul><li>フラグ変数を用意して、プログラムによる更新中かどうかを管理する</li><li>プログラムによる更新時は、<code>TrackBar1Change</code> イベント内でシーク操作をスキップする</li><li>ユーザーがトラックバーを操作したときだけ、シーク操作を実行する</li></ul><p>この方法により、タイマーによる自動更新では再生が停止せず、ユーザーが手動で位置を調整したときだけシークが実行されるようになります。</p><hr><p>なるほど。よくわからんけど。</p><p>とりあえず動くコードが欲しい。</p><p>再びGeminiにプロンプト：</p><pre tabindex=0><code>完全なコードを表示
-</code></pre><p>おお、でてきました。</p><p>このコードをunit1に貼り付けます。</p><h3 id=geminiのコードの改善点>Geminiのコードの改善点</h3><p>Geminiが提供してくれたコードには、以下の改善が含まれていました：</p><ol><li><strong>フラグ変数の追加</strong>: <code>FUpdatingPosition</code> というフラグを追加し、プログラムによる更新中かどうかを管理</li><li><strong>UpdatePositionメソッドの改善</strong>: トラックバーを更新する前にフラグを<code>True</code>に設定し、更新後に<code>False</code>に戻す</li><li><strong>TrackBar1Changeイベントの改善</strong>: フラグが<code>True</code>のとき（プログラムによる更新中）はシーク操作をスキップし、<code>False</code>のとき（ユーザー操作）だけシークを実行</li></ol><p>これにより、タイマーによる自動更新ではシーク操作が実行されず、ユーザーがトラックバーを操作したときだけシークが実行されるようになっています。結果として、再生が途切れることなく、最後まで連続して再生できるようになりました。</p><p>そしてコンパイルすると、<strong>流れましたー！</strong></p><p>カエルの歌が最後まで途切れることなく、美しく再生されました。トラックバーも正常に動作し、再生位置を自由に調整できるようになりました。</p><h2 id=完成したアプリ>完成したアプリ</h2><p>最終的に、以下の機能を持つMIDIプレイヤーが完成しました：</p><ul><li>✅ MIDIファイルの再生機能（最後まで連続再生）</li><li>✅ Trackbarによる再生位置の調整</li><li>✅ 再生、停止、一時停止の操作</li><li>✅ メニューからの操作</li><li>✅ ファイルを開く機能</li></ul><p>前回作成したカエルの歌も、問題なく再生できるようになりました！</p><h2 id=ダウンロード>ダウンロード</h2><p>作成したアプリは以下のリンクからダウンロードできます：</p><p><a href=/downloads/day002_MMPlayer.zip>day002_MMPlayer.zip</a></p><h2 id=学んだこと>学んだこと</h2><p>Day2の開発を通じて、多くのことを学びました：</p><h3 id=aiツールの使い分け>AIツールの使い分け</h3><ul><li><strong>Cursor</strong>: コード生成には便利だが、複雑な問題の修正には限界がある</li><li><strong>Gemini</strong>: 問題の原因を詳しく解説してくれる。コードの解説や修正案の提示に優れている</li><li>複数のAIツールを使い分けることで、より効果的に問題を解決できる</li></ul><h3 id=開発環境について>開発環境について</h3><ul><li>Cursorは便利ですが、生成されたコードをそのまま使うのではなく、実際に動作確認をすることが重要</li><li>Lazarusのフォームデザイナーでコンポーネントを配置する際は、表示状態を確認しながら進める必要がある</li><li>コマンドラインからのビルドは効率的だが、IDEでのデバッグも併用すべき</li><li>IDEを使う意味について考えさせられた。Cursorだけで開発できると思っていたが、フォームデザイナーなどIDEの機能はやはり必要</li></ul><h3 id=技術的な学び>技術的な学び</h3><ul><li>MIDI再生の実装は思ったより複雑。一音ずつしか再生されない問題は、MIDIイベントの処理方法を見直す必要がある</li><li>イベント駆動型のプログラミングでは、イベントの再帰的な呼び出しに注意が必要</li><li>プログラムによる更新とユーザー操作を区別するフラグの重要性</li><li>ビルドコマンドのパス指定について、最初にフルパスを教えておくと、その後は短縮形で通じる。環境変数を汚さずに済む方法として有効</li></ul><h3 id=問題解決のプロセス>問題解決のプロセス</h3><ul><li>Cursorに修正を依頼しても、必ずしも期待通りに修正されるとは限らない</li><li>コードを自分で読んで理解しようとすることも重要だが、理解できない場合は別のAIツールに相談するのも有効</li><li>問題の原因を理解できなくても、動くコードを手に入れることで先に進めることもある</li></ul><p>Day2にして早くも複数の問題に直面しましたが、最終的には完成させることができました。メニューの問題もMIDI再生の問題も解決し、無事にMIDIプレイヤーが完成しました！</p><h2 id=まとめ>まとめ</h2><p>Day2では、MIDIプレイヤーの開発を通じて、以下のことを経験しました：</p><ol><li><strong>Cursorでのコード生成</strong> - 最初のコードは生成されたが、問題が発生</li><li><strong>IDEでの修正</strong> - メニューの設定など、IDEの機能が必要な場面</li><li><strong>Cursorでの再修正</strong> - 修正依頼をしたが、期待通りにはいかなかった</li><li><strong>Geminiでの問題解決</strong> - 問題の原因を解説してもらい、修正コードを取得</li></ol><p>複数のAIツールを活用することで、最終的には問題を解決できました。AIツールは完璧ではないですが、適切に使い分けることで、効率的に開発を進められることがわかりました。</p><p>次回のDay3では、さらに新しいアプリに挑戦します！</p><hr><p><em>Lazarusチャレンジ Day 2/100</em></p><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day001-midi-kaeru/>← チャレンジ1日目へ</a>
-</span><span><a href=/posts/lazarus-day003-lazmanager/>チャレンジ3日目へ →</a></span></nav><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/posts/lazarus-day001-midi-kaeru/>LazarusでMIDIファイルを作成するアプリ - カエルの歌</a></li><li class=mb2><a href=/posts/survival-report-lazarus-challenge-2025/>生存報告。そして来年、私はLazarusの修羅に入る。</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://your-site-name.netlify.app/>&copy; 私の技術ブログ 2026</a><div><div class=ananke-socials></div></div></div></footer></body></html>
+</code></pre><p>すると解説が返ってきました。</p>
+<h3 id="geminiの解説">Geminiの解説</h3>
+<p>ご提示いただいたコードで「一音（あるいは一瞬）しか再生されない」という現象が起きる最大の原因は、**TrackBar1Change イベントの再帰的な呼び出し（ループ）**にあります。</p>
+<h4 id="根本的な原因無限ループシークの競合">根本的な原因：無限ループ（シークの競合）</h4>
+<p>Geminiの解説によると、問題の流れは以下の通りです：</p>
+<ol>
+<li><code>Timer1Timer</code> が実行され、<code>UpdatePosition</code> を呼び出します。</li>
+<li><code>UpdatePosition</code> 内で、現在の再生位置に合わせて <code>TrackBar1.Position := ...</code> と値を書き換えます。</li>
+<li>すると、プログラムによって値が変わったにもかかわらず、<code>TrackBar1Change</code> イベントが発生してしまいます。</li>
+<li><code>TrackBar1Change</code> 内で <code>SetMidiPosition</code>（MCIのシーク操作）が実行されます。</li>
+<li>再生中にシーク操作（MCI_SEEK）を行うと、多くのデバイスでは再生が停止するか、あるいはシークした瞬間にまたタイマーが動いて位置を戻そうとするため、再生が極めて短時間で止まったり、冒頭に戻ったりしてしまいます。</li>
+</ol>
+<p>結果として、「再生開始 → タイマー作動 → トラックバー更新 → シーク命令発行 → 再生停止」という流れが一瞬で起きています。</p>
+<h4 id="解決方法">解決方法</h4>
+<p>この問題を解決するには、プログラムによるトラックバーの更新と、ユーザーによる操作を区別する必要があります。具体的には：</p>
+<ul>
+<li>フラグ変数を用意して、プログラムによる更新中かどうかを管理する</li>
+<li>プログラムによる更新時は、<code>TrackBar1Change</code> イベント内でシーク操作をスキップする</li>
+<li>ユーザーがトラックバーを操作したときだけ、シーク操作を実行する</li>
+</ul>
+<p>この方法により、タイマーによる自動更新では再生が停止せず、ユーザーが手動で位置を調整したときだけシークが実行されるようになります。</p>
+<hr>
+<p>なるほど。よくわからんけど。</p>
+<p>とりあえず動くコードが欲しい。</p>
+<p>再びGeminiにプロンプト：</p>
+<pre tabindex="0"><code>完全なコードを表示
+</code></pre><p>おお、でてきました。</p>
+<p>このコードをunit1に貼り付けます。</p>
+<h3 id="geminiのコードの改善点">Geminiのコードの改善点</h3>
+<p>Geminiが提供してくれたコードには、以下の改善が含まれていました：</p>
+<ol>
+<li><strong>フラグ変数の追加</strong>: <code>FUpdatingPosition</code> というフラグを追加し、プログラムによる更新中かどうかを管理</li>
+<li><strong>UpdatePositionメソッドの改善</strong>: トラックバーを更新する前にフラグを<code>True</code>に設定し、更新後に<code>False</code>に戻す</li>
+<li><strong>TrackBar1Changeイベントの改善</strong>: フラグが<code>True</code>のとき（プログラムによる更新中）はシーク操作をスキップし、<code>False</code>のとき（ユーザー操作）だけシークを実行</li>
+</ol>
+<p>これにより、タイマーによる自動更新ではシーク操作が実行されず、ユーザーがトラックバーを操作したときだけシークが実行されるようになっています。結果として、再生が途切れることなく、最後まで連続して再生できるようになりました。</p>
+<p>そしてコンパイルすると、<strong>流れましたー！</strong></p>
+<p>カエルの歌が最後まで途切れることなく、美しく再生されました。トラックバーも正常に動作し、再生位置を自由に調整できるようになりました。</p>
+<h2 id="完成したアプリ">完成したアプリ</h2>
+<p>最終的に、以下の機能を持つMIDIプレイヤーが完成しました：</p>
+<ul>
+<li>✅ MIDIファイルの再生機能（最後まで連続再生）</li>
+<li>✅ Trackbarによる再生位置の調整</li>
+<li>✅ 再生、停止、一時停止の操作</li>
+<li>✅ メニューからの操作</li>
+<li>✅ ファイルを開く機能</li>
+</ul>
+<p>前回作成したカエルの歌も、問題なく再生できるようになりました！</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p>作成したアプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day002_MMPlayer.zip">day002_MMPlayer.zip</a></p>
+<h2 id="学んだこと">学んだこと</h2>
+<p>Day2の開発を通じて、多くのことを学びました：</p>
+<h3 id="aiツールの使い分け">AIツールの使い分け</h3>
+<ul>
+<li><strong>Cursor</strong>: コード生成には便利だが、複雑な問題の修正には限界がある</li>
+<li><strong>Gemini</strong>: 問題の原因を詳しく解説してくれる。コードの解説や修正案の提示に優れている</li>
+<li>複数のAIツールを使い分けることで、より効果的に問題を解決できる</li>
+</ul>
+<h3 id="開発環境について">開発環境について</h3>
+<ul>
+<li>Cursorは便利ですが、生成されたコードをそのまま使うのではなく、実際に動作確認をすることが重要</li>
+<li>Lazarusのフォームデザイナーでコンポーネントを配置する際は、表示状態を確認しながら進める必要がある</li>
+<li>コマンドラインからのビルドは効率的だが、IDEでのデバッグも併用すべき</li>
+<li>IDEを使う意味について考えさせられた。Cursorだけで開発できると思っていたが、フォームデザイナーなどIDEの機能はやはり必要</li>
+</ul>
+<h3 id="技術的な学び">技術的な学び</h3>
+<ul>
+<li>MIDI再生の実装は思ったより複雑。一音ずつしか再生されない問題は、MIDIイベントの処理方法を見直す必要がある</li>
+<li>イベント駆動型のプログラミングでは、イベントの再帰的な呼び出しに注意が必要</li>
+<li>プログラムによる更新とユーザー操作を区別するフラグの重要性</li>
+<li>ビルドコマンドのパス指定について、最初にフルパスを教えておくと、その後は短縮形で通じる。環境変数を汚さずに済む方法として有効</li>
+</ul>
+<h3 id="問題解決のプロセス">問題解決のプロセス</h3>
+<ul>
+<li>Cursorに修正を依頼しても、必ずしも期待通りに修正されるとは限らない</li>
+<li>コードを自分で読んで理解しようとすることも重要だが、理解できない場合は別のAIツールに相談するのも有効</li>
+<li>問題の原因を理解できなくても、動くコードを手に入れることで先に進めることもある</li>
+</ul>
+<p>Day2にして早くも複数の問題に直面しましたが、最終的には完成させることができました。メニューの問題もMIDI再生の問題も解決し、無事にMIDIプレイヤーが完成しました！</p>
+<h2 id="まとめ">まとめ</h2>
+<p>Day2では、MIDIプレイヤーの開発を通じて、以下のことを経験しました：</p>
+<ol>
+<li><strong>Cursorでのコード生成</strong> - 最初のコードは生成されたが、問題が発生</li>
+<li><strong>IDEでの修正</strong> - メニューの設定など、IDEの機能が必要な場面</li>
+<li><strong>Cursorでの再修正</strong> - 修正依頼をしたが、期待通りにはいかなかった</li>
+<li><strong>Geminiでの問題解決</strong> - 問題の原因を解説してもらい、修正コードを取得</li>
+</ol>
+<p>複数のAIツールを活用することで、最終的には問題を解決できました。AIツールは完璧ではないですが、適切に使い分けることで、効率的に開発を進められることがわかりました。</p>
+<p>次回のDay3では、さらに新しいアプリに挑戦します！</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 2/100</em></p>
+
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day001-midi-kaeru/">← チャレンジ1日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day003-lazmanager/">チャレンジ3日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day001-midi-kaeru/">LazarusでMIDIファイルを作成するアプリ - カエルの歌</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/survival-report-lazarus-challenge-2025/">生存報告。そして来年、私はLazarusの修羅に入る。</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

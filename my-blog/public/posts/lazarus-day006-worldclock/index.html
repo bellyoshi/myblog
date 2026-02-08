@@ -1,12 +1,475 @@
-<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>世界時計アプリの作成 - Day6 | 私の技術ブログ</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Lazarusチャレンジ6日目。Antigravityを使って世界時計アプリを作成しました。SVGで地図を作成し、PythonでBMPに変換して表示するアプリを完成させました。"><meta name=generator content="Hugo 0.153.4"><meta name=robots content="index, follow"><meta name=author content="ブログ管理者"><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=canonical href=https://your-site-name.netlify.app/posts/lazarus-day006-worldclock/><meta property="og:url" content="https://your-site-name.netlify.app/posts/lazarus-day006-worldclock/"><meta property="og:site_name" content="私の技術ブログ"><meta property="og:title" content="世界時計アプリの作成 - Day6"><meta property="og:description" content="Lazarusチャレンジ6日目。Antigravityを使って世界時計アプリを作成しました。SVGで地図を作成し、PythonでBMPに変換して表示するアプリを完成させました。"><meta property="og:locale" content="ja_jp"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-06T21:32:02+09:00"><meta property="article:modified_time" content="2026-01-06T21:32:02+09:00"><meta itemprop=name content="世界時計アプリの作成 - Day6"><meta itemprop=description content="Lazarusチャレンジ6日目。Antigravityを使って世界時計アプリを作成しました。SVGで地図を作成し、PythonでBMPに変換して表示するアプリを完成させました。"><meta itemprop=datePublished content="2026-01-06T21:32:02+09:00"><meta itemprop=dateModified content="2026-01-06T21:32:02+09:00"><meta itemprop=wordCount content="324"><meta name=twitter:card content="summary"><meta name=twitter:title content="世界時計アプリの作成 - Day6"><meta name=twitter:description content="Lazarusチャレンジ6日目。Antigravityを使って世界時計アプリを作成しました。SVGで地図を作成し、PythonでBMPに変換して表示するアプリを完成させました。"><link rel=stylesheet href=/css/custom.css></head><body class="ma0 avenir bg-near-white production"><header class="cover bg-center" style=background-image:url(https://your-site-name.netlify.app/images/LazarusDay006.png)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">私の技術ブログ</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="投稿 page">投稿</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/categories/ title="カテゴリ page">カテゴリ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/tags/ title="タグ page">タグ</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv6 ph3 ph4-ns"><div class="f2 f1-l fw2 white-90 mb0 lh-title">世界時計アプリの作成 - Day6</div><div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">Lazarusチャレンジ6日目。Antigravityを使って世界時計アプリを作成しました。SVGで地図を作成し、PythonでBMPに変換して表示するアプリを完成させました。</div></div></div></header><main class=pb7 role=main><article class="flex-l mw8 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day005-chess/>← チャレンジ5日目へ</a>
-</span><span><a href=/posts/lazarus-day007-minesweeper/>チャレンジ7日目へ →</a></span></nav><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">世界時計アプリの作成 - Day6</h1><p class=tracked><strong>ブログ管理者</strong></p><time class="f6 mv4 dib tracked" datetime=2026-01-06T21:32:02+09:00>January 6, 2026</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id=世界時計アプリの作成---day6>世界時計アプリの作成 - Day6</h1><p>Lazarusチャレンジ6日目です。今回は、<strong>Antigravity</strong>を使って、<strong>世界時計アプリ</strong>を作成することにしました。</p><h2 id=今回の目標>今回の目標</h2><p>今回は、世界の主要都市の現在時刻を地図上に表示するアプリを作成することにしました。以下の手順で進めることにしました：</p><ol><li><strong>簡単な世界地図をSVGで作成</strong>: シンプルなSVGファイルで世界地図を表現</li><li><strong>SVGをBMPに変換するPythonプログラムを実行</strong>: PythonスクリプトでSVGをBMP形式に変換</li><li><strong>世界の主要都市の時計を表示するアプリを作成</strong>: Lazarusアプリで地図を背景に、各都市の時刻を表示</li></ol><h2 id=lazmanagerを使ったプロジェクト作成>LazManagerを使ったプロジェクト作成</h2><p>まず、LazManagerを起動して、プロジェクト名に「<strong>day006_worldclock</strong>」と入力し、プロジェクトを作成しました。</p><p>「<strong>Antigravity</strong>」ボタンを押してAntigravityを起動し、プロジェクトフォルダを開きました。</p><h2 id=計画の作成>計画の作成</h2><p>まず、Antigravityに以下のような計画を立ててもらいました。
-ちなみにAntigravityの方は課金はしていません。たまにしか使わないので無料版でも問題ないです。</p><p>’
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>世界時計アプリの作成 - Day6 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ6日目。Antigravityを使って世界時計アプリを作成しました。SVGで地図を作成し、PythonでBMPに変換して表示するアプリを完成させました。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day006-worldclock/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day006-worldclock/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="世界時計アプリの作成 - Day6">
+  <meta property="og:description" content="Lazarusチャレンジ6日目。Antigravityを使って世界時計アプリを作成しました。SVGで地図を作成し、PythonでBMPに変換して表示するアプリを完成させました。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-06T21:32:02+09:00">
+    <meta property="article:modified_time" content="2026-01-06T21:32:02+09:00">
+
+  <meta itemprop="name" content="世界時計アプリの作成 - Day6">
+  <meta itemprop="description" content="Lazarusチャレンジ6日目。Antigravityを使って世界時計アプリを作成しました。SVGで地図を作成し、PythonでBMPに変換して表示するアプリを完成させました。">
+  <meta itemprop="datePublished" content="2026-01-06T21:32:02+09:00">
+  <meta itemprop="dateModified" content="2026-01-06T21:32:02+09:00">
+  <meta itemprop="wordCount" content="324">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="世界時計アプリの作成 - Day6">
+  <meta name="twitter:description" content="Lazarusチャレンジ6日目。Antigravityを使って世界時計アプリを作成しました。SVGで地図を作成し、PythonでBMPに変換して表示するアプリを完成させました。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay006.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">世界時計アプリの作成 - Day6</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ6日目。Antigravityを使って世界時計アプリを作成しました。SVGで地図を作成し、PythonでBMPに変換して表示するアプリを完成させました。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day005-chess/">← チャレンジ5日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day007-minesweeper/">チャレンジ7日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">世界時計アプリの作成 - Day6</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-01-06T21:32:02+09:00">January 6, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="世界時計アプリの作成---day6">世界時計アプリの作成 - Day6</h1>
+<p>Lazarusチャレンジ6日目です。今回は、<strong>Antigravity</strong>を使って、<strong>世界時計アプリ</strong>を作成することにしました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回は、世界の主要都市の現在時刻を地図上に表示するアプリを作成することにしました。以下の手順で進めることにしました：</p>
+<ol>
+<li><strong>簡単な世界地図をSVGで作成</strong>: シンプルなSVGファイルで世界地図を表現</li>
+<li><strong>SVGをBMPに変換するPythonプログラムを実行</strong>: PythonスクリプトでSVGをBMP形式に変換</li>
+<li><strong>世界の主要都市の時計を表示するアプリを作成</strong>: Lazarusアプリで地図を背景に、各都市の時刻を表示</li>
+</ol>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day006_worldclock</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Antigravity</strong>」ボタンを押してAntigravityを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="計画の作成">計画の作成</h2>
+<p>まず、Antigravityに以下のような計画を立ててもらいました。
+ちなみにAntigravityの方は課金はしていません。たまにしか使わないので無料版でも問題ないです。</p>
+<p>’
 簡単な世界地図をsvgで作成しなさい。
 svgをbmpに変換するpythonのプログラムを実行しなさい。
 世界の主要都市の時計を表示するアプリを作成しなさい。’
 とプロンプト。
 Cursorのようにいきなり生成が始まるのではなく、
-計画の承認を求めてきます。</p><pre tabindex=0><code>&#39;World Clock Application Implementation Plan
+計画の承認を求めてきます。</p>
+<pre tabindex="0"><code>&#39;World Clock Application Implementation Plan
 Goal Description
 Create a &#34;World Clock&#34; application that displays the current time for major cities on a world map. The map will be generated as a simple SVG, converted to BMP using a Python script, and then displayed in a Lazarus/Free Pascal GUI application.
 
@@ -37,6 +500,471 @@ Manual Verification
 Compile and run the Lazarus application.
 visually inspect if the map is loaded.
 Verify clocks are ticking and showing correct relative times.&#39;
-</code></pre><p>英文で書かれた計画で、内容は理解できませんが(笑)、この計画に従って実装を進めることにしました。</p><h2 id=実装>実装</h2><p>計画ができたので、Antigravityに「<strong>計画通り実行してください</strong>」とお願いしました。</p><p>このプロンプトで、以下のファイルが作成されました：</p><ul><li><strong>world_map.svg</strong>: シンプルな世界地図のSVGファイル</li><li><strong>convert_map.py</strong>: SVGをBMPに変換するPythonスクリプト</li><li><strong>day006_worldclock.lpr</strong>: メインプログラムファイル</li><li><strong>unit1.pas & unit1.lfm</strong>: メインフォームのユニット</li></ul><h2 id=svg地図の作成と変換>SVG地図の作成と変換</h2><p>まず、<code>world_map.svg</code>が作成されました。これは、基本的なSVG図形（多角形など）を使って、世界地図を抽象的に表現したものです。</p><p>次に、<code>convert_map.py</code>が実行され、SVGファイルがBMP形式に変換されました。Pythonスクリプトは、cairosvgやsvglibなどのライブラリを使用して変換を行いました。</p><h2 id=アプリケーションの実装>アプリケーションの実装</h2><p>Lazarusアプリケーションには、以下の機能が実装されました：</p><ul><li><strong>TImage</strong>: 世界地図のBMP画像を背景として表示</li><li><strong>TLabel</strong>: 各都市（Tokyo、London、New York）の現在時刻を表示</li><li><strong>TTimer</strong>: 1秒ごとに時刻を更新</li></ul><p>タイムゾーンの計算も実装され、各都市の現在時刻が正しく表示されるようになりました。</p><h2 id=ビルドと実行>ビルドと実行</h2><p>ビルドが成功したので、早速実行してみました。</p><p><img src=/images/LazarusDay006.png alt=世界時計アプリの実行画面></p><p>アプリが正常に動作しています！地図が背景に表示され、3つの都市（New York、London、Tokyo）の現在時刻が表示されています。</p><p>背景が青と白に分かれているのは、昼と夜を表現しているようです。各都市の時刻も正しく表示されており、時計も1秒ごとに更新されています。</p><h2 id=完成したアプリの機能>完成したアプリの機能</h2><p>完成した世界時計アプリには、以下の機能が実装されています：</p><ul><li>✅ <strong>世界地図の表示</strong>: SVGから変換したBMP画像を背景として表示</li><li>✅ <strong>主要都市の時刻表示</strong>: New York、London、Tokyoの3都市の現在時刻を表示</li><li>✅ <strong>リアルタイム更新</strong>: 1秒ごとに時刻を更新</li><li>✅ <strong>タイムゾーン対応</strong>: 各都市のタイムゾーンに応じた時刻を表示</li></ul><h2 id=改善の余地>改善の余地</h2><p>完成したアプリを実行してみると、いくつか改善の余地があることがわかりました：</p><h3 id=地図がシンプルすぎる>地図がシンプルすぎる</h3><p>現在の地図は、緑色の多角形で大陸を表現した非常にシンプルなものです。もっと詳細な地図にすると、より見やすくなるかもしれません。</p><h3 id=都市が少ない>都市が少ない</h3><p>現在は3つの都市（New York、London、Tokyo）しか表示されていません。他の主要都市（Paris、Sydney、Moscowなど）も追加すると、より実用的なアプリになるでしょう。</p><h3 id=視覚的な改善>視覚的な改善</h3><ul><li>都市の位置を地図上にマーカーで表示</li><li>時刻表示のフォントサイズや色の調整</li><li>昼と夜の表現をより分かりやすく</li></ul><p>これらの改善は、今後の課題として残っています。</p><h2 id=学んだこと>学んだこと</h2><p>Day6の開発を通じて、以下のことを学びました：</p><h3 id=計画の重要性>計画の重要性</h3><p>今回は、最初に詳細な計画を立ててもらったことで、スムーズに開発を進めることができました。
-Antigravity動かねー。と最初は思っていましたが、何事も承認は大事です。</p><h3 id=外部ツールの活用>外部ツールの活用</h3><p>今回は、Pythonスクリプトを使ってSVGをBMPに変換しました。Lazarusアプリだけでなく、外部ツールを活用することで、より柔軟な開発が可能になりました。</p><ul><li><strong>Pythonスクリプト</strong>: SVGからBMPへの変換をPythonで実装</li><li><strong>ツールチェーン</strong>: 複数のツールを組み合わせて開発</li></ul><h3 id=シンプルな実装の価値>シンプルな実装の価値</h3><p>最初のバージョンは、地図もシンプルで、都市も3つだけですが、基本的な機能は実装されています。</p><ul><li><strong>MVP（最小限の製品）</strong>: まずは動作するバージョンを作成</li><li><strong>段階的な改善</strong>: 後から機能を追加していくアプローチ</li></ul><h3 id=視覚的な表現の難しさ>視覚的な表現の難しさ</h3><p>世界地図をSVGで表現するのは、思っていたよりも難しかったです。</p><ul><li><strong>抽象化のバランス</strong>: 詳細すぎず、シンプルすぎない表現が難しい</li><li><strong>視覚的な分かりやすさ</strong>: ユーザーにとって分かりやすい表現を考える必要がある</li></ul><h2 id=まとめ>まとめ</h2><p>Day6では、LazManagerを使って世界時計アプリを作成しました。</p><ol><li><p><strong>計画の作成</strong>: 最初に詳細な計画を立てることで、スムーズに開発を進めることができた</p></li><li><p><strong>SVG地図の作成</strong>: シンプルなSVGファイルで世界地図を表現</p></li><li><p><strong>Pythonスクリプト</strong>: SVGをBMPに変換するPythonスクリプトを作成</p></li><li><p><strong>Lazarusアプリ</strong>: 地図を背景に、主要都市の時刻を表示するアプリを実装</p></li><li><p><strong>改善の余地</strong>: 地図の詳細化や都市の追加など、今後の改善点が明確になった</p></li></ol><h3 id=完成した世界時計アプリについて>完成した世界時計アプリについて</h3><p>完成した世界時計アプリは、基本的な機能が実装されており、動作する状態になっています。3つの主要都市の時刻が表示され、1秒ごとに更新されます。ただし、地図がシンプルで、都市も少ないため、今後の改善の余地があります。</p><h2 id=今後の改善案>今後の改善案</h2><p>次回以降、以下のような改善を行うことで、より実用的なアプリになるでしょう：</p><ul><li><strong>地図の詳細化</strong>: より詳細な世界地図を使用</li><li><strong>都市の追加</strong>: より多くの主要都市を追加</li><li><strong>視覚的な改善</strong>: マーカーの追加、フォントの調整など</li><li><strong>機能の追加</strong>: タイムゾーンの選択、カスタム都市の追加など</li></ul><h2 id=ダウンロード>ダウンロード</h2><p>作成したアプリは以下のリンクからダウンロードできます：</p><p><a href=/downloads/day006_worldclock.zip>day006_worldclock.zip</a></p><p>次回のDay7では、また新しいアプリに挑戦します！</p><hr><p><em>Lazarusチャレンジ Day 6/100</em></p><nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label=Lazarusチャレンジ前後へ><span class=mr3><a href=/posts/lazarus-day005-chess/>← チャレンジ5日目へ</a>
-</span><span><a href=/posts/lazarus-day007-minesweeper/>チャレンジ7日目へ →</a></span></nav><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links"><p class="f5 b mb3">Related</p><ul class="pa0 list"><li class=mb2><a href=/posts/lazarus-day005-chess/>チェスゲームの作成 - Day5</a></li><li class=mb2><a href=/posts/lazarus-day004-reversi/>Reversi（リバーシ）ゲームの作成 - Day4</a></li><li class=mb2><a href=/posts/lazarus-day003-lazmanager/>LazManager - LazbuildをGUIで操作するアプリ - Day3</a></li><li class=mb2><a href=/posts/lazarus-day002-midi-player/>LazarusでMIDIプレイヤーを作成 - Day2</a></li><li class=mb2><a href=/posts/lazarus-day001-midi-kaeru/>LazarusでMIDIファイルを作成するアプリ - カエルの歌</a></li><li class=mb2><a href=/posts/survival-report-lazarus-challenge-2025/>生存報告。そして来年、私はLazarusの修羅に入る。</a></li></ul></div></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://your-site-name.netlify.app/>&copy; 私の技術ブログ 2026</a><div><div class=ananke-socials></div></div></div></footer></body></html>
+</code></pre><p>英文で書かれた計画で、内容は理解できませんが(笑)、この計画に従って実装を進めることにしました。</p>
+<h2 id="実装">実装</h2>
+<p>計画ができたので、Antigravityに「<strong>計画通り実行してください</strong>」とお願いしました。</p>
+<p>このプロンプトで、以下のファイルが作成されました：</p>
+<ul>
+<li><strong>world_map.svg</strong>: シンプルな世界地図のSVGファイル</li>
+<li><strong>convert_map.py</strong>: SVGをBMPに変換するPythonスクリプト</li>
+<li><strong>day006_worldclock.lpr</strong>: メインプログラムファイル</li>
+<li><strong>unit1.pas &amp; unit1.lfm</strong>: メインフォームのユニット</li>
+</ul>
+<h2 id="svg地図の作成と変換">SVG地図の作成と変換</h2>
+<p>まず、<code>world_map.svg</code>が作成されました。これは、基本的なSVG図形（多角形など）を使って、世界地図を抽象的に表現したものです。</p>
+<p>次に、<code>convert_map.py</code>が実行され、SVGファイルがBMP形式に変換されました。Pythonスクリプトは、cairosvgやsvglibなどのライブラリを使用して変換を行いました。</p>
+<h2 id="アプリケーションの実装">アプリケーションの実装</h2>
+<p>Lazarusアプリケーションには、以下の機能が実装されました：</p>
+<ul>
+<li><strong>TImage</strong>: 世界地図のBMP画像を背景として表示</li>
+<li><strong>TLabel</strong>: 各都市（Tokyo、London、New York）の現在時刻を表示</li>
+<li><strong>TTimer</strong>: 1秒ごとに時刻を更新</li>
+</ul>
+<p>タイムゾーンの計算も実装され、各都市の現在時刻が正しく表示されるようになりました。</p>
+<h2 id="ビルドと実行">ビルドと実行</h2>
+<p>ビルドが成功したので、早速実行してみました。</p>
+<p><img src="/images/LazarusDay006.png" alt="世界時計アプリの実行画面"></p>
+<p>アプリが正常に動作しています！地図が背景に表示され、3つの都市（New York、London、Tokyo）の現在時刻が表示されています。</p>
+<p>背景が青と白に分かれているのは、昼と夜を表現しているようです。各都市の時刻も正しく表示されており、時計も1秒ごとに更新されています。</p>
+<h2 id="完成したアプリの機能">完成したアプリの機能</h2>
+<p>完成した世界時計アプリには、以下の機能が実装されています：</p>
+<ul>
+<li>✅ <strong>世界地図の表示</strong>: SVGから変換したBMP画像を背景として表示</li>
+<li>✅ <strong>主要都市の時刻表示</strong>: New York、London、Tokyoの3都市の現在時刻を表示</li>
+<li>✅ <strong>リアルタイム更新</strong>: 1秒ごとに時刻を更新</li>
+<li>✅ <strong>タイムゾーン対応</strong>: 各都市のタイムゾーンに応じた時刻を表示</li>
+</ul>
+<h2 id="改善の余地">改善の余地</h2>
+<p>完成したアプリを実行してみると、いくつか改善の余地があることがわかりました：</p>
+<h3 id="地図がシンプルすぎる">地図がシンプルすぎる</h3>
+<p>現在の地図は、緑色の多角形で大陸を表現した非常にシンプルなものです。もっと詳細な地図にすると、より見やすくなるかもしれません。</p>
+<h3 id="都市が少ない">都市が少ない</h3>
+<p>現在は3つの都市（New York、London、Tokyo）しか表示されていません。他の主要都市（Paris、Sydney、Moscowなど）も追加すると、より実用的なアプリになるでしょう。</p>
+<h3 id="視覚的な改善">視覚的な改善</h3>
+<ul>
+<li>都市の位置を地図上にマーカーで表示</li>
+<li>時刻表示のフォントサイズや色の調整</li>
+<li>昼と夜の表現をより分かりやすく</li>
+</ul>
+<p>これらの改善は、今後の課題として残っています。</p>
+<h2 id="学んだこと">学んだこと</h2>
+<p>Day6の開発を通じて、以下のことを学びました：</p>
+<h3 id="計画の重要性">計画の重要性</h3>
+<p>今回は、最初に詳細な計画を立ててもらったことで、スムーズに開発を進めることができました。
+Antigravity動かねー。と最初は思っていましたが、何事も承認は大事です。</p>
+<h3 id="外部ツールの活用">外部ツールの活用</h3>
+<p>今回は、Pythonスクリプトを使ってSVGをBMPに変換しました。Lazarusアプリだけでなく、外部ツールを活用することで、より柔軟な開発が可能になりました。</p>
+<ul>
+<li><strong>Pythonスクリプト</strong>: SVGからBMPへの変換をPythonで実装</li>
+<li><strong>ツールチェーン</strong>: 複数のツールを組み合わせて開発</li>
+</ul>
+<h3 id="シンプルな実装の価値">シンプルな実装の価値</h3>
+<p>最初のバージョンは、地図もシンプルで、都市も3つだけですが、基本的な機能は実装されています。</p>
+<ul>
+<li><strong>MVP（最小限の製品）</strong>: まずは動作するバージョンを作成</li>
+<li><strong>段階的な改善</strong>: 後から機能を追加していくアプローチ</li>
+</ul>
+<h3 id="視覚的な表現の難しさ">視覚的な表現の難しさ</h3>
+<p>世界地図をSVGで表現するのは、思っていたよりも難しかったです。</p>
+<ul>
+<li><strong>抽象化のバランス</strong>: 詳細すぎず、シンプルすぎない表現が難しい</li>
+<li><strong>視覚的な分かりやすさ</strong>: ユーザーにとって分かりやすい表現を考える必要がある</li>
+</ul>
+<h2 id="まとめ">まとめ</h2>
+<p>Day6では、LazManagerを使って世界時計アプリを作成しました。</p>
+<ol>
+<li>
+<p><strong>計画の作成</strong>: 最初に詳細な計画を立てることで、スムーズに開発を進めることができた</p>
+</li>
+<li>
+<p><strong>SVG地図の作成</strong>: シンプルなSVGファイルで世界地図を表現</p>
+</li>
+<li>
+<p><strong>Pythonスクリプト</strong>: SVGをBMPに変換するPythonスクリプトを作成</p>
+</li>
+<li>
+<p><strong>Lazarusアプリ</strong>: 地図を背景に、主要都市の時刻を表示するアプリを実装</p>
+</li>
+<li>
+<p><strong>改善の余地</strong>: 地図の詳細化や都市の追加など、今後の改善点が明確になった</p>
+</li>
+</ol>
+<h3 id="完成した世界時計アプリについて">完成した世界時計アプリについて</h3>
+<p>完成した世界時計アプリは、基本的な機能が実装されており、動作する状態になっています。3つの主要都市の時刻が表示され、1秒ごとに更新されます。ただし、地図がシンプルで、都市も少ないため、今後の改善の余地があります。</p>
+<h2 id="今後の改善案">今後の改善案</h2>
+<p>次回以降、以下のような改善を行うことで、より実用的なアプリになるでしょう：</p>
+<ul>
+<li><strong>地図の詳細化</strong>: より詳細な世界地図を使用</li>
+<li><strong>都市の追加</strong>: より多くの主要都市を追加</li>
+<li><strong>視覚的な改善</strong>: マーカーの追加、フォントの調整など</li>
+<li><strong>機能の追加</strong>: タイムゾーンの選択、カスタム都市の追加など</li>
+</ul>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p>作成したアプリは以下のリンクからダウンロードできます：</p>
+<p><a href="/downloads/day006_worldclock.zip">day006_worldclock.zip</a></p>
+<p>次回のDay7では、また新しいアプリに挑戦します！</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 6/100</em></p>
+
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day005-chess/">← チャレンジ5日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day007-minesweeper/">チャレンジ7日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day005-chess/">チェスゲームの作成 - Day5</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day004-reversi/">Reversi（リバーシ）ゲームの作成 - Day4</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day003-lazmanager/">LazManager - LazbuildをGUIで操作するアプリ - Day3</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day002-midi-player/">LazarusでMIDIプレイヤーを作成 - Day2</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day001-midi-kaeru/">LazarusでMIDIファイルを作成するアプリ - カエルの歌</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/survival-report-lazarus-challenge-2025/">生存報告。そして来年、私はLazarusの修羅に入る。</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>
