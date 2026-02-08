@@ -6,8 +6,15 @@
     <description>Recent content on 私の技術ブログ</description>
     <generator>Hugo</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Sat, 07 Feb 2026 20:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 08 Feb 2026 16:00:00 +0900</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pas2JSでブラウザ動くPascal予約語タイピングゲームを作る - Day39</title>
+      <link>http://localhost:1313/posts/lazarus-day039-pas2js-typing-game/</link>
+      <pubDate>Sun, 08 Feb 2026 16:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/posts/lazarus-day039-pas2js-typing-game/</guid>
+      <description>&lt;h1 id=&#34;pas2jsでブラウザ動くpascal予約語タイピングゲームを作る---day39&#34;&gt;Pas2JSでブラウザ動くPascal予約語タイピングゲームを作る - Day39&lt;/h1&gt;&#xA;&lt;p&gt;Lazarusチャレンジ39日目です。&lt;strong&gt;流れてくるPascalの予約語&lt;/strong&gt;（begin, end, procedure など）をタイプして [Enter] で送信する「打鍵速度タイピング」を Pas2JS でブラウザ向けに作りました。Pascal学習者向けに、キーワードを打ちながら言語に慣れ親しめる構成にしています。&lt;/p&gt;&#xA;&lt;h2 id=&#34;ゲームのコンセプト&#34;&gt;ゲームのコンセプト&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;画面上を&lt;strong&gt;単語が左から右へ流れる&lt;/strong&gt;&lt;/li&gt;&#xA;&lt;li&gt;表示されているいずれかの単語と&lt;strong&gt;一致する文字列を入力&lt;/strong&gt;して Enter で送信&lt;/li&gt;&#xA;&lt;li&gt;一致した単語は消え、その&lt;strong&gt;文字数がスコア&lt;/strong&gt;に加算&lt;/li&gt;&#xA;&lt;li&gt;入力内容は&lt;strong&gt;キャンバス上&lt;/strong&gt;と &lt;strong&gt;CURRENT INPUT&lt;/strong&gt; エリアの両方にリアルタイム表示&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Pascal は大文字小文字を区別しないので、&lt;code&gt;BEGIN&lt;/code&gt; と打っても &lt;code&gt;begin&lt;/code&gt; を消せるようにするなど、言語の特性を体感できるようにするのも一案です。&lt;/p&gt;&#xA;&lt;h2 id=&#34;作成したアプリの機能&#34;&gt;作成したアプリの機能&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Canvas 描画&lt;/strong&gt;: 背景・流れる単語・入力中テキスト（黄色）を毎フレーム描画&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;入力判定&lt;/strong&gt;: Backspace で末尾1文字削除、Enter で先頭から順に単語一致判定とスコア加算、通常キーで1文字追加&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;キーワード約106語&lt;/strong&gt;: Turbo Pascal / Delphi / Free Pascal の予約語と事前定義識別子を網羅（absolute, and, array, begin, class, procedure, ...）&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;キーワードの外部ファイル化&lt;/strong&gt;: 実行時に &lt;code&gt;keywords.txt&lt;/code&gt; を fetch で読み込むため、&lt;strong&gt;再コンパイルなし&lt;/strong&gt;でキーワードを差し替え可能。取得失敗時は &lt;code&gt;keywords.inc&lt;/code&gt; の組み込みリストにフォールバック&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;開発で行ったことコンパイルrtl&#34;&gt;開発で行ったこと（コンパイル・RTL）&lt;/h2&gt;&#xA;&lt;p&gt;現行の pas2js RTL には &lt;code&gt;browser&lt;/code&gt; ユニットがないため、次のように修正しました。&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;uses の修正&lt;/strong&gt;&lt;br&gt;&#xA;&lt;code&gt;browser&lt;/code&gt; を &lt;code&gt;js&lt;/code&gt; に変更し、&lt;code&gt;TStringDynArray&lt;/code&gt; 用に &lt;code&gt;types&lt;/code&gt; を追加。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38</title>
       <link>http://localhost:1313/posts/lazarus-day038-pas2js-lsystem/</link>

@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="私の技術ブログ">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-02-07T20:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-02-07T20:00:00+09:00">
+  <meta itemprop="datePublished" content="2026-02-08T16:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-08T16:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="私の技術ブログ">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -132,6 +132,59 @@
 
       <section class="w-100 mw8">
         
+        
+          <div class="w-100 mb4 relative">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
+    <div class="flex-column flex-row-ns flex">
+      
+          
+        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
+          <a href="/posts/lazarus-day039-pas2js-typing-game/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay039.png" class="img" alt="image from Pas2JSでブラウザ動くPascal予約語タイピングゲームを作る - Day39">
+          </a>
+        </div>
+      
+      <div class="blah w-100 w-60-ns pl3-ns">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/lazarus-day039-pas2js-typing-game/" class="color-inherit dim link">
+            Pas2JSでブラウザ動くPascal予約語タイピングゲームを作る - Day39
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          <h1 id="pas2jsでブラウザ動くpascal予約語タイピングゲームを作る---day39">Pas2JSでブラウザ動くPascal予約語タイピングゲームを作る - Day39</h1>
+<p>Lazarusチャレンジ39日目です。<strong>流れてくるPascalの予約語</strong>（begin, end, procedure など）をタイプして [Enter] で送信する「打鍵速度タイピング」を Pas2JS でブラウザ向けに作りました。Pascal学習者向けに、キーワードを打ちながら言語に慣れ親しめる構成にしています。</p>
+<h2 id="ゲームのコンセプト">ゲームのコンセプト</h2>
+<ul>
+<li>画面上を<strong>単語が左から右へ流れる</strong></li>
+<li>表示されているいずれかの単語と<strong>一致する文字列を入力</strong>して Enter で送信</li>
+<li>一致した単語は消え、その<strong>文字数がスコア</strong>に加算</li>
+<li>入力内容は<strong>キャンバス上</strong>と <strong>CURRENT INPUT</strong> エリアの両方にリアルタイム表示</li>
+</ul>
+<p>Pascal は大文字小文字を区別しないので、<code>BEGIN</code> と打っても <code>begin</code> を消せるようにするなど、言語の特性を体感できるようにするのも一案です。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>Canvas 描画</strong>: 背景・流れる単語・入力中テキスト（黄色）を毎フレーム描画</li>
+<li><strong>入力判定</strong>: Backspace で末尾1文字削除、Enter で先頭から順に単語一致判定とスコア加算、通常キーで1文字追加</li>
+<li><strong>キーワード約106語</strong>: Turbo Pascal / Delphi / Free Pascal の予約語と事前定義識別子を網羅（absolute, and, array, begin, class, procedure, ...）</li>
+<li><strong>キーワードの外部ファイル化</strong>: 実行時に <code>keywords.txt</code> を fetch で読み込むため、<strong>再コンパイルなし</strong>でキーワードを差し替え可能。取得失敗時は <code>keywords.inc</code> の組み込みリストにフォールバック</li>
+</ul>
+<h2 id="開発で行ったことコンパイルrtl">開発で行ったこと（コンパイル・RTL）</h2>
+<p>現行の pas2js RTL には <code>browser</code> ユニットがないため、次のように修正しました。</p>
+<ol>
+<li>
+<p><strong>uses の修正</strong><br>
+<code>browser</code> を <code>js</code> に変更し、<code>TStringDynArray</code> 用に <code>types</code> を追加。</p>
+        </div>
+        
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day039-pas2js-typing-game/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
         
           <div class="w-100 mb4 relative">
             
@@ -262,70 +315,18 @@ pas2js の <code>OnInput</code> / <code>OnChange</code> は <strong>関数型（
 
           </div>
         
-          <div class="w-100 mb4 relative">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
-    <div class="flex-column flex-row-ns flex">
-      
-          
-        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
-          <a href="/posts/lazarus-day036-pas2js-day-counter/" class="db grow">
-            <img src="http://localhost:1313/images/LazarusDay036.png" class="img" alt="image from Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36">
-          </a>
-        </div>
-      
-      <div class="blah w-100 w-60-ns pl3-ns">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/lazarus-day036-pas2js-day-counter/" class="color-inherit dim link">
-            Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="pas2jsで経過日数カウンター何日目か表示を作る---day36">Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36</h1>
-<p>Lazarusチャレンジ36日目です。1月の時は日にちがチャレンジ日でしたので問題なかったのですが、
-2月に入り、<strong>チャレンジ何日目かがわからなくなる</strong>ことがあったので、
-<strong>開始日を選ぶと「今日は○日目」</strong> と表示する <strong>経過日数カウンター</strong> を Pas2JS で作りました。
-このアプリにより一日さぼってことが判明しました。
-本日実行すると「今日は37日目」と表示されたけれど、本投稿は day036 です。
-本日中にアプリをもう一つ挑戦しましょう。</p>
-<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
-<ul>
-<li><strong>開始日の選択</strong>: <code>&lt;input type=&quot;date&quot;&gt;</code> でチャレンジ開始日を選ぶ（初期値は今年の1月1日）</li>
-<li><strong>経過日数の表示</strong>: 「今日は開始日から <strong>○日目</strong>」と表示。開始日を1日目として、今日まで何日経過したかを計算</li>
-<li><strong>日付変更時の再計算</strong>: 開始日を変更すると即座に表示が更新される</li>
-</ul>
-<h2 id="開発でハマった点pas2js-の-strtodate">開発でハマった点（pas2js の StrToDate）</h2>
-<p>日付文字列（<code>YYYY-MM-DD</code>）を <code>TDateTime</code> に変換する際、最初は次のように書いていました。</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">StrToDate(StartDateInput.Value, &#39;YYYY-MM-DD&#39;)
-</code></pre><p><strong>pas2js</strong> では <code>StrToDate</code> の第2引数は <strong>TFormatSettings 型</strong> であり、フォーマット文字列を渡す仕様ではありません。このためコンパイルエラーになります。</p>
-<ul>
-<li><strong>対応</strong>: TFormatSettingsについていろいろ調査するより
-入力が常に <code>YYYY-MM-DD</code> 形式なら、<strong>手動でパース</strong>するのが確実です。<code>Copy</code> と <code>StrToInt</code> で年・月・日を取り出し、<code>EncodeDate(y, m, d)</code> で <code>TDateTime</code> に変換するように変更しました。
-もちろんCursor君にお任せなんですけどね。</li>
-</ul>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">S := StartDateInput.Value;
-y := StrToInt(Copy(S, 1, 4));
-m := StrToInt(Copy(S, 6, 2));
-d := StrToInt(Copy(S, 9, 2));
-StartDate := EncodeDate(y, m, d);
-</code></pre><p><code>ScanDateTime</code>（dateutils）も pas2js では第2引数に <code>TFormatSettings</code> を要求するため、固定フォーマットの場合は手動パースで十分です。</p>
-        </div>
-        
-          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day036-pas2js-day-counter/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
       </section>
 
       
         <section class="w-100">
           <h1 class="f3">More</h1>
           
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/posts/lazarus-day036-pas2js-day-counter/" class="link black dim">
+                Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36
+              </a>
+            </h2>
           
             <h2 class="f5 fw4 mb4 dib mr3">
               <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/" class="link black dim">
@@ -342,12 +343,6 @@ StartDate := EncodeDate(y, m, d);
             <h2 class="f5 fw4 mb4 dib mr3">
               <a href="/posts/lazarus-day033-pas2js-whiteboard/" class="link black dim">
                 Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33
-              </a>
-            </h2>
-          
-            <h2 class="f5 fw4 mb4 dib mr3">
-              <a href="/posts/lazarus-day031-pas2js-markdown/" class="link black dim">
-                Pas2JSでMarkdownエディタを作成 - Day31
               </a>
             </h2>
           
