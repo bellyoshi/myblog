@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ43日目。LocalStorageを使ってオフラインでも動くチェックリストをPas2JSで作成。TStringListのような感覚でデータを管理し、ブラウザを閉じても消えない実用性がポイント。GeminiでHTML/CSS/PASを取得し、rtl.run()を自分で挿入、Cursorでコンパイル完了。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day043-pas2js-shopping-list/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day043-pas2js-shopping-list/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43">
+  <meta property="og:description" content="Lazarusチャレンジ43日目。LocalStorageを使ってオフラインでも動くチェックリストをPas2JSで作成。TStringListのような感覚でデータを管理し、ブラウザを閉じても消えない実用性がポイント。GeminiでHTML/CSS/PASを取得し、rtl.run()を自分で挿入、Cursorでコンパイル完了。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-13T16:00:00+09:00">
+    <meta property="article:modified_time" content="2026-02-13T16:00:00+09:00">
+
+  <meta itemprop="name" content="Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43">
+  <meta itemprop="description" content="Lazarusチャレンジ43日目。LocalStorageを使ってオフラインでも動くチェックリストをPas2JSで作成。TStringListのような感覚でデータを管理し、ブラウザを閉じても消えない実用性がポイント。GeminiでHTML/CSS/PASを取得し、rtl.run()を自分で挿入、Cursorでコンパイル完了。">
+  <meta itemprop="datePublished" content="2026-02-13T16:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-13T16:00:00+09:00">
+  <meta itemprop="wordCount" content="188">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43">
+  <meta name="twitter:description" content="Lazarusチャレンジ43日目。LocalStorageを使ってオフラインでも動くチェックリストをPas2JSで作成。TStringListのような感覚でデータを管理し、ブラウザを閉じても消えない実用性がポイント。GeminiでHTML/CSS/PASを取得し、rtl.run()を自分で挿入、Cursorでコンパイル完了。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay043.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ43日目。LocalStorageを使ってオフラインでも動くチェックリストをPas2JSで作成。TStringListのような感覚でデータを管理し、ブラウザを閉じても消えない実用性がポイント。GeminiでHTML/CSS/PASを取得し、rtl.run()を自分で挿入、Cursorでコンパイル完了。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day042-pas2js-piano/">← チャレンジ42日目へ</a>
+        
+      </span>
+      <span>
+        
+          <span class="mid-gray">次のチャレンジなし →</span>
+        
+      </span>
+    </nav>
+  
+
+<div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-02-13T16:00:00+09:00">February 13, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsでつくるお買い物リストプログレッシブwebアプリ-pwa---day43">Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43</h1>
+<p>Lazarusチャレンジ43日目です。<strong>LocalStorage</strong> を使って、オフラインでも動く「<strong>お買い物リスト</strong>」チェックリストを Pas2JS でブラウザ向けに作りました。<strong>TStringList のような感覚</strong>でデータを管理し、<strong>ブラウザを閉じても消えない</strong>実用性がユニークなポイントです。設計とベースコードは <strong>Gemini</strong> にプロンプトして取得し、HTML/CSS/PAS をコピー＆貼り付け。Gemini の HTML には <code>rtl.run()</code> がなかったため自分で挿入し、<strong>Cursor</strong> で pas2js コンパイルを完了させました。</p>
+<p><img src="/images/LazarusDay043.png" alt="お買い物リスト PWA 画面"></p>
+<h2 id="コンセプト">コンセプト</h2>
+<ul>
+<li><strong>LocalStorage</strong>: ブラウザの <code>window.localStorage</code> にリストデータを保存。タブを閉じたりオフラインになってもデータが残る</li>
+<li><strong>TStringList でデータ管理</strong>: Pascal の <code>TStringList</code> で「行＝1アイテム」として扱い、<code>CommaText</code> で LocalStorage と文字列のやりとり。Delphi/Lazarus 使いにはなじみの感覚で書ける</li>
+<li><strong>シンプルな PWA 的体験</strong>: 追加・削除・全削除ができ、再読み込みやブラウザ再起動後もリストが復元される</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th>機能</th>
+          <th>説明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>アイテム追加</td>
+          <td>入力欄に文字を入れて「追加」でリストに追加</td>
+      </tr>
+      <tr>
+          <td>個別削除</td>
+          <td>各項目の「×」でその行だけ削除</td>
+      </tr>
+      <tr>
+          <td>全削除</td>
+          <td>「全削除」で確認ダイアログのあとリストを空に</td>
+      </tr>
+      <tr>
+          <td>永続化</td>
+          <td>LocalStorage のキー <code>pas2js_shopping_data</code> に CommaText で保存</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="gemini-でやったこと">Gemini でやったこと</h2>
+<p><strong>Gemini</strong> に次のようなプロンプトを出して、設計とベースコードを取得しました。</p>
+<ul>
+<li><strong>「pas2jsでつくる『お買い物リスト』プログレッシブWebアプリ (PWA)。LocalStorageを使って、オフラインでも動くチェックリスト。ユニーク点: TStringList のような感覚でデータを管理。ブラウザを閉じても消えない実用性。」</strong></li>
+</ul>
+<p>Gemini からは <strong>HTML / CSS / PAS</strong> のコードが返ってきたので、そのままプロジェクトにコピー＆貼り付けしました。<strong>Gemini の HTML には <code>&lt;script&gt;rtl.run();&lt;/script&gt;</code> が含まれていなかった</strong>ため、Pas2JS でコンパイルした JS を動かすために、<strong>自分で <code>&lt;/body&gt;</code> 直前などに <code>&lt;script&gt;rtl.run();&lt;/script&gt;</code> を挿入</strong>しています。</p>
+<h2 id="cursor-でコンパイル完了">Cursor でコンパイル完了</h2>
+<p>Cursor を起動し、「<strong>pas2js .\shopping.pas -Tbrowser &quot;-Jirtl.js&quot; を実行しコンパイルを完了させる</strong>」ように依頼しました。これで <code>shopping.pas</code> から <code>shopping.js</code> が生成され、<code>index.html</code> から読み込んで <code>rtl.run()</code> でプログラムが開始する構成になっています。</p>
+<h2 id="作成したアプリのポイントコード抜粋">作成したアプリのポイント（コード抜粋）</h2>
+<ul>
+<li><strong>TStringList と LocalStorage</strong>: <code>DataList.CommaText := SavedData</code> で復元、<code>window.localStorage.setItem(STORAGE_KEY, DataList.CommaText)</code> で保存。カンマ区切りで1行1アイテムとして扱える</li>
+<li><strong>イベント</strong>: <code>AddBtn.onclick</code>、<code>ClearBtn.onclick</code>、<code>ItemListUI.onclick</code> で追加・全削除・行ごとの削除（×）を処理</li>
+<li><strong>再描画</strong>: <code>RenderList</code> で <code>ItemListUI.innerHTML</code> を空にしてから、<code>DataList</code> の内容で <code>&lt;li&gt;</code> を生成し直す</li>
+</ul>
+<h2 id="コンパイル方法pas2js">コンパイル方法（Pas2JS）</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js .<span style="color:#ae81ff">\s</span>hopping.pas -Tbrowser <span style="color:#e6db74">&#34;-Jirtl.js&#34;</span>
+</span></span></code></pre></div><p><code>static/apps/day043/</code> など、<code>shopping.pas</code> があるディレクトリで実行します。生成された <code>shopping.js</code> を <code>index.html</code> で読み込み、<strong><code>&lt;script&gt;rtl.run();&lt;/script&gt;</code></strong> でプログラムを開始します。</p>
+<h2 id="動かない">動かない</h2>
+<p>HTML に <strong><code>&lt;script&gt;rtl.run();&lt;/script&gt;</code></strong> を追加します。geminiの生成したhtmlはこれが抜けています。</p>
+<h2 id="まとめ">まとめ</h2>
+<ul>
+<li><strong>Gemini</strong>: 「お買い物リスト PWA」「LocalStorage」「TStringList 感覚」「ブラウザを閉じても消えない」とプロンプトし、<strong>HTML / CSS / PAS</strong> のベースを一括取得。コピペで骨格を用意。</li>
+<li><strong>自分で補った点</strong>: HTML に <strong><code>&lt;script&gt;rtl.run();&lt;/script&gt;</code></strong> を追加。これがないと Pas2JS のエントリが動かない。</li>
+<li><strong>Cursor</strong>: <strong>pas2js</strong> で <code>shopping.pas</code> をコンパイルし、<code>shopping.js</code> を生成してコンパイル完了。</li>
+</ul>
+<p>「<strong>Pascal の TStringList がブラウザの LocalStorage とつながる</strong>」という形で、実用的なチェックリストが Pas2JS で実現できました。オフラインでもリストが残るので、買い物メモとしてそのまま使えます。
+なお、同じデバイスのなかでのストレージになりますので例えば、パソコンで開くのと、タブレットで開いたものは別の結果になり、共有はできません。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p><strong>アプリをブラウザで開く</strong>: <a href="/apps/day043/">お買い物リストを開く</a></p>
+<p>作成したアプリ（HTML / CSS / Pascal ソース・コンパイル済み JS）は以下のリンクからダウンロードできます。</p>
+<p><a href="/downloads/day043_pas2jsshoppinglist.zip">day043_pas2jsshoppinglist.zip</a></p>
+<p>LocalStorage でデータが残るので、ブラウザを閉じてもリストが消えません。TStringList 感覚でカスタマイズしたい場合は、<code>shopping.pas</code> の <code>DataList</code> 周りをいじってみてください。</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 43/100</em></p>
+
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day042-pas2js-piano/">← チャレンジ42日目へ</a>
+        
+      </span>
+      <span>
+        
+          <span class="mid-gray">次のチャレンジなし →</span>
+        
+      </span>
+    </nav>
+  
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day042-pas2js-piano/">Pas2JSで作る楽器に変身！「Web音階ジェネレーター」 - Day42</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day041-quantum-shogi/">Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day040-pas2js-24game/">Pas2JSで脳トレ「24Game」を作る - Day40</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day039-pas2js-typing-game/">Pas2JSでブラウザ動くPascal予約語タイピングゲームを作る - Day39</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day038-pas2js-lsystem/">Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day037-pas2js-munchausen/">Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day036-pas2js-day-counter/">Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/">Pas2JSでかえるのうたを輪唱で再生する - Day35</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day034-pas2js-simple-interpreter/">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day033-pas2js-whiteboard/">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day031-pas2js-markdown/">Pas2JSでMarkdownエディタを作成 - Day31</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day032-pas2js-userform/">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day030-pas2js-calculator/">Pas2JSで計算機アプリを作成 - Day30</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day029-pas2js-color/">Pas2JSでカラー表示アプリを作成 - Day29</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day028-pas2js-calendar/">Pas2JSでカレンダーアプリを作成 - Day28</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

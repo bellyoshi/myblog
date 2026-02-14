@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-02-10T16:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-02-10T16:00:00+09:00">
+  <meta itemprop="datePublished" content="2026-02-13T16:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-13T16:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Posts">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -119,6 +119,256 @@
   <article class="pa3 pa4-ns nested-copy-line-height">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links mid-gray"></section>
     <section class="flex-ns mt5 flex-wrap justify-around">
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day023-pdfviewer/" class="link black dim">
+        PDFビューワーの作成とAIクレジット枯渇との戦い - Day23
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pdfビューワーの作成とaiクレジット枯渇との戦い---day23">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</h1>
+<p>Lazarusチャレンジ23日目です。今回は、<strong>PDFファイルを表示するビューワー</strong>の作成に挑戦しました。</p>
+<p>しかし、今回はこれまでと少し事情が違います。開発の相棒である <strong>Cursor Pro（AIエディタ）の月間クレジットがついに底をつきかけてしまいました。</strong> そのため、AIに頼り切った開発から一転、ほとんどのコードを<strong>手書きと過去の自作コードの流用</strong>で実装するという、原点回帰的な開発となりました。</p>
+<h2 id="今回の目標と制約">今回の目標と制約</h2>
+<p>目標は、PDFファイルを読み込み、ページをめくれるシンプルなビューワーを作ることです。</p>
+<ul>
+<li><strong>目標</strong>:
+<ul>
+<li>PDFファイルを開いて表示できる</li>
+<li>「次へ」「前へ」ボタンでページを移動できる</li>
+<li>現在のページ番号と総ページ数を表示する</li>
+</ul>
+</li>
+<li><strong>制約</strong>:
+<ul>
+<li>AI（Cursor）の使用を最小限に抑える</li>
+<li>過去に作成したコード資産を積極的に再利用する</li>
+</ul>
+</li>
+</ul>
+<h2 id="実装の核pdfiumライブラリ">実装の核：PDFiumライブラリ</h2>
+<p>PDFのレンダリングは非常に複雑なため、ゼロから作るのは現実的ではありません。そこで、GoogleがメンテナンスしているオープンソースのPDFレンダリングライブラリ <strong>PDFium</strong> を利用することにしました。</p>
+<p>LazarusからPDFiumを利用するには、<code>pdfium.dll</code>というダイナミックリンクライブラリ（DLL）が必要です。このDLLをアプリケーションの実行ファイルと同じフォルダに配置し、Pascalコードからその関数を呼び出すことで、PDFの機能を利用します。</p>
+<h3 id="dllの準備">DLLの準備</h3>
+<p><code>pdfium.dll</code>は、公式のGitHubリポジトリなどから、自分の環境（Windows 64bitなど）に合ったものをダウンロードして配置する必要があります。</p>
+<h2 id="実装戦略ラッパークラスによる抽象化">実装戦略：ラッパークラスによる抽象化</h2>
+<p>PDFiumのAPIはC言語スタイルであり、そのまま使うのはPascalのオブジェクト指向に馴染みません。そこで、過去のプロジェクトの経験を活かし、APIを使いやすくするための<strong>ラッパークラス</strong>を複数作成しました。AIに頼れない今、このような構造化されたコード資産が非常に役立ちます。</p>
+<h3 id="主なユニット構成">主なユニット構成</h3>
+<ul>
+<li>
+<p><strong><code>PdfiumLib.pas</code></strong>: <code>pdfium.dll</code>からエクスポートされている関数を直接宣言するユニット。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">// pdfium.dllの関数をPascalから使えるように宣言
+procedure FPDF_InitLibrary(); cdecl; external PDFiumDll;
+function FPDF_LoadDocument(file_path: FPDF_STRING; ...): FPDF_DOCUMENT; cdecl; external PDFiumDll;
+// ...など
+</code></pre></li>
+<li>
+<p><strong><code>PdfDocument.pas</code></strong>: PDFドキュメント全体を管理する<code>TPdfDocument</code>クラス。ファイルの読み込みやクローズ、ページ数の取得などを担当します。</p>
+</li>
+<li>
+<p><strong><code>PdfPage.pas</code></strong>: 個々のページを管理する<code>TPdfPage</code>クラス。ページの幅や高さを取得します。</p>
+</li>
+<li>
+<p><strong><code>PdfRenderer.pas</code></strong>: PDFのページをLazarusの<code>TBitmap</code>オブジェクトに描画（レンダリング）する手続きをまとめたユニット。</p>
+</li>
+<li>
+<p><strong><code>PdfViewer.pas</code></strong>: UIとやり取りする高レベルな<code>TPdfViewer</code>クラス。現在のページインデックスを管理し、ページ移動のロジック（<code>Next</code>, <code>Previous</code>）などを持ちます。</p>
+</li>
+</ul>
+<p>このように機能を分割することで、メインフォームのコード（<code>Unit1.pas</code>）は非常にシンプルになります。</p>
+<h2 id="uiの実装-unit1pas">UIの実装 (Unit1.pas)</h2>
+<p>メインフォームでは、<code>TPdfViewer</code>クラスを利用してPDFの表示と操作を行います。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">unit Unit1;
+
+interface
+
+uses
+  ..., PdfViewer;
+
+type
+  TForm1 = class(TForm)
+    // ... UIコンポーネント
+  private
+    FPdfViewer: TPdfViewer; // ビューワーのインスタンス
+    procedure LoadPdfFile(const FileName: string);
+    procedure UpdatePage;
+    // ...
+  public
+
+  end;
+
+implementation
+
+// ...
+
+procedure TForm1.LoadPdfFile(const FileName: string);
+begin
+  try
+    if Assigned(FPdfViewer) then
+      FPdfViewer.Free;
+
+    // 新しいPDFファイルでビューワーインスタンスを作成
+    FPdfViewer := TPdfViewer.Create(FileName);
+
+    UpdatePage; // 最初のページを表示
+    Caption := &#39;PDF Viewer - &#39; + ExtractFileName(FileName);
+  except
+    on E: Exception do
+      ShowMessage(&#39;PDFファイルの読み込みに失敗しました: &#39; + E.Message);
+  end;
+end;
+
+procedure TForm1.UpdatePage;
+var
+  Bitmap: TBitmap;
+begin
+  if not Assigned(FPdfViewer) then
+  begin
+    Image1.Picture.Clear;
+    lblPageInfo.Caption := &#39;ページ 0 / 0&#39;;
+    Exit;
+  end;
+
+  // ビューワーから現在のページのビットマップを取得
+  Bitmap := FPdfViewer.GetBitmap(Panel1.ClientWidth, Panel1.ClientHeight);
+  Image1.Picture.Assign(Bitmap); // TImageに表示
+  Bitmap.Free;
+
+  // ページ情報を更新
+  lblPageInfo.Caption := Format(&#39;ページ %d / %d&#39;, [FPdfViewer.PageIndex + 1, FPdfViewer.PageCount]);
+
+  // ボタンの有効/無効を更新
+  btnPrevious.Enabled := FPdfViewer.CanPrevious;
+  btnNext.Enabled := FPdfViewer.CanNext;
+end;
+
+procedure TForm1.btnNextClick(Sender: TObject);
+begin
+  if Assigned(FPdfViewer) then
+  begin
+    FPdfViewer.Next; // 次のページへ
+    UpdatePage;      // 表示を更新
+  end;
+end;
+
+// ... btnPreviousClickも同様
+
+end.
+</code></pre><p>UI側のコードは、<code>TPdfViewer</code>オブジェクトに「次のページを見せて」「今のページを画像にして」と指示するだけで済み、PDFiumの複雑な詳細を知る必要がありません。</p>
+    </div>
+    <a href="/posts/lazarus-day023-pdfviewer/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day022-spreadsheet-viewer/" class="link black dim">
+        スプレッドシート作成の試みとビューワー実装 - Day22
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="スプレッドシート作成の試みとビューワー実装---day22">スプレッドシート作成の試みとビューワー実装 - Day22</h1>
+<p>Lazarusチャレンジ22日目です。今回は、本来スプレッドシート（表計算ソフト）自体を自作しようと試みましたが、開発途中でCursor（AIエディタ）の利用制限（上限）に引っかかってしまい、手動での作業が必要になりました。</p>
+<p>結果として、編集機能までには至りませんでしたが、<strong>Excelファイル（.xlsx）を読み込んで表示するビューワー</strong>として完成させました。</p>
+<h2 id="今回の目標とその経緯">今回の目標とその経緯</h2>
+<p>当初の目標は、セルへの入力や計算機能を持つ簡易的なスプレッドシートアプリケーションの作成でした。しかし、AIアシスタントとの対話中に利用上限に達してしまい、複雑なロジックの実装を継続するのが困難になりました。</p>
+<p>そこで目標を切り替え、<strong>既存のExcelファイルを読み込んで表示する</strong>という機能に絞って実装を行いました。</p>
+<h2 id="実装内容">実装内容</h2>
+<p>使用したライブラリは <code>fpspreadsheet</code> です。これはFree Pascalでスプレッドシート形式（.ods, .xls, .xlsxなど）を読み書きするための強力なライブラリです。</p>
+<h3 id="ソースコード-unit1pas">ソースコード (Unit1.pas)</h3>
+<p>以下が今回作成したメインユニットのコードです。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">unit Unit1;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus,
+  fpspreadsheet, fpspreadsheetgrid, fpsallformats, fpstypes;
+
+type
+
+  { TForm1 }
+
+  TForm1 = class(TForm)
+    MainMenu1: TMainMenu;
+    MenuItemFile: TMenuItem;
+    MenuItemLoad: TMenuItem;
+    MenuItemExit: TMenuItem;
+    OpenDialog1: TOpenDialog;
+    sWorksheetGrid1: TsWorksheetGrid;
+    procedure MenuItemLoadClick(Sender: TObject);
+    procedure MenuItemExitClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+  private
+
+  public
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.lfm}
+
+
+{ --- 読み込み処理 --- }
+procedure TForm1.MenuItemLoadClick(Sender: TObject);
+begin
+  if not OpenDialog1.Execute then
+  begin
+    Exit;
+  end;
+
+  if not FileExists(OpenDialog1.FileName) then
+  begin
+    ShowMessage(&#39;ファイルが見つかりません: &#39; + OpenDialog1.FileName);
+    Exit;
+  end;
+
+  try
+    // 1. ファイルから読み込む
+    sWorksheetGrid1.Workbook.ReadFromFile(OpenDialog1.FileName, sfOOXML);
+    ShowMessage(&#39;読み込みました&#39;);
+  except
+    on E: Exception do
+      ShowMessage(&#39;読み込みに失敗しました: &#39; + E.Message);
+  end;
+end;
+
+{ --- 終了処理 --- }
+procedure TForm1.MenuItemExitClick(Sender: TObject);
+begin
+  Close;
+end;
+
+{ --- アプリ終了時の処理 --- }
+procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  // 終了時の処理なし
+end;
+
+end.
+</code></pre><h2 id="ポイント">ポイント</h2>
+<h3 id="fpspreadsheetの活用">fpspreadsheetの活用</h3>
+<p><code>uses</code> 節に <code>fpspreadsheet</code>, <code>fpspreadsheetgrid</code>, <code>fpsallformats</code> を追加することで、スプレッドシートの機能を簡単に利用できます。</p>
+    </div>
+    <a href="/posts/lazarus-day022-spreadsheet-viewer/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
       
         <div class="w-100 w-30-l mb4 relative bg-white">
           <div class="w-100 mb4 nested-copy-line-height relative bg-white">
@@ -755,160 +1005,6 @@ Game3mokuUnitを作成。
 <p><strong>乱数生成器の初期化</strong>: コンストラクタに<code>Randomize</code>を追加し、毎回異なるランダムな手を生成</p>
     </div>
     <a href="/posts/lazarus-day014-3moku-complete/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day013-3moku/" class="link black dim">
-        3目並べの作成 - Day13
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="3目並べの作成---day13">3目並べの作成 - Day13</h1>
-<p>Lazarusチャレンジ13日目です。今回は、**3目並べ（三目並べ）**アプリに挑戦しました。AI対戦機能も含めた本格的なゲームアプリを目指しましたが、残念ながら完成に至りませんでした。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>今回作成する3目並べアプリは、以下の機能を実装することを目指しました：</p>
-<ul>
-<li><strong>3目並べのゲームロジック</strong>: 3×3のグリッドで3目並べをプレイできる機能</li>
-<li><strong>AI対戦</strong>: コンピューターとの対戦機能</li>
-<li><strong>GUI</strong>: 視覚的に分かりやすいゲームボード</li>
-<li><strong>リセット機能</strong>: ゲームをリセットして再開できる機能</li>
-</ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day013_3moku</strong>」と入力し、プロジェクトを作成しました。</p>
-<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>3目並べアプリの開発は、以下のようなプロンプトを投入しました：</p>
-<pre tabindex="0"><code>３目ならべのできるユニット。
-AIユニット。
-GUI
-</code></pre><p>そしてビルドもお願いしました：</p>
-<pre tabindex="0"><code>c:\Lazarus\Lazbuildでビルド
-</code></pre><p>このプロンプトで、基本的な3目並べアプリの構造が実装されました。ゲームボードとAIユニットが作成され、GUIも配置されました。</p>
-<h2 id="発生した問題">発生した問題</h2>
-<p>残念ながら、アプリを実行してみると、いくつかの問題が発生しました：</p>
-<p><img src="/images/LazarusDay013Fail.png" alt="3目並べアプリのエラー画面"></p>
-<h3 id="問題1-ボタンが動作しない">問題1: ボタンが動作しない</h3>
-<p>実行すると、ゲームボードのボタンを押しても何も起こりませんでした。ボタンのイベントハンドラーが正しく実装されていない可能性があります。</p>
-<h3 id="問題2-リセット時のaccess-violationエラー">問題2: リセット時のAccess violationエラー</h3>
-<p>「リセット」ボタンを押すと、<strong>Access violation</strong>エラーが発生しました。これはメモリの不正アクセスを示すエラーで、以下のような原因が考えられます：</p>
-<ul>
-<li><strong>未初期化の変数</strong>: 変数が初期化されていない状態でアクセスしている</li>
-<li><strong>解放済みメモリへのアクセス</strong>: 既に解放されたメモリ領域にアクセスしている</li>
-<li><strong>配列の範囲外アクセス</strong>: 配列の範囲を超えたインデックスでアクセスしている</li>
-<li><strong>オブジェクトの不適切な管理</strong>: オブジェクトの生成・破棄のタイミングが適切でない</li>
-</ul>
-<h2 id="技術的な課題">技術的な課題</h2>
-<p>3目並べアプリの実装では、以下の技術的な課題がありました：</p>
-<ul>
-<li><strong>ゲーム状態の管理</strong>: ゲームの状態（プレイヤーのターン、勝敗判定など）を適切に管理する必要がある</li>
-<li><strong>AIの実装</strong>: コンピューターの思考ロジックを実装する必要がある</li>
-<li><strong>イベントハンドラー</strong>: ボタンクリック時のイベントハンドラーを正しく実装する必要がある</li>
-<li><strong>メモリ管理</strong>: オブジェクトの生成・破棄を適切に行う必要がある</li>
-</ul>
-<h2 id="学んだこと">学んだこと</h2>
-<p>Day13の開発を通じて、以下のことを学びました：</p>
-<h3 id="デバッグの重要性">デバッグの重要性</h3>
-<p>今回、アプリが完成しなかったことで、デバッグの重要性を改めて実感しました：</p>
-<ul>
-<li><strong>エラーメッセージの確認</strong>: Access violationエラーは、メモリ管理の問題を示している</li>
-<li><strong>段階的な実装</strong>: 一度にすべてを実装するのではなく、段階的に実装してテストすることが重要</li>
-<li><strong>エラーハンドリング</strong>: 適切なエラーハンドリングを実装することで、問題を早期に発見できる</li>
-</ul>
-<h3 id="プロンプトの詳細さ">プロンプトの詳細さ</h3>
-<p>今回のプロンプトは、機能の概要を述べたものでしたが、実装の詳細までは含まれていませんでした：</p>
-<ul>
-<li><strong>詳細な仕様</strong>: より詳細な仕様をプロンプトに含めることで、期待通りの実装が得られる可能性が高い</li>
-<li><strong>段階的な実装</strong>: まず基本機能を実装し、その後AI機能を追加するなど、段階的なアプローチが有効</li>
-</ul>
-<h3 id="時間管理">時間管理</h3>
-<p>今回は時間がなく、完成に至りませんでした：</p>
-    </div>
-    <a href="/posts/lazarus-day013-3moku/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day012-bmp-viewer/" class="link black dim">
-        BMPビューアーの作成 - Day12
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="bmpビューアーの作成---day12">BMPビューアーの作成 - Day12</h1>
-<p>Lazarusチャレンジ12日目です。今回は、<strong>BMP画像を表示するシンプルなビューアー</strong>を作成することにしました。画像ファイルを開いて表示する機能を実装しました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>今回作成するBMPビューアーは、BMP形式の画像ファイルを開いて表示するシンプルなアプリです。複雑な機能は不要で、基本的な画像表示機能に特化したアプリを目指しました。</p>
-<p>以下の機能を実装することにしました：</p>
-<ul>
-<li><strong>ファイルを開く</strong>: BMP画像ファイルを開く機能</li>
-<li><strong>画像表示</strong>: 開いた画像を表示する機能</li>
-<li><strong>シンプルなUI</strong>: 必要最小限のUIコンポーネント</li>
-<li><strong>軽量</strong>: 余計な機能を排除した軽量なアプリ</li>
-</ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day012_BmpViewer</strong>」と入力し、プロジェクトを作成しました。</p>
-<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>BMPビューアーの開発は、以下のようなプロンプトを投入しました：</p>
-<pre tabindex="0"><code>Bmp Viewer
-</code></pre><p>もう、アプリ名のみですね。ちょっと夜になって疲れてきております。</p>
-<p>基本的なコーディングが完了するまで待ちます。
-メニューが設定されていませんので、IDEを開き
-Menuプロパティを設定します。</p>
-<p>そしてビルドをいつものようにお願いします。
-パスはLazarusをインストールしたときのフォルダ名に合わせる必要がありますが、
-デフォルトのインストール先はC:\Lazarusになっています。</p>
-<pre tabindex="0"><code>C:\Lazarus\Lazbuildでビルド
-</code></pre><p>このプロンプトで、基本的なBMPビューアー機能が実装されました。ファイルを開く機能と画像表示機能が実装され、BMP画像を表示できるようになりました。</p>
-<h2 id="完成したアプリの機能">完成したアプリの機能</h2>
-<p>完成したBMPビューアーには、以下の機能が実装されています：</p>
-<p><img src="/images/LazarusDay012.png" alt="BMPビューアーのスクリーンショット"></p>
-<ul>
-<li>✅ <strong>ファイルを開く</strong>: BMP画像ファイルを開く機能</li>
-<li>✅ <strong>画像表示</strong>: 開いた画像を表示する機能</li>
-<li>✅ <strong>シンプルなUI</strong>: 必要最小限のUIコンポーネント</li>
-<li>✅ <strong>軽量</strong>: 余計な機能を排除した軽量なアプリ</li>
-<li>✅ <strong>基本的な画像表示</strong>: BMP形式の画像を正しく表示</li>
-</ul>
-<h2 id="技術的なポイント">技術的なポイント</h2>
-<p>BMPビューアーの実装では、以下の技術的なポイントがありました：</p>
-<ul>
-<li><strong>TImageコンポーネント</strong>: LazarusのTImageコンポーネントを使用して画像表示機能を実装</li>
-<li><strong>ファイルダイアログ</strong>: ファイルを開くためのダイアログを使用</li>
-<li><strong>画像読み込み</strong>: BMP画像ファイルの読み込み機能を実装</li>
-<li><strong>シンプルなUI</strong>: 必要最小限のUIコンポーネントのみを使用</li>
-<li><strong>軽量設計</strong>: 余計な機能を排除して、軽量なアプリを実現</li>
-</ul>
-<h2 id="学んだこと">学んだこと</h2>
-<p>Day12の開発を通じて、以下のことを学びました：</p>
-<h3 id="bmp以外の表示について">BMP以外の表示について</h3>
-<p>TImageはBMP以外の表示ができないのです。
-pngやjpegを表示するには内部的に変換しないといけないです。
-セカンドモニタービューワーというアプリを開発中なのですが、
-なんでも表示することができるようにするためには作りこみをしないとうごかないですね。</p>
-<p>シンプルな画像ビューアーを作ることで、以下のことを学びました：</p>
-<h3 id="画像表示の基本機能">画像表示の基本機能</h3>
-<p>画像ビューアーの基本機能を実装することで、以下のことを学びました：</p>
-<ul>
-<li><strong>画像読み込み</strong>: 画像ファイルの読み込み方法</li>
-<li><strong>画像表示</strong>: TImageコンポーネントを使った画像表示方法</li>
-</ul>
-<h3 id="プロンプトの簡潔さ">プロンプトの簡潔さ</h3>
-<p>今回のプロンプトは非常に簡潔でしたが、それでも基本的なビューアー機能が実装されました：</p>
-    </div>
-    <a href="/posts/lazarus-day012-bmp-viewer/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 

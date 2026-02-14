@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-02-10T16:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-02-10T16:00:00+09:00">
+  <meta itemprop="datePublished" content="2026-02-13T16:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-13T16:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Posts">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -119,6 +119,113 @@
   <article class="pa3 pa4-ns nested-copy-line-height">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links mid-gray"></section>
     <section class="flex-ns mt5 flex-wrap justify-around">
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day033-pas2js-whiteboard/" class="link black dim">
+        Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsでオートシェイプ風ホワイトボードを作成---day33">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</h1>
+<p>Lazarusチャレンジ33日目です。<strong>Pas2JS</strong> で、Canvas 上で図形（矩形・円・線）を「オブジェクト」として管理し、ドラッグで描画・移動できる <strong>オートシェイプ風ホワイトボード</strong> を作成しました。Pascal の <strong>継承とポリモーフィズム</strong> を活かした設計で、図形を基底クラス <code>TShape</code> から派生させ、リストで一括描画・ヒット判定しています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>ツールパレット</strong>: 選択・四角・丸・線を切り替え。選択ツールで既存図形をドラッグして移動。</li>
+<li><strong>図形の追加</strong>: 四角・丸・線を選んでキャンバス上でドラッグすると、プレビュー表示のあとマウスを離すと図形が確定。</li>
+<li><strong>色パレット</strong>: 10色のスウォッチで色を選択。選択した色が以降に追加する図形に適用され、現在色はプレビュー欄に表示。</li>
+<li><strong>ヒット判定</strong>: 各図形が <code>Contains(PX, PY)</code> で「自分がクリックされたか」を判定。重なりは上（配列の後ろ）から判定。</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-クラス設計継承の活用">1. クラス設計（継承の活用）</h3>
+<p>すべての図形の基本となる抽象クラス <code>TShape</code> を定義し、矩形・円・線を派生させています。</p>
+<ul>
+<li><strong>TShape</strong>: 座標 <code>(X, Y)</code>、サイズ <code>(W, H)</code>、色 <code>Color</code>、および <code>Draw</code>（描画）と <code>Contains(PX, PY)</code>（クリック判定）を持つ。<code>Draw</code> は <code>virtual; abstract;</code> で派生クラスが実装。</li>
+<li><strong>TRectangle</strong>: 矩形の <code>fillRect</code> / <code>strokeRect</code> で描画。<code>Contains</code> は基底の「矩形内か」でそのまま利用。</li>
+<li><strong>TCircle</strong>: 中心と半径から <code>arc</code> で描画。<code>Contains</code> は中心からの距離で円内か判定（<code>dx*dx + dy*dy &lt;= r*r</code>）。</li>
+<li><strong>TLine</strong>: 始点から終点まで <code>moveTo</code> / <code>lineTo</code> で描画。<code>Contains</code> は線の両端で作る矩形＋余白（HitPad）で近傍クリックを許容。</li>
+</ul>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">type
+  TShape = class
+    X, Y, W, H: Integer;
+    Color: String;
+    constructor Create(AX, AY, AW, AH: Integer; AColor: String);
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); virtual; abstract;
+    function Contains(PX, PY: Integer): Boolean; virtual;
+  end;
+
+  TRectangle = class(TShape)
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
+  end;
+
+  TCircle = class(TShape)
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
+    function Contains(PX, PY: Integer): Boolean; override;
+  end;
+
+  TLine = class(TShape)
+    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
+    function Contains(PX, PY: Integer): Boolean; override;
+  end;
+
+  TToolMode = (tmSelect, tmRect, tmCircle, tmLine);
+</code></pre><h3 id="2-ポリモーフィズムで一括描画">2. ポリモーフィズムで一括描画</h3>
+<p><code>Render</code> では <code>Shapes</code> 配列を走査し、<code>s.Draw(Ctx)</code> を呼ぶだけです。矩形・円・線の違いを意識せず、各オブジェクトが自分の描画を行います。</p>
+    </div>
+    <a href="/posts/lazarus-day033-pas2js-whiteboard/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day031-pas2js-markdown/" class="link black dim">
+        Pas2JSでMarkdownエディタを作成 - Day31
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsでmarkdownエディタを作成---day31">Pas2JSでMarkdownエディタを作成 - Day31</h1>
+<p>Lazarusチャレンジ31日目です。<strong>Pas2JS</strong> で、左にエディタ・右にプレビューを表示する <strong>簡易Markdownエディタ</strong> を作成しました。marked.js などの外部ライブラリは使わず、<strong>Pascal のロジックのみ</strong>で Markdown を HTML に変換する <code>ParseMarkdown</code> を実装しています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>左右分割レイアウト</strong>: 左側がテキストエリア（Markdown入力）、右側がプレビュー（HTML表示）</li>
+<li><strong>リアルタイムプレビュー</strong>: 入力するたびに <code>oninput</code> でプレビューを更新</li>
+<li><strong>対応記法</strong>: 見出し（<code>#</code>, <code>##</code>）、<strong>太字</strong>（<code>**</code>）、リスト（<code>*</code> / <code>-</code>）、リンク（<code>[text](url)</code>）、水平線（<code>---</code>）、段落</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-dom-へのアクセスとイベント">1. DOM へのアクセスとイベント</h3>
+<p>HTML 側で <code>id=&quot;editor&quot;</code>（textarea）と <code>id=&quot;preview&quot;</code>（div）を定義し、Pascal 側で <code>document.getElementById</code> で取得します。入力のたびにプレビューを更新するため、<code>EditorElem.oninput := @DoUpdate</code> でイベントを紐付けています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">EditorElem := TJSHTMLTextAreaElement(document.getElementById(&#39;editor&#39;));
+PreviewElem := TJSHTMLElement(document.getElementById(&#39;preview&#39;));
+if Assigned(EditorElem) then
+  EditorElem.oninput := @DoUpdate;
+</code></pre><h3 id="2-簡易-markdown-パーサーparsemarkdown">2. 簡易 Markdown パーサー（ParseMarkdown）</h3>
+<p>改行で分割して1行ずつ処理し、行頭の記号でブロック要素を判定してから、インラインの強調・リンクを正規表現で置換しています。</p>
+<ul>
+<li><strong>水平線</strong>: <code>---</code> の行を <code>&lt;hr /&gt;</code> に</li>
+<li><strong>見出し</strong>: <code>#</code>  で始まる行を <code>&lt;h1&gt;</code>、<code>##</code>  を <code>&lt;h2&gt;</code> に</li>
+<li><strong>リスト</strong>: 行頭の <code>*</code>  または <code>-</code>  を <code>&lt;li&gt;</code> に</li>
+<li><strong>強調</strong>: <code>**...**</code> を <code>TJSRegExp</code> で <code>&lt;strong&gt;...&lt;/strong&gt;</code> に</li>
+<li><strong>リンク</strong>: <code>[text](url)</code> を <code>&lt;a href=&quot;url&quot; target=&quot;_blank&quot;&gt;text&lt;/a&gt;</code> に</li>
+<li><strong>段落</strong>: 上記のいずれでもない非空行を <code>&lt;p&gt;...&lt;/p&gt;</code> で囲む</li>
+</ul>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">Line := TJSString(Line).replace(TJSRegExp.New(&#39;\*\*(.*?)\*\*&#39;, &#39;g&#39;), &#39;&lt;strong&gt;$1&lt;/strong&gt;&#39;);
+Line := TJSString(Line).replace(TJSRegExp.New(&#39;\[(.*?)\]\((.*?)\)&#39;, &#39;g&#39;), &#39;&lt;a href=&#34;$2&#34; target=&#34;_blank&#34;&gt;$1&lt;/a&gt;&#39;);
+</code></pre><h3 id="3-tjsstring--tjsregexp-の利用">3. TJSString / TJSRegExp の利用</h3>
+<p>pas2js では、Pascal の <code>string</code> を <code>TJSString(...)</code> で JavaScript の String として扱い、<code>.split()</code> や <code>.replace()</code> が使えます。正規表現は <code>TJSRegExp.New('パターン', 'g')</code> で生成し、<code>$1</code>, <code>$2</code> でキャプチャを参照できます。外部の Markdown ライブラリに頼らずに、Pascal だけで簡易パーサーを書けるポイントです。</p>
+    </div>
+    <a href="/posts/lazarus-day031-pas2js-markdown/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
       
         <div class="w-100 w-30-l mb4 relative bg-white">
           <div class="w-100 mb4 nested-copy-line-height relative bg-white">
@@ -531,256 +638,6 @@ end;
 <p>マスの反転処理は、範囲チェックを行った上で状態を反転させるシンプルなものです。</p>
     </div>
     <a href="/posts/lazarus-day024-lightsout/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day023-pdfviewer/" class="link black dim">
-        PDFビューワーの作成とAIクレジット枯渇との戦い - Day23
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="pdfビューワーの作成とaiクレジット枯渇との戦い---day23">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</h1>
-<p>Lazarusチャレンジ23日目です。今回は、<strong>PDFファイルを表示するビューワー</strong>の作成に挑戦しました。</p>
-<p>しかし、今回はこれまでと少し事情が違います。開発の相棒である <strong>Cursor Pro（AIエディタ）の月間クレジットがついに底をつきかけてしまいました。</strong> そのため、AIに頼り切った開発から一転、ほとんどのコードを<strong>手書きと過去の自作コードの流用</strong>で実装するという、原点回帰的な開発となりました。</p>
-<h2 id="今回の目標と制約">今回の目標と制約</h2>
-<p>目標は、PDFファイルを読み込み、ページをめくれるシンプルなビューワーを作ることです。</p>
-<ul>
-<li><strong>目標</strong>:
-<ul>
-<li>PDFファイルを開いて表示できる</li>
-<li>「次へ」「前へ」ボタンでページを移動できる</li>
-<li>現在のページ番号と総ページ数を表示する</li>
-</ul>
-</li>
-<li><strong>制約</strong>:
-<ul>
-<li>AI（Cursor）の使用を最小限に抑える</li>
-<li>過去に作成したコード資産を積極的に再利用する</li>
-</ul>
-</li>
-</ul>
-<h2 id="実装の核pdfiumライブラリ">実装の核：PDFiumライブラリ</h2>
-<p>PDFのレンダリングは非常に複雑なため、ゼロから作るのは現実的ではありません。そこで、GoogleがメンテナンスしているオープンソースのPDFレンダリングライブラリ <strong>PDFium</strong> を利用することにしました。</p>
-<p>LazarusからPDFiumを利用するには、<code>pdfium.dll</code>というダイナミックリンクライブラリ（DLL）が必要です。このDLLをアプリケーションの実行ファイルと同じフォルダに配置し、Pascalコードからその関数を呼び出すことで、PDFの機能を利用します。</p>
-<h3 id="dllの準備">DLLの準備</h3>
-<p><code>pdfium.dll</code>は、公式のGitHubリポジトリなどから、自分の環境（Windows 64bitなど）に合ったものをダウンロードして配置する必要があります。</p>
-<h2 id="実装戦略ラッパークラスによる抽象化">実装戦略：ラッパークラスによる抽象化</h2>
-<p>PDFiumのAPIはC言語スタイルであり、そのまま使うのはPascalのオブジェクト指向に馴染みません。そこで、過去のプロジェクトの経験を活かし、APIを使いやすくするための<strong>ラッパークラス</strong>を複数作成しました。AIに頼れない今、このような構造化されたコード資産が非常に役立ちます。</p>
-<h3 id="主なユニット構成">主なユニット構成</h3>
-<ul>
-<li>
-<p><strong><code>PdfiumLib.pas</code></strong>: <code>pdfium.dll</code>からエクスポートされている関数を直接宣言するユニット。</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">// pdfium.dllの関数をPascalから使えるように宣言
-procedure FPDF_InitLibrary(); cdecl; external PDFiumDll;
-function FPDF_LoadDocument(file_path: FPDF_STRING; ...): FPDF_DOCUMENT; cdecl; external PDFiumDll;
-// ...など
-</code></pre></li>
-<li>
-<p><strong><code>PdfDocument.pas</code></strong>: PDFドキュメント全体を管理する<code>TPdfDocument</code>クラス。ファイルの読み込みやクローズ、ページ数の取得などを担当します。</p>
-</li>
-<li>
-<p><strong><code>PdfPage.pas</code></strong>: 個々のページを管理する<code>TPdfPage</code>クラス。ページの幅や高さを取得します。</p>
-</li>
-<li>
-<p><strong><code>PdfRenderer.pas</code></strong>: PDFのページをLazarusの<code>TBitmap</code>オブジェクトに描画（レンダリング）する手続きをまとめたユニット。</p>
-</li>
-<li>
-<p><strong><code>PdfViewer.pas</code></strong>: UIとやり取りする高レベルな<code>TPdfViewer</code>クラス。現在のページインデックスを管理し、ページ移動のロジック（<code>Next</code>, <code>Previous</code>）などを持ちます。</p>
-</li>
-</ul>
-<p>このように機能を分割することで、メインフォームのコード（<code>Unit1.pas</code>）は非常にシンプルになります。</p>
-<h2 id="uiの実装-unit1pas">UIの実装 (Unit1.pas)</h2>
-<p>メインフォームでは、<code>TPdfViewer</code>クラスを利用してPDFの表示と操作を行います。</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">unit Unit1;
-
-interface
-
-uses
-  ..., PdfViewer;
-
-type
-  TForm1 = class(TForm)
-    // ... UIコンポーネント
-  private
-    FPdfViewer: TPdfViewer; // ビューワーのインスタンス
-    procedure LoadPdfFile(const FileName: string);
-    procedure UpdatePage;
-    // ...
-  public
-
-  end;
-
-implementation
-
-// ...
-
-procedure TForm1.LoadPdfFile(const FileName: string);
-begin
-  try
-    if Assigned(FPdfViewer) then
-      FPdfViewer.Free;
-
-    // 新しいPDFファイルでビューワーインスタンスを作成
-    FPdfViewer := TPdfViewer.Create(FileName);
-
-    UpdatePage; // 最初のページを表示
-    Caption := &#39;PDF Viewer - &#39; + ExtractFileName(FileName);
-  except
-    on E: Exception do
-      ShowMessage(&#39;PDFファイルの読み込みに失敗しました: &#39; + E.Message);
-  end;
-end;
-
-procedure TForm1.UpdatePage;
-var
-  Bitmap: TBitmap;
-begin
-  if not Assigned(FPdfViewer) then
-  begin
-    Image1.Picture.Clear;
-    lblPageInfo.Caption := &#39;ページ 0 / 0&#39;;
-    Exit;
-  end;
-
-  // ビューワーから現在のページのビットマップを取得
-  Bitmap := FPdfViewer.GetBitmap(Panel1.ClientWidth, Panel1.ClientHeight);
-  Image1.Picture.Assign(Bitmap); // TImageに表示
-  Bitmap.Free;
-
-  // ページ情報を更新
-  lblPageInfo.Caption := Format(&#39;ページ %d / %d&#39;, [FPdfViewer.PageIndex + 1, FPdfViewer.PageCount]);
-
-  // ボタンの有効/無効を更新
-  btnPrevious.Enabled := FPdfViewer.CanPrevious;
-  btnNext.Enabled := FPdfViewer.CanNext;
-end;
-
-procedure TForm1.btnNextClick(Sender: TObject);
-begin
-  if Assigned(FPdfViewer) then
-  begin
-    FPdfViewer.Next; // 次のページへ
-    UpdatePage;      // 表示を更新
-  end;
-end;
-
-// ... btnPreviousClickも同様
-
-end.
-</code></pre><p>UI側のコードは、<code>TPdfViewer</code>オブジェクトに「次のページを見せて」「今のページを画像にして」と指示するだけで済み、PDFiumの複雑な詳細を知る必要がありません。</p>
-    </div>
-    <a href="/posts/lazarus-day023-pdfviewer/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day022-spreadsheet-viewer/" class="link black dim">
-        スプレッドシート作成の試みとビューワー実装 - Day22
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="スプレッドシート作成の試みとビューワー実装---day22">スプレッドシート作成の試みとビューワー実装 - Day22</h1>
-<p>Lazarusチャレンジ22日目です。今回は、本来スプレッドシート（表計算ソフト）自体を自作しようと試みましたが、開発途中でCursor（AIエディタ）の利用制限（上限）に引っかかってしまい、手動での作業が必要になりました。</p>
-<p>結果として、編集機能までには至りませんでしたが、<strong>Excelファイル（.xlsx）を読み込んで表示するビューワー</strong>として完成させました。</p>
-<h2 id="今回の目標とその経緯">今回の目標とその経緯</h2>
-<p>当初の目標は、セルへの入力や計算機能を持つ簡易的なスプレッドシートアプリケーションの作成でした。しかし、AIアシスタントとの対話中に利用上限に達してしまい、複雑なロジックの実装を継続するのが困難になりました。</p>
-<p>そこで目標を切り替え、<strong>既存のExcelファイルを読み込んで表示する</strong>という機能に絞って実装を行いました。</p>
-<h2 id="実装内容">実装内容</h2>
-<p>使用したライブラリは <code>fpspreadsheet</code> です。これはFree Pascalでスプレッドシート形式（.ods, .xls, .xlsxなど）を読み書きするための強力なライブラリです。</p>
-<h3 id="ソースコード-unit1pas">ソースコード (Unit1.pas)</h3>
-<p>以下が今回作成したメインユニットのコードです。</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">unit Unit1;
-
-{$mode objfpc}{$H+}
-
-interface
-
-uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus,
-  fpspreadsheet, fpspreadsheetgrid, fpsallformats, fpstypes;
-
-type
-
-  { TForm1 }
-
-  TForm1 = class(TForm)
-    MainMenu1: TMainMenu;
-    MenuItemFile: TMenuItem;
-    MenuItemLoad: TMenuItem;
-    MenuItemExit: TMenuItem;
-    OpenDialog1: TOpenDialog;
-    sWorksheetGrid1: TsWorksheetGrid;
-    procedure MenuItemLoadClick(Sender: TObject);
-    procedure MenuItemExitClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-  private
-
-  public
-  end;
-
-var
-  Form1: TForm1;
-
-implementation
-
-{$R *.lfm}
-
-
-{ --- 読み込み処理 --- }
-procedure TForm1.MenuItemLoadClick(Sender: TObject);
-begin
-  if not OpenDialog1.Execute then
-  begin
-    Exit;
-  end;
-
-  if not FileExists(OpenDialog1.FileName) then
-  begin
-    ShowMessage(&#39;ファイルが見つかりません: &#39; + OpenDialog1.FileName);
-    Exit;
-  end;
-
-  try
-    // 1. ファイルから読み込む
-    sWorksheetGrid1.Workbook.ReadFromFile(OpenDialog1.FileName, sfOOXML);
-    ShowMessage(&#39;読み込みました&#39;);
-  except
-    on E: Exception do
-      ShowMessage(&#39;読み込みに失敗しました: &#39; + E.Message);
-  end;
-end;
-
-{ --- 終了処理 --- }
-procedure TForm1.MenuItemExitClick(Sender: TObject);
-begin
-  Close;
-end;
-
-{ --- アプリ終了時の処理 --- }
-procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
-begin
-  // 終了時の処理なし
-end;
-
-end.
-</code></pre><h2 id="ポイント">ポイント</h2>
-<h3 id="fpspreadsheetの活用">fpspreadsheetの活用</h3>
-<p><code>uses</code> 節に <code>fpspreadsheet</code>, <code>fpspreadsheetgrid</code>, <code>fpsallformats</code> を追加することで、スプレッドシートの機能を簡単に利用できます。</p>
-    </div>
-    <a href="/posts/lazarus-day022-spreadsheet-viewer/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 

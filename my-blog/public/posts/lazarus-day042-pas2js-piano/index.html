@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Pas2JSで作る楽器に変身！「Web音階ジェネレーター」 - Day42 | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ42日目。Web Audio APIを叩いて、ボタンを押すとPascalで定義した周波数の音が鳴る「Web音階ジェネレーター」をPas2JSで作成。PascalのCase文で音階（C, D, E...）をスマートに管理し、ピアノの鍵盤イメージで鳴らす。Geminiで骨格・HTML/CSS/PASを取得し、usesにwebaudio追加と「PlayNoteがコンパイルから落ちる」問題をCursorで解決しました。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day042-pas2js-piano/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day042-pas2js-piano/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Pas2JSで作る楽器に変身！「Web音階ジェネレーター」 - Day42">
+  <meta property="og:description" content="Lazarusチャレンジ42日目。Web Audio APIを叩いて、ボタンを押すとPascalで定義した周波数の音が鳴る「Web音階ジェネレーター」をPas2JSで作成。PascalのCase文で音階（C, D, E...）をスマートに管理し、ピアノの鍵盤イメージで鳴らす。Geminiで骨格・HTML/CSS/PASを取得し、usesにwebaudio追加と「PlayNoteがコンパイルから落ちる」問題をCursorで解決しました。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-11T16:00:00+09:00">
+    <meta property="article:modified_time" content="2026-02-11T16:00:00+09:00">
+
+  <meta itemprop="name" content="Pas2JSで作る楽器に変身！「Web音階ジェネレーター」 - Day42">
+  <meta itemprop="description" content="Lazarusチャレンジ42日目。Web Audio APIを叩いて、ボタンを押すとPascalで定義した周波数の音が鳴る「Web音階ジェネレーター」をPas2JSで作成。PascalのCase文で音階（C, D, E...）をスマートに管理し、ピアノの鍵盤イメージで鳴らす。Geminiで骨格・HTML/CSS/PASを取得し、usesにwebaudio追加と「PlayNoteがコンパイルから落ちる」問題をCursorで解決しました。">
+  <meta itemprop="datePublished" content="2026-02-11T16:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-11T16:00:00+09:00">
+  <meta itemprop="wordCount" content="308">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pas2JSで作る楽器に変身！「Web音階ジェネレーター」 - Day42">
+  <meta name="twitter:description" content="Lazarusチャレンジ42日目。Web Audio APIを叩いて、ボタンを押すとPascalで定義した周波数の音が鳴る「Web音階ジェネレーター」をPas2JSで作成。PascalのCase文で音階（C, D, E...）をスマートに管理し、ピアノの鍵盤イメージで鳴らす。Geminiで骨格・HTML/CSS/PASを取得し、usesにwebaudio追加と「PlayNoteがコンパイルから落ちる」問題をCursorで解決しました。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay042.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSで作る楽器に変身！「Web音階ジェネレーター」 - Day42</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ42日目。Web Audio APIを叩いて、ボタンを押すとPascalで定義した周波数の音が鳴る「Web音階ジェネレーター」をPas2JSで作成。PascalのCase文で音階（C, D, E...）をスマートに管理し、ピアノの鍵盤イメージで鳴らす。Geminiで骨格・HTML/CSS/PASを取得し、usesにwebaudio追加と「PlayNoteがコンパイルから落ちる」問題をCursorで解決しました。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day041-quantum-shogi/">← チャレンジ41日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day043-pas2js-shopping-list/">チャレンジ43日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Pas2JSで作る楽器に変身！「Web音階ジェネレーター」 - Day42</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-02-11T16:00:00+09:00">February 11, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsで作る楽器に変身web音階ジェネレーター---day42">Pas2JSで作る楽器に変身！「Web音階ジェネレーター」 - Day42</h1>
+<p>Lazarusチャレンジ42日目です。<strong>Web Audio API</strong> を叩いて、ボタンを押すと <strong>Pascal で定義した周波数</strong>の音が鳴る「<strong>Web音階ジェネレーター</strong>」を Pas2JS でブラウザ向けに作りました。<strong>Pascal の Case 文</strong>で音階（C, D, E ...）をスマートに管理し、ピアノの鍵盤のイメージで鳴らす構成にしています。設計とベースコードは <strong>Gemini</strong> に任せ、コンパイルエラーと実行時エラーは <strong>Cursor</strong> で解消しました。</p>
+<p><img src="/images/LazarusDay042.png" alt="Web音階ジェネレーター 画面"></p>
+<h2 id="コンセプト">コンセプト</h2>
+<ul>
+<li><strong>Web Audio API</strong>: ブラウザの <code>AudioContext</code> で音の再生環境を作り、<code>OscillatorNode</code> で波形（音）を生成、<code>GainNode</code> で音量（エンベロープ）を制御</li>
+<li><strong>Pascal で音階を定義</strong>: 列挙型 <code>TNote</code>（C4, D4, E4 ... C5）と <strong>case 文</strong>で「音階名 → 周波数(Hz)」を型安全に変換。マジックナンバーを排除した読みやすいコードになる</li>
+<li><strong>ピアノ鍵盤のUI</strong>: HTML/CSS で鍵盤風のボタンを並べ、各ボタンの <code>onclick</code> で Pascal の <code>PlayNote</code> を呼び出して音を鳴らす</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th>音階</th>
+          <th>周波数 (Hz)</th>
+          <th>役割</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>C4 (ド)</td>
+          <td>261.63</td>
+          <td>基準となるド</td>
+      </tr>
+      <tr>
+          <td>A4 (ラ)</td>
+          <td>440.00</td>
+          <td>調律の基準（時報の音）</td>
+      </tr>
+      <tr>
+          <td>C5 (ド)</td>
+          <td>523.25</td>
+          <td>1オクターブ上</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="gemini-でやったこと">Gemini でやったこと</h2>
+<p>まず <strong>Gemini</strong> に次のようなプロンプトを出して、設計とベースコードを取得しました。</p>
+<ul>
+<li><strong>「Pas2jsで作る楽器に変身！Web音階ジェネレーター。Web Audio APIを叩いて、ボタンを押すとPascalで定義した周波数の音が鳴る。ユニーク点: PascalのCase文を使って、音階（C, D, E...）をスマートに管理。ピアノの鍵盤のイメージ」</strong></li>
+</ul>
+<p>Gemini からは、<strong>TNote と case 文による NoteToFreq</strong>、<strong>Web Audio API（AudioContext / OscillatorNode / GainNode）との連携案</strong>、<strong>エンベロープや波形（sine / square / sawtooth）のアドバイス</strong>が返ってきました。続けて「<strong>htmlとcssとpasを出すように</strong>」とプロンプトし、コピー＆貼り付け用のコードを出力させています。Cursor は課金利用だが $20 で足りなくなるため、ベース部分は Gemini に任せる方針です。</p>
+<h2 id="コンパイルが通らない--cursor-にスイッチ">コンパイルが通らない → Cursor にスイッチ</h2>
+<p>Gemini からもらったコードで、次のコマンドを実行すると <strong>コンパイルエラー</strong>になりました。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js .<span style="color:#ae81ff">\p</span>roject.pas -Tbrowser <span style="color:#e6db74">&#34;-Jirtl.js&#34;</span>
+</span></span></code></pre></div><p>Cursor を起動し、「<strong>pas2js .\project.pas -Tbrowser &quot;-Jirtl.js&quot; 実行とプロンプト</strong>」でコンパイル完了を依頼しました。このとき <strong>uses に <code>webaudio</code> が含まれていなかった</strong>ため、Pas2js が Web Audio API 用の正しいコードを生成せず、無駄なコードが混ざっていました。<strong>作業を中断して自分で uses に <code>webaudio</code> を追加</strong>し、再度同じコマンドでコンパイルを実行する。
+最初usesにwebaudioがなかったため、無駄なコードを吐き出しました。
+それでいったんCursorの作業をとめ自分でusesの修正をし再度プロンプトすると、いくつかの修正の後 <strong>コンパイルは完了</strong>しました。</p>
+<h2 id="実行時エラーplaynote-is-not-a-function">実行時エラー：PlayNote is not a function</h2>
+<p>ブラウザで実行すると、鍵盤ボタンを押したときに次のエラーが出ました。</p>
+<pre tabindex="0"><code>TypeError: pas.PlayNote is not a function
+    at HTMLButtonElement.onclick
+</code></pre><p><strong>原因</strong>: <code>PlayNote</code> は <strong>HTML の onclick からしか参照されていなかった</strong>ため、<strong>Pas2js のコンパイル時に「参照されていない」と判断され、出力 JS に含まれていなかった</strong>ことです。Pas2js はコンパイル時に対象ユニット内の参照だけを見るため、HTML に書いた <code>onclick=&quot;pas.PlayNote('C4')&quot;</code> のような呼び出しは「参照」としてカウントされません。</p>
+<h2 id="解決策参照を残しつつ-javascript-に公開">解決策：参照を残しつつ JavaScript に公開</h2>
+<p>次の2つを Pascal 側に追加しました。</p>
+<ol>
+<li>
+<p><strong>絶対に通らないコードで参照を残す</strong><br>
+コンパイラに「PlayNote が使われている」と認識させるため、<strong>絶対に実行されない分岐</strong>で呼び出しを書きます。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">if false then PlayNote(&#39;C4&#39;);
+</code></pre></li>
+<li>
+<p><strong>JavaScript から呼べるようにグローバルに公開</strong><br>
+HTML の <code>pas.PlayNote(...)</code> で呼べるよう、<code>window.pas</code> に Pascal の <code>PlayNote</code> を渡します。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">asm
+  window.pas = { PlayNote: $mod.PlayNote };
+end;
+</code></pre></li>
+</ol>
+<p>これで <code>PlayNote</code> がコンパイル対象に含まれ、かつ HTML の onclick から <code>pas.PlayNote('C4')</code> などで正しく呼び出せるようになり、<strong>音が鳴る</strong>ようになりました。</p>
+<h2 id="作成したアプリの機能抜粋">作成したアプリの機能（抜粋）</h2>
+<ul>
+<li><strong>音階と周波数</strong>: Pascal の case 文で C4〜C5 の各音を Hz に変換（261.63, 293.66, ... 523.25）</li>
+<li><strong>Web Audio API</strong>: AudioContext / OscillatorNode / GainNode で、短いエンベロープを付けて音を鳴らす</li>
+<li><strong>ピアノ鍵盤風UI</strong>: 各鍵盤ボタンの onclick で <code>pas.PlayNote('C4')</code> のように音名を渡して再生</li>
+<li><strong>波形</strong>: sine（基本）、square / sawtooth に変えるとファミコン風の音にも変更可能</li>
+</ul>
+<h2 id="コンパイル方法pas2js">コンパイル方法（Pas2JS）</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js project.pas -Tbrowser -Jirtl.js
+</span></span></code></pre></div><p><code>index.html</code> から生成された <code>project.js</code> を読み込み、<code>rtl.run()</code> でプログラムを開始します。<strong>uses に <code>web</code> と <code>webaudio</code></strong> を入れておくことがポイントです。</p>
+<h2 id="まとめgemini-と-cursor-の役割">まとめ：Gemini と Cursor の役割</h2>
+<ul>
+<li><strong>Gemini</strong>: プロンプトで「Web音階ジェネレーター」「Case 文で音階管理」「ピアノの鍵盤」と伝え、設計と <strong>HTML / CSS / PAS のベースコード</strong>を一括で出力。コストを抑えるためにベース部分をここで作成。</li>
+<li><strong>Cursor</strong>: <strong>コンパイルが通らない</strong>ときは uses の修正を自分で行い、<strong>実行時エラー</strong>（<code>pas.PlayNote is not a function</code>）は「PlayNote が参照されていないためコンパイルから落ちている」と説明し、<strong><code>if false then PlayNote('C4');</code> と <code>window.pas</code> へのエクスポート</strong>で解決。</li>
+</ul>
+<p>「<strong>ブラウザで Pascal が鳴り響く</strong>」という試みは、Pas2js と Web Audio API の組み合わせで実現できました。HTML から呼ぶ関数は、<strong>Pascal 側で明示的に参照とエクスポートを書く</strong>という Pas2js の性質を押さえておくと、同様のトラブルを防げます。</p>
+<h2 id="ダウンロード">ダウンロード</h2>
+<p><strong>アプリをブラウザで開く</strong>: <a href="/apps/day042/">Web音階ジェネレーターを開く</a></p>
+<p>作成したアプリ（HTML / CSS / Pascal ソース・コンパイル済み JS）は以下のリンクからダウンロードできます。</p>
+<p><a href="/downloads/day042_pas2jspiano.zip">day042_pas2jspiano.zip</a></p>
+<p>鍵盤を押すと Pascal で定義した周波数の音が鳴る、シンプルな Web 楽器としてそのまま遊べます。波形を変えたり、エンベロープを調整したりして、好みの音にカスタマイズしてみてください。</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 42/100</em></p>
+
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day041-quantum-shogi/">← チャレンジ41日目へ</a>
+        
+      </span>
+      <span>
+        
+          <a href="/posts/lazarus-day043-pas2js-shopping-list/">チャレンジ43日目へ →</a>
+        
+      </span>
+    </nav>
+  
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day041-quantum-shogi/">Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/">Pas2JSでかえるのうたを輪唱で再生する - Day35</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day040-pas2js-24game/">Pas2JSで脳トレ「24Game」を作る - Day40</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day039-pas2js-typing-game/">Pas2JSでブラウザ動くPascal予約語タイピングゲームを作る - Day39</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day038-pas2js-lsystem/">Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day037-pas2js-munchausen/">Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day036-pas2js-day-counter/">Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day034-pas2js-simple-interpreter/">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day033-pas2js-whiteboard/">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day031-pas2js-markdown/">Pas2JSでMarkdownエディタを作成 - Day31</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day032-pas2js-userform/">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day030-pas2js-calculator/">Pas2JSで計算機アプリを作成 - Day30</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day029-pas2js-color/">Pas2JSでカラー表示アプリを作成 - Day29</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day028-pas2js-calendar/">Pas2JSでカレンダーアプリを作成 - Day28</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day027-pas2js-todo/">Pas2JSでTodoアプリを作成 - Day27</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

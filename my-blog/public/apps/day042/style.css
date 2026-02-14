@@ -1,0 +1,29 @@
+body {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+.piano {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 50px;
+}
+
+button {
+    width: 60px;
+    height: 200px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 0 0 5px 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+button:active {
+    background: #e0e0e0;
+    transform: translateY(2px);
+}

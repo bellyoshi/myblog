@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-02-10T16:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-02-10T16:00:00+09:00">
+  <meta itemprop="datePublished" content="2026-02-13T16:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-13T16:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Posts">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -119,6 +119,118 @@
   <article class="pa3 pa4-ns nested-copy-line-height">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links mid-gray"></section>
     <section class="flex-ns mt5 flex-wrap justify-around">
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day043-pas2js-shopping-list/" class="link black dim">
+        Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsでつくるお買い物リストプログレッシブwebアプリ-pwa---day43">Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43</h1>
+<p>Lazarusチャレンジ43日目です。<strong>LocalStorage</strong> を使って、オフラインでも動く「<strong>お買い物リスト</strong>」チェックリストを Pas2JS でブラウザ向けに作りました。<strong>TStringList のような感覚</strong>でデータを管理し、<strong>ブラウザを閉じても消えない</strong>実用性がユニークなポイントです。設計とベースコードは <strong>Gemini</strong> にプロンプトして取得し、HTML/CSS/PAS をコピー＆貼り付け。Gemini の HTML には <code>rtl.run()</code> がなかったため自分で挿入し、<strong>Cursor</strong> で pas2js コンパイルを完了させました。</p>
+<p><img src="/images/LazarusDay043.png" alt="お買い物リスト PWA 画面"></p>
+<h2 id="コンセプト">コンセプト</h2>
+<ul>
+<li><strong>LocalStorage</strong>: ブラウザの <code>window.localStorage</code> にリストデータを保存。タブを閉じたりオフラインになってもデータが残る</li>
+<li><strong>TStringList でデータ管理</strong>: Pascal の <code>TStringList</code> で「行＝1アイテム」として扱い、<code>CommaText</code> で LocalStorage と文字列のやりとり。Delphi/Lazarus 使いにはなじみの感覚で書ける</li>
+<li><strong>シンプルな PWA 的体験</strong>: 追加・削除・全削除ができ、再読み込みやブラウザ再起動後もリストが復元される</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th>機能</th>
+          <th>説明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>アイテム追加</td>
+          <td>入力欄に文字を入れて「追加」でリストに追加</td>
+      </tr>
+      <tr>
+          <td>個別削除</td>
+          <td>各項目の「×」でその行だけ削除</td>
+      </tr>
+      <tr>
+          <td>全削除</td>
+          <td>「全削除」で確認ダイアログのあとリストを空に</td>
+      </tr>
+      <tr>
+          <td>永続化</td>
+          <td>LocalStorage のキー <code>pas2js_shopping_data</code> に CommaText で保存</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="gemini-でやったこと">Gemini でやったこと</h2>
+<p><strong>Gemini</strong> に次のようなプロンプトを出して、設計とベースコードを取得しました。</p>
+<ul>
+<li><strong>「pas2jsでつくる『お買い物リスト』プログレッシブWebアプリ (PWA)。LocalStorageを使って、オフラインでも動くチェックリスト。ユニーク点: TStringList のような感覚でデータを管理。ブラウザを閉じても消えない実用性。」</strong></li>
+</ul>
+<p>Gemini からは <strong>HTML / CSS / PAS</strong> のコードが返ってきたので、そのままプロジェクトにコピー＆貼り付けしました。<strong>Gemini の HTML には <code>&lt;script&gt;rtl.run();&lt;/script&gt;</code> が含まれていなかった</strong>ため、Pas2JS でコンパイルした JS を動かすために、<strong>自分で <code>&lt;/body&gt;</code> 直前などに <code>&lt;script&gt;rtl.run();&lt;/script&gt;</code> を挿入</strong>しています。</p>
+    </div>
+    <a href="/posts/lazarus-day043-pas2js-shopping-list/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day042-pas2js-piano/" class="link black dim">
+        Pas2JSで作る楽器に変身！「Web音階ジェネレーター」 - Day42
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsで作る楽器に変身web音階ジェネレーター---day42">Pas2JSで作る楽器に変身！「Web音階ジェネレーター」 - Day42</h1>
+<p>Lazarusチャレンジ42日目です。<strong>Web Audio API</strong> を叩いて、ボタンを押すと <strong>Pascal で定義した周波数</strong>の音が鳴る「<strong>Web音階ジェネレーター</strong>」を Pas2JS でブラウザ向けに作りました。<strong>Pascal の Case 文</strong>で音階（C, D, E ...）をスマートに管理し、ピアノの鍵盤のイメージで鳴らす構成にしています。設計とベースコードは <strong>Gemini</strong> に任せ、コンパイルエラーと実行時エラーは <strong>Cursor</strong> で解消しました。</p>
+<p><img src="/images/LazarusDay042.png" alt="Web音階ジェネレーター 画面"></p>
+<h2 id="コンセプト">コンセプト</h2>
+<ul>
+<li><strong>Web Audio API</strong>: ブラウザの <code>AudioContext</code> で音の再生環境を作り、<code>OscillatorNode</code> で波形（音）を生成、<code>GainNode</code> で音量（エンベロープ）を制御</li>
+<li><strong>Pascal で音階を定義</strong>: 列挙型 <code>TNote</code>（C4, D4, E4 ... C5）と <strong>case 文</strong>で「音階名 → 周波数(Hz)」を型安全に変換。マジックナンバーを排除した読みやすいコードになる</li>
+<li><strong>ピアノ鍵盤のUI</strong>: HTML/CSS で鍵盤風のボタンを並べ、各ボタンの <code>onclick</code> で Pascal の <code>PlayNote</code> を呼び出して音を鳴らす</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th>音階</th>
+          <th>周波数 (Hz)</th>
+          <th>役割</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>C4 (ド)</td>
+          <td>261.63</td>
+          <td>基準となるド</td>
+      </tr>
+      <tr>
+          <td>A4 (ラ)</td>
+          <td>440.00</td>
+          <td>調律の基準（時報の音）</td>
+      </tr>
+      <tr>
+          <td>C5 (ド)</td>
+          <td>523.25</td>
+          <td>1オクターブ上</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="gemini-でやったこと">Gemini でやったこと</h2>
+<p>まず <strong>Gemini</strong> に次のようなプロンプトを出して、設計とベースコードを取得しました。</p>
+    </div>
+    <a href="/posts/lazarus-day042-pas2js-piano/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
       
         <div class="w-100 w-30-l mb4 relative bg-white">
           <div class="w-100 mb4 nested-copy-line-height relative bg-white">
@@ -457,113 +569,6 @@ StartDate := EncodeDate(y, m, d);
 <p>pas2js でブラウザ向けにコンパイルする際、DOM の <code>onclick</code> には <strong>手続き型ではなく関数型</strong>（戻り値あり）が必要です。<code>OnRunClick</code> を <code>procedure</code> から <code>function OnRunClick(Event: TJSMouseEvent): Boolean</code> に変更し、先頭で <code>Result := True</code> を代入することでコンパイルエラーを解消しています。</p>
     </div>
     <a href="/posts/lazarus-day034-pas2js-simple-interpreter/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day033-pas2js-whiteboard/" class="link black dim">
-        Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="pas2jsでオートシェイプ風ホワイトボードを作成---day33">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</h1>
-<p>Lazarusチャレンジ33日目です。<strong>Pas2JS</strong> で、Canvas 上で図形（矩形・円・線）を「オブジェクト」として管理し、ドラッグで描画・移動できる <strong>オートシェイプ風ホワイトボード</strong> を作成しました。Pascal の <strong>継承とポリモーフィズム</strong> を活かした設計で、図形を基底クラス <code>TShape</code> から派生させ、リストで一括描画・ヒット判定しています。</p>
-<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
-<ul>
-<li><strong>ツールパレット</strong>: 選択・四角・丸・線を切り替え。選択ツールで既存図形をドラッグして移動。</li>
-<li><strong>図形の追加</strong>: 四角・丸・線を選んでキャンバス上でドラッグすると、プレビュー表示のあとマウスを離すと図形が確定。</li>
-<li><strong>色パレット</strong>: 10色のスウォッチで色を選択。選択した色が以降に追加する図形に適用され、現在色はプレビュー欄に表示。</li>
-<li><strong>ヒット判定</strong>: 各図形が <code>Contains(PX, PY)</code> で「自分がクリックされたか」を判定。重なりは上（配列の後ろ）から判定。</li>
-</ul>
-<h2 id="実装のポイント">実装のポイント</h2>
-<h3 id="1-クラス設計継承の活用">1. クラス設計（継承の活用）</h3>
-<p>すべての図形の基本となる抽象クラス <code>TShape</code> を定義し、矩形・円・線を派生させています。</p>
-<ul>
-<li><strong>TShape</strong>: 座標 <code>(X, Y)</code>、サイズ <code>(W, H)</code>、色 <code>Color</code>、および <code>Draw</code>（描画）と <code>Contains(PX, PY)</code>（クリック判定）を持つ。<code>Draw</code> は <code>virtual; abstract;</code> で派生クラスが実装。</li>
-<li><strong>TRectangle</strong>: 矩形の <code>fillRect</code> / <code>strokeRect</code> で描画。<code>Contains</code> は基底の「矩形内か」でそのまま利用。</li>
-<li><strong>TCircle</strong>: 中心と半径から <code>arc</code> で描画。<code>Contains</code> は中心からの距離で円内か判定（<code>dx*dx + dy*dy &lt;= r*r</code>）。</li>
-<li><strong>TLine</strong>: 始点から終点まで <code>moveTo</code> / <code>lineTo</code> で描画。<code>Contains</code> は線の両端で作る矩形＋余白（HitPad）で近傍クリックを許容。</li>
-</ul>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">type
-  TShape = class
-    X, Y, W, H: Integer;
-    Color: String;
-    constructor Create(AX, AY, AW, AH: Integer; AColor: String);
-    procedure Draw(Ctx: TJSCanvasRenderingContext2D); virtual; abstract;
-    function Contains(PX, PY: Integer): Boolean; virtual;
-  end;
-
-  TRectangle = class(TShape)
-    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
-  end;
-
-  TCircle = class(TShape)
-    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
-    function Contains(PX, PY: Integer): Boolean; override;
-  end;
-
-  TLine = class(TShape)
-    procedure Draw(Ctx: TJSCanvasRenderingContext2D); override;
-    function Contains(PX, PY: Integer): Boolean; override;
-  end;
-
-  TToolMode = (tmSelect, tmRect, tmCircle, tmLine);
-</code></pre><h3 id="2-ポリモーフィズムで一括描画">2. ポリモーフィズムで一括描画</h3>
-<p><code>Render</code> では <code>Shapes</code> 配列を走査し、<code>s.Draw(Ctx)</code> を呼ぶだけです。矩形・円・線の違いを意識せず、各オブジェクトが自分の描画を行います。</p>
-    </div>
-    <a href="/posts/lazarus-day033-pas2js-whiteboard/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day031-pas2js-markdown/" class="link black dim">
-        Pas2JSでMarkdownエディタを作成 - Day31
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="pas2jsでmarkdownエディタを作成---day31">Pas2JSでMarkdownエディタを作成 - Day31</h1>
-<p>Lazarusチャレンジ31日目です。<strong>Pas2JS</strong> で、左にエディタ・右にプレビューを表示する <strong>簡易Markdownエディタ</strong> を作成しました。marked.js などの外部ライブラリは使わず、<strong>Pascal のロジックのみ</strong>で Markdown を HTML に変換する <code>ParseMarkdown</code> を実装しています。</p>
-<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
-<ul>
-<li><strong>左右分割レイアウト</strong>: 左側がテキストエリア（Markdown入力）、右側がプレビュー（HTML表示）</li>
-<li><strong>リアルタイムプレビュー</strong>: 入力するたびに <code>oninput</code> でプレビューを更新</li>
-<li><strong>対応記法</strong>: 見出し（<code>#</code>, <code>##</code>）、<strong>太字</strong>（<code>**</code>）、リスト（<code>*</code> / <code>-</code>）、リンク（<code>[text](url)</code>）、水平線（<code>---</code>）、段落</li>
-</ul>
-<h2 id="実装のポイント">実装のポイント</h2>
-<h3 id="1-dom-へのアクセスとイベント">1. DOM へのアクセスとイベント</h3>
-<p>HTML 側で <code>id=&quot;editor&quot;</code>（textarea）と <code>id=&quot;preview&quot;</code>（div）を定義し、Pascal 側で <code>document.getElementById</code> で取得します。入力のたびにプレビューを更新するため、<code>EditorElem.oninput := @DoUpdate</code> でイベントを紐付けています。</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">EditorElem := TJSHTMLTextAreaElement(document.getElementById(&#39;editor&#39;));
-PreviewElem := TJSHTMLElement(document.getElementById(&#39;preview&#39;));
-if Assigned(EditorElem) then
-  EditorElem.oninput := @DoUpdate;
-</code></pre><h3 id="2-簡易-markdown-パーサーparsemarkdown">2. 簡易 Markdown パーサー（ParseMarkdown）</h3>
-<p>改行で分割して1行ずつ処理し、行頭の記号でブロック要素を判定してから、インラインの強調・リンクを正規表現で置換しています。</p>
-<ul>
-<li><strong>水平線</strong>: <code>---</code> の行を <code>&lt;hr /&gt;</code> に</li>
-<li><strong>見出し</strong>: <code>#</code>  で始まる行を <code>&lt;h1&gt;</code>、<code>##</code>  を <code>&lt;h2&gt;</code> に</li>
-<li><strong>リスト</strong>: 行頭の <code>*</code>  または <code>-</code>  を <code>&lt;li&gt;</code> に</li>
-<li><strong>強調</strong>: <code>**...**</code> を <code>TJSRegExp</code> で <code>&lt;strong&gt;...&lt;/strong&gt;</code> に</li>
-<li><strong>リンク</strong>: <code>[text](url)</code> を <code>&lt;a href=&quot;url&quot; target=&quot;_blank&quot;&gt;text&lt;/a&gt;</code> に</li>
-<li><strong>段落</strong>: 上記のいずれでもない非空行を <code>&lt;p&gt;...&lt;/p&gt;</code> で囲む</li>
-</ul>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">Line := TJSString(Line).replace(TJSRegExp.New(&#39;\*\*(.*?)\*\*&#39;, &#39;g&#39;), &#39;&lt;strong&gt;$1&lt;/strong&gt;&#39;);
-Line := TJSString(Line).replace(TJSRegExp.New(&#39;\[(.*?)\]\((.*?)\)&#39;, &#39;g&#39;), &#39;&lt;a href=&#34;$2&#34; target=&#34;_blank&#34;&gt;$1&lt;/a&gt;&#39;);
-</code></pre><h3 id="3-tjsstring--tjsregexp-の利用">3. TJSString / TJSRegExp の利用</h3>
-<p>pas2js では、Pascal の <code>string</code> を <code>TJSString(...)</code> で JavaScript の String として扱い、<code>.split()</code> や <code>.replace()</code> が使えます。正規表現は <code>TJSRegExp.New('パターン', 'g')</code> で生成し、<code>$1</code>, <code>$2</code> でキャプチャを参照できます。外部の Markdown ライブラリに頼らずに、Pascal だけで簡易パーサーを書けるポイントです。</p>
-    </div>
-    <a href="/posts/lazarus-day031-pas2js-markdown/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 
