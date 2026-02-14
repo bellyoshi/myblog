@@ -1,0 +1,96 @@
+/* ベース設定 */
+:root {
+    --bg-color: #121212;
+    --panel-color: #252525;
+    --accent-color: #00ffcc;
+    --text-color: #eeeeee;
+    --border-color: #444;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.editor-container {
+    text-align: center;
+}
+
+h1 {
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    color: var(--accent-color);
+}
+
+/* キャンバス設定 */
+canvas {
+    background-color: #000;
+    border: 4px solid var(--border-color);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    image-rendering: pixelated; /* ドットをクッキリさせる重要設定 */
+    cursor: crosshair;
+}
+
+/* ツールバー */
+.toolbar {
+    background-color: var(--panel-color);
+    margin-top: 20px;
+    padding: 15px 25px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 3px solid #111;
+}
+
+.tool-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 入力・ボタン要素 */
+input[type="color"] {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--border-color);
+    background: none;
+    cursor: pointer;
+}
+
+button {
+    padding: 8px 16px;
+    border: none;
+    font-family: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.2s;
+}
+
+button:active {
+    transform: translateY(2px);
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: #000;
+}
+
+.btn-danger {
+    background-color: #ff4444;
+    color: #fff;
+}
+
+.status {
+    font-size: 0.7rem;
+    color: #666;
+    margin-top: 10px;
+}
