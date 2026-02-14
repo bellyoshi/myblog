@@ -125,6 +125,65 @@
   <div class="mb3 pa4 gray overflow-hidden bg-white">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day044-pas2js-pixel-editor/" class="link black dim">
+        Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsでつくるピクセルアートエディター16x16---day44">Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44</h1>
+<p>Lazarusチャレンジ44日目です。<strong>HTML5 の &lt;canvas&gt;</strong> を、Pascal の二次元配列として制御する <strong>16×16 のピクセルアート・エディター</strong>を Pas2JS で作りました。<strong>LocalStorage で自動保存</strong>、<strong>PNG ダウンロード</strong>に対応。設計とベースコードは <strong>Gemini</strong> にプロンプトして取得し、実行時に出た <strong>TypeError（null 参照）</strong> と <strong>クリアボタンが効かない</strong>問題を <strong>Cursor</strong> で修正して完成させました。</p>
+<p><img src="/images/LazarusDay044.png" alt="ピクセルアート・エディター 画面"></p>
+<h2 id="コンセプト">コンセプト</h2>
+<ul>
+<li><strong>16×16 グリッド</strong>: Canvas の座標を計算し、クリックした位置に対応する配列要素を更新。色は CSS の <code>#RRGGBB</code> 文字列で管理し、<code>&lt;input type=&quot;color&quot;&gt;</code> とそのままやり取り</li>
+<li><strong>LocalStorage で常時保存</strong>: 描画のたびに <code>AutoSave</code> で <code>pixel_data</code> に保存。ブラウザを閉じても絵が残る</li>
+<li><strong>ダウンロード</strong>: Canvas の <code>toDataURL('image/png')</code> で PNG 画像として保存</li>
+<li><strong>レトロ風 UI</strong>: ダークテーマ・グリッド線・<code>image-rendering: pixelated</code> でドットがくっきり表示</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th>機能</th>
+          <th>説明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>描画</td>
+          <td>キャンバスをクリックで選択色を塗る</td>
+      </tr>
+      <tr>
+          <td>色選択</td>
+          <td>カラーピッカーで色を変更</td>
+      </tr>
+      <tr>
+          <td>クリア</td>
+          <td>グリッドをすべて黒に戻す</td>
+      </tr>
+      <tr>
+          <td>保存 (PNG)</td>
+          <td>現在の絵を PNG でダウンロード</td>
+      </tr>
+      <tr>
+          <td>自動保存</td>
+          <td>LocalStorage に随時保存、再読み込みで復元</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="gemini-でやったこと">Gemini でやったこと</h2>
+<p><strong>Gemini</strong> に「<strong>pas2js でつくる、レトロゲーム風ピクセルアート・エディター。HTML5 Canvas を二次元配列で制御。16×16 に限定。保存→ダウンロード、途中保存→LocalStorage で常に保存</strong>」とプロンプトし、設計とコード例をもらいました。</p>
+    </div>
+    <a href="/posts/lazarus-day044-pas2js-pixel-editor/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
       <a href="/posts/lazarus-day043-pas2js-shopping-list/" class="link black dim">
         Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43
       </a>
@@ -539,36 +598,6 @@ StartDate := EncodeDate(y, m, d);
 <p>HTML のボタンから <code>StartRinsho</code> を呼べるように、グローバルに手続きを登録する必要があります。Gemini のコードでは <code>initialization</code> と <code>TJSWindow.window</code> を使っていました。</p>
     </div>
     <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day034-pas2js-simple-interpreter/" class="link black dim">
-        Pas2JSで簡易インタープリタをブラウザで動かす - Day34
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="pas2jsで簡易インタープリタをブラウザで動かす---day34">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</h1>
-<p>Lazarusチャレンジ34日目です。<strong>Pas2JS</strong> で、ブラウザ上で動く <strong>簡易インタープリタ</strong> を作成しました。PRINT・変数代入・IF/ELSE・WHILE/WEND をサポートし、式は <strong>再帰下降構文解析</strong> で四則演算の優先順位（<code>*</code>/<code>/</code> が <code>+</code>/<code>-</code> より優先、括弧対応）を正しく評価します。Pascal でトークナイザとパーサを実装し、DOM のテキストエリアとボタンから「Run」で実行できる構成にしています。</p>
-<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
-<ul>
-<li><strong>PRINT 文</strong>: 式の値を数値として出力（変数・四則演算・括弧付き式を引数に可能）</li>
-<li><strong>変数</strong>: 代入（<code>x = 5</code>）と式内での参照。未定義変数は 0 として扱う</li>
-<li><strong>IF 文</strong>: 式が 0 でなければ直後の 1 文を実行、0 ならスキップ。<strong>ELSE</strong> 対応（ELSE を消費し、THEN/ELSE のどちらか一方だけ実行）</li>
-<li><strong>WHILE / WEND</strong>: 式が 0 でない間、本体（複数文）を繰り返し実行。ネストした WHILE や IF にも対応</li>
-<li><strong>式</strong>: 再帰下降で <code>+</code> <code>-</code> <code>*</code> <code>/</code>、括弧、単項 <code>+</code>/<code>-</code>、数値・変数を評価</li>
-</ul>
-<h2 id="実装のポイント">実装のポイント</h2>
-<h3 id="1-ブラウザ向けコンパイルと-onclick-の型">1. ブラウザ向けコンパイルと onclick の型</h3>
-<p>pas2js でブラウザ向けにコンパイルする際、DOM の <code>onclick</code> には <strong>手続き型ではなく関数型</strong>（戻り値あり）が必要です。<code>OnRunClick</code> を <code>procedure</code> から <code>function OnRunClick(Event: TJSMouseEvent): Boolean</code> に変更し、先頭で <code>Result := True</code> を代入することでコンパイルエラーを解消しています。</p>
-    </div>
-    <a href="/posts/lazarus-day034-pas2js-simple-interpreter/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 

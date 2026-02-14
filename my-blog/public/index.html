@@ -141,6 +141,78 @@
       
           
         <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
+          <a href="/posts/lazarus-day044-pas2js-pixel-editor/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay044.png" class="img" alt="image from Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44">
+          </a>
+        </div>
+      
+      <div class="blah w-100 w-60-ns pl3-ns">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/lazarus-day044-pas2js-pixel-editor/" class="color-inherit dim link">
+            Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          <h1 id="pas2jsでつくるピクセルアートエディター16x16---day44">Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44</h1>
+<p>Lazarusチャレンジ44日目です。<strong>HTML5 の &lt;canvas&gt;</strong> を、Pascal の二次元配列として制御する <strong>16×16 のピクセルアート・エディター</strong>を Pas2JS で作りました。<strong>LocalStorage で自動保存</strong>、<strong>PNG ダウンロード</strong>に対応。設計とベースコードは <strong>Gemini</strong> にプロンプトして取得し、実行時に出た <strong>TypeError（null 参照）</strong> と <strong>クリアボタンが効かない</strong>問題を <strong>Cursor</strong> で修正して完成させました。</p>
+<p><img src="/images/LazarusDay044.png" alt="ピクセルアート・エディター 画面"></p>
+<h2 id="コンセプト">コンセプト</h2>
+<ul>
+<li><strong>16×16 グリッド</strong>: Canvas の座標を計算し、クリックした位置に対応する配列要素を更新。色は CSS の <code>#RRGGBB</code> 文字列で管理し、<code>&lt;input type=&quot;color&quot;&gt;</code> とそのままやり取り</li>
+<li><strong>LocalStorage で常時保存</strong>: 描画のたびに <code>AutoSave</code> で <code>pixel_data</code> に保存。ブラウザを閉じても絵が残る</li>
+<li><strong>ダウンロード</strong>: Canvas の <code>toDataURL('image/png')</code> で PNG 画像として保存</li>
+<li><strong>レトロ風 UI</strong>: ダークテーマ・グリッド線・<code>image-rendering: pixelated</code> でドットがくっきり表示</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th>機能</th>
+          <th>説明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>描画</td>
+          <td>キャンバスをクリックで選択色を塗る</td>
+      </tr>
+      <tr>
+          <td>色選択</td>
+          <td>カラーピッカーで色を変更</td>
+      </tr>
+      <tr>
+          <td>クリア</td>
+          <td>グリッドをすべて黒に戻す</td>
+      </tr>
+      <tr>
+          <td>保存 (PNG)</td>
+          <td>現在の絵を PNG でダウンロード</td>
+      </tr>
+      <tr>
+          <td>自動保存</td>
+          <td>LocalStorage に随時保存、再読み込みで復元</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="gemini-でやったこと">Gemini でやったこと</h2>
+<p><strong>Gemini</strong> に「<strong>pas2js でつくる、レトロゲーム風ピクセルアート・エディター。HTML5 Canvas を二次元配列で制御。16×16 に限定。保存→ダウンロード、途中保存→LocalStorage で常に保存</strong>」とプロンプトし、設計とコード例をもらいました。</p>
+        </div>
+        
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day044-pas2js-pixel-editor/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="w-100 mb4 relative">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
+    <div class="flex-column flex-row-ns flex">
+      
+          
+        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
           <a href="/posts/lazarus-day043-pas2js-shopping-list/" class="db grow">
             <img src="http://localhost:1313/images/LazarusDay043.png" class="img" alt="image from Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43">
           </a>
@@ -271,68 +343,18 @@
 
           </div>
         
-          <div class="w-100 mb4 relative">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
-    <div class="flex-column flex-row-ns flex">
-      
-          
-        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
-          <a href="/posts/lazarus-day041-quantum-shogi/" class="db grow">
-            <img src="http://localhost:1313/images/LazarusDay041.png" class="img" alt="image from Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）">
-          </a>
-        </div>
-      
-      <div class="blah w-100 w-60-ns pl3-ns">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/lazarus-day041-quantum-shogi/" class="color-inherit dim link">
-            Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="pas2jsで量子将棋を作る---day41geminiで骨格cursorでコンパイルとユニットテスト">Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）</h1>
-<p>Lazarusチャレンジ41日目です。<strong>開始局面で王将を含む全駒が量子状態</strong>の「量子将棋」を Pas2JS でブラウザ向けに作りました。設計と骨格は <strong>Gemini</strong> に「何でもいいから続けて」「まとめて全コード出して」と任せ、<strong>コンパイルが通らなかった</strong>ため <strong>Cursor</strong>（課金利用）に切り替えて完成させています。また、<strong>ユニットテストを初めて導入</strong>し、Lazarus のコンソール用 FPCUnit プロジェクトでロジックを検証。テストの作成も Cursor に任せました。この記事では、<strong>人間が投げたプロンプト</strong>に注目して、Gemini と Cursor の使い分けがどう効いたかをまとめます。</p>
-<p><img src="/images/LazarusDay041.png" alt="量子将棋 画面"></p>
-<h2 id="ゲームのコンセプト">ゲームのコンセプト</h2>
-<ul>
-<li><strong>量子状態</strong>: 各駒は「歩・香・桂・銀・金・角・飛・王」のいずれかである<strong>可能性の重ね合わせ</strong>で、動かすたびに「その手で矛盾する種類」が消え、観測（収束）していく</li>
-<li><strong>人間同士対局</strong>: 盤面と駒台があり、駒の移動・取る・打つが可能</li>
-<li><strong>UI</strong>: 可能性のある駒の文字を<strong>重ねて表示</strong>（複数種類なら薄く、1種類に確定すると濃く）</li>
-<li><strong>グループ制限</strong>: 初期の「先手グループ」「後手グループ」ごとに駒種の枚数上限（角・飛・王は1、香・桂・金・銀は2、歩は9）。1枚確定しても、<strong>上限に達したときだけ</strong>他駒からその可能性を削除</li>
-<li><strong>経路遮断</strong>: 飛・角・香は味方・敵を素通りしない。<strong>桂馬だけ</strong>飛び越え可（トンネル効果の防止）</li>
-</ul>
-<h2 id="gemini-でやったこと">Gemini でやったこと</h2>
-<p>最初に <strong>Gemini</strong> で骨格を作りました。こちらは「<strong>何でも言うことを聞いて続けて</strong>」とお願いするスタイルで進めています。</p>
-<h3 id="出したプロンプトの流れ">出したプロンプトの流れ</h3>
-<ol>
-<li>
-<p><strong>「pas2jsで量子将棋アプリを作りたい。開始局面では王将を含めてすべての駒が量子状態。まずは人間同士がプレイできる盤を作成。駒台なども忘れずに。」</strong></p>
-<p><strong>Geminiの回答（要約）:</strong> DOMベース構築を推奨し、Board（9×9グリッド）・Cell（マス目）・Piece（量子状態の駒）・Stand（駒台）の構成を提示。データモデルとして <code>TQuantumPiece</code>（Owner, PossibleTypes, IsObserved, CurrentType）と盤面レンダリング用の <code>CreateBoard</code> のコード例を出した。MouseDown／MouseMove／MouseUp で選択・ゴースト・観測の流れを説明し、「まず駒を動かせる盤面を作る→次に移動で矛盾する可能性を排除する観測」という次のステップを二択で提案した。</p>
-</li>
-<li>
-<p><strong>「まずは将棋のルールをおさらい。すべてのルール。」</strong></p>
-<p><strong>Geminiの回答（要約）:</strong> ルールを「初期配置」「動き」「特殊ルール」「終局」の4つに分類。駒の動きを表形式（玉・飛・角・金・銀・桂・香・歩）で整理し、成り（龍・馬・成銀〜と金は金と同じ動き、強制成りの条件）、持ち駒と打ち駒のルール、禁じ手（二歩・打ち歩詰め・行き所のない駒・王手放置・千日手）を列挙。量子将棋への応用として、二歩の判定・成れるかの判定・王手の確率的判定に言及し、次に「盤面データ構造」か「駒の動きのロジック」のどちらを詰めるか選択させる形で返した。</p>
-</li>
-<li>
-<p><strong>「UIは文字が重なった表示とする。」</strong></p>
-<p><strong>Geminiの回答（要約）:</strong> CSS の absolute 配置と opacity で「複数可能性が共存」を表現する方針。未確定時は複数文字が半透明で重なり、観測が進むと不要な文字が消えて残りが濃くなり、確定時は1文字のみ不透明度100%とする。HTML は <code>cell</code> &gt; <code>piece-container</code> &gt; 駒種ごとの <code>span</code>、CSS は <code>opacity: 0.2</code> と <code>is-determined</code> で <code>opacity: 1.0</code>。Pascal 側では <code>TQuantumPiece.UpdateView</code> で各 span の表示／非表示と <code>opacity := 1.0/可能性数</code> を設定。駒台も「何か（量子駒）」として同様に扱い、打つときに二歩などで可能性が絞られると説明した。</p>
-        </div>
-        
-          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day041-quantum-shogi/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
       </section>
 
       
         <section class="w-100">
           <h1 class="f3">More</h1>
           
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/posts/lazarus-day041-quantum-shogi/" class="link black dim">
+                Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）
+              </a>
+            </h2>
           
             <h2 class="f5 fw4 mb4 dib mr3">
               <a href="/posts/lazarus-day040-pas2js-24game/" class="link black dim">
@@ -349,12 +371,6 @@
             <h2 class="f5 fw4 mb4 dib mr3">
               <a href="/posts/lazarus-day038-pas2js-lsystem/" class="link black dim">
                 Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38
-              </a>
-            </h2>
-          
-            <h2 class="f5 fw4 mb4 dib mr3">
-              <a href="/posts/lazarus-day037-pas2js-munchausen/" class="link black dim">
-                Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37
               </a>
             </h2>
           

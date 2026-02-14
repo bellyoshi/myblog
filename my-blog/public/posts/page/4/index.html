@@ -125,6 +125,85 @@
   <div class="mb3 pa4 gray overflow-hidden bg-white">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day014-3moku-complete/" class="link black dim">
+        3目並べの完成 - Day14
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="3目並べの完成---day14">3目並べの完成 - Day14</h1>
+<p>Lazarusチャレンジ14日目です。Day13で未完成だった**3目並べ（三目並べ）**アプリを、今回は段階的なプロンプトで完成させることができました。AI対戦機能も含めた本格的なゲームアプリとして完成しました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>Day13で未完成だった3目並べアプリを、今回は以下の機能を実装して完成させることを目指しました：</p>
+<ul>
+<li><strong>3目並べのゲームロジック</strong>: 3×3のグリッドで3目並べをプレイできる機能</li>
+<li><strong>AI対戦</strong>: コンピューターとの対戦機能（3つのレベル）</li>
+<li><strong>GUI</strong>: 視覚的に分かりやすいゲームボード</li>
+<li><strong>先手/後手選択</strong>: ゲーム開始時に先手か後手かを選択できる機能</li>
+<li><strong>AIレベル選択</strong>: 3つのAIレベルから選択できる機能</li>
+<li><strong>リセット機能</strong>: ゲームをリセットして再開できる機能</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day014_3moku</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>3目並べアプリの開発は、7つのプロンプトに分けて進めました。それぞれのプロンプトで段階的に機能を実装していきます。プロンプトは省略せず、すべて記載します。</p>
+<h3 id="プロンプト1-3目ならべのゲームユニット作成">プロンプト1: 3目ならべのゲームユニット作成</h3>
+<p>最初のプロンプトでは、ゲームのロジック部分を実装するユニットを作成しました。</p>
+<pre tabindex="0"><code>3目ならべのゲームユニット。
+Game3mokuUnitを作成。
+</code></pre><p>このプロンプトで、AIが<code>Game3mokuUnit</code>ユニットを作成しました。</p>
+<p><strong>AIが実装した内容：</strong></p>
+<ul>
+<li>
+<p><strong>TGame3mokuクラス</strong>: 3目ならべのゲームロジックを管理するクラス</p>
+<ul>
+<li><code>Reset</code>: ゲームをリセットするメソッド</li>
+<li><code>MakeMove(Row, Col)</code>: 指定位置に手を打つメソッド</li>
+<li><code>GetCell(Row, Col)</code>: セルの状態を取得するメソッド</li>
+<li><code>GetCurrentPlayer</code>: 現在のプレイヤー（XまたはO）を取得するメソッド</li>
+<li><code>GetGameState</code>: ゲームの状態（進行中、X勝利、O勝利、引き分け）を取得するメソッド</li>
+<li><code>IsValidMove(Row, Col)</code>: 有効な手かどうかをチェックするメソッド</li>
+</ul>
+</li>
+<li>
+<p><strong>型定義</strong>:</p>
+<ul>
+<li><code>TPlayer</code>: プレイヤーを表す型（pNone, pX, pO）</li>
+<li><code>TGameState</code>: ゲームの状態を表す型（gsPlaying, gsXWon, gsOWon, gsDraw）</li>
+</ul>
+</li>
+<li>
+<p><strong>勝敗判定</strong>: 横・縦・斜めの3つ並びを自動判定し、引き分けの判定も実装</p>
+</li>
+</ul>
+<p>このユニットにより、3目ならべの基本的なゲームロジックが完成しました。盤面の管理、手の検証、勝敗判定など、ゲームの核心となる機能がすべて実装されています。</p>
+<h3 id="プロンプト2-シンプルなaiの作成">プロンプト2: シンプルなAIの作成</h3>
+<p>次に、合法手からランダムに選ぶシンプルなAIを追加しました。</p>
+<pre tabindex="0"><code>非常にシンプルなAIの作成。合法手の中からランダムな手を返す。
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+<ul>
+<li>
+<p><strong><code>GetRandomMove(out Row, Col: Integer): Boolean</code>メソッド</strong>:</p>
+<ul>
+<li>合法手を収集し、その中からランダムに1つを選択</li>
+<li>選択した手を<code>Row</code>と<code>Col</code>に返す</li>
+<li>合法手がない場合やゲームが終了している場合は<code>False</code>を返す</li>
+</ul>
+</li>
+<li>
+<p><strong>乱数生成器の初期化</strong>: コンストラクタに<code>Randomize</code>を追加し、毎回異なるランダムな手を生成</p>
+    </div>
+    <a href="/posts/lazarus-day014-3moku-complete/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
       <a href="/posts/lazarus-day013-3moku/" class="link black dim">
         3目並べの作成 - Day13
       </a>
@@ -784,80 +863,6 @@ Verify clocks are ticking and showing correct relative times.&#39;
 </code></pre><p>このプロンプトで、キャスリング機能が実装されました。キングとルークが適切な条件を満たしている場合、キャスリングが可能になりました。</p>
     </div>
     <a href="/posts/lazarus-day005-chess/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day004-reversi/" class="link black dim">
-        Reversi（リバーシ）ゲームの作成 - Day4
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="reversiリバーシゲームの作成---day4">Reversi（リバーシ）ゲームの作成 - Day4</h1>
-<p>Lazarusチャレンジ4日目です。今回は、前回作成した<strong>LazManager</strong>を使って、<strong>Reversi（リバーシ）ゲーム</strong>を作成することにしました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>Day3で作成したLazManagerを実際に使って、新しいプロジェクトを作成し、ゲームアプリを開発してみることにしました。選んだのは、  <strong>Reversi（リバーシ、オセロ）</strong> です。</p>
-<p>Reversiは、8×8の盤面で黒と白の石を交互に置き、相手の石を挟んでひっくり返すゲームです。今回は、以下の機能を実装することにしました：</p>
-<ul>
-<li><strong>ゲーム盤面の表示</strong>: 8×8のグリッドで盤面を表示</li>
-<li><strong>石の配置</strong>: クリックで石を配置できる</li>
-<li><strong>合法手の判定</strong>: 置ける場所を判定し、黄色の点で表示</li>
-<li><strong>石の反転</strong>: 挟んだ石を自動的に反転</li>
-<li><strong>AI対戦機能</strong>: 簡単なAIを実装して対戦できる</li>
-<li><strong>スコア表示</strong>: 黒と白の石の数を表示</li>
-<li><strong>ゲーム状態管理</strong>: ターン管理、ゲーム終了判定</li>
-</ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動します。アプリを起動すると、プロジェクト作成画面が表示されます。</p>
-<p><img src="/images/LazarusDay004_createproject.png" alt="LazManagerのプロジェクト作成画面"></p>
-<p>プロジェクト名に「<strong>day004_Reversi</strong>」と入力し、「作成」ボタンを押します。プロジェクトが作成されると、自動的に起動画面が有効になります。</p>
-<p><img src="/images/LazarusDay004_createdproject.png" alt="LazManagerの起動画面"></p>
-<p>「<strong>Cursor</strong>」ボタンを押すと、Cursorが起動し、プロジェクトフォルダが開きます。これで開発の準備が整いました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>Reversiゲームの開発は、4つのプロンプトに分けて進めました。それぞれのプロンプトで段階的に機能を実装していきます。</p>
-<h3 id="プロンプト1-reversiゲームユニットの作成">プロンプト1: Reversiゲームユニットの作成</h3>
-<p>最初のプロンプトでは、ゲームのロジック部分を実装するユニットを作成しました。</p>
-<pre tabindex="0"><code>Reversiゲームユニットの作成
-</code></pre><p>このプロンプトだけで、ゲームの核心となるロジック部分が実装されました。盤面の管理、合法手の判定、石の反転など、Reversiの基本的なルールがすべて実装されています。</p>
-<h3 id="プロンプト2-reversiができる簡単なai-unitの作成">プロンプト2: Reversiができる簡単なAI Unitの作成</h3>
-<p>次に、AI対戦機能を実装するユニットを作成しました。</p>
-<pre tabindex="0"><code>Reversiができる簡単なAI Unitの作成
-</code></pre><p>このプロンプトだけで、AI対戦機能が実装されました。評価関数を使って、合法手の中から最適な手を選択する機能が追加されています。角や端の価値を考慮した評価関数により、ある程度の強さを持つAIが実装できました。</p>
-<h3 id="プロンプト3-reversiのui作成">プロンプト3: ReversiのUI作成</h3>
-<p>3つ目のプロンプトでは、ユーザーインターフェースを作成しました。</p>
-<pre tabindex="0"><code>ReversiのUI作成
-</code></pre><p>このプロンプトで、ゲームのUIが完成しました。盤面を描画し、マウスクリックで石を配置できるようになりました。合法手を黄色の点で表示する機能も実装されています。</p>
-<h3 id="プロンプト4-ビルド">プロンプト4: ビルド</h3>
-<p>最後に、ビルドの指示を出しました。</p>
-<pre tabindex="0"><code>C:\Lazarus\lazbuildでビルドしてください。
-</code></pre><p>ビルドが成功し、実行ファイル <code>day004_Reversi.exe</code> が作成されました。</p>
-<h2 id="ビルドと実行">ビルドと実行</h2>
-<p>ビルドが成功したので、早速実行してみます。LazManagerの「<strong>実行ファイルを起動</strong>」ボタンからも起動できます。</p>
-<p><img src="/images/LazarusDay004_Reversi.png" alt="Reversiゲームの実行画面"></p>
-<p>ゲームが正常に動作しています！盤面が表示され、合法手が黄色の点で表示されています。現在のプレイヤーは「黒」で、スコアも正しく表示されています。</p>
-<h2 id="ゲームの機能">ゲームの機能</h2>
-<p>完成したReversiゲームには、以下の機能が実装されています：</p>
-<ul>
-<li>✅ <strong>盤面の表示</strong>: 8×8のグリッドで盤面を表示</li>
-<li>✅ <strong>石の配置</strong>: クリックで石を配置できる</li>
-<li>✅ <strong>合法手の表示</strong>: 置ける場所を黄色の点で表示</li>
-<li>✅ <strong>石の反転</strong>: 挟んだ石を自動的に反転</li>
-<li>✅ <strong>AI対戦機能</strong>: 「AIの手」ボタンでAIに手を打たせる</li>
-<li>✅ <strong>AI自動プレイ</strong>: チェックボックスをONにすると、AIが自動的に手を打つ</li>
-<li>✅ <strong>スコア表示</strong>: 黒と白の石の数をリアルタイムで表示</li>
-<li>✅ <strong>ゲーム状態管理</strong>: ターン管理、ゲーム終了判定</li>
-<li>✅ <strong>新しいゲーム</strong>: ボタンでゲームをリセット</li>
-</ul>
-<h2 id="aiとの対戦結果">AIとの対戦結果</h2>
-<p>作者はリバーシが家族には負けない自信がありました。しかし、油断してこちらのAIには<strong>23対41</strong>で負けてしまいました。</p>
-    </div>
-    <a href="/posts/lazarus-day004-reversi/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 

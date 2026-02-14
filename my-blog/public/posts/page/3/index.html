@@ -125,6 +125,69 @@
   <div class="mb3 pa4 gray overflow-hidden bg-white">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day024-lightsout/" class="link black dim">
+        Lights Outゲームの作成 - Day24
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="lights-outゲームの作成---day24">Lights Outゲームの作成 - Day24</h1>
+<p>Lazarusチャレンジ24日目です。今回は、古典的な電子パズルゲーム「<strong>Lights Out</strong>（ライツアウト）」を作成しました。</p>
+<h2 id="ゲームのルール">ゲームのルール</h2>
+<p>Lights Outは、5x5のグリッド状に並んだライト（マス）をすべて消灯（OFF）させることを目指すパズルです。</p>
+<ul>
+<li><strong>操作</strong>: マスをクリックすると、そのマスと上下左右に隣接するマスの状態が反転します（ONならOFF、OFFならON）。</li>
+<li><strong>目的</strong>: すべてのマスをOFFにすればクリアです。</li>
+</ul>
+<p>単純に見えますが、むやみに押すと堂々巡りになり、論理的な思考が求められる奥深いゲームです。</p>
+<h2 id="実装のポイント">実装のポイント</h2>
+<p>今回はLazarus (Free Pascal) で1フォームのシンプルなアプリケーションとして実装しました。</p>
+<h3 id="1-盤面データの管理">1. 盤面データの管理</h3>
+<p>盤面の状態は2次元配列で管理します。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">private
+  FLights: array[0..4, 0..4] of Boolean;
+</code></pre><p>視覚的な表示には <code>TPanel</code> コンポーネントを使用し、これを<code>FormCreate</code>イベントで動的に生成しています。これにより、フォームデザイナーで25個のパネルを手作業で配置する手間を省いています。</p>
+<h3 id="2-必ず解ける初期配置">2. 必ず解ける初期配置</h3>
+<p>Lights Outの重要な性質として、「<strong>ランダムにON/OFF配置を決めると、数学的に解けない配置が存在する</strong>」という点があります。
+プレイヤーに不条理な苦痛を与えないよう、初期化処理に一工夫加えました。</p>
+<ol>
+<li>まず盤面をすべてOFF（クリア状態）にする。</li>
+<li>ランダムな場所をクリック（合法手）する操作を複数回（今回は20回）繰り返す。</li>
+</ol>
+<p>この手順で生成された盤面は、逆の手順（押した場所をもう一度押す）を辿れば必ず元に戻せるため、<strong>必ず解けることが保証されます</strong>。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">procedure TForm1.InitializeGame;
+var
+  i, rx, ry: Integer;
+begin
+  Randomize;
+  // 全てOFFにする
+  for i := 0 to GridSize - 1 do
+    for rx := 0 to GridSize - 1 do
+      FLights[i, rx] := False;
+
+  // 適当にクリック操作をシミュレートして「必ず解ける」初期盤面を作る
+  for i := 1 to 20 do
+  begin
+    rx := Random(GridSize);
+    ry := Random(GridSize);
+    ToggleCell(rx, ry);
+  end;
+  
+  UpdateVisuals;
+end;
+</code></pre><h3 id="3-ロジックの実装">3. ロジックの実装</h3>
+<p>マスの反転処理は、範囲チェックを行った上で状態を反転させるシンプルなものです。</p>
+    </div>
+    <a href="/posts/lazarus-day024-lightsout/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
       <a href="/posts/lazarus-day023-pdfviewer/" class="link black dim">
         PDFビューワーの作成とAIクレジット枯渇との戦い - Day23
       </a>
@@ -926,85 +989,6 @@ Knuth&#39;s Algorithm X (Dancing Links)を実装したユニットの作成
 <p><strong>Dancing Links (DLX)とは：</strong></p>
     </div>
     <a href="/posts/lazarus-day015-sudoku/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day014-3moku-complete/" class="link black dim">
-        3目並べの完成 - Day14
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="3目並べの完成---day14">3目並べの完成 - Day14</h1>
-<p>Lazarusチャレンジ14日目です。Day13で未完成だった**3目並べ（三目並べ）**アプリを、今回は段階的なプロンプトで完成させることができました。AI対戦機能も含めた本格的なゲームアプリとして完成しました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>Day13で未完成だった3目並べアプリを、今回は以下の機能を実装して完成させることを目指しました：</p>
-<ul>
-<li><strong>3目並べのゲームロジック</strong>: 3×3のグリッドで3目並べをプレイできる機能</li>
-<li><strong>AI対戦</strong>: コンピューターとの対戦機能（3つのレベル）</li>
-<li><strong>GUI</strong>: 視覚的に分かりやすいゲームボード</li>
-<li><strong>先手/後手選択</strong>: ゲーム開始時に先手か後手かを選択できる機能</li>
-<li><strong>AIレベル選択</strong>: 3つのAIレベルから選択できる機能</li>
-<li><strong>リセット機能</strong>: ゲームをリセットして再開できる機能</li>
-</ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day014_3moku</strong>」と入力し、プロジェクトを作成しました。</p>
-<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>3目並べアプリの開発は、7つのプロンプトに分けて進めました。それぞれのプロンプトで段階的に機能を実装していきます。プロンプトは省略せず、すべて記載します。</p>
-<h3 id="プロンプト1-3目ならべのゲームユニット作成">プロンプト1: 3目ならべのゲームユニット作成</h3>
-<p>最初のプロンプトでは、ゲームのロジック部分を実装するユニットを作成しました。</p>
-<pre tabindex="0"><code>3目ならべのゲームユニット。
-Game3mokuUnitを作成。
-</code></pre><p>このプロンプトで、AIが<code>Game3mokuUnit</code>ユニットを作成しました。</p>
-<p><strong>AIが実装した内容：</strong></p>
-<ul>
-<li>
-<p><strong>TGame3mokuクラス</strong>: 3目ならべのゲームロジックを管理するクラス</p>
-<ul>
-<li><code>Reset</code>: ゲームをリセットするメソッド</li>
-<li><code>MakeMove(Row, Col)</code>: 指定位置に手を打つメソッド</li>
-<li><code>GetCell(Row, Col)</code>: セルの状態を取得するメソッド</li>
-<li><code>GetCurrentPlayer</code>: 現在のプレイヤー（XまたはO）を取得するメソッド</li>
-<li><code>GetGameState</code>: ゲームの状態（進行中、X勝利、O勝利、引き分け）を取得するメソッド</li>
-<li><code>IsValidMove(Row, Col)</code>: 有効な手かどうかをチェックするメソッド</li>
-</ul>
-</li>
-<li>
-<p><strong>型定義</strong>:</p>
-<ul>
-<li><code>TPlayer</code>: プレイヤーを表す型（pNone, pX, pO）</li>
-<li><code>TGameState</code>: ゲームの状態を表す型（gsPlaying, gsXWon, gsOWon, gsDraw）</li>
-</ul>
-</li>
-<li>
-<p><strong>勝敗判定</strong>: 横・縦・斜めの3つ並びを自動判定し、引き分けの判定も実装</p>
-</li>
-</ul>
-<p>このユニットにより、3目ならべの基本的なゲームロジックが完成しました。盤面の管理、手の検証、勝敗判定など、ゲームの核心となる機能がすべて実装されています。</p>
-<h3 id="プロンプト2-シンプルなaiの作成">プロンプト2: シンプルなAIの作成</h3>
-<p>次に、合法手からランダムに選ぶシンプルなAIを追加しました。</p>
-<pre tabindex="0"><code>非常にシンプルなAIの作成。合法手の中からランダムな手を返す。
-</code></pre><p><strong>AIが実装した内容：</strong></p>
-<ul>
-<li>
-<p><strong><code>GetRandomMove(out Row, Col: Integer): Boolean</code>メソッド</strong>:</p>
-<ul>
-<li>合法手を収集し、その中からランダムに1つを選択</li>
-<li>選択した手を<code>Row</code>と<code>Col</code>に返す</li>
-<li>合法手がない場合やゲームが終了している場合は<code>False</code>を返す</li>
-</ul>
-</li>
-<li>
-<p><strong>乱数生成器の初期化</strong>: コンストラクタに<code>Randomize</code>を追加し、毎回異なるランダムな手を生成</p>
-    </div>
-    <a href="/posts/lazarus-day014-3moku-complete/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 

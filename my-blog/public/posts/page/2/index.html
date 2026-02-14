@@ -125,6 +125,36 @@
   <div class="mb3 pa4 gray overflow-hidden bg-white">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day034-pas2js-simple-interpreter/" class="link black dim">
+        Pas2JSで簡易インタープリタをブラウザで動かす - Day34
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsで簡易インタープリタをブラウザで動かす---day34">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</h1>
+<p>Lazarusチャレンジ34日目です。<strong>Pas2JS</strong> で、ブラウザ上で動く <strong>簡易インタープリタ</strong> を作成しました。PRINT・変数代入・IF/ELSE・WHILE/WEND をサポートし、式は <strong>再帰下降構文解析</strong> で四則演算の優先順位（<code>*</code>/<code>/</code> が <code>+</code>/<code>-</code> より優先、括弧対応）を正しく評価します。Pascal でトークナイザとパーサを実装し、DOM のテキストエリアとボタンから「Run」で実行できる構成にしています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>PRINT 文</strong>: 式の値を数値として出力（変数・四則演算・括弧付き式を引数に可能）</li>
+<li><strong>変数</strong>: 代入（<code>x = 5</code>）と式内での参照。未定義変数は 0 として扱う</li>
+<li><strong>IF 文</strong>: 式が 0 でなければ直後の 1 文を実行、0 ならスキップ。<strong>ELSE</strong> 対応（ELSE を消費し、THEN/ELSE のどちらか一方だけ実行）</li>
+<li><strong>WHILE / WEND</strong>: 式が 0 でない間、本体（複数文）を繰り返し実行。ネストした WHILE や IF にも対応</li>
+<li><strong>式</strong>: 再帰下降で <code>+</code> <code>-</code> <code>*</code> <code>/</code>、括弧、単項 <code>+</code>/<code>-</code>、数値・変数を評価</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-ブラウザ向けコンパイルと-onclick-の型">1. ブラウザ向けコンパイルと onclick の型</h3>
+<p>pas2js でブラウザ向けにコンパイルする際、DOM の <code>onclick</code> には <strong>手続き型ではなく関数型</strong>（戻り値あり）が必要です。<code>OnRunClick</code> を <code>procedure</code> から <code>function OnRunClick(Event: TJSMouseEvent): Boolean</code> に変更し、先頭で <code>Result := True</code> を代入することでコンパイルエラーを解消しています。</p>
+    </div>
+    <a href="/posts/lazarus-day034-pas2js-simple-interpreter/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
       <a href="/posts/lazarus-day033-pas2js-whiteboard/" class="link black dim">
         Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33
       </a>
@@ -575,69 +605,6 @@ begin
 各列ごとに下から上に向かって走査し、ブロックがあれば「書き込み位置（WritePos）」に移動させるというアルゴリズムで、O(N) で効率的に処理しています。</p>
     </div>
     <a href="/posts/lazarus-day025-colorpop/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day024-lightsout/" class="link black dim">
-        Lights Outゲームの作成 - Day24
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="lights-outゲームの作成---day24">Lights Outゲームの作成 - Day24</h1>
-<p>Lazarusチャレンジ24日目です。今回は、古典的な電子パズルゲーム「<strong>Lights Out</strong>（ライツアウト）」を作成しました。</p>
-<h2 id="ゲームのルール">ゲームのルール</h2>
-<p>Lights Outは、5x5のグリッド状に並んだライト（マス）をすべて消灯（OFF）させることを目指すパズルです。</p>
-<ul>
-<li><strong>操作</strong>: マスをクリックすると、そのマスと上下左右に隣接するマスの状態が反転します（ONならOFF、OFFならON）。</li>
-<li><strong>目的</strong>: すべてのマスをOFFにすればクリアです。</li>
-</ul>
-<p>単純に見えますが、むやみに押すと堂々巡りになり、論理的な思考が求められる奥深いゲームです。</p>
-<h2 id="実装のポイント">実装のポイント</h2>
-<p>今回はLazarus (Free Pascal) で1フォームのシンプルなアプリケーションとして実装しました。</p>
-<h3 id="1-盤面データの管理">1. 盤面データの管理</h3>
-<p>盤面の状態は2次元配列で管理します。</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">private
-  FLights: array[0..4, 0..4] of Boolean;
-</code></pre><p>視覚的な表示には <code>TPanel</code> コンポーネントを使用し、これを<code>FormCreate</code>イベントで動的に生成しています。これにより、フォームデザイナーで25個のパネルを手作業で配置する手間を省いています。</p>
-<h3 id="2-必ず解ける初期配置">2. 必ず解ける初期配置</h3>
-<p>Lights Outの重要な性質として、「<strong>ランダムにON/OFF配置を決めると、数学的に解けない配置が存在する</strong>」という点があります。
-プレイヤーに不条理な苦痛を与えないよう、初期化処理に一工夫加えました。</p>
-<ol>
-<li>まず盤面をすべてOFF（クリア状態）にする。</li>
-<li>ランダムな場所をクリック（合法手）する操作を複数回（今回は20回）繰り返す。</li>
-</ol>
-<p>この手順で生成された盤面は、逆の手順（押した場所をもう一度押す）を辿れば必ず元に戻せるため、<strong>必ず解けることが保証されます</strong>。</p>
-<pre tabindex="0"><code class="language-pascal" data-lang="pascal">procedure TForm1.InitializeGame;
-var
-  i, rx, ry: Integer;
-begin
-  Randomize;
-  // 全てOFFにする
-  for i := 0 to GridSize - 1 do
-    for rx := 0 to GridSize - 1 do
-      FLights[i, rx] := False;
-
-  // 適当にクリック操作をシミュレートして「必ず解ける」初期盤面を作る
-  for i := 1 to 20 do
-  begin
-    rx := Random(GridSize);
-    ry := Random(GridSize);
-    ToggleCell(rx, ry);
-  end;
-  
-  UpdateVisuals;
-end;
-</code></pre><h3 id="3-ロジックの実装">3. ロジックの実装</h3>
-<p>マスの反転処理は、範囲チェックを行った上で状態を反転させるシンプルなものです。</p>
-    </div>
-    <a href="/posts/lazarus-day024-lightsout/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 

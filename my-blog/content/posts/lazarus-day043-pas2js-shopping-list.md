@@ -1,6 +1,6 @@
 ---
 title: "Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43"
-date: 2026-02-13T16:00:00+09:00
+date: 2026-02-12T16:00:00+09:00
 draft: false
 featured_image: "/images/LazarusDay043.png"
 description: "Lazarusチャレンジ43日目。LocalStorageを使ってオフラインでも動くチェックリストをPas2JSで作成。TStringListのような感覚でデータを管理し、ブラウザを閉じても消えない実用性がポイント。GeminiでHTML/CSS/PASを取得し、rtl.run()を自分で挿入、Cursorでコンパイル完了。"

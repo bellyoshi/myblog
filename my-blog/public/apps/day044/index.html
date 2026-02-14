@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pas2js Pixel Editor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="editor-container">
+        <h1>PIXEL ART WORKSHOP</h1>
+        
+        <canvas id="editor" width="320" height="320"></canvas>
+        
+        <div class="toolbar">
+            <div class="tool-group">
+                <label for="picker">COLOR:</label>
+                <input type="color" id="picker" value="#ff0000">
+            </div>
+
+            <div class="tool-group">
+                <button id="btnDownload" class="btn-primary">保存 (PNG)</button>
+                <button id="btnClear" class="btn-danger">クリア</button>
+            </div>
+        </div>
+
+        <p class="status">Auto-saving to LocalStorage...</p>
+    </div>
+
+    <script src="pixel_editor.js"></script>
+    <script>rtl.run();</script>
+</body>
+</html>
