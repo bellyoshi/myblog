@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-02-07T20:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-02-07T20:00:00+09:00">
+  <meta itemprop="datePublished" content="2026-02-10T16:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-10T16:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Posts">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -119,6 +119,225 @@
   <article class="pa3 pa4-ns nested-copy-line-height">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links mid-gray"></section>
     <section class="flex-ns mt5 flex-wrap justify-around">
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day011-calc/" class="link black dim">
+        シンプルな電卓の作成 - Day11
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="シンプルな電卓の作成---day11">シンプルな電卓の作成 - Day11</h1>
+<p>Lazarusチャレンジ11日目です。今回は、<strong>シンプルな電卓</strong>を作成することにしました。足し算、引き算、掛け算、割り算の基本的な四則演算機能を実装しました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成する電卓は、基本的な四則演算（足し算、引き算、掛け算、割り算）ができるシンプルな電卓です。複雑な機能は不要で、日常的な計算に使える基本的な機能に特化したアプリを目指しました。</p>
+<p>以下の機能を実装することにしました：</p>
+<ul>
+<li><strong>数字ボタン</strong>: 0から9までの数字を入力できるボタン</li>
+<li><strong>演算子ボタン</strong>: 足し算（+）、引き算（-）、掛け算（×）、割り算（÷）のボタン</li>
+<li><strong>等号ボタン</strong>: 計算結果を表示するボタン</li>
+<li><strong>クリアボタン</strong>: 入力をクリアするボタン</li>
+<li><strong>表示エリア</strong>: 入力値と計算結果を表示するエリア</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day011_Calc</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>シンプルな電卓の開発は、以下のようなプロンプトを投入しました：</p>
+<pre tabindex="0"><code>足し算、割り算、引き算、掛け算のできるシンプルな電卓
+</code></pre><p>そしてビルドもお願いします：</p>
+<pre tabindex="0"><code>C:\Lazarus\Lazbuildでビルド
+</code></pre><p>このプロンプトで、基本的な電卓機能が実装されました。数字ボタン、演算子ボタン、等号ボタン、クリアボタンが配置され、基本的な四則演算ができるようになりました。</p>
+<h2 id="完成したアプリの機能">完成したアプリの機能</h2>
+<p>完成したシンプルな電卓には、以下の機能が実装されています：</p>
+<p><img src="/images/LazarusDay011.png" alt="シンプルな電卓のスクリーンショット"></p>
+<ul>
+<li>✅ <strong>数字ボタン</strong>: 0から9までの数字を入力できるボタン</li>
+<li>✅ <strong>演算子ボタン</strong>: 足し算（+）、引き算（-）、掛け算（×）、割り算（÷）のボタン</li>
+<li>✅ <strong>等号ボタン</strong>: 計算結果を表示するボタン</li>
+<li>✅ <strong>クリアボタン</strong>: 入力をクリアするボタン</li>
+<li>✅ <strong>表示エリア</strong>: 入力値と計算結果を右揃えで表示</li>
+<li>✅ <strong>基本的な四則演算</strong>: 足し算、引き算、掛け算、割り算が可能</li>
+</ul>
+<h2 id="技術的なポイント">技術的なポイント</h2>
+<p>シンプルな電卓の実装では、以下の技術的なポイントがありました：</p>
+<ul>
+<li><strong>ボタンコンポーネント</strong>: LazarusのTButtonコンポーネントを使用して、数字ボタンと演算子ボタンを配置</li>
+<li><strong>表示エリア</strong>: TEditまたはTLabelコンポーネントを使用して、入力値と計算結果を表示</li>
+<li><strong>計算ロジック</strong>: 演算子に応じた計算処理を実装</li>
+<li><strong>状態管理</strong>: 現在の入力値、前の値、演算子などの状態を管理</li>
+<li><strong>UIレイアウト</strong>: 4×4のグリッド形式でボタンを配置し、使いやすいレイアウトを実現</li>
+</ul>
+<h2 id="学んだこと">学んだこと</h2>
+<p>Day11の開発を通じて、以下のことを学びました：</p>
+<h3 id="シンプルなアプリの価値">シンプルなアプリの価値</h3>
+<p>シンプルな電卓を作ることで、以下のことを学びました：</p>
+<ul>
+<li><strong>基本機能の重要性</strong>: 基本的な機能に特化することで、アプリが使いやすくなる</li>
+<li><strong>UIの分かりやすさ</strong>: シンプルなレイアウトは、ユーザーにとって分かりやすい</li>
+<li><strong>実用性</strong>: 複雑な機能がなくても、基本的な機能があれば実用的なアプリになる</li>
+</ul>
+<h3 id="電卓の基本機能">電卓の基本機能</h3>
+<p>電卓の基本機能を実装することで、以下のことを学びました：</p>
+<ul>
+<li><strong>状態管理</strong>: 現在の入力値、前の値、演算子などの状態を適切に管理する重要性</li>
+<li><strong>計算ロジック</strong>: 四則演算の基本的な計算ロジックの実装</li>
+<li><strong>UI設計</strong>: 使いやすいボタン配置とレイアウトの重要性</li>
+</ul>
+<h3 id="プロンプトの簡潔さ">プロンプトの簡潔さ</h3>
+<p>今回のプロンプトは非常に簡潔でしたが、それでも基本的な電卓機能が実装されました：</p>
+    </div>
+    <a href="/posts/lazarus-day011-calc/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day010-simple-editor/" class="link black dim">
+        シンプルなテキストエディターの作成 - Day10
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="シンプルなテキストエディターの作成---day10">シンプルなテキストエディターの作成 - Day10</h1>
+<p>Lazarusチャレンジ10日目です。今回は、<strong>とっても簡単なテキストエディター</strong>を作成することにしました。素早く起動して、シンプルな機能に特化したメモ帳アプリを実装しました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>メモ帳は昔はとてもシンプルでした。しかし、今のメモ帳は前回開いたものを表示してくれたり、タブになっていたり、AI機能がついていたりします。もちろんそれはそれで便利ですが、私の求めるメモ帳の機能は：</p>
+<ul>
+<li><strong>素早く起動</strong>: すぐに使えるシンプルな起動</li>
+<li><strong>シンプルな機能</strong>: 必要最小限の機能に特化</li>
+<li><strong>軽量</strong>: 重たい機能は不要</li>
+</ul>
+<p>とくに、前回の情報が表示されると、そこに気を取られて、今からやる仕事を忘れてしまったります。そういった機能は全く不要だと思います。</p>
+<p>そこで超シンプルなテキストエディターを作ります。
+以下の機能を実装することにしました：</p>
+<ul>
+<li><strong>テキスト編集エリア</strong>: シンプルなテキスト編集機能</li>
+<li><strong>新規作成</strong>: 新しいファイルを作成</li>
+<li><strong>開く</strong>: 既存のファイルを開く</li>
+<li><strong>保存</strong>: 編集中のファイルを保存</li>
+<li><strong>名前を付けて保存</strong>: 別名で保存</li>
+<li><strong>最小限のUI</strong>: 必要最小限のメニューとボタン</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day010_SimpleEditor</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>シンプルなテキストエディターの開発は、以下のようなプロンプトを投入しました：</p>
+<pre tabindex="0"><code>とってもシンプルなテキストエディター
+</code></pre><p>そしてビルドもお願いします</p>
+<pre tabindex="0"><code>C:\Lazarus\Lazbuildでビルド
+</code></pre><p>このプロンプトで、基本的なテキストエディターが実装されました。
+実行してみましたが、メニューが表示されません。
+手作業になりますが、IDEを開き、
+フォームのプロパティからMenuをさがし、
+MainMenu1を設定します。</p>
+<h2 id="完成したアプリの機能">完成したアプリの機能</h2>
+<p>完成したシンプルなテキストエディターには、以下の機能が実装されています：</p>
+<p><img src="/images/LazarusDay010.png" alt="シンプルなテキストエディターのスクリーンショット"></p>
+<ul>
+<li>✅ <strong>テキスト編集エリア</strong>: シンプルなテキスト編集機能</li>
+<li>✅ <strong>新規作成</strong>: 新しいファイルを作成する機能</li>
+<li>✅ <strong>開く</strong>: 既存のファイルを開く機能</li>
+<li>✅ <strong>保存</strong>: 編集中のファイルを保存する機能</li>
+<li>✅ <strong>名前を付けて保存</strong>: 別名で保存する機能</li>
+<li>✅ <strong>最小限のUI</strong>: 必要最小限のメニューとボタン</li>
+<li>✅ <strong>素早い起動</strong>: 軽量で素早く起動</li>
+</ul>
+<h2 id="技術的なポイント">技術的なポイント</h2>
+<p>シンプルなテキストエディターの実装では、以下の技術的なポイントがありました：</p>
+<ul>
+<li><strong>TMemoコンポーネント</strong>: LazarusのTMemoコンポーネントを使用してテキスト編集機能を実装</li>
+<li><strong>ファイルダイアログ</strong>: ファイルを開く・保存するためのダイアログを使用</li>
+<li><strong>ファイル操作</strong>: ファイルの読み込み・書き込み機能を実装</li>
+<li><strong>シンプルなUI</strong>: 必要最小限のUIコンポーネントのみを使用</li>
+<li><strong>軽量設計</strong>: 余計な機能を排除して、軽量なアプリを実現</li>
+</ul>
+<h2 id="学んだこと">学んだこと</h2>
+<p>Day10の開発を通じて、以下のことを学びました：</p>
+    </div>
+    <a href="/posts/lazarus-day010-simple-editor/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day009-create-zip/" class="link black dim">
+        Zip圧縮ツールの作成 - Day9
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="zip圧縮ツールの作成---day9">Zip圧縮ツールの作成 - Day9</h1>
+<p>Lazarusチャレンジ9日目です。今回は、<strong>Zip圧縮ツール</strong>を作成することにしました。フォルダを指定してZipに圧縮し、実行ファイルを除外する機能を実装しました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成するZip圧縮ツールは、LazManagerの機能拡張の一環として考えています。LazManagerを改造して、Cursorを起動するときに起動していますのメッセージが出るようにしたいのですが、今回はその機能を実装できるのかを検証するための実験的な別アプリとして作成することにしました。</p>
+<p>以下の機能を実装することにしました：</p>
+<ul>
+<li><strong>圧縮フォルダ名テキストボックス</strong>: 圧縮するフォルダを指定するテキストボックス</li>
+<li><strong>フォルダを開くボタン</strong>: 圧縮するフォルダを選択するボタン</li>
+<li><strong>保存先設定フォルダ</strong>: 保存先フォルダを指定するテキストボックス</li>
+<li><strong>設定値を読み取る</strong>: 保存先フォルダの設定値を読み取る機能</li>
+<li><strong>Zipに圧縮</strong>: フォルダ名と同じ名前でZipに圧縮する機能</li>
+<li><strong>保存先に保存</strong>: 圧縮したZipファイルを保存先に保存</li>
+<li><strong>実行ファイルの除外</strong>: 圧縮の際、実行ファイル（.exe）を除外する機能</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day009_CreateZip</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>Zip圧縮ツールの開発は、以下のようなプロンプトを投入しました：</p>
+<pre tabindex="0"><code>圧縮フォルダ名テキストボックス。フォルダを開く。
+保存先設定フォルダ。テキストボックス。設定値を読み取る。
+
+ボタンを押すとフォルダ名と同じ名前で
+Zipに圧縮する。保存先に保存する。
+圧縮の際、実行ファイルは除外したい。
+</code></pre><p>このプロンプトで、基本的なZip圧縮ツールが実装されました。</p>
+<h2 id="cursorからlazbuildを使ったビルド">CursorからLazbuildを使ったビルド</h2>
+<p>今回の開発でもビルド方法をプロンプトしています。以前はIDEを使ってコンパイルすると、一度ではコンパイル完了しませんでした。表示されたエラーをコピーしてCursorに教えてあげる手間が必要でした。エラーが出るたびに毎回コピーペーストが必要でしたが、「<strong>C:\Lazarus\Lazbuildでビルド</strong>」とプロンプトすることで、ビルドも任せることができます。</p>
+<p>ビルドしてとだけだとLazbuildでビルドすることはCursorも知っているのですが、Lazbuildがどこにあるのかがわからないです。パスを通すというのも一つの手ですが、Lazarusをインストールしたフォルダを指定してLazbuildがどこにあるかを教えてやればよいです。こちらの方が環境変数を汚さなくて済みます。</p>
+<h2 id="完成したアプリの機能">完成したアプリの機能</h2>
+<p>完成したZip圧縮ツールには、以下の機能が実装されています：</p>
+<p><img src="/images/LazarusDay009.png" alt="Zip圧縮ツールのスクリーンショット"></p>
+<ul>
+<li>✅ <strong>圧縮フォルダ名テキストボックス</strong>: 圧縮するフォルダを指定するテキストボックス</li>
+<li>✅ <strong>フォルダを開くボタン</strong>: 圧縮するフォルダを選択するボタン</li>
+<li>✅ <strong>保存先設定フォルダ</strong>: 保存先フォルダを指定するテキストボックス</li>
+<li>✅ <strong>設定値を読み取る</strong>: 保存先フォルダの設定値を読み取る機能</li>
+<li>✅ <strong>Zipに圧縮</strong>: フォルダ名と同じ名前でZipに圧縮する機能</li>
+<li>✅ <strong>保存先に保存</strong>: 圧縮したZipファイルを保存先に保存</li>
+<li>✅ <strong>実行ファイルの除外</strong>: 圧縮の際、実行ファイル（.exe）を除外する機能</li>
+<li>✅ <strong>圧縮完了メッセージ</strong>: 圧縮が完了したことを示すメッセージを表示</li>
+</ul>
+<h2 id="技術的なポイント">技術的なポイント</h2>
+<p>Zip圧縮ツールの実装では、以下の技術的なポイントがありました：</p>
+<ul>
+<li><strong>Zip圧縮ライブラリ</strong>: LazarusのZip圧縮ライブラリを使用して、フォルダをZipに圧縮</li>
+<li><strong>ファイルのフィルタリング</strong>: 実行ファイル（.exe）を除外する機能を実装</li>
+<li><strong>フォルダ選択ダイアログ</strong>: 圧縮するフォルダと保存先フォルダを選択するダイアログ</li>
+<li><strong>設定値の読み取り</strong>: 保存先フォルダの設定値を読み取る機能</li>
+<li><strong>エラーハンドリング</strong>: 圧縮処理中のエラーを適切に処理</li>
+</ul>
+<h2 id="学んだこと">学んだこと</h2>
+<p>Day9の開発を通じて、以下のことを学びました：</p>
+    </div>
+    <a href="/posts/lazarus-day009-create-zip/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
       
         <div class="w-100 w-30-l mb4 relative bg-white">
           <div class="w-100 mb4 nested-copy-line-height relative bg-white">
@@ -681,119 +900,6 @@ unit Unit1;
 </code></pre><p>すると解説が返ってきました。</p>
     </div>
     <a href="/posts/lazarus-day002-midi-player/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day001-midi-kaeru/" class="link black dim">
-        LazarusでMIDIファイルを作成するアプリ - カエルの歌
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="lazarusでmidiファイルを作成するアプリ---カエルの歌">LazarusでMIDIファイルを作成するアプリ - カエルの歌</h1>
-<p>Lazarusチャレンジ1日目、最初のアプリが完成しました！</p>
-<h2 id="今回作成したアプリ">今回作成したアプリ</h2>
-<p><strong>MIDIファイルを作成するアプリ</strong>を開発しました。具体的には、<strong>カエルの歌</strong>をMIDIファイルとして出力する機能を実装しています。</p>
-<p><img src="/images/LazarusDay001.png" alt="Lazarusアプリのスクリーンショット"></p>
-<h2 id="開発の経緯">開発の経緯</h2>
-<p>LazarusでMIDIファイルを扱う方法を調べ、シンプルなMIDI作成アプリを作成することにしました。最初はCursorに「カエルの歌を作って」と依頼したのですが、Cursorがカエルの歌を完全に覚えていなかったため、メロディーを微調整する必要がありました。</p>
-<h2 id="技術的なポイント">技術的なポイント</h2>
-<ul>
-<li><strong>Lazarus/Pascal</strong>: 久しぶりのPascal開発で、構文を思い出しながらの作業</li>
-<li><strong>MIDIファイル形式</strong>: MIDIファイルの構造を理解し、バイナリ形式で出力</li>
-<li><strong>Cursorとの協働</strong>: AIの提案をベースに、実際のメロディーに合わせて調整</li>
-</ul>
-<h2 id="ダウンロード">ダウンロード</h2>
-<p>作成したアプリは以下のリンクからダウンロードできます：</p>
-<p><a href="/downloads/day001_MMKaeru.zip">day001_MMKaeru.zip</a></p>
-<h2 id="今後の予定">今後の予定</h2>
-<p>1日目にして早くも「AIに完全に頼るのは難しい」という現実を突きつけられましたが、これも学習の一環です。明日も新しいアプリに挑戦します！</p>
-<hr>
-<p><em>Lazarusチャレンジ Day 1/100</em></p>
-    </div>
-    <a href="/posts/lazarus-day001-midi-kaeru/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/why-markdown-bold-not-working/" class="link black dim">
-        HugoでMarkdownの**が強調表示されない理由と解決方法
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="hugoでmarkdownのが強調表示されない理由と解決方法">HugoでMarkdownの**が強調表示されない理由と解決方法</h1>
-<p>Hugoでブログを書いていると、時々 <code>**</code> で囲んだテキストが強調表示されず、そのまま <code>**</code> が表示されてしまうことがあります。特に日本語のテキストでよく発生するこの問題について、原因と解決方法を説明します。</p>
-<h2 id="問題の例">問題の例</h2>
-<p>以下のようなMarkdownを書いたとします：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。**「Lazarusで100日間、毎日アプリを作る」**という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p>期待される結果は、<code>「Lazarusで100日間、毎日アプリを作る」</code> の部分が<strong>太字</strong>で表示されることです。しかし、実際には <code>**</code> がそのまま表示されてしまうことがあります。</p>
-<h2 id="なぜ起こるのか">なぜ起こるのか？</h2>
-<h3 id="1-hugoのmarkdownパーサーgoldmarkの仕様">1. HugoのMarkdownパーサー「Goldmark」の仕様</h3>
-<p>Hugoはデフォルトで <strong>Goldmark</strong> というMarkdownパーサーを使用しています。Goldmarkは、Markdownの記法を解析してHTMLに変換する際、<strong>単語境界</strong>を基準に強調記法を認識します。</p>
-<h3 id="2-日本語テキスト特有の問題">2. 日本語テキスト特有の問題</h3>
-<p>日本語は<strong>全角文字</strong>を使用しますが、<code>**</code> は<strong>半角文字</strong>です。Goldmarkは、全角文字と半角文字が直接隣接している場合、単語境界として認識しないことがあります。</p>
-<p>具体的には：</p>
-<ul>
-<li><code>**</code> の前に全角文字（句読点、漢字、ひらがななど）がある</li>
-<li><code>**</code> の後に全角文字がある</li>
-</ul>
-<p>このような場合、Goldmarkは <code>**</code> を強調記号として認識せず、通常のテキストとして扱ってしまいます。</p>
-<h3 id="3-動作する場合と動作しない場合">3. 動作する場合と動作しない場合</h3>
-<h4 id="-動作する例">✅ 動作する例</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span><span style="color:#66d9ef">-</span> **高速性**: 数千ページでも数秒でビルド完了
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> **シンプル**: 設定ファイルが少なく、学習コストが低い
-</span></span></code></pre></div><p>リスト項目内では、<code>**</code> の前後にスペースがあるため、正しく認識されます。</p>
-<h4 id="-動作しない例">❌ 動作しない例</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。**「Lazarusで100日間、毎日アプリを作る」**という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p>段落内で、<code>**</code> が全角文字と直接隣接しているため、認識されません。</p>
-<h2 id="解決方法">解決方法</h2>
-<h3 id="方法1--の前後にスペースを追加する推奨">方法1: <code>**</code> の前後にスペースを追加する（推奨）</h3>
-<p>最も簡単で確実な方法は、<code>**</code> の前後にスペースを追加することです。</p>
-<p><strong>修正前：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。**「Lazarusで100日間、毎日アプリを作る」**という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p><strong>修正後：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。 <span style="font-style:italic">**</span>「Lazarusで100日間、毎日アプリを作る」** という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p>これで、<code>**</code> が正しく強調記号として認識され、<code>&lt;strong&gt;</code> タグに変換されます。</p>
-<h3 id="方法2-htmlタグを直接使用する">方法2: HTMLタグを直接使用する</h3>
-<p>Hugoの設定で <code>unsafe = true</code> が有効になっている場合、HTMLタグを直接使用することもできます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>ですが、2026年の私は一味違います。&lt;strong&gt;「Lazarusで100日間、毎日アプリを作る」&lt;/strong&gt;という、正気の沙汰とは思えないチャレンジを課すことにしました。
-</span></span></code></pre></div><p>ただし、この方法はMarkdownの記法から外れるため、方法1を推奨します。</p>
-    </div>
-    <a href="/posts/why-markdown-bold-not-working/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/survival-report-lazarus-challenge-2025/" class="link black dim">
-        生存報告。そして来年、私はLazarusの修羅に入る。
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <p>「このブログ、生きてる？」と思われた皆さま、正解です。生きています。 作っただけで満足して放置するという、ブロガーあるあるの極致を体現しておりました。</p>
-<p>ですが、2026年の私は一味違います。 <strong>「Lazarusで100日間、毎日アプリを作る」</strong> という、正気の沙汰とは思えないチャレンジを課すことにしました。</p>
-<p>「今さらLazarus？」 「AI（Cursor）に頼って大丈夫？」</p>
-<p>そんな声が聞こえてきそうですが、私自身が一番不安です。 おそらく、コードが動かずに発狂している様子や、Cursorに泣きついている模様が連日投稿されることになるでしょう。</p>
-<p>来年は、私の悪戦苦闘をエンタメとして楽しんでいただければと思います。 2026年、爆速（予定）の更新をお楽しみに！</p>
-    </div>
-    <a href="/posts/survival-report-lazarus-challenge-2025/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 

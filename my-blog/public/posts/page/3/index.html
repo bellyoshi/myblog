@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-02-07T20:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-02-07T20:00:00+09:00">
+  <meta itemprop="datePublished" content="2026-02-10T16:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-10T16:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Posts">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -119,6 +119,259 @@
   <article class="pa3 pa4-ns nested-copy-line-height">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links mid-gray"></section>
     <section class="flex-ns mt5 flex-wrap justify-around">
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day021-15puzzle/" class="link black dim">
+        15パズルの作成に挑戦 - Day21
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="15パズルの作成に挑戦---day21">15パズルの作成に挑戦 - Day21</h1>
+<p>Lazarusチャレンジ21日目です。今回は、<strong>15パズル</strong>の作成に挑戦しました。15パズルは、1から15までの数字が書かれたタイルをスライドさせて、正しい順序に並べるパズルゲームです。Lazarusで作る題材として、シンプルで分かりやすいパズルゲームです。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成する15パズルアプリとして、以下の機能を実装することを目指しました：</p>
+<ul>
+<li><strong>TButton 16個</strong>: 0-15のTagで位置管理（0は空白）</li>
+<li><strong>4×4配列</strong>: パズルの状態を管理する2次元配列</li>
+<li><strong>シャッフル機能</strong>: 完成状態から合法手のみでランダムにシャッフル</li>
+<li><strong>移動ロジック</strong>: クリックしたボタンが空白の隣なら移動</li>
+<li><strong>クリア判定</strong>: 1-15の順序で完成か判定し、完成時にメッセージ表示</li>
+</ul>
+<h2 id="15パズルとは">15パズルとは？</h2>
+<p>15パズルは、1から15までの数字が書かれたタイルをスライドさせて、正しい順序に並べるパズルゲームです。</p>
+<h3 id="基本ルール">基本ルール</h3>
+<ul>
+<li><strong>4×4の盤面</strong>: 16個のマス（15個のタイル + 1個の空白）</li>
+<li><strong>タイルの移動</strong>: 空白の隣にあるタイルだけが移動できる</li>
+<li><strong>目標</strong>: 1から15までを順番に並べる</li>
+<li><strong>シャッフル</strong>: 完成状態から合法手のみでランダムに移動してシャッフル</li>
+</ul>
+<h3 id="完成状態">完成状態</h3>
+<pre tabindex="0"><code>[ 1] [ 2] [ 3] [ 4]
+[ 5] [ 6] [ 7] [ 8]
+[ 9] [10] [11] [12]
+[13] [14] [15] [  ]
+</code></pre><h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day021_15</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>15パズルアプリの開発は、Cursorに直接プロンプトを投入して進めました。</p>
+<h3 id="プロンプト-15パズルの作成">プロンプト: 15パズルの作成</h3>
+<pre tabindex="0"><code>Lazarusで15パズルを作る。
+TButton 16個、Tagで位置管理。
+4×4配列でロジック管理。
+シャッフルは完成状態から合法手のみ。
+クリア判定あり。
+完全なForm1.pasを書いて。
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+    </div>
+    <a href="/posts/lazarus-day021-15puzzle/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day020-picross/" class="link black dim">
+        ピクロス（ノノグラム）の作成に挑戦 - Day20
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="ピクロスノノグラムの作成に挑戦---day20">ピクロス（ノノグラム）の作成に挑戦 - Day20</h1>
+<p>Lazarusチャレンジ20日目です。今回は、**ピクロス（ノノグラム）**の作成に挑戦しました。ピクロスは、数字をヒントにマスを塗りつぶして絵を完成させるロジックパズルです。Lazarusで作る題材としてめちゃくちゃ相性がいい、ということで挑戦してみました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成するピクロスアプリとしての初日は最小構成として以下の機能を実装することを目指しました：</p>
+<ul>
+<li><strong>10×10固定盤面</strong>: TDrawGridを使用して盤面を表示</li>
+<li><strong>セルの状態管理</strong>: 未確定（白）と塗りつぶし（黒）の2状態</li>
+<li><strong>マウス操作</strong>: 左クリックでセルを黒に塗る、もう一度クリックで白に戻す</li>
+<li><strong>ヒント表示</strong>: 行ヒント（左側）と列ヒント（上側）を表示</li>
+<li><strong>問題データ</strong>: 簡単なレベルの問題データを固定データとして用意（十字型の図形）</li>
+</ul>
+<h2 id="ピクロスノノグラムとは">ピクロス（ノノグラム）とは？</h2>
+<p>ピクロスは、数字をヒントにマスを塗りつぶして絵を完成させるロジックパズルです。</p>
+<h3 id="基本ルール">基本ルール</h3>
+<ul>
+<li><strong>縦・横に並んだ数字がヒント</strong>: 数字は「連続して塗るマスの数」を表す</li>
+<li><strong>マスの状態</strong>: 未確定（白）、塗る（黒）、空白（×）の3状態</li>
+<li><strong>黒の塊同士は必ず1マス以上空く</strong>: 連続した数字は別々の塊を表す</li>
+<li><strong>すべての条件を満たすと絵が完成</strong>: ドット絵が浮かび上がる</li>
+</ul>
+<h3 id="例超ミニ">例（超ミニ）</h3>
+<pre tabindex="0"><code>横ヒント →  [3] [1]
+            □ □ □ □ □
+縦ヒント ↓
+[1]         ■ □ ■ □ □
+[2]         ■ □ ■ ■ □
+</code></pre><ul>
+<li><code>[3]</code> → どこかに3マス連続で黒</li>
+<li><code>[1 2]</code> → 1マス黒 → 空白 → 2マス黒</li>
+</ul>
+<p>完成すると「ハート」「文字」「キャラ」みたいな絵になるのが気持ちいいパズルです。</p>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day020_Picross</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>ピクロスアプリの開発は、ChatGPTで作成したプロンプトを基に進めました。</p>
+<h3 id="プロンプト-ピクロスノノグラムの試作---day-1">プロンプト: ピクロス（ノノグラム）の試作 - Day 1</h3>
+<pre tabindex="0"><code>Lazarus（Free Pascal）でピクロス（ノノグラム）の試作を作成してください。
+対象は Day 1 の最小構成のみです。
+
+要件
+
+デスクトップアプリ（Lazarus）
+フォーム1枚で完結
+盤面サイズは 10×10 固定
+セルは正方形で見やすく描画する
+
+UI
+TDrawGrid を使用する
+
+データ
+行ヒント（左）
+[1]
+[1]
+[1]
+[1]
+[10]
+[1]
+[1]
+[1]
+[1]
+[1]
+
+列ヒント（上）
+[1] [1] [1] [1] [10] [1] [1] [1] [1] [1]
+
+行番号・列番号の表示はまだ不要
+
+各セルは以下の状態のみ扱う
+未確定（白）
+塗りつぶし（黒）
+
+操作
+左クリックでセルを黒に塗る
+黒いセルをもう一度左クリックすると白に戻る
+右クリックや×印などは実装しない（Day 2以降）
+
+データ
+盤面状態は2次元配列で管理する
+初期状態はすべて未確定
+簡単なレベルの問題データを 固定データとして用意する
+（例：10×10で、中央に十字や簡単な図形が完成する程度）
+
+まだクリア判定やヒント表示は実装しない
+
+その他
+コードは読みやすく、後で拡張しやすい構成にする
+イベント処理（OnDrawCell / OnMouseDown）は明確に分ける
+コメントは日本語で記述する
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+    </div>
+    <a href="/posts/lazarus-day020-picross/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day019-menu100/" class="link black dim">
+        Lazarusアプリ用ランチャーの作成 - Day19
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="lazarusアプリ用ランチャーの作成---day19">Lazarusアプリ用ランチャーの作成 - Day19</h1>
+<p>Lazarusチャレンジ19日目です。今回は、**Lazarusアプリ用のランチャー（メニューアプリ）**を作成しました。day001からday018まで、たくさんのアプリができたので、それらを管理・起動するためのアプリがあると便利かな、と思いました。</p>
+<h2 id="今回の目標">今回の目標</h2>
+<p>今回作成するランチャーアプリは、以下の機能を実装することを目指しました：</p>
+<ul>
+<li><strong>アプリ一覧表示</strong>: JSONファイルからアプリ情報を読み込み、ListViewで一覧表示</li>
+<li><strong>アプリの実行</strong>: 選択したアプリのフォルダ内にあるexeファイルを自動探索して起動</li>
+<li><strong>自動ビルド機能</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動</li>
+<li><strong>ブログ記事の起動</strong>: 各アプリのブログ記事URLをブラウザで開く</li>
+<li><strong>LazManagerの起動</strong>: 設定されたLazManagerを起動</li>
+<li><strong>メモ機能</strong>: 各アプリごとに後日追加したい機能などのメモを保存</li>
+<li><strong>JSON管理</strong>: アプリ情報をJSONファイルで管理（フォルダ名、タイトル、ブログURL、メモ、有効/無効フラグ）</li>
+</ul>
+<h2 id="ランチャーアプリとは">ランチャーアプリとは？</h2>
+<p>ランチャーアプリは、複数のアプリケーションを一箇所から管理・起動できるアプリです。今回作成したランチャーは、Daily-Lazarus-Appsフォルダ内にあるday001～day018の各アプリを管理するために作成しました。</p>
+<h3 id="主な機能">主な機能</h3>
+<ul>
+<li><strong>アプリ一覧</strong>: 有効なアプリをday番号順に表示</li>
+<li><strong>アプリ起動</strong>: フォルダ内のexeファイルを自動探索して実行</li>
+<li><strong>自動ビルド</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動</li>
+<li><strong>ブログ記事</strong>: 各アプリのブログ記事URLをブラウザで開く</li>
+<li><strong>メモ管理</strong>: 各アプリごとにメモを保存・編集</li>
+<li><strong>LazManager連携</strong>: LazManagerを起動してプロジェクトを管理</li>
+</ul>
+<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
+<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day019_Menu100</strong>」と入力し、プロジェクトを作成しました。</p>
+<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
+<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
+<p>ランチャーアプリの開発は、ChatGPTに壁打ちしてプロンプトを考えてもらい、そのプロンプトをCursorに投入してはじめました。</p>
+<h3 id="プロンプト-ランチャーアプリの作成">プロンプト: ランチャーアプリの作成</h3>
+<pre tabindex="0"><code>Lazarus (Free Pascal) で Windows 向けのデスクトップアプリを作成してください。
+
+目的：
+Daily-Lazarus-Apps フォルダ内にある day001～day018 の各アプリを一覧表示し、
+exe を自動探索して起動できる「メニューアプリ」を作る。
+
+前提条件：
+- 設定は apps.json から読み込む
+- apps.json の構造は以下の仕様に従う
+  - baseDir : string
+  - apps : object
+    - キー = アプリのフォルダ名（例: day017_CryptEditor）
+    - 値:
+      - title : string
+      - blogUrl : string
+      - notes : string[]
+      - enabled : boolean
+
+仕様：
+- exe ファイルは json に登録しない
+- baseDir\フォルダ名 配下にある最初の *.exe を自動探索して実行する
+- enabled = true のアプリのみ表示する
+- アプリ一覧は day 番号順にソートする
+
+UI 要件：
+- メインフォームに以下を配置
+  - TListView（アプリ一覧表示）
+  - 実行ボタン（選択中アプリの exe を起動）
+  - ブログボタン（blogUrl が空でなければ既定ブラウザで開く）
+  - 管理ボタン (LazManagerを開く）
+- 選択中アプリの notes を下部に表示（TMemo）
+- メモの編集・保存機能
+
+実装要件：
+- fpjson, jsonparser を使用する
+- JSON の読み込みを行うクラス TAppConfig を作成する
+- exe 探索用の関数を実装する
+  - 入力: アプリフォルダのフルパス
+  - 出力: exe のフルパス（見つからなければ空文字）
+
+その他：
+- エラー時は例外ではなく MessageDlg で通知
+- 可読性を重視し、1ユニット完結でもよい
+</code></pre><p><strong>AIが実装した内容：</strong></p>
+    </div>
+    <a href="/posts/lazarus-day019-menu100/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
       
         <div class="w-100 w-30-l mb4 relative bg-white">
           <div class="w-100 mb4 nested-copy-line-height relative bg-white">
@@ -656,225 +909,6 @@ pngやjpegを表示するには内部的に変換しないといけないです�
 <p>今回のプロンプトは非常に簡潔でしたが、それでも基本的なビューアー機能が実装されました：</p>
     </div>
     <a href="/posts/lazarus-day012-bmp-viewer/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day011-calc/" class="link black dim">
-        シンプルな電卓の作成 - Day11
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="シンプルな電卓の作成---day11">シンプルな電卓の作成 - Day11</h1>
-<p>Lazarusチャレンジ11日目です。今回は、<strong>シンプルな電卓</strong>を作成することにしました。足し算、引き算、掛け算、割り算の基本的な四則演算機能を実装しました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>今回作成する電卓は、基本的な四則演算（足し算、引き算、掛け算、割り算）ができるシンプルな電卓です。複雑な機能は不要で、日常的な計算に使える基本的な機能に特化したアプリを目指しました。</p>
-<p>以下の機能を実装することにしました：</p>
-<ul>
-<li><strong>数字ボタン</strong>: 0から9までの数字を入力できるボタン</li>
-<li><strong>演算子ボタン</strong>: 足し算（+）、引き算（-）、掛け算（×）、割り算（÷）のボタン</li>
-<li><strong>等号ボタン</strong>: 計算結果を表示するボタン</li>
-<li><strong>クリアボタン</strong>: 入力をクリアするボタン</li>
-<li><strong>表示エリア</strong>: 入力値と計算結果を表示するエリア</li>
-</ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day011_Calc</strong>」と入力し、プロジェクトを作成しました。</p>
-<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>シンプルな電卓の開発は、以下のようなプロンプトを投入しました：</p>
-<pre tabindex="0"><code>足し算、割り算、引き算、掛け算のできるシンプルな電卓
-</code></pre><p>そしてビルドもお願いします：</p>
-<pre tabindex="0"><code>C:\Lazarus\Lazbuildでビルド
-</code></pre><p>このプロンプトで、基本的な電卓機能が実装されました。数字ボタン、演算子ボタン、等号ボタン、クリアボタンが配置され、基本的な四則演算ができるようになりました。</p>
-<h2 id="完成したアプリの機能">完成したアプリの機能</h2>
-<p>完成したシンプルな電卓には、以下の機能が実装されています：</p>
-<p><img src="/images/LazarusDay011.png" alt="シンプルな電卓のスクリーンショット"></p>
-<ul>
-<li>✅ <strong>数字ボタン</strong>: 0から9までの数字を入力できるボタン</li>
-<li>✅ <strong>演算子ボタン</strong>: 足し算（+）、引き算（-）、掛け算（×）、割り算（÷）のボタン</li>
-<li>✅ <strong>等号ボタン</strong>: 計算結果を表示するボタン</li>
-<li>✅ <strong>クリアボタン</strong>: 入力をクリアするボタン</li>
-<li>✅ <strong>表示エリア</strong>: 入力値と計算結果を右揃えで表示</li>
-<li>✅ <strong>基本的な四則演算</strong>: 足し算、引き算、掛け算、割り算が可能</li>
-</ul>
-<h2 id="技術的なポイント">技術的なポイント</h2>
-<p>シンプルな電卓の実装では、以下の技術的なポイントがありました：</p>
-<ul>
-<li><strong>ボタンコンポーネント</strong>: LazarusのTButtonコンポーネントを使用して、数字ボタンと演算子ボタンを配置</li>
-<li><strong>表示エリア</strong>: TEditまたはTLabelコンポーネントを使用して、入力値と計算結果を表示</li>
-<li><strong>計算ロジック</strong>: 演算子に応じた計算処理を実装</li>
-<li><strong>状態管理</strong>: 現在の入力値、前の値、演算子などの状態を管理</li>
-<li><strong>UIレイアウト</strong>: 4×4のグリッド形式でボタンを配置し、使いやすいレイアウトを実現</li>
-</ul>
-<h2 id="学んだこと">学んだこと</h2>
-<p>Day11の開発を通じて、以下のことを学びました：</p>
-<h3 id="シンプルなアプリの価値">シンプルなアプリの価値</h3>
-<p>シンプルな電卓を作ることで、以下のことを学びました：</p>
-<ul>
-<li><strong>基本機能の重要性</strong>: 基本的な機能に特化することで、アプリが使いやすくなる</li>
-<li><strong>UIの分かりやすさ</strong>: シンプルなレイアウトは、ユーザーにとって分かりやすい</li>
-<li><strong>実用性</strong>: 複雑な機能がなくても、基本的な機能があれば実用的なアプリになる</li>
-</ul>
-<h3 id="電卓の基本機能">電卓の基本機能</h3>
-<p>電卓の基本機能を実装することで、以下のことを学びました：</p>
-<ul>
-<li><strong>状態管理</strong>: 現在の入力値、前の値、演算子などの状態を適切に管理する重要性</li>
-<li><strong>計算ロジック</strong>: 四則演算の基本的な計算ロジックの実装</li>
-<li><strong>UI設計</strong>: 使いやすいボタン配置とレイアウトの重要性</li>
-</ul>
-<h3 id="プロンプトの簡潔さ">プロンプトの簡潔さ</h3>
-<p>今回のプロンプトは非常に簡潔でしたが、それでも基本的な電卓機能が実装されました：</p>
-    </div>
-    <a href="/posts/lazarus-day011-calc/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day010-simple-editor/" class="link black dim">
-        シンプルなテキストエディターの作成 - Day10
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="シンプルなテキストエディターの作成---day10">シンプルなテキストエディターの作成 - Day10</h1>
-<p>Lazarusチャレンジ10日目です。今回は、<strong>とっても簡単なテキストエディター</strong>を作成することにしました。素早く起動して、シンプルな機能に特化したメモ帳アプリを実装しました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>メモ帳は昔はとてもシンプルでした。しかし、今のメモ帳は前回開いたものを表示してくれたり、タブになっていたり、AI機能がついていたりします。もちろんそれはそれで便利ですが、私の求めるメモ帳の機能は：</p>
-<ul>
-<li><strong>素早く起動</strong>: すぐに使えるシンプルな起動</li>
-<li><strong>シンプルな機能</strong>: 必要最小限の機能に特化</li>
-<li><strong>軽量</strong>: 重たい機能は不要</li>
-</ul>
-<p>とくに、前回の情報が表示されると、そこに気を取られて、今からやる仕事を忘れてしまったります。そういった機能は全く不要だと思います。</p>
-<p>そこで超シンプルなテキストエディターを作ります。
-以下の機能を実装することにしました：</p>
-<ul>
-<li><strong>テキスト編集エリア</strong>: シンプルなテキスト編集機能</li>
-<li><strong>新規作成</strong>: 新しいファイルを作成</li>
-<li><strong>開く</strong>: 既存のファイルを開く</li>
-<li><strong>保存</strong>: 編集中のファイルを保存</li>
-<li><strong>名前を付けて保存</strong>: 別名で保存</li>
-<li><strong>最小限のUI</strong>: 必要最小限のメニューとボタン</li>
-</ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day010_SimpleEditor</strong>」と入力し、プロジェクトを作成しました。</p>
-<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>シンプルなテキストエディターの開発は、以下のようなプロンプトを投入しました：</p>
-<pre tabindex="0"><code>とってもシンプルなテキストエディター
-</code></pre><p>そしてビルドもお願いします</p>
-<pre tabindex="0"><code>C:\Lazarus\Lazbuildでビルド
-</code></pre><p>このプロンプトで、基本的なテキストエディターが実装されました。
-実行してみましたが、メニューが表示されません。
-手作業になりますが、IDEを開き、
-フォームのプロパティからMenuをさがし、
-MainMenu1を設定します。</p>
-<h2 id="完成したアプリの機能">完成したアプリの機能</h2>
-<p>完成したシンプルなテキストエディターには、以下の機能が実装されています：</p>
-<p><img src="/images/LazarusDay010.png" alt="シンプルなテキストエディターのスクリーンショット"></p>
-<ul>
-<li>✅ <strong>テキスト編集エリア</strong>: シンプルなテキスト編集機能</li>
-<li>✅ <strong>新規作成</strong>: 新しいファイルを作成する機能</li>
-<li>✅ <strong>開く</strong>: 既存のファイルを開く機能</li>
-<li>✅ <strong>保存</strong>: 編集中のファイルを保存する機能</li>
-<li>✅ <strong>名前を付けて保存</strong>: 別名で保存する機能</li>
-<li>✅ <strong>最小限のUI</strong>: 必要最小限のメニューとボタン</li>
-<li>✅ <strong>素早い起動</strong>: 軽量で素早く起動</li>
-</ul>
-<h2 id="技術的なポイント">技術的なポイント</h2>
-<p>シンプルなテキストエディターの実装では、以下の技術的なポイントがありました：</p>
-<ul>
-<li><strong>TMemoコンポーネント</strong>: LazarusのTMemoコンポーネントを使用してテキスト編集機能を実装</li>
-<li><strong>ファイルダイアログ</strong>: ファイルを開く・保存するためのダイアログを使用</li>
-<li><strong>ファイル操作</strong>: ファイルの読み込み・書き込み機能を実装</li>
-<li><strong>シンプルなUI</strong>: 必要最小限のUIコンポーネントのみを使用</li>
-<li><strong>軽量設計</strong>: 余計な機能を排除して、軽量なアプリを実現</li>
-</ul>
-<h2 id="学んだこと">学んだこと</h2>
-<p>Day10の開発を通じて、以下のことを学びました：</p>
-    </div>
-    <a href="/posts/lazarus-day010-simple-editor/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day009-create-zip/" class="link black dim">
-        Zip圧縮ツールの作成 - Day9
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="zip圧縮ツールの作成---day9">Zip圧縮ツールの作成 - Day9</h1>
-<p>Lazarusチャレンジ9日目です。今回は、<strong>Zip圧縮ツール</strong>を作成することにしました。フォルダを指定してZipに圧縮し、実行ファイルを除外する機能を実装しました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>今回作成するZip圧縮ツールは、LazManagerの機能拡張の一環として考えています。LazManagerを改造して、Cursorを起動するときに起動していますのメッセージが出るようにしたいのですが、今回はその機能を実装できるのかを検証するための実験的な別アプリとして作成することにしました。</p>
-<p>以下の機能を実装することにしました：</p>
-<ul>
-<li><strong>圧縮フォルダ名テキストボックス</strong>: 圧縮するフォルダを指定するテキストボックス</li>
-<li><strong>フォルダを開くボタン</strong>: 圧縮するフォルダを選択するボタン</li>
-<li><strong>保存先設定フォルダ</strong>: 保存先フォルダを指定するテキストボックス</li>
-<li><strong>設定値を読み取る</strong>: 保存先フォルダの設定値を読み取る機能</li>
-<li><strong>Zipに圧縮</strong>: フォルダ名と同じ名前でZipに圧縮する機能</li>
-<li><strong>保存先に保存</strong>: 圧縮したZipファイルを保存先に保存</li>
-<li><strong>実行ファイルの除外</strong>: 圧縮の際、実行ファイル（.exe）を除外する機能</li>
-</ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day009_CreateZip</strong>」と入力し、プロジェクトを作成しました。</p>
-<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>Zip圧縮ツールの開発は、以下のようなプロンプトを投入しました：</p>
-<pre tabindex="0"><code>圧縮フォルダ名テキストボックス。フォルダを開く。
-保存先設定フォルダ。テキストボックス。設定値を読み取る。
-
-ボタンを押すとフォルダ名と同じ名前で
-Zipに圧縮する。保存先に保存する。
-圧縮の際、実行ファイルは除外したい。
-</code></pre><p>このプロンプトで、基本的なZip圧縮ツールが実装されました。</p>
-<h2 id="cursorからlazbuildを使ったビルド">CursorからLazbuildを使ったビルド</h2>
-<p>今回の開発でもビルド方法をプロンプトしています。以前はIDEを使ってコンパイルすると、一度ではコンパイル完了しませんでした。表示されたエラーをコピーしてCursorに教えてあげる手間が必要でした。エラーが出るたびに毎回コピーペーストが必要でしたが、「<strong>C:\Lazarus\Lazbuildでビルド</strong>」とプロンプトすることで、ビルドも任せることができます。</p>
-<p>ビルドしてとだけだとLazbuildでビルドすることはCursorも知っているのですが、Lazbuildがどこにあるのかがわからないです。パスを通すというのも一つの手ですが、Lazarusをインストールしたフォルダを指定してLazbuildがどこにあるかを教えてやればよいです。こちらの方が環境変数を汚さなくて済みます。</p>
-<h2 id="完成したアプリの機能">完成したアプリの機能</h2>
-<p>完成したZip圧縮ツールには、以下の機能が実装されています：</p>
-<p><img src="/images/LazarusDay009.png" alt="Zip圧縮ツールのスクリーンショット"></p>
-<ul>
-<li>✅ <strong>圧縮フォルダ名テキストボックス</strong>: 圧縮するフォルダを指定するテキストボックス</li>
-<li>✅ <strong>フォルダを開くボタン</strong>: 圧縮するフォルダを選択するボタン</li>
-<li>✅ <strong>保存先設定フォルダ</strong>: 保存先フォルダを指定するテキストボックス</li>
-<li>✅ <strong>設定値を読み取る</strong>: 保存先フォルダの設定値を読み取る機能</li>
-<li>✅ <strong>Zipに圧縮</strong>: フォルダ名と同じ名前でZipに圧縮する機能</li>
-<li>✅ <strong>保存先に保存</strong>: 圧縮したZipファイルを保存先に保存</li>
-<li>✅ <strong>実行ファイルの除外</strong>: 圧縮の際、実行ファイル（.exe）を除外する機能</li>
-<li>✅ <strong>圧縮完了メッセージ</strong>: 圧縮が完了したことを示すメッセージを表示</li>
-</ul>
-<h2 id="技術的なポイント">技術的なポイント</h2>
-<p>Zip圧縮ツールの実装では、以下の技術的なポイントがありました：</p>
-<ul>
-<li><strong>Zip圧縮ライブラリ</strong>: LazarusのZip圧縮ライブラリを使用して、フォルダをZipに圧縮</li>
-<li><strong>ファイルのフィルタリング</strong>: 実行ファイル（.exe）を除外する機能を実装</li>
-<li><strong>フォルダ選択ダイアログ</strong>: 圧縮するフォルダと保存先フォルダを選択するダイアログ</li>
-<li><strong>設定値の読み取り</strong>: 保存先フォルダの設定値を読み取る機能</li>
-<li><strong>エラーハンドリング</strong>: 圧縮処理中のエラーを適切に処理</li>
-</ul>
-<h2 id="学んだこと">学んだこと</h2>
-<p>Day9の開発を通じて、以下のことを学びました：</p>
-    </div>
-    <a href="/posts/lazarus-day009-create-zip/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 

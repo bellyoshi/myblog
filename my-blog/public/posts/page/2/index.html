@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-02-07T20:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-02-07T20:00:00+09:00">
+  <meta itemprop="datePublished" content="2026-02-10T16:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-10T16:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Posts">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -119,6 +119,142 @@
   <article class="pa3 pa4-ns nested-copy-line-height">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links mid-gray"></section>
     <section class="flex-ns mt5 flex-wrap justify-around">
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day032-pas2js-userform/" class="link black dim">
+        Pas2JSで型安全なユーザー登録フォームを作成 - Day32
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsで型安全なユーザー登録フォームを作成---day32">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</h1>
+<p>Lazarusチャレンジ32日目です。<strong>Pas2JS</strong> で、Pascal の <strong>範囲型・列挙型・集合型</strong> を活かした <strong>型安全なユーザー登録フォーム</strong> を作成しました。ユーザーが入力したデータを Pascal の <code>record</code> にバインドし、型定義に基づいた厳密なバリデーション（<code>ValidateUser</code>）を行い、エラー時は HTML 上にメッセージを表示します。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>ユーザー名</strong>: 3文字以上で入力（バリデーションでチェック）</li>
+<li><strong>年齢</strong>: 18〜120歳の範囲型（<code>TAgeRange = 18..120</code>）で検証</li>
+<li><strong>興味のある分野</strong>: テクノロジー・アート・スポーツ・音楽から複数選択（集合型 <code>TInterests</code>）</li>
+<li><strong>送信ボタン</strong>: クリックで Pascal 側のバリデーションを実行し、成功時はアラート、失敗時はエラーメッセージを表示</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-pascal-の型定義userform-ユニット">1. Pascal の型定義（UserForm ユニット）</h3>
+<p>フォームの「器」となる型を定義します。</p>
+<ul>
+<li><strong>範囲型</strong> <code>TAgeRange = 18..120</code> … 年齢の有効範囲を型で表現</li>
+<li><strong>列挙型</strong> <code>TInterest = (itTech, itArt, itSports, itMusic)</code> … 興味の種類を型安全に</li>
+<li><strong>集合型</strong> <code>TInterests = set of TInterest</code> … 複数選択を Pascal の Set で管理</li>
+<li><strong>レコード</strong> <code>TUserRegistration</code> … ユーザー名・年齢・興味をまとめて保持</li>
+<li><strong>バリデーション結果</strong> <code>TValidationResult</code> … <code>IsValid</code> と <code>ErrorMessage</code> を返す</li>
+</ul>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">type
+  TAgeRange = 18..120;
+  TInterest = (itTech, itArt, itSports, itMusic);
+  TInterests = set of TInterest;
+
+  TUserRegistration = record
+    UserName: string;
+    Age: Integer;
+    Interests: TInterests;
+  end;
+
+  TValidationResult = record
+    IsValid: Boolean;
+    ErrorMessage: string;
+  end;
+</code></pre><h3 id="2-バリデーション関数-validateuser">2. バリデーション関数 ValidateUser</h3>
+<p><code>TUserRegistration</code> を受け取り、ユーザー名の長さ・年齢の範囲・興味が1つ以上選択されているかをチェックし、<code>TValidationResult</code> を返します。Pascal の <code>in</code> 演算子で <code>Data.Age in [Low(TAgeRange)..High(TAgeRange)]</code> のように範囲チェックができます。</p>
+    </div>
+    <a href="/posts/lazarus-day032-pas2js-userform/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day030-pas2js-calculator/" class="link black dim">
+        Pas2JSで計算機アプリを作成 - Day30
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsで計算機アプリを作成---day30">Pas2JSで計算機アプリを作成 - Day30</h1>
+<p>Lazarusチャレンジ30日目です。<strong>Pas2JS</strong> で、数式を入力して計算する <strong>ブラウザ用計算機</strong> を作成しました。JavaScript の <code>eval</code> は使わず、<strong>再帰下降構文解析</strong> により四則演算（<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>）とカッコ <code>()</code> を Pascal だけで実装しています。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>数式入力</strong>: テキストボックスに <code>(10 + 5) * 2</code> のような数式を入力</li>
+<li><strong>計算ボタン</strong>: ボタンを押すと計算を実行</li>
+<li><strong>結果表示</strong>: 計算結果を青文字で表示</li>
+<li><strong>演算子</strong>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> とカッコ <code>()</code> に対応（演算子の優先順位も正しく処理）</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-dom-へのアクセスとイベント">1. DOM へのアクセスとイベント</h3>
+<p>HTML 側で <code>id=&quot;formula&quot;</code>, <code>id=&quot;btnCalc&quot;</code>, <code>id=&quot;result&quot;</code> を定義し、Pascal 側で <code>document.getElementById</code> で取得して型キャストしています。計算ボタンのクリックには <code>onclick</code> に <code>TJSMouseEvent</code> 型のハンドラを渡します。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">InputBox := TJSHTMLInputElement(document.getElementById(&#39;formula&#39;));
+CalcButton := TJSHTMLButtonElement(document.getElementById(&#39;btnCalc&#39;));
+ResultDiv := TJSElement(document.getElementById(&#39;result&#39;));
+// ...
+CalcButton.onclick := @DoCalculate;
+</code></pre><h3 id="2-再帰下降構文解析の構成">2. 再帰下降構文解析の構成</h3>
+<p>計算の優先順位を「式 → 項 → 因数」の3段階で扱います。</p>
+    </div>
+    <a href="/posts/lazarus-day030-pas2js-calculator/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
+  <div class="mb3 pa4 gray overflow-hidden bg-white">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/lazarus-day029-pas2js-color/" class="link black dim">
+        Pas2JSでカラー表示アプリを作成 - Day29
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="pas2jsでカラー表示アプリを作成---day29">Pas2JSでカラー表示アプリを作成 - Day29</h1>
+<p>Lazarusチャレンジ29日目です。<strong>Pas2JS</strong> で、入力欄に色（<code>#RRGGBB</code> や色名）を入力すると、下の四角の背景色がリアルタイムで変わる <strong>カラー表示アプリ</strong> を作成しました。</p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>テキスト入力</strong>: <code>#RRGGBB</code>（例: <code>#ff0000</code>）や <code>red</code> などの色名を入力</li>
+<li><strong>リアルタイム反映</strong>: 入力に合わせて下の四角の背景色が即座に変わる（<code>input</code> イベント使用）</li>
+<li><strong>見た目</strong>: 中央寄せレイアウト、200×200px のプレビュー領域、枠線付き</li>
+<li><strong>おまけ</strong>: <code>transition</code> で色の変化をスムーズにアニメーション</li>
+</ul>
+<h2 id="実装のポイント">実装のポイント</h2>
+<h3 id="1-ページ読み込み後にdomを構築">1. ページ読み込み後にDOMを構築</h3>
+<p>ブラウザでDOMが準備できてから要素を作るため、<code>window.addEventListener('load', ...)</code> で <code>DocumentLoaded</code> を呼び出しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">begin
+  window.addEventListener(&#39;load&#39;, @DocumentLoaded);
+end.
+</code></pre><h3 id="2-input-要素の-type-と-placeholder">2. input 要素の type と placeholder</h3>
+<p>Pas2JS では <code>TJSHTMLInputElement</code> の <code>type</code> を直接代入するとエラーになることがあるため、<code>setAttribute</code> で指定しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">InputBox := TJSHTMLInputElement(document.createElement(&#39;input&#39;));
+InputBox.setAttribute(&#39;type&#39;, &#39;text&#39;);
+InputBox.setAttribute(&#39;placeholder&#39;, &#39;#RRGGBB or color name&#39;);
+</code></pre><h3 id="3-入力のリアルタイム反映">3. 入力のリアルタイム反映</h3>
+<p><code>addEventListener('input', @HandleInput)</code> で、入力のたびに <code>HandleInput</code> が呼ばれ、<code>ColorDisplay</code> の背景色を <code>InputBox.value</code> に更新しています。</p>
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">procedure HandleInput(Event: TJSEvent);
+begin
+  ColorDisplay.style.setProperty(&#39;background-color&#39;, InputBox.value);
+end;
+// ...
+InputBox.addEventListener(&#39;input&#39;, @HandleInput);
+</code></pre><h3 id="4-スムーズな色変化css-transition">4. スムーズな色変化（CSS transition）</h3>
+<p><code>style.setProperty('transition', 'background-color 0.3s')</code> で、背景色の変更が 0.3 秒でアニメーションするようにしています。</p>
+    </div>
+    <a href="/posts/lazarus-day029-pas2js-color/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+</div>
+
+        </div>
       
         <div class="w-100 w-30-l mb4 relative bg-white">
           <div class="w-100 mb4 nested-copy-line-height relative bg-white">
@@ -645,259 +781,6 @@ end.
 <p><code>uses</code> 節に <code>fpspreadsheet</code>, <code>fpspreadsheetgrid</code>, <code>fpsallformats</code> を追加することで、スプレッドシートの機能を簡単に利用できます。</p>
     </div>
     <a href="/posts/lazarus-day022-spreadsheet-viewer/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day021-15puzzle/" class="link black dim">
-        15パズルの作成に挑戦 - Day21
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="15パズルの作成に挑戦---day21">15パズルの作成に挑戦 - Day21</h1>
-<p>Lazarusチャレンジ21日目です。今回は、<strong>15パズル</strong>の作成に挑戦しました。15パズルは、1から15までの数字が書かれたタイルをスライドさせて、正しい順序に並べるパズルゲームです。Lazarusで作る題材として、シンプルで分かりやすいパズルゲームです。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>今回作成する15パズルアプリとして、以下の機能を実装することを目指しました：</p>
-<ul>
-<li><strong>TButton 16個</strong>: 0-15のTagで位置管理（0は空白）</li>
-<li><strong>4×4配列</strong>: パズルの状態を管理する2次元配列</li>
-<li><strong>シャッフル機能</strong>: 完成状態から合法手のみでランダムにシャッフル</li>
-<li><strong>移動ロジック</strong>: クリックしたボタンが空白の隣なら移動</li>
-<li><strong>クリア判定</strong>: 1-15の順序で完成か判定し、完成時にメッセージ表示</li>
-</ul>
-<h2 id="15パズルとは">15パズルとは？</h2>
-<p>15パズルは、1から15までの数字が書かれたタイルをスライドさせて、正しい順序に並べるパズルゲームです。</p>
-<h3 id="基本ルール">基本ルール</h3>
-<ul>
-<li><strong>4×4の盤面</strong>: 16個のマス（15個のタイル + 1個の空白）</li>
-<li><strong>タイルの移動</strong>: 空白の隣にあるタイルだけが移動できる</li>
-<li><strong>目標</strong>: 1から15までを順番に並べる</li>
-<li><strong>シャッフル</strong>: 完成状態から合法手のみでランダムに移動してシャッフル</li>
-</ul>
-<h3 id="完成状態">完成状態</h3>
-<pre tabindex="0"><code>[ 1] [ 2] [ 3] [ 4]
-[ 5] [ 6] [ 7] [ 8]
-[ 9] [10] [11] [12]
-[13] [14] [15] [  ]
-</code></pre><h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day021_15</strong>」と入力し、プロジェクトを作成しました。</p>
-<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>15パズルアプリの開発は、Cursorに直接プロンプトを投入して進めました。</p>
-<h3 id="プロンプト-15パズルの作成">プロンプト: 15パズルの作成</h3>
-<pre tabindex="0"><code>Lazarusで15パズルを作る。
-TButton 16個、Tagで位置管理。
-4×4配列でロジック管理。
-シャッフルは完成状態から合法手のみ。
-クリア判定あり。
-完全なForm1.pasを書いて。
-</code></pre><p><strong>AIが実装した内容：</strong></p>
-    </div>
-    <a href="/posts/lazarus-day021-15puzzle/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day020-picross/" class="link black dim">
-        ピクロス（ノノグラム）の作成に挑戦 - Day20
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="ピクロスノノグラムの作成に挑戦---day20">ピクロス（ノノグラム）の作成に挑戦 - Day20</h1>
-<p>Lazarusチャレンジ20日目です。今回は、**ピクロス（ノノグラム）**の作成に挑戦しました。ピクロスは、数字をヒントにマスを塗りつぶして絵を完成させるロジックパズルです。Lazarusで作る題材としてめちゃくちゃ相性がいい、ということで挑戦してみました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>今回作成するピクロスアプリとしての初日は最小構成として以下の機能を実装することを目指しました：</p>
-<ul>
-<li><strong>10×10固定盤面</strong>: TDrawGridを使用して盤面を表示</li>
-<li><strong>セルの状態管理</strong>: 未確定（白）と塗りつぶし（黒）の2状態</li>
-<li><strong>マウス操作</strong>: 左クリックでセルを黒に塗る、もう一度クリックで白に戻す</li>
-<li><strong>ヒント表示</strong>: 行ヒント（左側）と列ヒント（上側）を表示</li>
-<li><strong>問題データ</strong>: 簡単なレベルの問題データを固定データとして用意（十字型の図形）</li>
-</ul>
-<h2 id="ピクロスノノグラムとは">ピクロス（ノノグラム）とは？</h2>
-<p>ピクロスは、数字をヒントにマスを塗りつぶして絵を完成させるロジックパズルです。</p>
-<h3 id="基本ルール">基本ルール</h3>
-<ul>
-<li><strong>縦・横に並んだ数字がヒント</strong>: 数字は「連続して塗るマスの数」を表す</li>
-<li><strong>マスの状態</strong>: 未確定（白）、塗る（黒）、空白（×）の3状態</li>
-<li><strong>黒の塊同士は必ず1マス以上空く</strong>: 連続した数字は別々の塊を表す</li>
-<li><strong>すべての条件を満たすと絵が完成</strong>: ドット絵が浮かび上がる</li>
-</ul>
-<h3 id="例超ミニ">例（超ミニ）</h3>
-<pre tabindex="0"><code>横ヒント →  [3] [1]
-            □ □ □ □ □
-縦ヒント ↓
-[1]         ■ □ ■ □ □
-[2]         ■ □ ■ ■ □
-</code></pre><ul>
-<li><code>[3]</code> → どこかに3マス連続で黒</li>
-<li><code>[1 2]</code> → 1マス黒 → 空白 → 2マス黒</li>
-</ul>
-<p>完成すると「ハート」「文字」「キャラ」みたいな絵になるのが気持ちいいパズルです。</p>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day020_Picross</strong>」と入力し、プロジェクトを作成しました。</p>
-<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>ピクロスアプリの開発は、ChatGPTで作成したプロンプトを基に進めました。</p>
-<h3 id="プロンプト-ピクロスノノグラムの試作---day-1">プロンプト: ピクロス（ノノグラム）の試作 - Day 1</h3>
-<pre tabindex="0"><code>Lazarus（Free Pascal）でピクロス（ノノグラム）の試作を作成してください。
-対象は Day 1 の最小構成のみです。
-
-要件
-
-デスクトップアプリ（Lazarus）
-フォーム1枚で完結
-盤面サイズは 10×10 固定
-セルは正方形で見やすく描画する
-
-UI
-TDrawGrid を使用する
-
-データ
-行ヒント（左）
-[1]
-[1]
-[1]
-[1]
-[10]
-[1]
-[1]
-[1]
-[1]
-[1]
-
-列ヒント（上）
-[1] [1] [1] [1] [10] [1] [1] [1] [1] [1]
-
-行番号・列番号の表示はまだ不要
-
-各セルは以下の状態のみ扱う
-未確定（白）
-塗りつぶし（黒）
-
-操作
-左クリックでセルを黒に塗る
-黒いセルをもう一度左クリックすると白に戻る
-右クリックや×印などは実装しない（Day 2以降）
-
-データ
-盤面状態は2次元配列で管理する
-初期状態はすべて未確定
-簡単なレベルの問題データを 固定データとして用意する
-（例：10×10で、中央に十字や簡単な図形が完成する程度）
-
-まだクリア判定やヒント表示は実装しない
-
-その他
-コードは読みやすく、後で拡張しやすい構成にする
-イベント処理（OnDrawCell / OnMouseDown）は明確に分ける
-コメントは日本語で記述する
-</code></pre><p><strong>AIが実装した内容：</strong></p>
-    </div>
-    <a href="/posts/lazarus-day020-picross/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="w-100 w-30-l mb4 relative bg-white">
-          <div class="w-100 mb4 nested-copy-line-height relative bg-white">
-  <div class="mb3 pa4 gray overflow-hidden bg-white">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/lazarus-day019-menu100/" class="link black dim">
-        Lazarusアプリ用ランチャーの作成 - Day19
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      <h1 id="lazarusアプリ用ランチャーの作成---day19">Lazarusアプリ用ランチャーの作成 - Day19</h1>
-<p>Lazarusチャレンジ19日目です。今回は、**Lazarusアプリ用のランチャー（メニューアプリ）**を作成しました。day001からday018まで、たくさんのアプリができたので、それらを管理・起動するためのアプリがあると便利かな、と思いました。</p>
-<h2 id="今回の目標">今回の目標</h2>
-<p>今回作成するランチャーアプリは、以下の機能を実装することを目指しました：</p>
-<ul>
-<li><strong>アプリ一覧表示</strong>: JSONファイルからアプリ情報を読み込み、ListViewで一覧表示</li>
-<li><strong>アプリの実行</strong>: 選択したアプリのフォルダ内にあるexeファイルを自動探索して起動</li>
-<li><strong>自動ビルド機能</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動</li>
-<li><strong>ブログ記事の起動</strong>: 各アプリのブログ記事URLをブラウザで開く</li>
-<li><strong>LazManagerの起動</strong>: 設定されたLazManagerを起動</li>
-<li><strong>メモ機能</strong>: 各アプリごとに後日追加したい機能などのメモを保存</li>
-<li><strong>JSON管理</strong>: アプリ情報をJSONファイルで管理（フォルダ名、タイトル、ブログURL、メモ、有効/無効フラグ）</li>
-</ul>
-<h2 id="ランチャーアプリとは">ランチャーアプリとは？</h2>
-<p>ランチャーアプリは、複数のアプリケーションを一箇所から管理・起動できるアプリです。今回作成したランチャーは、Daily-Lazarus-Appsフォルダ内にあるday001～day018の各アプリを管理するために作成しました。</p>
-<h3 id="主な機能">主な機能</h3>
-<ul>
-<li><strong>アプリ一覧</strong>: 有効なアプリをday番号順に表示</li>
-<li><strong>アプリ起動</strong>: フォルダ内のexeファイルを自動探索して実行</li>
-<li><strong>自動ビルド</strong>: exeファイルが見つからない場合、LazBuildでビルドしてから起動</li>
-<li><strong>ブログ記事</strong>: 各アプリのブログ記事URLをブラウザで開く</li>
-<li><strong>メモ管理</strong>: 各アプリごとにメモを保存・編集</li>
-<li><strong>LazManager連携</strong>: LazManagerを起動してプロジェクトを管理</li>
-</ul>
-<h2 id="lazmanagerを使ったプロジェクト作成">LazManagerを使ったプロジェクト作成</h2>
-<p>まず、LazManagerを起動して、プロジェクト名に「<strong>day019_Menu100</strong>」と入力し、プロジェクトを作成しました。</p>
-<p>「<strong>Cursor</strong>」ボタンを押してCursorを起動し、プロジェクトフォルダを開きました。</p>
-<h2 id="cursorへのプロンプト投入">Cursorへのプロンプト投入</h2>
-<p>ランチャーアプリの開発は、ChatGPTに壁打ちしてプロンプトを考えてもらい、そのプロンプトをCursorに投入してはじめました。</p>
-<h3 id="プロンプト-ランチャーアプリの作成">プロンプト: ランチャーアプリの作成</h3>
-<pre tabindex="0"><code>Lazarus (Free Pascal) で Windows 向けのデスクトップアプリを作成してください。
-
-目的：
-Daily-Lazarus-Apps フォルダ内にある day001～day018 の各アプリを一覧表示し、
-exe を自動探索して起動できる「メニューアプリ」を作る。
-
-前提条件：
-- 設定は apps.json から読み込む
-- apps.json の構造は以下の仕様に従う
-  - baseDir : string
-  - apps : object
-    - キー = アプリのフォルダ名（例: day017_CryptEditor）
-    - 値:
-      - title : string
-      - blogUrl : string
-      - notes : string[]
-      - enabled : boolean
-
-仕様：
-- exe ファイルは json に登録しない
-- baseDir\フォルダ名 配下にある最初の *.exe を自動探索して実行する
-- enabled = true のアプリのみ表示する
-- アプリ一覧は day 番号順にソートする
-
-UI 要件：
-- メインフォームに以下を配置
-  - TListView（アプリ一覧表示）
-  - 実行ボタン（選択中アプリの exe を起動）
-  - ブログボタン（blogUrl が空でなければ既定ブラウザで開く）
-  - 管理ボタン (LazManagerを開く）
-- 選択中アプリの notes を下部に表示（TMemo）
-- メモの編集・保存機能
-
-実装要件：
-- fpjson, jsonparser を使用する
-- JSON の読み込みを行うクラス TAppConfig を作成する
-- exe 探索用の関数を実装する
-  - 入力: アプリフォルダのフルパス
-  - 出力: exe のフルパス（見つからなければ空文字）
-
-その他：
-- エラー時は例外ではなく MessageDlg で通知
-- 可読性を重視し、1ユニット完結でもよい
-</code></pre><p><strong>AIが実装した内容：</strong></p>
-    </div>
-    <a href="/posts/lazarus-day019-menu100/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
   </div>
 </div>
 

@@ -50,8 +50,8 @@
 
   <meta itemprop="name" content="私の技術ブログ">
   <meta itemprop="description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
-  <meta itemprop="datePublished" content="2026-02-08T16:00:00+09:00">
-  <meta itemprop="dateModified" content="2026-02-08T16:00:00+09:00">
+  <meta itemprop="datePublished" content="2026-02-10T16:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-10T16:00:00+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="私の技術ブログ">
   <meta name="twitter:description" content="Hugoで作成した技術ブログです。プログラミング、開発、学習記録などを共有します。">
@@ -141,6 +141,119 @@
       
           
         <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
+          <a href="/posts/lazarus-day041-quantum-shogi/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay041.png" class="img" alt="image from Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）">
+          </a>
+        </div>
+      
+      <div class="blah w-100 w-60-ns pl3-ns">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/lazarus-day041-quantum-shogi/" class="color-inherit dim link">
+            Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          <h1 id="pas2jsで量子将棋を作る---day41geminiで骨格cursorでコンパイルとユニットテスト">Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）</h1>
+<p>Lazarusチャレンジ41日目です。<strong>開始局面で王将を含む全駒が量子状態</strong>の「量子将棋」を Pas2JS でブラウザ向けに作りました。設計と骨格は <strong>Gemini</strong> に「何でもいいから続けて」「まとめて全コード出して」と任せ、<strong>コンパイルが通らなかった</strong>ため <strong>Cursor</strong>（課金利用）に切り替えて完成させています。また、<strong>ユニットテストを初めて導入</strong>し、Lazarus のコンソール用 FPCUnit プロジェクトでロジックを検証。テストの作成も Cursor に任せました。この記事では、<strong>人間が投げたプロンプト</strong>に注目して、Gemini と Cursor の使い分けがどう効いたかをまとめます。</p>
+<p><img src="/images/LazarusDay041.png" alt="量子将棋 画面"></p>
+<h2 id="ゲームのコンセプト">ゲームのコンセプト</h2>
+<ul>
+<li><strong>量子状態</strong>: 各駒は「歩・香・桂・銀・金・角・飛・王」のいずれかである<strong>可能性の重ね合わせ</strong>で、動かすたびに「その手で矛盾する種類」が消え、観測（収束）していく</li>
+<li><strong>人間同士対局</strong>: 盤面と駒台があり、駒の移動・取る・打つが可能</li>
+<li><strong>UI</strong>: 可能性のある駒の文字を<strong>重ねて表示</strong>（複数種類なら薄く、1種類に確定すると濃く）</li>
+<li><strong>グループ制限</strong>: 初期の「先手グループ」「後手グループ」ごとに駒種の枚数上限（角・飛・王は1、香・桂・金・銀は2、歩は9）。1枚確定しても、<strong>上限に達したときだけ</strong>他駒からその可能性を削除</li>
+<li><strong>経路遮断</strong>: 飛・角・香は味方・敵を素通りしない。<strong>桂馬だけ</strong>飛び越え可（トンネル効果の防止）</li>
+</ul>
+<h2 id="gemini-でやったこと">Gemini でやったこと</h2>
+<p>最初に <strong>Gemini</strong> で骨格を作りました。こちらは「<strong>何でも言うことを聞いて続けて</strong>」とお願いするスタイルで進めています。</p>
+<h3 id="出したプロンプトの流れ">出したプロンプトの流れ</h3>
+<ol>
+<li>
+<p><strong>「pas2jsで量子将棋アプリを作りたい。開始局面では王将を含めてすべての駒が量子状態。まずは人間同士がプレイできる盤を作成。駒台なども忘れずに。」</strong></p>
+<p><strong>Geminiの回答（要約）:</strong> DOMベース構築を推奨し、Board（9×9グリッド）・Cell（マス目）・Piece（量子状態の駒）・Stand（駒台）の構成を提示。データモデルとして <code>TQuantumPiece</code>（Owner, PossibleTypes, IsObserved, CurrentType）と盤面レンダリング用の <code>CreateBoard</code> のコード例を出した。MouseDown／MouseMove／MouseUp で選択・ゴースト・観測の流れを説明し、「まず駒を動かせる盤面を作る→次に移動で矛盾する可能性を排除する観測」という次のステップを二択で提案した。</p>
+</li>
+<li>
+<p><strong>「まずは将棋のルールをおさらい。すべてのルール。」</strong></p>
+<p><strong>Geminiの回答（要約）:</strong> ルールを「初期配置」「動き」「特殊ルール」「終局」の4つに分類。駒の動きを表形式（玉・飛・角・金・銀・桂・香・歩）で整理し、成り（龍・馬・成銀〜と金は金と同じ動き、強制成りの条件）、持ち駒と打ち駒のルール、禁じ手（二歩・打ち歩詰め・行き所のない駒・王手放置・千日手）を列挙。量子将棋への応用として、二歩の判定・成れるかの判定・王手の確率的判定に言及し、次に「盤面データ構造」か「駒の動きのロジック」のどちらを詰めるか選択させる形で返した。</p>
+</li>
+<li>
+<p><strong>「UIは文字が重なった表示とする。」</strong></p>
+<p><strong>Geminiの回答（要約）:</strong> CSS の absolute 配置と opacity で「複数可能性が共存」を表現する方針。未確定時は複数文字が半透明で重なり、観測が進むと不要な文字が消えて残りが濃くなり、確定時は1文字のみ不透明度100%とする。HTML は <code>cell</code> &gt; <code>piece-container</code> &gt; 駒種ごとの <code>span</code>、CSS は <code>opacity: 0.2</code> と <code>is-determined</code> で <code>opacity: 1.0</code>。Pascal 側では <code>TQuantumPiece.UpdateView</code> で各 span の表示／非表示と <code>opacity := 1.0/可能性数</code> を設定。駒台も「何か（量子駒）」として同様に扱い、打つときに二歩などで可能性が絞られると説明した。</p>
+        </div>
+        
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day041-quantum-shogi/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="w-100 mb4 relative">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
+    <div class="flex-column flex-row-ns flex">
+      
+          
+        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
+          <a href="/posts/lazarus-day040-pas2js-24game/" class="db grow">
+            <img src="http://localhost:1313/images/LazarusDay040start.png" class="img" alt="image from Pas2JSで脳トレ「24Game」を作る - Day40">
+          </a>
+        </div>
+      
+      <div class="blah w-100 w-60-ns pl3-ns">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/lazarus-day040-pas2js-24game/" class="color-inherit dim link">
+            Pas2JSで脳トレ「24Game」を作る - Day40
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          <h1 id="pas2jsで脳トレ24gameを作る---day40">Pas2JSで脳トレ「24Game」を作る - Day40</h1>
+<p>Lazarusチャレンジ40日目です。<strong>4つの数字を「＋－×÷」して24を作る</strong>脳トレ計算パズル「24Game」を Pas2JS でブラウザ向けに作りました。人間がプレイする形式で、数字ボタンと演算子ボタンを順に選んで計算を進め、最後に24になればクリアです。</p>
+<h2 id="ゲームのコンセプト">ゲームのコンセプト</h2>
+<ul>
+<li><strong>出題</strong>: 1〜9の数字が4つ表示される（必ず24にできる組み合わせだけを出題）</li>
+<li><strong>操作</strong>: 数字を1つ選ぶ → 演算子（＋－×÷）を選ぶ → 2つ目の数字を選ぶ → 2つが1つの計算結果に置き換わる</li>
+<li><strong>目標</strong>: 残り1つの数字が <strong>24</strong> になればクリア</li>
+<li><strong>状態管理</strong>: 「数字選択 → 演算子選択 → 2つ目数字選択」を状態遷移で厳密に制御し、不正な操作を防ぐ</li>
+</ul>
+<p>Pascal の再帰（バックトラッキング）が得意な分野で、JavaScript だと型が緩く浮動小数点誤差もバグりやすい計算ロジックを、Pascal で厳密に実装しています。</p>
+<p><img src="/images/LazarusDay040start.png" alt="24Game 開始画面"></p>
+<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
+<ul>
+<li><strong>必ず解ける出題</strong>: <code>CanSolve</code> でバックトラッキングし、解けるまでランダムに4数字を生成。解けない問題は出さない</li>
+<li><strong>状態遷移</strong>: <code>TInputState</code>（isSelectFirst / isSelectOp / isSelectSecond / isGameOver / isWin）で入力フェーズを管理</li>
+<li><strong>四則演算</strong>: 2つ目の数字選択時に計算実行。0除算は防止し、結果で配列を更新（2つを消して1つに）</li>
+<li><strong>クリア判定</strong>: 残り1つが24のとき誤差範囲（Abs(x - 24) &lt; 0.0001）で判定。Double 型と Epsilon で浮動小数点の扱いを明示</li>
+<li><strong>UI</strong>: 数字ボタン・演算子ボタン・「新しい問題」ボタン。選択中は <code>.selected</code> でハイライト、メッセージで次の操作を案内</li>
+</ul>
+<p>クリア時と、24にならなかった場合の画面は次のとおりです。</p>
+<p><img src="/images/LazarusDay040win.png" alt="24Game クリア"></p>
+<p><img src="/images/LazarusDay040gameover.png" alt="24Game ゲームオーバー"></p>
+<h2 id="開発で行ったことロジックrtl">開発で行ったこと（ロジック・RTL）</h2>
+<ol>
+<li>
+<p><strong>uses の構成</strong><br>
+<code>web</code>, <code>sysutils</code>, <code>JS</code>, <code>Math</code> を使用。DOM 操作は <code>web</code> ユニットで行い、<code>Abs</code> や誤差判定に <code>Math</code> を利用。</p>
+        </div>
+        
+          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day040-pas2js-24game/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="w-100 mb4 relative">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
+    <div class="flex-column flex-row-ns flex">
+      
+          
+        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
           <a href="/posts/lazarus-day039-pas2js-typing-game/" class="db grow">
             <img src="http://localhost:1313/images/LazarusDay039.png" class="img" alt="image from Pas2JSでブラウザ動くPascal予約語タイピングゲームを作る - Day39">
           </a>
@@ -186,141 +299,24 @@
 
           </div>
         
-          <div class="w-100 mb4 relative">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
-    <div class="flex-column flex-row-ns flex">
-      
-          
-        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
-          <a href="/posts/lazarus-day038-pas2js-lsystem/" class="db grow">
-            <img src="http://localhost:1313/images/LazarusDay038.png" class="img" alt="image from Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38">
-          </a>
-        </div>
-      
-      <div class="blah w-100 w-60-ns pl3-ns">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/lazarus-day038-pas2js-lsystem/" class="color-inherit dim link">
-            Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="pas2jsでブラウザで動く簡易l-system描画フラクタル図形を作る---day38">Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38</h1>
-<p>Lazarusチャレンジ38日目です。数式に基づいて植物や雪の結晶のような<strong>フラクタル図形</strong>を描画する <strong>L-System（リンデンマイヤー系）</strong> を、Pas2JS でブラウザの Canvas に実装しました。アルゴリズム主体のアプリは Pascal の得意分野で、再帰的な書き換えとスタック操作で美しい木やシダ、コッホ曲線を描けます。</p>
-<h2 id="l-systemの基本">L-Systemの基本</h2>
-<p>L-System は <strong>開始文字列（Axiom）</strong> に <strong>書き換え規則（Rules）</strong> を繰り返し適用して得た文字列を、「亀の歩み」（タートルグラフィックス）として解釈する仕組みです。</p>
-<ul>
-<li><strong>F</strong>: 線を引いて進む</li>
-<li><strong>+</strong> / <strong>−</strong>: 右・左に回転</li>
-<li><strong>[</strong> / <strong>]</strong>: 現在の状態（座標・角度）をスタックに保存／復元（枝分かれの表現）</li>
-</ul>
-<p>例として「有機的な木」では Axiom を <code>X</code>、規則を <code>F→FF</code>、<code>X→F[[+X]-X]-F[-FX]+X</code> のようにし、角度 25° で描画します。</p>
-<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
-<ul>
-<li><strong>プリセット切り替え</strong>: ドロップダウンで「有機的な木」「シダの葉」「コッホ雪の結晶」を選択。Axiom・Rules・角度をレコードで管理し、切り替え時に再描画</li>
-<li><strong>再帰の深さスライダ</strong>: 0～6 でルール適用回数を変更。スライダを動かすとリアルタイムに図形が成長</li>
-<li><strong>グラデーション描画</strong>: 木・シダでは幹から先端に向けて色を茶系から緑系に変化。枝分かれごとに線を細くする演出</li>
-<li><strong>ステータス表示</strong>: 生成された L-System 文字列の長さを表示</li>
-</ul>
-<p>HTML / CSS / Pascal を分離した構成で、<code>pas2js</code> でコンパイルした <code>project1.js</code> を読み込んで動作します。</p>
-<h2 id="開発でハマった点pas2js-のイベントハンドラ">開発でハマった点（pas2js のイベントハンドラ）</h2>
-<p>スライダの <code>OnInput</code> とセレクトの <code>OnChange</code> に <code>procedure</code> をそのまま渡すと、コンパイルエラーになりました。</p>
-<ol>
-<li>
-<p><strong>procedure → function に変更</strong><br>
-pas2js の <code>OnInput</code> / <code>OnChange</code> は <strong>関数型（戻り値あり）</strong> を要求するため、<code>HandleInput</code> と <code>HandleSelect</code> を <code>function ... : Boolean</code> にし、末尾で <code>Result := True</code> を返すようにしました。</p>
-        </div>
-        
-          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day038-pas2js-lsystem/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
-          <div class="w-100 mb4 relative">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l dark-gray no-underline">
-    <div class="flex-column flex-row-ns flex">
-      
-          
-        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
-          <a href="/posts/lazarus-day037-pas2js-munchausen/" class="db grow">
-            <img src="http://localhost:1313/images/LazarusDay037.png" class="img" alt="image from Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37">
-          </a>
-        </div>
-      
-      <div class="blah w-100 w-60-ns pl3-ns">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/lazarus-day037-pas2js-munchausen/" class="color-inherit dim link">
-            Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="pas2jsで8進数ミュンヒハウゼン数8桁固定を探索する---day37">Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37</h1>
-<p>Lazarusチャレンジ37日目です。<strong>ミュンヒハウゼン数</strong>（各桁を「その数字で累乗」した和が元の数と一致する数）を、<strong>8進数・8桁固定</strong> の条件で Pas2JS で探索するアプリを作りました。見つかった数について、どう計算するとその数になるか式も表示します。</p>
-<h2 id="ミュンヒハウゼン数のおさらい">ミュンヒハウゼン数のおさらい</h2>
-<ul>
-<li><strong>10進数</strong>では、すでに多くの人が周知のとおり、<strong>1</strong> と <strong>3435</strong>（3³+4⁴+3³+5⁵）が有名です。0^0=1 と定義すると <strong>438579088</strong> も成立します。</li>
-<li><strong>16進数</strong>では、1 や C76712FFC311E6E(16進数) など、基数を変えると別の解が現れます。</li>
-<li><strong>8進数</strong>では、普通に（桁数を表記どおりに）やると <strong>1</strong> しか出てきません。</li>
-</ul>
-<p>そこで <strong>固定長8桁・先頭の0も桁として扱う・0^0=1</strong> という条件で探索しました。8進数なので 00000000 ～ 77777777 の範囲です。</p>
-<h2 id="作成したアプリの機能">作成したアプリの機能</h2>
-<ul>
-<li><strong>8進数8桁固定</strong>で、各桁 d に対して d^d の和を計算（0^0=1）</li>
-<li>その和が元の数（10進数）と一致するものを探索</li>
-<li>発見時に <strong>8進数表記</strong> と <strong>10進数</strong> に加え、<strong>どの桁の累乗を足すとその数になるか</strong> の式を表示</li>
-<li>ブラウザが固まらないよう、<code>requestAnimationFrame</code> でバッチ処理しながら非同期探索</li>
-</ul>
-<h2 id="探索結果8進数-8桁固定001">探索結果（8進数 8桁固定・0^0=1）</h2>
-<p>範囲 00000000 ～ 77777777 で探索した結果、次の <strong>3つ</strong> が見つかりました。</p>
-<table>
-  <thead>
-      <tr>
-          <th>8進数(8桁)</th>
-          <th>10進数</th>
-          <th>計算式</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>00000010</td>
-          <td>8</td>
-          <td>0⁰+0⁰+0⁰+0⁰+0⁰+0⁰+1¹+0⁰ = 8</td>
-      </tr>
-      <tr>
-          <td>00000412</td>
-          <td>266</td>
-          <td>0⁰+0⁰+0⁰+0⁰+0⁰+4⁴+1¹+2² = 266</td>
-      </tr>
-      <tr>
-          <td>00266222</td>
-          <td>93330</td>
-          <td>0⁰+0⁰+2²+6⁶+6⁶+2²+2²+2² = 93330</td>
-      </tr>
-  </tbody>
-</table>
-<p>（表内は 0^0=1 を 0⁰ と表記しています。）</p>
-        </div>
-        
-          <p class="f6 lh-copy mv0">By ブログ管理者</p><a href="/posts/lazarus-day037-pas2js-munchausen/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
       </section>
 
       
         <section class="w-100">
           <h1 class="f3">More</h1>
           
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/posts/lazarus-day038-pas2js-lsystem/" class="link black dim">
+                Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38
+              </a>
+            </h2>
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/posts/lazarus-day037-pas2js-munchausen/" class="link black dim">
+                Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37
+              </a>
+            </h2>
           
             <h2 class="f5 fw4 mb4 dib mr3">
               <a href="/posts/lazarus-day036-pas2js-day-counter/" class="link black dim">
@@ -331,18 +327,6 @@ pas2js の <code>OnInput</code> / <code>OnChange</code> は <strong>関数型（
             <h2 class="f5 fw4 mb4 dib mr3">
               <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/" class="link black dim">
                 Pas2JSでかえるのうたを輪唱で再生する - Day35
-              </a>
-            </h2>
-          
-            <h2 class="f5 fw4 mb4 dib mr3">
-              <a href="/posts/lazarus-day034-pas2js-simple-interpreter/" class="link black dim">
-                Pas2JSで簡易インタープリタをブラウザで動かす - Day34
-              </a>
-            </h2>
-          
-            <h2 class="f5 fw4 mb4 dib mr3">
-              <a href="/posts/lazarus-day033-pas2js-whiteboard/" class="link black dim">
-                Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33
               </a>
             </h2>
           

@@ -2,13 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/posts/lazarus-day038-pas2js-lsystem/</loc>
-    <lastmod>2026-02-07T20:00:00+09:00</lastmod>
+    <loc>http://localhost:1313/posts/lazarus-day041-quantum-shogi/</loc>
+    <lastmod>2026-02-10T16:00:00+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2026-02-07T20:00:00+09:00</lastmod>
+    <lastmod>2026-02-10T16:00:00+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/</loc>
+    <lastmod>2026-02-10T16:00:00+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/lazarus-day040-pas2js-24game/</loc>
+    <lastmod>2026-02-09T16:00:00+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/lazarus-day039-pas2js-typing-game/</loc>
+    <lastmod>2026-02-08T16:00:00+09:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/lazarus-day038-pas2js-lsystem/</loc>
     <lastmod>2026-02-07T20:00:00+09:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/lazarus-day037-pas2js-munchausen/</loc>

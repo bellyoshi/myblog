@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト） | 私の技術ブログ</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Lazarusチャレンジ41日目。全駒が量子状態の「量子将棋」をPas2JSで作成。骨格はGeminiに「続けて」「まとめて」と任せて作り、コンパイルが通らなかったためCursorにスイッチ。Cursorでpas2jsの型エラーを解消し、桂馬の飛び越え・グループ制限・経路遮断まで実装。今回初めてLazarusのコンソールでFPCUnitユニットテストを導入し、テスト作成はCursorに任せました。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <meta name="author" content="ブログ管理者">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day041-quantum-shogi/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day041-quantum-shogi/">
+  <meta property="og:site_name" content="私の技術ブログ">
+  <meta property="og:title" content="Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）">
+  <meta property="og:description" content="Lazarusチャレンジ41日目。全駒が量子状態の「量子将棋」をPas2JSで作成。骨格はGeminiに「続けて」「まとめて」と任せて作り、コンパイルが通らなかったためCursorにスイッチ。Cursorでpas2jsの型エラーを解消し、桂馬の飛び越え・グループ制限・経路遮断まで実装。今回初めてLazarusのコンソールでFPCUnitユニットテストを導入し、テスト作成はCursorに任せました。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-10T16:00:00+09:00">
+    <meta property="article:modified_time" content="2026-02-10T16:00:00+09:00">
+
+  <meta itemprop="name" content="Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）">
+  <meta itemprop="description" content="Lazarusチャレンジ41日目。全駒が量子状態の「量子将棋」をPas2JSで作成。骨格はGeminiに「続けて」「まとめて」と任せて作り、コンパイルが通らなかったためCursorにスイッチ。Cursorでpas2jsの型エラーを解消し、桂馬の飛び越え・グループ制限・経路遮断まで実装。今回初めてLazarusのコンソールでFPCUnitユニットテストを導入し、テスト作成はCursorに任せました。">
+  <meta itemprop="datePublished" content="2026-02-10T16:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-02-10T16:00:00+09:00">
+  <meta itemprop="wordCount" content="399">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）">
+  <meta name="twitter:description" content="Lazarusチャレンジ41日目。全駒が量子状態の「量子将棋」をPas2JSで作成。骨格はGeminiに「続けて」「まとめて」と任せて作り、コンパイルが通らなかったためCursorにスイッチ。Cursorでpas2jsの型エラーを解消し、桂馬の飛び越え・グループ制限・経路遮断まで実装。今回初めてLazarusのコンソールでFPCUnitユニットテストを導入し、テスト作成はCursorに任せました。">
+
+	<link rel="stylesheet" href="/css/custom.css">
+
+
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay041.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        私の技術ブログ
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
+              投稿
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
+              カテゴリ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
+              タグ
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）</div>
+          
+            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Lazarusチャレンジ41日目。全駒が量子状態の「量子将棋」をPas2JSで作成。骨格はGeminiに「続けて」「まとめて」と任せて作り、コンパイルが通らなかったためCursorにスイッチ。Cursorでpas2jsの型エラーを解消し、桂馬の飛び越え・グループ制限・経路遮断まで実装。今回初めてLazarusのコンソールでFPCUnitユニットテストを導入し、テスト作成はCursorに任せました。
+            </div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day040-pas2js-24game/">← チャレンジ40日目へ</a>
+        
+      </span>
+      <span>
+        
+          <span class="mid-gray">次のチャレンジなし →</span>
+        
+      </span>
+    </nav>
+  
+
+<div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）</h1>
+      
+      <p class="tracked"><strong>ブログ管理者</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-02-10T16:00:00+09:00">February 10, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsで量子将棋を作る---day41geminiで骨格cursorでコンパイルとユニットテスト">Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）</h1>
+<p>Lazarusチャレンジ41日目です。<strong>開始局面で王将を含む全駒が量子状態</strong>の「量子将棋」を Pas2JS でブラウザ向けに作りました。設計と骨格は <strong>Gemini</strong> に「何でもいいから続けて」「まとめて全コード出して」と任せ、<strong>コンパイルが通らなかった</strong>ため <strong>Cursor</strong>（課金利用）に切り替えて完成させています。また、<strong>ユニットテストを初めて導入</strong>し、Lazarus のコンソール用 FPCUnit プロジェクトでロジックを検証。テストの作成も Cursor に任せました。この記事では、<strong>人間が投げたプロンプト</strong>に注目して、Gemini と Cursor の使い分けがどう効いたかをまとめます。</p>
+<p><img src="/images/LazarusDay041.png" alt="量子将棋 画面"></p>
+<h2 id="ゲームのコンセプト">ゲームのコンセプト</h2>
+<ul>
+<li><strong>量子状態</strong>: 各駒は「歩・香・桂・銀・金・角・飛・王」のいずれかである<strong>可能性の重ね合わせ</strong>で、動かすたびに「その手で矛盾する種類」が消え、観測（収束）していく</li>
+<li><strong>人間同士対局</strong>: 盤面と駒台があり、駒の移動・取る・打つが可能</li>
+<li><strong>UI</strong>: 可能性のある駒の文字を<strong>重ねて表示</strong>（複数種類なら薄く、1種類に確定すると濃く）</li>
+<li><strong>グループ制限</strong>: 初期の「先手グループ」「後手グループ」ごとに駒種の枚数上限（角・飛・王は1、香・桂・金・銀は2、歩は9）。1枚確定しても、<strong>上限に達したときだけ</strong>他駒からその可能性を削除</li>
+<li><strong>経路遮断</strong>: 飛・角・香は味方・敵を素通りしない。<strong>桂馬だけ</strong>飛び越え可（トンネル効果の防止）</li>
+</ul>
+<h2 id="gemini-でやったこと">Gemini でやったこと</h2>
+<p>最初に <strong>Gemini</strong> で骨格を作りました。こちらは「<strong>何でも言うことを聞いて続けて</strong>」とお願いするスタイルで進めています。</p>
+<h3 id="出したプロンプトの流れ">出したプロンプトの流れ</h3>
+<ol>
+<li>
+<p><strong>「pas2jsで量子将棋アプリを作りたい。開始局面では王将を含めてすべての駒が量子状態。まずは人間同士がプレイできる盤を作成。駒台なども忘れずに。」</strong></p>
+<p><strong>Geminiの回答（要約）:</strong> DOMベース構築を推奨し、Board（9×9グリッド）・Cell（マス目）・Piece（量子状態の駒）・Stand（駒台）の構成を提示。データモデルとして <code>TQuantumPiece</code>（Owner, PossibleTypes, IsObserved, CurrentType）と盤面レンダリング用の <code>CreateBoard</code> のコード例を出した。MouseDown／MouseMove／MouseUp で選択・ゴースト・観測の流れを説明し、「まず駒を動かせる盤面を作る→次に移動で矛盾する可能性を排除する観測」という次のステップを二択で提案した。</p>
+</li>
+<li>
+<p><strong>「まずは将棋のルールをおさらい。すべてのルール。」</strong></p>
+<p><strong>Geminiの回答（要約）:</strong> ルールを「初期配置」「動き」「特殊ルール」「終局」の4つに分類。駒の動きを表形式（玉・飛・角・金・銀・桂・香・歩）で整理し、成り（龍・馬・成銀〜と金は金と同じ動き、強制成りの条件）、持ち駒と打ち駒のルール、禁じ手（二歩・打ち歩詰め・行き所のない駒・王手放置・千日手）を列挙。量子将棋への応用として、二歩の判定・成れるかの判定・王手の確率的判定に言及し、次に「盤面データ構造」か「駒の動きのロジック」のどちらを詰めるか選択させる形で返した。</p>
+</li>
+<li>
+<p><strong>「UIは文字が重なった表示とする。」</strong></p>
+<p><strong>Geminiの回答（要約）:</strong> CSS の absolute 配置と opacity で「複数可能性が共存」を表現する方針。未確定時は複数文字が半透明で重なり、観測が進むと不要な文字が消えて残りが濃くなり、確定時は1文字のみ不透明度100%とする。HTML は <code>cell</code> &gt; <code>piece-container</code> &gt; 駒種ごとの <code>span</code>、CSS は <code>opacity: 0.2</code> と <code>is-determined</code> で <code>opacity: 1.0</code>。Pascal 側では <code>TQuantumPiece.UpdateView</code> で各 span の表示／非表示と <code>opacity := 1.0/可能性数</code> を設定。駒台も「何か（量子駒）」として同様に扱い、打つときに二歩などで可能性が絞られると説明した。</p>
+</li>
+<li>
+<p><strong>「計算ロジック」「進めます」「UI構築コード作成」「実装」「作る」「ロジックを作ります」</strong></p>
+<p><strong>Geminiの回答（要約）:</strong> 「計算ロジック」で移動によるフィルタリング（CanMove で可能な種類だけ残す）、経路の飛び越し（桂馬以外はブロック）、取った駒は可能性を引き継いで駒台へ、駒の総数・二歩・行き所のない駒による矛盾の連鎖、王手・詰みの考え方と <code>CalculateNewPossibilities</code> のイメージを提示。「進めます」で CanMove の全駒分の Pascal コード（成り含む）、CheckPath、ResetToInitial、移動実行フロー（ベクトル計算→フィルタ→飛び越し→二歩→矛盾チェック→UI更新）を出した。「UI構築」で game-container／shogi-board／piece-container／quantum-char／piece-stand の CSS と <code>UpdateCellUI</code>・<code>CreateStandHTML</code>。「実装」で TGameController、HandleCellClick、MovePiece、CalculateNewPossibilities（走り駒は経路障害で除外）、取った駒は量子状態のまま駒台へ。「作る」で CapturePiece、DropPiece（行き所のない駒・二歩で可能性削除）、HasConfirmedPawnInColumn。「ロジックを作ります」で CheckKingFeasibility、IsKingInDanger、観測による勝敗、FinalizeTurn と次の「初期化でまとめる」提案まで、いずれもコード付きで段階的に出力した。</p>
+</li>
+<li>
+<p><strong>「まとめる。全コードpasとhtml,cssの出力。」</strong></p>
+<p><strong>Geminiの回答（要約）:</strong> これまでのロジックを1本にまとめ、index.html（game-container、stand-1/board/stand-0、#status、quantum_shogi.js）、style.css（body／game-container、shogi-board 9×9、cell、piece-container、quantum-char、piece-stand、#status）、quantum_shogi.pas（program、uses、TPieceType/TPieceSet、TQuantumPiece、TGame、InitBoard、CanMove、MovePiece、UpdateUI、HandleCellClick、メインで Board 生成とセルに onclick 付与）の全コードを提示。観測ロジック（MovePiece 内で newSet に絞り込み）、UI（opacity を 1/n）、イベント（匿名関数で座標渡し）のポイントを簡潔に述べ、続けて「王の確定演出や二歩の厳密判定を追加するか」と次の一手を聞いた。</p>
+</li>
+<li>
+<p><strong>その後はコンパイルエラーをそのまま貼り付け</strong></p>
+<p><strong>Geminiの回答（要約）:</strong> 各エラーに対して修正版コードを返した。Longint/Boolean 不一致では IfThen をやめ if 文で文字列代入に変更し Math ユニット追加。Expected &quot;,&quot; では lambda をやめ dataset に x,y を入れ、クリック時に <code>StrToInt(target.dataset['x'])</code> で取る方式に変更。string exceeds end of line では日本語リテラルを変数に分け、TurnStr や PieceChar の代入を分割。TJSMouseEvent/TJSEvent では OnCellClick の引数を TJSEvent に統一し「コンパイラは onclick に TJSEvent を期待している」と説明したが、実際には pas2js が渡すのは TJSMouseEvent のため、同じ型不一致が繰り返し発生し、最後は「TJSEvent で受け取り関数内で TJSHTMLElement にキャストする」としつつ、それでもコンパイルエラーが解消されなかった。</p>
+</li>
+</ol>
+<p>つまり、<strong>設計・骨格・ルール整理・コードの塊</strong>は Gemini に任せると「続けて」「まとめて」の一言で進みますが、<strong>pas2js の厳密な型（onclick のイベント型）</strong> にはまり、コンパイルが完了しない状態が続きました。</p>
+<h2 id="人間のプロンプトに注目cursor-にスイッチしてから">人間のプロンプトに注目：Cursor にスイッチしてから</h2>
+<p><strong>コンパイルがうまくいかない</strong>ので <strong>Cursor</strong> に切り替えました。Cursor は課金して使っています。</p>
+<h3 id="出したプロンプトの流れ要約">出したプロンプトの流れ（要約）</h3>
+<ol>
+<li>
+<p><strong>「pas2js .\quantum_shogi.pas -Tbrowser &quot;-Jirtl.js&quot; コマンドを実行しコンパイルを完了させる」</strong><br>
+→ Cursor が 145 行付近を修正し、<strong>onclick は TJSMouseEvent を期待する</strong>ため、<code>OnCellClick</code> の引数を <code>TJSMouseEvent</code> に変更。さらに <code>CheckVictory</code> の実装不足を補い、前方宣言を追加。<strong>ここでコンパイルが初めて完了</strong>。</p>
+</li>
+<li>
+<p><strong>「文字を大きくする。文字の色を黒にする。」</strong><br>
+→ style.css のフォントサイズ・色を変更。</p>
+</li>
+<li>
+<p><strong>「桂馬はねしても桂馬確定にならない。」</strong><br>
+→ CanMove に桂馬の動き（L字）を追加し、銀・香の判定も修正。</p>
+</li>
+<li>
+<p><strong>「持ち駒台の駒が重ならないようにする。」</strong><br>
+→ 駒台の .cell に固定サイズと flex で折り返し。</p>
+</li>
+<li>
+<p><strong>「文字をもう少し大きくして、升目の真ん中に表示されるようにする。」</strong><br>
+→ .quantum-char のサイズと中央配置を調整。</p>
+</li>
+<li>
+<p><strong>「矛盾移動ですの表示をする代わりに、移動範囲を表示し、そこしかクリックできないようにする。ただし、駒の選択を変えることはかのう。」</strong><br>
+→ ValidMoves と ComputeValidMoves、移動可能マスのハイライト（.move-dest）、クリック受け付け条件の変更。</p>
+</li>
+<li>
+<p><strong>「移動遷移後は移動範囲は色を元に戻す」</strong><br>
+→ 選択解除時・移動後に ValidMoves をクリアし、move-dest を外す。</p>
+</li>
+<li>
+<p><strong>「桂馬が増殖してしまう。初期条件… 初期先手グループと初期後手グループを用意し、駒の枚数に矛盾がないようにする。」</strong><br>
+→ 初期駒を固定セットで配置。ここで一度「普通の将棋」になってしまう。</p>
+</li>
+<li>
+<p><strong>「これでは普通の将棋になっている。」</strong><br>
+→ 量子状態に戻しつつ、<strong>種類ごとの枚数上限</strong>（WouldExceedTypeCount）と、収束時のチェックを導入。</p>
+</li>
+<li>
+<p><strong>「先手の角が２枚出現する。… グループAの中で角は一枚しかない。グループBの中で角は一枚しかない。」</strong><br>
+→ <strong>初期グループ（A/B）</strong> を導入し、取られてもグループは不変。<strong>グループごと</strong>に角1・飛1・王1などで制限。</p>
+</li>
+<li>
+<p><strong>「グループAで例えば飛車確定したときに、他の駒のグループAのなかの飛車の可能性は消える処理はあるか。UIが更新されているか」</strong><br>
+→ <code>RemovePossibilityFromGroup</code> を追加し、確定時に同グループの他駒からその駒種の可能性を削除。UI は既存の UpdateUI で更新。</p>
+</li>
+<li>
+<p><strong>「香車確定の時の動き、… すでに確定した香車が消えてしまう。香車、桂馬はグループ内で２枚。歩兵はグループ内で９枚。」</strong><br>
+→ 「<strong>その種類の確定数がグループ上限に達したときだけ</strong>」他駒から可能性を削除するよう変更。香・桂・金・銀は2枚、歩は9枚。</p>
+</li>
+<li>
+<p><strong>「香・桂・金・銀（グループ内2枚）… これのテストを作成。」</strong><br>
+→ 画面上のテストボタンと RunGroupTwoPieceTest を追加。</p>
+</li>
+<li>
+<p><strong>「fpcunitproject1からテストを実行できるようにし、c:\Lazarus\lazbuildでビルドし実行。実行したものを考察。さらにテストが必要なら追加していく」</strong><br>
+→ <strong>quantum_shogi_logic.pas</strong> にロジックを切り出し、<strong>FPCUnit</strong> の testcase1 でテストを実装。初回は「確定済みの駒からも香を削除してしまう」バグで1件失敗し、<strong>確定済み（Possibilities = [pt]）は除外</strong>するよう修正。全7テスト通過、考察を TEST_考察.md に記載。</p>
+</li>
+<li>
+<p><strong>「quantum_shogi.pasでquantum_shogi_logicを使用するようになっているか。重複コードは整理」</strong><br>
+→ TGame を TGameLogic の子クラスにし、型・InitBoard・枚数制限・RemovePossibilityFromGroup などをユニットに集約。pas2js ビルドと FPCUnit の両方で確認。</p>
+</li>
+<li>
+<p><strong>「トンネル効果？している。テストを作成し、駒が敵、味方の駒を素通りしないことを確かめる。桂馬のみ飛び越えてよい。」</strong><br>
+→ <strong>IsPathClear</strong> / <strong>IsMovePathBlocked</strong> を追加。飛・角・香は経路に駒があればブロック、桂馬は飛び越え可。経路遮断のテストを追加し、全13テスト通過。</p>
+</li>
+</ol>
+<p>ここまでが、<strong>人間が「何をしてほしいか」を短いプロンプトで伝え、Cursor がコンパイル通過・挙動修正・テスト追加・リファクタまで一気にやった</strong>流れです。</p>
+<h2 id="今回初めてのユニットテストlazarus-コンソール--fpcunit">今回初めてのユニットテスト（Lazarus コンソール + FPCUnit）</h2>
+<ul>
+<li><strong>Lazarus のコンソール用 FPCUnit プロジェクト</strong>（fpcunitproject1）から、量子将棋の<strong>ロジックだけ</strong>をテストする形にしました。</li>
+<li>ロジックは <strong>quantum_shogi_logic.pas</strong> に分離し、<strong>quantum_shogi.pas</strong> は UI と進行（DOM・イベント・手番）のみを担当。</li>
+<li><strong>テストの作成は Cursor に任せました。</strong> 香・桂・金・銀の「2枚目確定で他駒から可能性削除」「1枚目は触らない」、グループ間の影響なし、確定済み駒は触らない、経路遮断（飛・角・香はブロック、桂馬は飛び越え可）など、計13本のテストが追加されています。</li>
+<li>ビルド・実行は次のとおりです。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-batch" data-lang="batch"><span style="display:flex;"><span><span style="color:#66d9ef">cd</span> day041_QuantumShogi
+</span></span><span style="display:flex;"><span>c:\Lazarus\lazbuild<span style="color:#75715e"> fpcunitproject1.lpi</span>
+</span></span><span style="display:flex;"><span>fpcunitproject1.exe
+</span></span></code></pre></div><ul>
+<li>実行結果の考察（初回失敗とその修正）は、プロジェクト内の <strong>TEST_考察.md</strong> にまとまっています。</li>
+</ul>
+<h2 id="作成したアプリの機能抜粋">作成したアプリの機能（抜粋）</h2>
+<ul>
+<li><strong>量子状態の表示</strong>: 各マス・駒台で、可能性のある駒の文字を重ねて表示。確定すると1文字が濃く表示。</li>
+<li><strong>移動・取る・打つ</strong>: 移動可能マスを緑で表示し、そのマスと駒の選択変更だけクリック可能。駒台から打つときは空マスのみ有効。</li>
+<li><strong>グループ制限</strong>: 初期グループ A/B ごとに角1・飛1・王1・金2・銀2・桂2・香2・歩9。収束時に上限を超える手は不可。上限に達したときだけ他駒からその可能性を削除。</li>
+<li><strong>経路遮断</strong>: 飛・角・香は経路上に駒があると進めない。桂馬のみ飛び越え可。</li>
+<li><strong>勝利判定</strong>: 王の可能性が自軍に1つもなくなった側の負け。</li>
+</ul>
+<h2 id="コンパイル方法pas2js">コンパイル方法（Pas2JS）</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pas2js quantum_shogi.pas -Tbrowser -Jirtl.js
+</span></span></code></pre></div><p><code>index.html</code> から生成された <code>quantum_shogi.js</code> を読み込み、必要に応じて <code>rtl.run()</code> でプログラムを開始します。</p>
+<h3 id="indexhtml">index.html</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ja&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">title</span>&gt;Quantum Shogi - pas2js&lt;/<span style="color:#f92672">title</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;style.css&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;game-container&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stand-1&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;piece-stand gote&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;board&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;shogi-board&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stand-0&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;piece-stand sente&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;status&#34;</span>&gt;手番: 先手&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;quantum_shogi.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">script</span>&gt;<span style="color:#a6e22e">rtl</span>.<span style="color:#a6e22e">run</span>();&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><h2 id="ダウンロード">ダウンロード</h2>
+<p><strong>アプリをブラウザで開く</strong>: <a href="/apps/day041/">量子将棋を開く</a></p>
+<p>作成したアプリ（HTML / CSS / Pascal ソース・quantum_shogi_logic ユニット・FPCUnit テスト・コンパイル済み JS）は以下のリンクからダウンロードできます。</p>
+<p><a href="/downloads/day041_QuantumShogi.zip">day041_QuantumShogi.zip</a></p>
+<h2 id="まとめプロンプトの違いと役割分担">まとめ：プロンプトの違いと役割分担</h2>
+<ul>
+<li><strong>Gemini</strong>: 「〜を作りたい」「ルールおさらい」「UIは文字重ね」「計算ロジック」「進めます」「まとめて全コード」といった<strong>大きな指示</strong>で、設計とコードの塊を一気に書かせるのに向いていました。一方で、<strong>pas2js の厳密なイベント型</strong>（TJSMouseEvent / TJSEvent）では同じエラーを何度貼っても解消せず、コンパイル完了には至りませんでした。</li>
+<li><strong>Cursor</strong>: 「コンパイルを完了させて」で型と実装を直して<strong>コンパイル通過</strong>。「文字大きく」「桂馬確定」「駒台重ならない」「移動範囲表示」「グループ制限」「香車2枚目」「テスト作成」「fpcunit で実行」「トンネル効果のテスト」「logic を使うようにして重複整理」など、<strong>具体的な仕様と修正</strong>を短いプロンプトで渡すと、コード変更・テスト追加・考察メモまで一気にやってくれました。</li>
+<li><strong>ユニットテスト</strong>は今回が初めて。Lazarus のコンソールで FPCUnit を動かし、<strong>テストの作成は Cursor に任せた</strong>ことで、グループ内枚数・経路遮断・確定済み駒を触らないなど、ロジックの安心材料が増えています。</li>
+</ul>
+<p>「骨格は Gemini、通す・仕上げ・テストは Cursor」という使い分けが、今回の開発の流れでした。</p>
+<hr>
+<p><em>Lazarusチャレンジ Day 41/100</em></p>
+
+
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    
+    
+    
+    
+    <nav class="lazarus-day-nav f6 mb3 pb2 bb b--moon-gray" aria-label="Lazarusチャレンジ前後へ">
+      <span class="mr3">
+        
+          <a href="/posts/lazarus-day040-pas2js-24game/">← チャレンジ40日目へ</a>
+        
+      </span>
+      <span>
+        
+          <span class="mid-gray">次のチャレンジなし →</span>
+        
+      </span>
+    </nav>
+  
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day040-pas2js-24game/">Pas2JSで脳トレ「24Game」を作る - Day40</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day039-pas2js-typing-game/">Pas2JSでブラウザ動くPascal予約語タイピングゲームを作る - Day39</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day038-pas2js-lsystem/">Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day037-pas2js-munchausen/">Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day036-pas2js-day-counter/">Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/">Pas2JSでかえるのうたを輪唱で再生する - Day35</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day034-pas2js-simple-interpreter/">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day033-pas2js-whiteboard/">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day031-pas2js-markdown/">Pas2JSでMarkdownエディタを作成 - Day31</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day032-pas2js-userform/">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day030-pas2js-calculator/">Pas2JSで計算機アプリを作成 - Day30</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day029-pas2js-color/">Pas2JSでカラー表示アプリを作成 - Day29</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day028-pas2js-calendar/">Pas2JSでカレンダーアプリを作成 - Day28</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day027-pas2js-todo/">Pas2JSでTodoアプリを作成 - Day27</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/lazarus-day026-pas2js/">Pas2JSを試してみる - Day26</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  私の技術ブログ 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>
