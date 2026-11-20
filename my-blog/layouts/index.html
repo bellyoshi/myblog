@@ -1,0 +1,78 @@
+{{ define "header" }}<!-- トップは帯なし -->{{ end }}
+{{ define "main" }}
+{{ $posts := where .Site.RegularPages "Section" "in" .Site.Params.mainSections }}
+{{ $lazarus := slice }}
+{{ range $posts }}{{ if and .File (hasPrefix .File.BaseFileName "lazarus-day") }}{{ $lazarus = $lazarus | append . }}{{ end }}{{ end }}
+<div class="top">
+  <div class="top-head">
+    <h1 class="top-title">{{ .Site.Title }}</h1>
+    <p>{{ .Site.Params.description }}</p>
+  </div>
+
+  <div class="cols">
+    <div class="col side">
+      <div class="box pink">
+        <div class="box-title">ビギナーズ</div>
+        <div class="box-body">
+          {{ with .Site.GetPage "/posts/my-first-blog-post" }}<a href="{{ .RelPermalink }}">このサイトは何？</a><br>{{ end }}
+          {{ with .Site.GetPage "/posts/actba64-50-questions" }}<a href="{{ .RelPermalink }}">管理人に50の質問</a><br>{{ end }}
+          <a href="{{ "/posts/" | relURL }}">記事一覧</a>
+        </div>
+      </div>
+      <div class="box pink">
+        <div class="box-title">記事数</div>
+        <div class="box-body">
+          <span class="counter">{{ printf "%06d" (len $posts) }}</span><br>
+          <small>(開設から)</small>
+        </div>
+      </div>
+      <div class="box pink">
+        <div class="box-title">購読</div>
+        <div class="box-body">
+          <a href="{{ "/index.xml" | relURL }}">RSSフィード</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col main-col">
+      <div class="box green">
+        <div class="box-title">Main ― 新着記事</div>
+        <div class="box-body">
+          {{ range first 10 $posts }}
+            <p class="news"><span class="date">{{ .Date.Format "2006/01/02" }}</span><br><a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+          {{ end }}
+          <p><a href="{{ "/posts/" | relURL }}">→ 過去の記事はこちら</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col side">
+      <div class="box blue">
+        <div class="box-title">Lazarusチャレンジ</div>
+        <div class="box-body">
+          {{ with (sort $lazarus "File.BaseFileName") }}
+            <a href="{{ (index . 0).RelPermalink }}">1日目から読む</a><br>
+            <a href="{{ (index . (sub (len .) 1)).RelPermalink }}">最新の挑戦</a><br>
+            全{{ len . }}回
+          {{ end }}
+          {{ with .Site.GetPage "/posts/survival-report-lazarus-challenge-2025" }}<br><a href="{{ .RelPermalink }}">生存報告</a>{{ end }}
+        </div>
+      </div>
+      <div class="box blue">
+        <div class="box-title">ActiveBasic</div>
+        <div class="box-body">
+          {{ with .Site.GetPage "/posts/actba64-50-questions" }}<a href="{{ .RelPermalink }}">Actba64に50の質問</a>{{ end }}
+        </div>
+      </div>
+      <div class="box blue">
+        <div class="box-title">アーカイブ</div>
+        <div class="box-body">
+          {{ range $posts.GroupByDate "2006" }}
+            <a href="{{ "/posts/" | relURL }}#y{{ .Key }}">{{ .Key }}年</a> ({{ len .Pages }})<br>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}

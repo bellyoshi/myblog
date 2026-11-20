@@ -1,6 +1,6 @@
 baseURL = 'https://your-site-name.netlify.app/'
 languageCode = 'ja-jp'
-title = '私の技術ブログ'
+title = 'Active Basic By Yoshi 2nd'
 theme = 'ananke'
 enableGitInfo = false
 disableKinds = ["taxonomy", "term"]

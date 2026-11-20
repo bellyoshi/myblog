@@ -1,0 +1,18 @@
+{{ define "main" }}
+<div class="page">
+  <div class="box green">
+    <div class="box-title">{{ if eq .Title "Posts" }}記事一覧{{ else }}{{ .Title }}{{ end }}</div>
+    <div class="box-body">
+      {{ .Content }}
+      {{ range .Pages.GroupByDate "2006" }}
+        <h2 class="year" id="y{{ .Key }}">{{ .Key }}年</h2>
+        <ul class="post-list">
+          {{ range .Pages }}
+            <li><span class="date">{{ .Date.Format "2006/01/02" }}</span> <a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+          {{ end }}
+        </ul>
+      {{ end }}
+    </div>
+  </div>
+</div>
+{{ end }}
