@@ -10,7 +10,7 @@ author: "ブログ管理者"
 
 # Actba64を開発したbellyoshiさんに50の質問
 
-懐かしの「〇〇に50の質問」形式で、64bit版ActiveBasic互換コンパイラ **Actba64** の開発を振り返ってみました。
+懐かしの「〇〇に50の質問」形式で、64bit版ActiveBasic互換コンパイラ **[Actba64](https://docs.actba64.com/)** の開発を振り返ってみました。
 
 ## はじめに・自己紹介
 
