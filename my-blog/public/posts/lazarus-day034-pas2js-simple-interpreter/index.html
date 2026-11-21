@@ -2,42 +2,17 @@
 <html lang="ja-jp">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
-    <title>Pas2JSで簡易インタープリタをブラウザで動かす - Day34 | 私の技術ブログ</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <title>Pas2JSで簡易インタープリタをブラウザで動かす - Day34 | Active Basic By Yoshi 2nd</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。">
     <meta name="generator" content="Hugo 0.153.4">
     
-    
-    
       <meta name="robots" content="noindex, nofollow">
     
-    <meta name="author" content="ブログ管理者">
+    <link rel="stylesheet" href="/css/retro.css">
     
-
-    
-<link rel="stylesheet" href="/ananke/css/main.min.css" >
-
-
-
-
-    
-
-
-    
-      
-
-    
-
-    
-
-    
-      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day034-pas2js-simple-interpreter/">
-    
-
-    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day034-pas2js-simple-interpreter/">
-  <meta property="og:site_name" content="私の技術ブログ">
+    <link rel="canonical" href="http://localhost:1313/posts/lazarus-day034-pas2js-simple-interpreter/"><meta property="og:url" content="http://localhost:1313/posts/lazarus-day034-pas2js-simple-interpreter/">
+  <meta property="og:site_name" content="Active Basic By Yoshi 2nd">
   <meta property="og:title" content="Pas2JSで簡易インタープリタをブラウザで動かす - Day34">
   <meta property="og:description" content="Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。">
   <meta property="og:locale" content="ja_jp">
@@ -55,86 +30,37 @@
   <meta name="twitter:title" content="Pas2JSで簡易インタープリタをブラウザで動かす - Day34">
   <meta name="twitter:description" content="Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。">
 
-	<link rel="stylesheet" href="/css/custom.css">
-
-
-  </head><body class="ma0 avenir bg-near-white development">
-
+  </head>
+  <body>
     
-   
-  
-
-  
-  
-  
-  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay034.png');">
-    <div class="bg-black-60">
-      <nav class="pv3 ph3 ph4-ns" role="navigation">
-  <div class="flex-l center items-center justify-between">
-    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      <div class="site-bar">
+        <a href="/" class="site-bar-title">Active Basic By Yoshi 2nd</a>
+        <span class="site-bar-links">
+          [<a href="/">トップ</a>]
+          [<a href="/posts/">記事一覧</a>]
+          [<a href="/index.xml">RSS</a>]
+        </span>
+      </div>
+      <hr>
+    
+    <main>
       
-        私の技術ブログ
-      
-    </a>
-    <div class="flex-l items-center">
-      
-
-      
-        <ul class="pl0 mr3">
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
-              投稿
-            </a>
-          </li>
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
-              カテゴリ
-            </a>
-          </li>
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
-              タグ
-            </a>
-          </li>
-          
-        </ul>
-      
-      <div class="ananke-socials"></div>
-
+<div class="page">
+  <div class="post-head">
+    <div class="post-title">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</div>
+    <div class="post-meta">
+      2026年2月3日
+       ／ Lazarus Pas2JS Web Pascal チャレンジ Day034 JavaScript インタープリタ 再帰下降 構文解析 PRINT WHILE IF
     </div>
   </div>
-</nav>
-
-      <div class="tc-l pv6 ph3 ph4-ns">
-        
-          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</div>
-          
-            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
-              Lazarusチャレンジ34日目。Pas2JSで簡易インタープリタを作成し、ブラウザ上でPRINT・変数・代入・IF/ELSE・WHILE/WENDを実行できるようにしました。再帰下降構文解析で四則演算の優先順位と括弧を正しく扱います。
-            </div>
-          
-        
-      </div>
-    </div>
-  </header>
-
-
-
-    <main class="pb7" role="main">
-      
-  
-  
-  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
-    <header class="mt4 w-100">
-      <aside class="instapaper_ignoref b helvetica tracked ttu">
-          
-        Posts
-      </aside>
 
   
+  
+    
+  
+    
+  
+    
   
     
       
@@ -475,21 +401,7 @@
     </nav>
   
 
-<div id="sharing" class="mt3 ananke-socials"></div>
-<h1 class="f1 athelas mt3 mb1">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</h1>
-      
-      <p class="tracked"><strong>ブログ管理者</strong>
-      </p>
-      
-      
-      
-      <time class="f6 mv4 dib tracked" datetime="2026-02-03T21:00:00+09:00">February 3, 2026</time>
-      
-
-      
-      
-    </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsで簡易インタープリタをブラウザで動かす---day34">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</h1>
+<div class="post-body"><h1 id="pas2jsで簡易インタープリタをブラウザで動かす---day34">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</h1>
 <p>Lazarusチャレンジ34日目です。<strong>Pas2JS</strong> で、ブラウザ上で動く <strong>簡易インタープリタ</strong> を作成しました。PRINT・変数代入・IF/ELSE・WHILE/WEND をサポートし、式は <strong>再帰下降構文解析</strong> で四則演算の優先順位（<code>*</code>/<code>/</code> が <code>+</code>/<code>-</code> より優先、括弧対応）を正しく評価します。Pascal でトークナイザとパーサを実装し、DOM のテキストエリアとボタンから「Run」で実行できる構成にしています。</p>
 <h2 id="作成したアプリの機能">作成したアプリの機能</h2>
 <ul>
@@ -565,9 +477,15 @@ PRINT 100
 <p>Pascal でトークナイザ・再帰下降パーサ・文の実行を一通り実装する良い練習になります。次は REM コメント、比較演算子付きの IF、FOR 文などに拡張するのもおすすめです。</p>
 <hr>
 <p><em>Lazarusチャレンジ Day 34/100</em></p>
-
+</div>
 
   
+  
+    
+  
+    
+  
+    
   
     
       
@@ -908,101 +826,15 @@ PRINT 100
     </nav>
   
 
-<ul class="pa0">
-  
-</ul>
-<div class="mt6 instapaper_ignoref">
-      
-      
-      </div>
-    </div>
-
-    <aside class="w-30-l mt6-l">
-
-
-
-
-  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
-    <p class="f5 b mb3">Related</p>
-    <ul class="pa0 list">
-	   
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day030-pas2js-calculator/">Pas2JSで計算機アプリを作成 - Day30</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day033-pas2js-whiteboard/">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day031-pas2js-markdown/">Pas2JSでMarkdownエディタを作成 - Day31</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day032-pas2js-userform/">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day029-pas2js-color/">Pas2JSでカラー表示アプリを作成 - Day29</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day028-pas2js-calendar/">Pas2JSでカレンダーアプリを作成 - Day28</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day027-pas2js-todo/">Pas2JSでTodoアプリを作成 - Day27</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day026-pas2js/">Pas2JSを試してみる - Day26</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day025-colorpop/">同色消しパズル（ColorPop）の作成 - Day25</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day024-lightsout/">Lights Outゲームの作成 - Day24</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day023-pdfviewer/">PDFビューワーの作成とAIクレジット枯渇との戦い - Day23</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day022-spreadsheet-viewer/">スプレッドシート作成の試みとビューワー実装 - Day22</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day021-15puzzle/">15パズルの作成に挑戦 - Day21</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day020-picross/">ピクロス（ノノグラム）の作成に挑戦 - Day20</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day019-menu100/">Lazarusアプリ用ランチャーの作成 - Day19</a>
-        </li>
-	    
-    </ul>
+<p class="back">
+    <a href="/posts/lazarus-day033-pas2js-whiteboard/">← Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</a><br>
+    <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/">→ Pas2JSでかえるのうたを輪唱で再生する - Day35</a><br>
+    [<a href="/posts/">記事一覧へ戻る</a>] [<a href="/">トップへ戻る</a>]
+  </p>
 </div>
-
-</aside>
-
-  </article>
 
     </main>
-    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
-  <div class="flex justify-between">
-  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
-    &copy;  私の技術ブログ 2026 
-  </a>
-    <div><div class="ananke-socials"></div>
-</div>
-  </div>
-</footer>
-
+    <hr>
+    <p class="copyright">Copyright(c) 2026 by bellyoshi All Rights Reserved.</p>
   </body>
 </html>

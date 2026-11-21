@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=52742&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <title>後ろから作る：リンカー → アセンブラ → コンパイラー - Day1 | Active Basic By Yoshi 2nd</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="ActiveBasicでActiveBasicを作るプロジェクトDay1。何もしないEXEを作るところから始め、NASMやGoLinkに頼らずツールチェーンをすべて自作することに。Geminiの助言で「後ろ（リンカー）から順に作る」方針を決め、COFF・リロケーション・PEフォーマットを整理した。">
+    <meta name="generator" content="Hugo 0.153.4">
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    <link rel="stylesheet" href="/css/retro.css">
+    
+    <link rel="canonical" href="http://localhost:52742/posts/actba64-day001-linker-first/"><meta property="og:url" content="http://localhost:52742/posts/actba64-day001-linker-first/">
+  <meta property="og:site_name" content="Active Basic By Yoshi 2nd">
+  <meta property="og:title" content="後ろから作る：リンカー → アセンブラ → コンパイラー - Day1">
+  <meta property="og:description" content="ActiveBasicでActiveBasicを作るプロジェクトDay1。何もしないEXEを作るところから始め、NASMやGoLinkに頼らずツールチェーンをすべて自作することに。Geminiの助言で「後ろ（リンカー）から順に作る」方針を決め、COFF・リロケーション・PEフォーマットを整理した。">
+  <meta property="og:locale" content="ja_jp">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-07-23T12:00:00+09:00">
+    <meta property="article:modified_time" content="2026-07-23T12:00:00+09:00">
+
+  <meta itemprop="name" content="後ろから作る：リンカー → アセンブラ → コンパイラー - Day1">
+  <meta itemprop="description" content="ActiveBasicでActiveBasicを作るプロジェクトDay1。何もしないEXEを作るところから始め、NASMやGoLinkに頼らずツールチェーンをすべて自作することに。Geminiの助言で「後ろ（リンカー）から順に作る」方針を決め、COFF・リロケーション・PEフォーマットを整理した。">
+  <meta itemprop="datePublished" content="2026-07-23T12:00:00+09:00">
+  <meta itemprop="dateModified" content="2026-07-23T12:00:00+09:00">
+  <meta itemprop="wordCount" content="677">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="後ろから作る：リンカー → アセンブラ → コンパイラー - Day1">
+  <meta name="twitter:description" content="ActiveBasicでActiveBasicを作るプロジェクトDay1。何もしないEXEを作るところから始め、NASMやGoLinkに頼らずツールチェーンをすべて自作することに。Geminiの助言で「後ろ（リンカー）から順に作る」方針を決め、COFF・リロケーション・PEフォーマットを整理した。">
+
+  </head>
+  <body>
+    
+      <div class="site-bar">
+        <a href="/" class="site-bar-title">Active Basic By Yoshi 2nd</a>
+        <span class="site-bar-links">
+          [<a href="/">トップ</a>]
+          [<a href="/posts/">記事一覧</a>]
+          [<a href="/index.xml">RSS</a>]
+        </span>
+      </div>
+      <hr>
+    
+    <main>
+      
+<div class="page">
+  <div class="post-head">
+    <div class="post-title">後ろから作る：リンカー → アセンブラ → コンパイラー - Day1</div>
+    <div class="post-meta">
+      2026年7月23日
+       ／ Actba64 ActiveBasic コンパイラ リンカ アセンブラ COFF PE Gemini Day001
+    </div>
+  </div>
+
+<div class="post-body"><h1 id="後ろから作るリンカー--アセンブラ--コンパイラー---day1">後ろから作る：リンカー → アセンブラ → コンパイラー - Day1</h1>
+<p>7/23 木曜日だ。今日も暑い日だ。このごろ夏の暑さは尋常ではないが、冷房の効いた部屋でパソコンに向かっていると、かえって余計なことを考え始める。</p>
+<p>ふと「自作コンパイラを作ってみようか」と思い立ったのは、そんな夏の日のことだった。どうせやるなら、昔よく使っていた言語を自分の手で蘇らせてみたい。そんな無謀とも思える構想を胸に、まずは相棒となるAIに相談してみることにした。</p>
+<h2 id="gemini">Gemini</h2>
+<p>まず、Gemini に以下のように問う</p>
+<p><strong>プロンプト</strong></p>
+<blockquote>
+<p>これはホビーのプロジェクトだが、昔activebasicという言語があって最終的にはactivebasicをactivebasicでセルフコンパイルできるようにしたい。まずは、何もないコードを入力すると何もしないexeを作る</p>
+</blockquote>
+<p><strong>回答</strong></p>
+<blockquote>
+<p>ActiveBasic（AB）、めちゃくちゃ懐かしいですね！N88-BASICの文法を引き継ぎながら Win32 API や DLL をバリバリ叩けたあの名機（言語）ですか。しかも最終目標が「ActiveBasicによるSelf-hosting（セルフコンパイル）」とは、最高にロマンのあるホビープロジェクトです！</p>
+</blockquote>
+<p>ActiveBasic が盛んだったころに、Gemini は影も形もなかっただろう。「懐かしい」というのは機械の感情からしてもおかしいだろうと突っ込みたくはなる。しかし、セルフコンパイルのための道筋を示してくれた。</p>
+<h2 id="最初の計画">最初の計画</h2>
+<ul>
+<li><strong>フェーズ1</strong>：アセンブラのコードを出力する ActiveBasic のコードを作成し、外部のアセンブラ（NASM など）とリンカ（GoLink など）を呼び出して EXE を作る。</li>
+<li><strong>フェーズ2</strong>：代替として GCC（MinGW）等を経由して C 言語にトランスパイルして EXE 化する。</li>
+<li><strong>フェーズ3（最終形）</strong>：外部ツール依存を無くし、自分で直接 PE（Portable Executable）ファイルを吐き出す。</li>
+</ul>
+<p>後ほど説明するが、実際にはこの<strong>真逆の手順</strong>で開発がすすめられた。</p>
+<h2 id="何もしないで正常終了するプログラム">何もしないで正常終了するプログラム</h2>
+<p>何もしないコード（空コード）から、何もせずに正常終了する最小の EXE（PE ファイル）を生成するプログラムを作成するにはどうすればよいだろうか。まず、何もしないで正常に終了するプログラムをアセンブラで考えてみる。</p>
+<p><strong>sample.asm</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#66d9ef">global</span> _main
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extern</span> _ExitProcess@4
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">section</span> .text
+</span></span><span style="display:flex;"><span>_main:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">push</span> <span style="color:#ae81ff">0</span>                  <span style="color:#75715e">; 終了コード 0 (正常終了)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">call</span> _ExitProcess@4     <span style="color:#75715e">; Windowsを正常終了するAPI</span>
+</span></span></code></pre></div><p>これが、出力すべき asm になる。ActiveBasic で作ったプログラムが上記の asm ファイルを吐き出せばよい。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vb" data-lang="vb"><span style="display:flex;"><span><span style="color:#75715e">&#39; =========================================================
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">&#39; ActiveBasic Self-Hosting Project - Phase 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">&#39; 「何もしないコードからEXEを作るコンパイラ」
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">&#39; =========================================================
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>#include <span style="color:#f92672">&lt;</span>windows.sbp<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Function</span> <span style="color:#a6e22e">Main</span>() <span style="color:#f92672">As</span> <span style="color:#66d9ef">Long</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Dim</span> srcPath <span style="color:#f92672">As</span> <span style="color:#66d9ef">String</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Dim</span> asmPath <span style="color:#f92672">As</span> <span style="color:#66d9ef">String</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Dim</span> exePath <span style="color:#f92672">As</span> <span style="color:#66d9ef">String</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Dim</span> hFile <span style="color:#f92672">As</span> <span style="color:#66d9ef">Long</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    srcPath <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;test.ab&#34;</span>      <span style="color:#75715e">&#39; 入力 (空のActiveBasicコード)
+</span></span></span><span style="display:flex;"><span>    asmPath <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;output.asm&#34;</span>   <span style="color:#75715e">&#39; 中間ファイル (アセンブリ)
+</span></span></span><span style="display:flex;"><span>    exePath <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;test.exe&#34;</span>     <span style="color:#75715e">&#39; 最終出力 (Executable)
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Print <span style="color:#e6db74">&#34;コンパイル開始: &#34;</span><span style="color:#960050;background-color:#1e0010">;</span> srcPath
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39; 1. ソースコードの読み込み（今回は空かどうかを確認するだけ）
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39; ※将来的に構文解析（パーサー）をここに入れる
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39; 2. アセンブリコードの生成
+</span></span></span><span style="display:flex;"><span>    hFile <span style="color:#f92672">=</span> FileOpen(asmPath, <span style="color:#e6db74">&#34;w&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">If</span> hFile <span style="color:#f92672">=</span> 0 <span style="color:#66d9ef">Then</span>
+</span></span><span style="display:flex;"><span>        Print <span style="color:#e6db74">&#34;エラー: 中間ファイルの作成に失敗しました。&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Exit</span> <span style="color:#66d9ef">Function</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">End</span> <span style="color:#66d9ef">If</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39; Windowsで「正常終了するだけ」のアセンブリ(NASM用)を吐き出す
+</span></span></span><span style="display:flex;"><span>    FilePrint(hFile, <span style="color:#e6db74">&#34;global _main&#34;</span>)
+</span></span><span style="display:flex;"><span>    FilePrint(hFile, <span style="color:#e6db74">&#34;extern _ExitProcess@4&#34;</span>)
+</span></span><span style="display:flex;"><span>    FilePrint(hFile, <span style="color:#e6db74">&#34;section .text&#34;</span>)
+</span></span><span style="display:flex;"><span>    FilePrint(hFile, <span style="color:#e6db74">&#34;_main:&#34;</span>)
+</span></span><span style="display:flex;"><span>    FilePrint(hFile, <span style="color:#e6db74">&#34;    push 0&#34;</span>)
+</span></span><span style="display:flex;"><span>    FilePrint(hFile, <span style="color:#e6db74">&#34;    call _ExitProcess@4&#34;</span>)
+</span></span><span style="display:flex;"><span>    FileClose(hFile)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Print <span style="color:#e6db74">&#34;中間ファイル生成完了: &#34;</span><span style="color:#960050;background-color:#1e0010">;</span> asmPath
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39; 3. アセンブル &amp; リンク (外部ツールを呼び出し)
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39; 例: nasm.exe と golink.exe を使う場合
+</span></span></span><span style="display:flex;"><span>    Print <span style="color:#e6db74">&#34;アセンブル&amp;リンク中...&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39; NASMで .asm -&gt; .obj に変換
+</span></span></span><span style="display:flex;"><span>    Shell(<span style="color:#e6db74">&#34;nasm.exe -f win32 output.asm -o output.obj&#34;</span>, 1)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&#39; GoLinkで .obj -&gt; .exe に変換 (kernel32.dllのExitProcessを結合)
+</span></span></span><span style="display:flex;"><span>    Shell(<span style="color:#e6db74">&#34;golink.exe /console output.obj kernel32.dll&#34;</span>, 1)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Print <span style="color:#e6db74">&#34;ビルド完了: &#34;</span><span style="color:#960050;background-color:#1e0010">;</span> exePath
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">End</span> <span style="color:#66d9ef">Function</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Main()
+</span></span></code></pre></div><p>さきほどの asm を吐き出したあと、外部ツールを呼び出し、アセンブルとリンクを行う。</p>
+<h2 id="全部自作してしまおう">全部自作してしまおう</h2>
+<p>だが、作者はここで、このコードが NASM と GoLink を使っていることに違和感を覚えた。</p>
+<p>せっかく作っても、実行に外部ツールがいるんだったらコンパイラーを作った意味があるのだろうか。ActiveBasic のように EXE まで作れなければ意味がない。</p>
+<p><strong>アセンブラもリンカも全て自作してしまおう</strong>という大胆な野望が脳裏に浮かんだ。そこで、</p>
+<blockquote>
+<p>まだ作らないがリンカとasmもactivebasicで作りたい</p>
+</blockquote>
+<p>とプロンプトした。自分の中では、リンカーやアセンブラができて完全にセルフコンパイルできるのは遠い将来だと思っていたのだ。Gemini は</p>
+<blockquote>
+<p>将来実装するとき、挫折しないための裏技的で面白いステップがあります。それは「後ろ（リンカ）から順に作る」ことです。</p>
+</blockquote>
+<p>と回答してきた。</p>
+<p>じつは、機能を限定すればリンカーやアセンブラのほうが難易度は低いのだ。最初にコンパイラーから入ると、出力されるのは asm ファイルだ。asm ファイル自体は動かすことができない。リンカーやアセンブラを先に作っていけば、プログラムが動くのを実感できる。</p>
+<h3 id="1-リンカlinker">1. リンカ（Linker）</h3>
+<p>リンカーは何をするものだろう？よくコンピューターは機械語しか読むことできないと聞かされてきた。AIで話は変わってきたが、それでも最終的には機械語のプログラムが動くことには違いない。
+では、アセンブラが機械語に変換したら、それで実行可能になるのだろうか？実はアセンブルしたあとの機械語に対して、リンカがもう一仕事しなければならない。</p>
+<ul>
+<li><strong>リンカの役割</strong>：<code>.obj</code> ファイル（COFF 形式）を読み込み、ヘッダーを整形して Windows が理解できる PE フォーマット（<code>.exe</code>）のバイナリに変換する。</li>
+<li><strong>主な仕事</strong>：
+<ol>
+<li><code>.text</code>（コード）や <code>.data</code>（データ）などのセクションを連続したメモリ領域に配置する。</li>
+<li><code>ExitProcess</code> などの外部 DLL 関数を呼ぶための Import Address Table（IAT）を構築する。</li>
+<li>各命令の参照アドレスを書き換える（アドレス解決 / リロケーション）。</li>
+</ol>
+</li>
+</ul>
+<p>アセンブラ→COFF→リンカ→PE(.exe)
+というパイプラインになる。</p>
+<p>実は、アセンブラよりもリンカの方が構造が単純で作りやすい。まず、最初に作るものとしてリンカー（<strong>ablinker</strong>）を作成することにした。</p>
+<h3 id="2-アセンブラassembler">2. アセンブラ（Assembler）</h3>
+<p>リンカーの次に作るのはアセンブラだ。アセンブラは、テキストで書かれたアセンブリ言語を 1 対 1 でマシン語（バイナリ）に変換し、COFF（<code>.obj</code>）形式で吐き出す。</p>
+<ul>
+<li><strong>役割</strong>：<code>push 0</code> や <code>call _ExitProcess</code> というテキスト命令を、<code>6A 00</code> や <code>E8 xx xx xx xx</code> といった x86 のバイト列に置き換える。</li>
+<li><strong>主な仕事</strong>：
+<ol>
+<li><strong>ニーモニック解析</strong>：<code>mov</code>, <code>push</code>, <code>add</code>, <code>call</code> などの命令パターン認識。</li>
+<li><strong>ModR/M バイトの計算</strong>：レジスタやメモリの指定方法（<code>[ebp-4]</code> など）に応じて複雑に変化する x86 特有のバイナリ表現（ModR/M, SIB）を組み立てる。</li>
+<li><strong>シンボルテーブル作成</strong>：ラベル（<code>_main:</code> など）のアドレスを記録し、COFF 形式のヘッダーと一緒に書き出す。</li>
+</ol>
+</li>
+</ul>
+<h3 id="3-コンパイラcompiler">3. コンパイラ（Compiler）</h3>
+<p>最後になるのがコンパイラーだ。ActiveBasic の文法（AST：抽象構文木）を解析して、アセンブリ言語を出力する司令塔。実は一番難易度が高い。最初からコンパイラーを完全なものにしようとすると挫折する。</p>
+<h2 id="自作ツールチェーンの全貌">自作ツールチェーンの全貌</h2>
+<p>今回はすべてのツールチェーンを ActiveBasic で自作する。データの流れは以下のようになる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>[ ActiveBasic ソース (.ab) ]
+</span></span><span style="display:flex;"><span>           │
+</span></span><span style="display:flex;"><span>           ▼  ＜ 1. ABコンパイラ (名称abc) ＞
+</span></span><span style="display:flex;"><span>[ x86 アセンブリテキスト (.asm) ]
+</span></span><span style="display:flex;"><span>           │
+</span></span><span style="display:flex;"><span>           ▼  ＜ 2. ABアセンブラ (名称abassembler) ＞
+</span></span><span style="display:flex;"><span>[ COFF オブジェクトファイル (.obj) ]
+</span></span><span style="display:flex;"><span>           │
+</span></span><span style="display:flex;"><span>           ▼  ＜ 3. ABリンカ (名称ablinker) ＞
+</span></span><span style="display:flex;"><span>[ Windows PE 実行ファイル (.exe) ]
+</span></span></code></pre></div><p>これに加えて <strong>abpc</strong>（<code>actb32.exe</code> に名称変更）を作成した。abc は <code>.abp</code> ソース 1 ファイルのみをコンパイル可能なのだが、abpc は <code>.pj</code> ファイルを読み込み、複数のソースが入っているプロジェクト全体をビルドできる。</p>
+<h2 id="開発手順">開発手順</h2>
+<ol>
+<li><strong>リンカーを自作する</strong>
+NASM 等の既存ツールが出力した <code>.obj</code> を自作リンカに読み込ませ、自分で PE ヘッダーを組み立てて <code>.exe</code> を吐き出させる。リンカーを自作すると「Windows で動くバイナリの仕組み」が完全に理解できるようになる。</li>
+<li><strong>アセンブラを自作する</strong>
+手書きの <code>.asm</code> を読み込み、x86 マシン語に変換して自作リンカが読める <code>.obj</code> を吐き出す。</li>
+<li><strong>コンパイラーを育てる</strong>
+ActiveBasic の構文解析を強化していき、自作アセンブラへテキストを渡す。</li>
+</ol>
+<p>この順番で開発を進めることにした。</p>
+<p>まずはリンカーを自作するのが目標だが、いきなり作り始めると挫折してしまう。最初に <strong>coffdump</strong> を作ることになる。</p>
+<h2 id="coffdump-からリンカーへ">coffdump からリンカーへ</h2>
+<p>coffdump をリンカーに成長させていく。coffdump で COFF ファイルの読み込みまで完了しているので、あとは PE ファイルを出力するだけだ。</p>
+<h3 id="リンカーの核心リロケーション">リンカーの核心：「リロケーション」</h3>
+<p>アセンブラが作った <code>.obj</code> の時点では、例えば <code>call _ExitProcess</code> の呼び出し先アドレスは <code>00 00 00 00</code>（ダミー）になっている。これを正しいアドレスに書き換える作業が <strong>リロケーション（Relocation）</strong> だ。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>【.objの中身】
+</span></span><span style="display:flex;"><span>  E8 00 00 00 00   ; call 0x00000000 (アドレス未定)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>【リンカーの計算】
+</span></span><span style="display:flex;"><span>  1. _ExitProcess の実際の配置アドレスを計算 (例: 0x00402000)
+</span></span><span style="display:flex;"><span>  2. relative_offset = 目的地のRVA - (今の命令のRVA + 5)
+</span></span><span style="display:flex;"><span>  3. 差分アドレスを計算してバイナリを書き換える
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>【.exeの中身】
+</span></span><span style="display:flex;"><span>  E8 1B 10 00 00   ; call 0x0040201B (本物のアドレスに補正完了！)
+</span></span></code></pre></div><p><code>coff.abp</code> に定義を追加する。</p>
+<h4 id="-書き換え指定情報">③ 書き換え指定情報</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vb" data-lang="vb"><span style="display:flex;"><span><span style="color:#75715e">&#39; --- 3. COFF Relocation (書き換え指定情報) = 10バイト ---
+</span></span></span><span style="display:flex;"><span>Type COFF_RELOCATION
+</span></span><span style="display:flex;"><span>    VirtualAddress   <span style="color:#f92672">As</span> DWord  <span style="color:#75715e">&#39; 補正対象のオフセット
+</span></span></span><span style="display:flex;"><span>    SymbolTableIndex <span style="color:#f92672">As</span> DWord  <span style="color:#75715e">&#39; どのシンボルを参照しているか
+</span></span></span><span style="display:flex;"><span>    RelType          <span style="color:#f92672">As</span> Word   <span style="color:#75715e">&#39; REL32(相対) か DIR32(絶対) か ※Typeは予約語のため別名
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">End</span> Type
+</span></span></code></pre></div><h4 id="-シンボルテーブル">④ シンボルテーブル</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vb" data-lang="vb"><span style="display:flex;"><span><span style="color:#75715e">&#39; --- 4. COFF Symbol (シンボルテーブル 1エントリ = 18バイト) ---
+</span></span></span><span style="display:flex;"><span>Type COFF_SYMBOL
+</span></span><span style="display:flex;"><span>    Name(7)            <span style="color:#f92672">As</span> <span style="color:#66d9ef">Byte</span>   <span style="color:#75715e">&#39; 短い名前 / 先頭4バイトが0なら文字列テーブル参照
+</span></span></span><span style="display:flex;"><span>    Value              <span style="color:#f92672">As</span> DWord
+</span></span><span style="display:flex;"><span>    SectionNumber      <span style="color:#f92672">As</span> Word   <span style="color:#75715e">&#39; 1始まり。0=未定義, FFFF=絶対, FFFE=デバッグ
+</span></span></span><span style="display:flex;"><span>    SymType            <span style="color:#f92672">As</span> Word   <span style="color:#75715e">&#39; ※Typeは予約語のため別名
+</span></span></span><span style="display:flex;"><span>    StorageClass       <span style="color:#f92672">As</span> <span style="color:#66d9ef">Byte</span>
+</span></span><span style="display:flex;"><span>    NumberOfAuxSymbols <span style="color:#f92672">As</span> <span style="color:#66d9ef">Byte</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">End</span> Type
+</span></span></code></pre></div><h3 id="pe-フォーマットexeの組み立て方">PE フォーマット（.exe）の組み立て方</h3>
+<p>リンカーは、補正が終わったマシン語（<code>.text</code>）の前に PE ヘッダーをガッチャンコして <code>.exe</code> を作る。<code>.exe</code> のバイナリ構造は以下の並びになる。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>┌─────────────────────────────────────────┐
+</span></span><span style="display:flex;"><span>│ 1. DOS Header &amp; DOS Stub                │  &#39; &#34;MZ&#34; から始まる昔の名残 (64〜128バイト)
+</span></span><span style="display:flex;"><span>├─────────────────────────────────────────┤
+</span></span><span style="display:flex;"><span>│ 2. PE Signature (&#34;PE\0\0&#34;)              │  &#39; 4バイト
+</span></span><span style="display:flex;"><span>├─────────────────────────────────────────┤
+</span></span><span style="display:flex;"><span>│ 3. PE File Header                       │  &#39; COFFヘッダーと同等 (20バイト)
+</span></span><span style="display:flex;"><span>├─────────────────────────────────────────┤
+</span></span><span style="display:flex;"><span>│ 4. PE Optional Header                   │  &#39; エントリポイント(実行開始位置)や
+</span></span><span style="display:flex;"><span>│                                         │    ImageBase(基本ロードアドレス
+</span></span><span style="display:flex;"><span>│                                         │    0x00400000)
+</span></span><span style="display:flex;"><span>├─────────────────────────────────────────┤
+</span></span><span style="display:flex;"><span>│ 5. Section Headers                      │  &#39; 各セクションのアドレス・サイズ定義
+</span></span><span style="display:flex;"><span>├─────────────────────────────────────────┤
+</span></span><span style="display:flex;"><span>│ 6. Section Data (.text, .data, etc)     │  &#39; 補正済みのマシン語バイナリ
+</span></span><span style="display:flex;"><span>└─────────────────────────────────────────┘
+</span></span></code></pre></div><blockquote>
+<p>💡 <strong>コツ：アライメント（配置）に注意</strong>
+Windows の PE 形式では、セクションのサイズや配置アドレスを <strong>512 バイト（ファイル上）</strong> や <strong>4096 バイト（メモリ上）</strong> の倍数にパディング（0 埋め）して揃える必要がある。</p>
+</blockquote>
+<h2 id="自作リンカー開発のステップ">自作リンカー開発のステップ</h2>
+<p>いきなり DLL のインポート（<code>kernel32.dll</code> の結合など）までやろうとすると大変なので、段階を踏んで実装する。</p>
+<ol>
+<li><strong>.obj ファイルのダンパーを作る</strong>（バイナリ解析の練習）
+自作または NASM が出力した <code>.obj</code> を読み込んで、ヘッダー情報や <code>.text</code> のマシン語（16 進数）を画面に表示するツールを作る。こちらは coffdump で完了しているので、プロジェクトをコピーする。</li>
+<li><strong>ヘッダーテンプレートを使って .exe を吐く</strong>（固定ヘッダーの複製）
+ダミーの PE ヘッダー（あらかじめ正常な EXE から抜き出したバイナリ）の末尾に、<code>.obj</code> から取り出した <code>.text</code> をそのまま貼り付けて <code>.exe</code> を生成してみる。</li>
+<li><strong>PE ヘッダーを自前で計算して組み立てる</strong>（動的生成への移行）
+エントリポイント（<code>AddressOfEntryPoint</code>）やセクションサイズを <code>.obj</code> の値から正しく計算して、PE ヘッダー構造体を構築する。</li>
+<li><strong>単一ファイルのリロケーション処理を実装</strong>（アドレスの結合）
+<code>.obj</code> 内のリロケーションテーブルを読み込み、<code>call</code> や <code>jmp</code> の相対アドレス補正を正しく計算して上書きする。</li>
+<li><strong>外部 DLL（IAT：Import Address Table）の構築</strong>（完成！）
+<code>ExitProcess</code> などの Win32 API を呼べるように、<code>.idata</code>（インポートセクション）を自力で構築して PE に追加する。</li>
+</ol>
+</div>
+
+<p class="back">
+    <a href="/posts/actba64-day000-start/">← ActiveBasicでActiveBasicを作る - Day0</a><br>
+    <a href="/posts/actba64-50-questions/">→ Actba64を開発したbellyoshiさんに50の質問</a><br>
+    [<a href="/posts/">記事一覧へ戻る</a>] [<a href="/">トップへ戻る</a>]
+  </p>
+</div>
+
+    </main>
+    <hr>
+    <p class="copyright">Copyright(c) 2026 by bellyoshi All Rights Reserved.</p>
+  </body>
+</html>

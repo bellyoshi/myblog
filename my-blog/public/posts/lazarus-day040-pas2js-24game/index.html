@@ -2,42 +2,17 @@
 <html lang="ja-jp">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
-    <title>Pas2JSで脳トレ「24Game」を作る - Day40 | 私の技術ブログ</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <title>Pas2JSで脳トレ「24Game」を作る - Day40 | Active Basic By Yoshi 2nd</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="Lazarusチャレンジ40日目。4つの数字を＋－×÷して24を作る脳トレ計算パズル「24Game」をPas2JSで作成。Pascalの再帰（バックトラッキング）で「必ず解ける問題」を自動生成し、状態遷移で操作を厳密に管理。JavaScriptでは型が緩く誤差も出やすい計算ロジックを、Pascalで安全に実装しました。">
     <meta name="generator" content="Hugo 0.153.4">
     
-    
-    
       <meta name="robots" content="noindex, nofollow">
     
-    <meta name="author" content="ブログ管理者">
+    <link rel="stylesheet" href="/css/retro.css">
     
-
-    
-<link rel="stylesheet" href="/ananke/css/main.min.css" >
-
-
-
-
-    
-
-
-    
-      
-
-    
-
-    
-
-    
-      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day040-pas2js-24game/">
-    
-
-    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day040-pas2js-24game/">
-  <meta property="og:site_name" content="私の技術ブログ">
+    <link rel="canonical" href="http://localhost:1313/posts/lazarus-day040-pas2js-24game/"><meta property="og:url" content="http://localhost:1313/posts/lazarus-day040-pas2js-24game/">
+  <meta property="og:site_name" content="Active Basic By Yoshi 2nd">
   <meta property="og:title" content="Pas2JSで脳トレ「24Game」を作る - Day40">
   <meta property="og:description" content="Lazarusチャレンジ40日目。4つの数字を＋－×÷して24を作る脳トレ計算パズル「24Game」をPas2JSで作成。Pascalの再帰（バックトラッキング）で「必ず解ける問題」を自動生成し、状態遷移で操作を厳密に管理。JavaScriptでは型が緩く誤差も出やすい計算ロジックを、Pascalで安全に実装しました。">
   <meta property="og:locale" content="ja_jp">
@@ -55,86 +30,37 @@
   <meta name="twitter:title" content="Pas2JSで脳トレ「24Game」を作る - Day40">
   <meta name="twitter:description" content="Lazarusチャレンジ40日目。4つの数字を＋－×÷して24を作る脳トレ計算パズル「24Game」をPas2JSで作成。Pascalの再帰（バックトラッキング）で「必ず解ける問題」を自動生成し、状態遷移で操作を厳密に管理。JavaScriptでは型が緩く誤差も出やすい計算ロジックを、Pascalで安全に実装しました。">
 
-	<link rel="stylesheet" href="/css/custom.css">
-
-
-  </head><body class="ma0 avenir bg-near-white development">
-
+  </head>
+  <body>
     
-   
-  
-
-  
-  
-  
-  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay040start.png');">
-    <div class="bg-black-60">
-      <nav class="pv3 ph3 ph4-ns" role="navigation">
-  <div class="flex-l center items-center justify-between">
-    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      <div class="site-bar">
+        <a href="/" class="site-bar-title">Active Basic By Yoshi 2nd</a>
+        <span class="site-bar-links">
+          [<a href="/">トップ</a>]
+          [<a href="/posts/">記事一覧</a>]
+          [<a href="/index.xml">RSS</a>]
+        </span>
+      </div>
+      <hr>
+    
+    <main>
       
-        私の技術ブログ
-      
-    </a>
-    <div class="flex-l items-center">
-      
-
-      
-        <ul class="pl0 mr3">
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
-              投稿
-            </a>
-          </li>
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
-              カテゴリ
-            </a>
-          </li>
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
-              タグ
-            </a>
-          </li>
-          
-        </ul>
-      
-      <div class="ananke-socials"></div>
-
+<div class="page">
+  <div class="post-head">
+    <div class="post-title">Pas2JSで脳トレ「24Game」を作る - Day40</div>
+    <div class="post-meta">
+      2026年2月9日
+       ／ Lazarus Pas2JS Web Pascal チャレンジ Day040 JavaScript 24Game 脳トレ バックトラッキング 状態遷移
     </div>
   </div>
-</nav>
-
-      <div class="tc-l pv6 ph3 ph4-ns">
-        
-          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSで脳トレ「24Game」を作る - Day40</div>
-          
-            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
-              Lazarusチャレンジ40日目。4つの数字を＋－×÷して24を作る脳トレ計算パズル「24Game」をPas2JSで作成。Pascalの再帰（バックトラッキング）で「必ず解ける問題」を自動生成し、状態遷移で操作を厳密に管理。JavaScriptでは型が緩く誤差も出やすい計算ロジックを、Pascalで安全に実装しました。
-            </div>
-          
-        
-      </div>
-    </div>
-  </header>
-
-
-
-    <main class="pb7" role="main">
-      
-  
-  
-  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
-    <header class="mt4 w-100">
-      <aside class="instapaper_ignoref b helvetica tracked ttu">
-          
-        Posts
-      </aside>
 
   
+  
+    
+  
+    
+  
+    
   
     
       
@@ -475,21 +401,7 @@
     </nav>
   
 
-<div id="sharing" class="mt3 ananke-socials"></div>
-<h1 class="f1 athelas mt3 mb1">Pas2JSで脳トレ「24Game」を作る - Day40</h1>
-      
-      <p class="tracked"><strong>ブログ管理者</strong>
-      </p>
-      
-      
-      
-      <time class="f6 mv4 dib tracked" datetime="2026-02-09T16:00:00+09:00">February 9, 2026</time>
-      
-
-      
-      
-    </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsで脳トレ24gameを作る---day40">Pas2JSで脳トレ「24Game」を作る - Day40</h1>
+<div class="post-body"><h1 id="pas2jsで脳トレ24gameを作る---day40">Pas2JSで脳トレ「24Game」を作る - Day40</h1>
 <p>Lazarusチャレンジ40日目です。<strong>4つの数字を「＋－×÷」して24を作る</strong>脳トレ計算パズル「24Game」を Pas2JS でブラウザ向けに作りました。人間がプレイする形式で、数字ボタンと演算子ボタンを順に選んで計算を進め、最後に24になればクリアです。</p>
 <h2 id="ゲームのコンセプト">ゲームのコンセプト</h2>
 <ul>
@@ -557,9 +469,15 @@ Day39 と同様、<code>game.js</code> の後に <code>&lt;script&gt;rtl.run();&
 <p>4つの数字と四則演算で24を目指す脳トレとして、そのまま遊べます。ヒント表示や1手戻す（Undo）機能の追加にも、Pascal の配列履歴や状態管理で拡張しやすい構成になっています。</p>
 <hr>
 <p><em>Lazarusチャレンジ Day 40/100</em></p>
-
+</div>
 
   
+  
+    
+  
+    
+  
+    
   
     
       
@@ -900,101 +818,15 @@ Day39 と同様、<code>game.js</code> の後に <code>&lt;script&gt;rtl.run();&
     </nav>
   
 
-<ul class="pa0">
-  
-</ul>
-<div class="mt6 instapaper_ignoref">
-      
-      
-      </div>
-    </div>
-
-    <aside class="w-30-l mt6-l">
-
-
-
-
-  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
-    <p class="f5 b mb3">Related</p>
-    <ul class="pa0 list">
-	   
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day039-pas2js-typing-game/">Pas2JSでブラウザ動くPascal予約語タイピングゲームを作る - Day39</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day038-pas2js-lsystem/">Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day037-pas2js-munchausen/">Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day036-pas2js-day-counter/">Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/">Pas2JSでかえるのうたを輪唱で再生する - Day35</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day034-pas2js-simple-interpreter/">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day033-pas2js-whiteboard/">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day031-pas2js-markdown/">Pas2JSでMarkdownエディタを作成 - Day31</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day032-pas2js-userform/">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day030-pas2js-calculator/">Pas2JSで計算機アプリを作成 - Day30</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day029-pas2js-color/">Pas2JSでカラー表示アプリを作成 - Day29</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day028-pas2js-calendar/">Pas2JSでカレンダーアプリを作成 - Day28</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day027-pas2js-todo/">Pas2JSでTodoアプリを作成 - Day27</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day026-pas2js/">Pas2JSを試してみる - Day26</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day025-colorpop/">同色消しパズル（ColorPop）の作成 - Day25</a>
-        </li>
-	    
-    </ul>
+<p class="back">
+    <a href="/posts/lazarus-day039-pas2js-typing-game/">← Pas2JSでブラウザ動くPascal予約語タイピングゲームを作る - Day39</a><br>
+    <a href="/posts/lazarus-day041-quantum-shogi/">→ Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）</a><br>
+    [<a href="/posts/">記事一覧へ戻る</a>] [<a href="/">トップへ戻る</a>]
+  </p>
 </div>
-
-</aside>
-
-  </article>
 
     </main>
-    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
-  <div class="flex justify-between">
-  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
-    &copy;  私の技術ブログ 2026 
-  </a>
-    <div><div class="ananke-socials"></div>
-</div>
-  </div>
-</footer>
-
+    <hr>
+    <p class="copyright">Copyright(c) 2026 by bellyoshi All Rights Reserved.</p>
   </body>
 </html>

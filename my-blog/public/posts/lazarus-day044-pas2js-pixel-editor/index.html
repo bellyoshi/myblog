@@ -2,42 +2,17 @@
 <html lang="ja-jp">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
-    <title>Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44 | 私の技術ブログ</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <title>Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44 | Active Basic By Yoshi 2nd</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="Lazarusチャレンジ44日目。HTML5 Canvasを16x16グリッドで制御するピクセルアートエディターをPas2JSで作成。LocalStorageで自動保存、PNGダウンロード対応。Geminiで設計・コード取得、CursorでTypeError（null参照）とクリアボタン未接続を修正して完成。">
     <meta name="generator" content="Hugo 0.153.4">
     
-    
-    
       <meta name="robots" content="noindex, nofollow">
     
-    <meta name="author" content="ブログ管理者">
+    <link rel="stylesheet" href="/css/retro.css">
     
-
-    
-<link rel="stylesheet" href="/ananke/css/main.min.css" >
-
-
-
-
-    
-
-
-    
-      
-
-    
-
-    
-
-    
-      <link rel="canonical" href="http://localhost:1313/posts/lazarus-day044-pas2js-pixel-editor/">
-    
-
-    <meta property="og:url" content="http://localhost:1313/posts/lazarus-day044-pas2js-pixel-editor/">
-  <meta property="og:site_name" content="私の技術ブログ">
+    <link rel="canonical" href="http://localhost:1313/posts/lazarus-day044-pas2js-pixel-editor/"><meta property="og:url" content="http://localhost:1313/posts/lazarus-day044-pas2js-pixel-editor/">
+  <meta property="og:site_name" content="Active Basic By Yoshi 2nd">
   <meta property="og:title" content="Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44">
   <meta property="og:description" content="Lazarusチャレンジ44日目。HTML5 Canvasを16x16グリッドで制御するピクセルアートエディターをPas2JSで作成。LocalStorageで自動保存、PNGダウンロード対応。Geminiで設計・コード取得、CursorでTypeError（null参照）とクリアボタン未接続を修正して完成。">
   <meta property="og:locale" content="ja_jp">
@@ -55,86 +30,37 @@
   <meta name="twitter:title" content="Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44">
   <meta name="twitter:description" content="Lazarusチャレンジ44日目。HTML5 Canvasを16x16グリッドで制御するピクセルアートエディターをPas2JSで作成。LocalStorageで自動保存、PNGダウンロード対応。Geminiで設計・コード取得、CursorでTypeError（null参照）とクリアボタン未接続を修正して完成。">
 
-	<link rel="stylesheet" href="/css/custom.css">
-
-
-  </head><body class="ma0 avenir bg-near-white development">
-
+  </head>
+  <body>
     
-   
-  
-
-  
-  
-  
-  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/LazarusDay044.png');">
-    <div class="bg-black-60">
-      <nav class="pv3 ph3 ph4-ns" role="navigation">
-  <div class="flex-l center items-center justify-between">
-    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      <div class="site-bar">
+        <a href="/" class="site-bar-title">Active Basic By Yoshi 2nd</a>
+        <span class="site-bar-links">
+          [<a href="/">トップ</a>]
+          [<a href="/posts/">記事一覧</a>]
+          [<a href="/index.xml">RSS</a>]
+        </span>
+      </div>
+      <hr>
+    
+    <main>
       
-        私の技術ブログ
-      
-    </a>
-    <div class="flex-l items-center">
-      
-
-      
-        <ul class="pl0 mr3">
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/posts/" title="投稿 page">
-              投稿
-            </a>
-          </li>
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/categories/" title="カテゴリ page">
-              カテゴリ
-            </a>
-          </li>
-          
-          <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white white-90 no-underline" href="/tags/" title="タグ page">
-              タグ
-            </a>
-          </li>
-          
-        </ul>
-      
-      <div class="ananke-socials"></div>
-
+<div class="page">
+  <div class="post-head">
+    <div class="post-title">Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44</div>
+    <div class="post-meta">
+      2026年2月13日
+       ／ Lazarus Pas2JS Web Pascal チャレンジ Day044 Canvas ピクセルアート LocalStorage Gemini Cursor pas2js
     </div>
   </div>
-</nav>
-
-      <div class="tc-l pv6 ph3 ph4-ns">
-        
-          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44</div>
-          
-            <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
-              Lazarusチャレンジ44日目。HTML5 Canvasを16x16グリッドで制御するピクセルアートエディターをPas2JSで作成。LocalStorageで自動保存、PNGダウンロード対応。Geminiで設計・コード取得、CursorでTypeError（null参照）とクリアボタン未接続を修正して完成。
-            </div>
-          
-        
-      </div>
-    </div>
-  </header>
-
-
-
-    <main class="pb7" role="main">
-      
-  
-  
-  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
-    <header class="mt4 w-100">
-      <aside class="instapaper_ignoref b helvetica tracked ttu">
-          
-        Posts
-      </aside>
 
   
+  
+    
+  
+    
+  
+    
   
     
       
@@ -475,21 +401,7 @@
     </nav>
   
 
-<div id="sharing" class="mt3 ananke-socials"></div>
-<h1 class="f1 athelas mt3 mb1">Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44</h1>
-      
-      <p class="tracked"><strong>ブログ管理者</strong>
-      </p>
-      
-      
-      
-      <time class="f6 mv4 dib tracked" datetime="2026-02-13T16:00:00+09:00">February 13, 2026</time>
-      
-
-      
-      
-    </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="pas2jsでつくるピクセルアートエディター16x16---day44">Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44</h1>
+<div class="post-body"><h1 id="pas2jsでつくるピクセルアートエディター16x16---day44">Pas2JSでつくる「ピクセルアート・エディター」16x16 - Day44</h1>
 <p>Lazarusチャレンジ44日目です。<strong>HTML5 の &lt;canvas&gt;</strong> を、Pascal の二次元配列として制御する <strong>16×16 のピクセルアート・エディター</strong>を Pas2JS で作りました。<strong>LocalStorage で自動保存</strong>、<strong>PNG ダウンロード</strong>に対応。設計とベースコードは <strong>Gemini</strong> にプロンプトして取得し、実行時に出た <strong>TypeError（null 参照）</strong> と <strong>クリアボタンが効かない</strong>問題を <strong>Cursor</strong> で修正して完成させました。</p>
 <p><img src="/images/LazarusDay044.png" alt="ピクセルアート・エディター 画面"></p>
 <h2 id="コンセプト">コンセプト</h2>
@@ -584,9 +496,15 @@
 <p><a href="/downloads/day044_pixel.zip">day044_pixel.zip</a></p>
 <hr>
 <p><em>Lazarusチャレンジ Day 44/100</em></p>
-
+</div>
 
   
+  
+    
+  
+    
+  
+    
   
     
       
@@ -927,101 +845,15 @@
     </nav>
   
 
-<ul class="pa0">
-  
-</ul>
-<div class="mt6 instapaper_ignoref">
-      
-      
-      </div>
-    </div>
-
-    <aside class="w-30-l mt6-l">
-
-
-
-
-  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
-    <p class="f5 b mb3">Related</p>
-    <ul class="pa0 list">
-	   
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day043-pas2js-shopping-list/">Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day042-pas2js-piano/">Pas2JSで作る楽器に変身！「Web音階ジェネレーター」 - Day42</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day041-quantum-shogi/">Pas2JSで量子将棋を作る - Day41（Geminiで骨格、Cursorでコンパイルとユニットテスト）</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day039-pas2js-typing-game/">Pas2JSでブラウザ動くPascal予約語タイピングゲームを作る - Day39</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day038-pas2js-lsystem/">Pas2JSでブラウザで動く簡易L-System描画（フラクタル図形）を作る - Day38</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day033-pas2js-whiteboard/">Pas2JSでオートシェイプ風ホワイトボードを作成 - Day33</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day040-pas2js-24game/">Pas2JSで脳トレ「24Game」を作る - Day40</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day037-pas2js-munchausen/">Pas2JSで8進数ミュンヒハウゼン数（8桁固定）を探索する - Day37</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day036-pas2js-day-counter/">Pas2JSで経過日数カウンター（何日目か表示）を作る - Day36</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day035-pas2js-kaeru-rinsho/">Pas2JSでかえるのうたを輪唱で再生する - Day35</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day034-pas2js-simple-interpreter/">Pas2JSで簡易インタープリタをブラウザで動かす - Day34</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day031-pas2js-markdown/">Pas2JSでMarkdownエディタを作成 - Day31</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day032-pas2js-userform/">Pas2JSで型安全なユーザー登録フォームを作成 - Day32</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day030-pas2js-calculator/">Pas2JSで計算機アプリを作成 - Day30</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/posts/lazarus-day029-pas2js-color/">Pas2JSでカラー表示アプリを作成 - Day29</a>
-        </li>
-	    
-    </ul>
+<p class="back">
+    <a href="/posts/lazarus-day043-pas2js-shopping-list/">← Pas2JSでつくる「お買い物リスト」プログレッシブWebアプリ (PWA) - Day43</a><br>
+    <a href="/posts/actba64-day000-start/">→ ActiveBasicでActiveBasicを作る - Day0</a><br>
+    [<a href="/posts/">記事一覧へ戻る</a>] [<a href="/">トップへ戻る</a>]
+  </p>
 </div>
-
-</aside>
-
-  </article>
 
     </main>
-    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
-  <div class="flex justify-between">
-  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
-    &copy;  私の技術ブログ 2026 
-  </a>
-    <div><div class="ananke-socials"></div>
-</div>
-  </div>
-</footer>
-
+    <hr>
+    <p class="copyright">Copyright(c) 2026 by bellyoshi All Rights Reserved.</p>
   </body>
 </html>
